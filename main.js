@@ -1,5 +1,5 @@
 // 版本號（Semantic Versioning）
-const VERSION = (window.__APP_VERSION__ || "1.3.1");
+const VERSION = (window.__APP_VERSION__ || "1.3.2");
 
 (() => {
   const canvas = document.getElementById('game');
@@ -77,8 +77,8 @@ const VERSION = (window.__APP_VERSION__ || "1.3.1");
   for (let x = 70; x < 76; x++) level[9][x] = 2;
 
   // 右邊終點（旗竿區域）
-  const GOAL_X = (LEVEL_W - 3) * TILE; // 末端前三格
-  const GOAL_LINE = GOAL_X + TILE;
+  const GOAL_X = (LEVEL_W - 3) * TILE;
+  const GOAL_LINE = GOAL_X + TILE; // 末端前三格
   // 左邊停止點（不可穿越）
   const LEFT_STOP_X = 12; // 角色中心最小 x
 
@@ -107,10 +107,10 @@ const VERSION = (window.__APP_VERSION__ || "1.3.1");
   let cleared = false;
   const celebrateEl = document.getElementById('celebrate');
   const replayBtn = document.getElementById('btn-replay');
+if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
   if (replayBtn) replayBtn.addEventListener('click', () => location.reload());
 
-  if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
-function pressJump(src){ jumpBufferMs = JUMP_BUFFER_MAX; keys.jump = true; dbgPress++; Logger.debug('jump_press', {src}); }
+  function pressJump(src){ jumpBufferMs = JUMP_BUFFER_MAX; keys.jump = true; dbgPress++; Logger.debug('jump_press', {src}); }
   function releaseJump(){ keys.jump = false; }
 
   // 偵錯 HUD
@@ -278,6 +278,7 @@ function pressJump(src){ jumpBufferMs = JUMP_BUFFER_MAX; keys.jump = true; dbgPr
 
   function update(dt) {
     elapsedMs += dt * 16.6667;
+    if (!cleared && celebrateEl && !celebrateEl.hidden) { celebrateEl.hidden = true; LOG.debug("stage_clear_force_hide"); }
     if (cleared) { // 過關後讓角色慢慢停下
       player.vx *= 0.9;
       player.vy = Math.min(player.vy + 0.6 * dt, 8);
@@ -332,7 +333,6 @@ function pressJump(src){ jumpBufferMs = JUMP_BUFFER_MAX; keys.jump = true; dbgPr
     cleared = true;
     keys.left = keys.right = keys.jump = keys.action = false;
     Logger.info('stage_clear', {score});
-    Logger.debug('stage_clear_show');
     if (celebrateEl) celebrateEl.hidden = false;
     // 簡單煙火粒子
     spawnFireworks();

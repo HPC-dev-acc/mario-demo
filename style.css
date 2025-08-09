@@ -94,3 +94,7 @@ html, body {
 
 #help { color:#123; max-width:960px; margin: 12px auto; padding: 0 12px 24px; }
 #help h1 { margin: 12px 0; font-size:20px; }
+
+
+/* Ensure celebrate overlay stays hidden when [hidden] is present */
+#celebrate[hidden]{display:none !important;}
