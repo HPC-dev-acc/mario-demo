@@ -40,7 +40,7 @@ html, body {
 @media (min-width: 800px) {
   #touch-controls { padding: 20px 24px; }
 }
-
+/* redeploy */
 @media (pointer: fine) {
   #touch-controls { display: grid; opacity:.7; }
 }
