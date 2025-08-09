@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>像素跑跳示範（觸控版）</title>
-  <link rel="stylesheet" href="style.css?v=1.3.2" />
+  <link rel="stylesheet" href="style.css?v=1.3.3" />
 </head>
 <body>
   <!-- 整體左右並排：左邊遊戲、右邊 LOG -->
@@ -19,18 +19,18 @@
           <div class="pill">關卡 1-1</div>
         </div>
 
-        <!-- 左上：偵錯視窗 -->
-        <div id="debug-panel" aria-label="偵錯資訊（FPS/狀態）">
-          <div class="dbg-row"><span>FPS</span><span id="dbg-fps">-</span></div>
-          <div class="dbg-row"><span>x,y</span><span id="dbg-pos">-</span></div>
-          <div class="dbg-row"><span>vx,vy</span><span id="dbg-vel">-</span></div>
-          <div class="dbg-row"><span>ground</span><span id="dbg-ground">-</span></div>
-          <div class="dbg-row"><span>coyote</span><span id="dbg-coyote">-</span></div>
-          <div class="dbg-row"><span>buffer</span><span id="dbg-buffer">-</span></div>
-          <div class="dbg-row"><span>keys</span><span id="dbg-keys">-</span></div>
-          <div class="dbg-row"><span>press</span><span id="dbg-press">0</span></div>
-          <div class="dbg-row"><span>fired</span><span id="dbg-fired">0</span></div>
-        </div>
+<!-- 偵錯 HUD -->
+<div id="hud" class="hud">
+  <div>FPS <span id="dbg-fps">—</span></div>
+  <div>x,y <span id="dbg-pos">—</span></div>
+  <div>vX,vY <span id="dbg-vel">—</span></div>
+  <div>ground <span id="dbg-ground">—</span></div>
+  <div>coyote <span id="dbg-coyote">—</span></div>
+  <div>buffer <span id="dbg-buffer">—</span></div>
+  <div>keys <span id="dbg-keys">—</span></div>
+  <div>press <span id="dbg-press">0</span></div>
+  <div>fired <span id="dbg-fired">0</span></div>
+</div>
 
         <!-- 右上：版本號 -->
         <div id="version-pill" class="pill" title="Semantic Versioning">v1.3.2</div>
@@ -72,7 +72,7 @@
     </aside>
   </div>
 
-  <script>window.__APP_VERSION__ = "1.3.2";</script>
+  <script>window.__APP_VERSION__ = "1.3.3";</script>
   <script src="main.js?v=1.3.2"></script>
 </body>
 </html>
