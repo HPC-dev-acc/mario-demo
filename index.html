@@ -1,83 +1,78 @@
-<!doctype html>
-<html lang="zh-Hant-TW">
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>像素跑跳示範（類瑪莉風格）</title>
-  <link rel="stylesheet" href="style.css?v=1.3.3" />
-  <script>
-    // 讓 main.js 可以讀到語義化版本號（Semantic Versioning）
-    window.__APP_VERSION__ = "1.3.3";
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>像素跑跳示範（觸控版）</title>
+  <link rel="stylesheet" href="style.css?v=1.3.2" />
 </head>
 <body>
-  <main class="page">
-    <!-- 遊戲 + 版頭資訊 -->
-    <section class="stage-and-log">
-      <div class="game-wrap">
-        <!-- 置中上方：分數 / 關卡 -->
-        <div class="top-center">
-          <span class="pill">分數 <span id="score">0</span></span>
-          <span class="pill">關卡 <span id="stage">1-1</span></span>
+  <!-- 整體左右並排：左邊遊戲、右邊 LOG -->
+  <div id="layout">
+    <div id="game-col">
+      <div id="game-wrap">
+        <canvas id="game" width="960" height="540" tabindex="0" aria-label="平台動作遊戲"></canvas>
+
+        <!-- 置中 HUD：分數 / 關卡 -->
+        <div id="hud-top-center" role="status" aria-live="polite">
+          <div class="pill">分數 <span id="score">0</span></div>
+          <div class="pill">關卡 1-1</div>
         </div>
 
-        <!-- 右上角：版本標示 -->
-        <div id="version-pill" class="pill" title="Semantic Versioning">v1.3.3</div>
-
-        <!-- 左上角：偵錯 HUD -->
-        <div id="hud" class="hud">
-          <div>FPS <span id="dbg-fps">—</span></div>
-          <div>x,y <span id="dbg-pos">—</span></div>
-          <div>vX,vY <span id="dbg-vel">—</span></div>
-          <div>ground <span id="dbg-ground">—</span></div>
-          <div>coyote <span id="dbg-coyote">—</span></div>
-          <div>buffer <span id="dbg-buffer">—</span></div>
-          <div>keys <span id="dbg-keys">—</span></div>
-          <div>press <span id="dbg-press">0</span></div>
-          <div>fired <span id="dbg-fired">0</span></div>
+        <!-- 左上：偵錯視窗 -->
+        <div id="debug-panel" aria-label="偵錯資訊（FPS/狀態）">
+          <div class="dbg-row"><span>FPS</span><span id="dbg-fps">-</span></div>
+          <div class="dbg-row"><span>x,y</span><span id="dbg-pos">-</span></div>
+          <div class="dbg-row"><span>vx,vy</span><span id="dbg-vel">-</span></div>
+          <div class="dbg-row"><span>ground</span><span id="dbg-ground">-</span></div>
+          <div class="dbg-row"><span>coyote</span><span id="dbg-coyote">-</span></div>
+          <div class="dbg-row"><span>buffer</span><span id="dbg-buffer">-</span></div>
+          <div class="dbg-row"><span>keys</span><span id="dbg-keys">-</span></div>
+          <div class="dbg-row"><span>press</span><span id="dbg-press">0</span></div>
+          <div class="dbg-row"><span>fired</span><span id="dbg-fired">0</span></div>
         </div>
 
-        <!-- 遊戲畫布 -->
-        <canvas id="game" width="960" height="540" aria-label="platformer game"></canvas>
+        <!-- 右上：版本號 -->
+        <div id="version-pill" class="pill" title="Semantic Versioning">v1.3.2</div>
 
-        <!-- 觸控按鈕（左下：左 / 跳，右下：右 / 動作）-->
-        <div class="control control-left">
-          <button id="left"  class="btn btn-lg" aria-label="向左">◀</button>
-          <button id="jump"  class="btn btn-lg" aria-label="跳躍">⬆</button>
+        <!-- 觸控控制器：分左右兩組 -->
+        <div id="touch-left" class="touch-stack" aria-label="左側控制" role="group">
+          <button class="btn small" id="left" aria-label="左">◀</button>
+          <button class="btn small" id="jump" aria-label="跳躍">⤴</button>
         </div>
-        <div class="control control-right">
-          <button id="right"  class="btn btn-lg" aria-label="向右">▶</button>
-          <button id="action" class="btn btn-lg" aria-label="動作">★</button>
+        <div id="touch-right" class="touch-stack" aria-label="右側控制" role="group">
+          <button class="btn small" id="right" aria-label="右">▶</button>
+          <button class="btn small" id="action" aria-label="動作">★</button>
         </div>
 
-        <!-- 過關慶祝（預設隱藏） -->
+        <!-- 過關慶祝畫面 -->
         <div id="celebrate" hidden>
           <div class="title">STAGE CLEAR!</div>
-          <button id="btn-replay" class="pill lg" aria-label="重新開始">重新開始</button>
+          <button id="btn-replay" class="pill lg">重新開始</button>
         </div>
       </div>
 
-      <!-- 右側：執行 LOG 面板（在遊戲視窗外） -->
-      <aside class="log-panel" aria-label="執行紀錄">
-        <div class="log-header">
-          <strong>LOG</strong>
-          <div class="spacer"></div>
-          <button id="log-copy"  class="pill sm" aria-label="複製">Copy</button>
-          <button id="log-clear" class="pill sm" aria-label="清除">Clear</button>
-        </div>
-        <pre id="log-lines" class="log-lines" aria-live="polite"></pre>
-      </aside>
-    </section>
+      <div id="help">
+        <h1>像素跑跳示範（類瑪莉風格）</h1>
+        <p>電腦：方向鍵左右移動，<kbd>Z</kbd> 跳躍，<kbd>X</kbd> 動作。</p>
+        <p>手機／平板：直接點選畫面上的虛擬按鈕。</p>
+        <p>此為教學用開源範例，無使用任何任天堂素材。</p>
+      </div>
+    </div>
 
-    <!-- 說明 -->
-    <section class="notes">
-      <h2>像素跑跳示範（類瑪莉風格）</h2>
-      <p>電腦：方向鍵左右移動，Z 跳躍，X 動作。</p>
-      <p>手機／平板：直接點選畫面上的虛擬按鈕。</p>
-      <p>此為教學用開源範例，未使用任何任天堂素材。</p>
-    </section>
-  </main>
+    <!-- 右側：執行 LOG（JSON Lines, ISO 8601, level） -->
+    <aside id="log-panel" aria-label="執行紀錄（JSON Lines）">
+      <header class="log-header">
+        <strong>LOG</strong>
+        <div class="spacer"></div>
+        <button id="log-copy" class="pill sm" title="複製所有紀錄">Copy</button>
+        <button id="log-clear" class="pill sm" title="清空">Clear</button>
+      </header>
+      <pre id="log-lines" aria-live="polite" aria-atomic="false"></pre>
+    </aside>
+  </div>
 
-  <script src="main.js?v=1.3.3"></script>
+  <script>window.__APP_VERSION__ = "1.3.2";</script>
+  <script src="main.js?v=1.3.2"></script>
 </body>
 </html>
