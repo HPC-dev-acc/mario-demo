@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>像素跑跳示範（觸控版）</title>
-  <link rel="stylesheet" href="style.css?v=1.1.2" />
+  <link rel="stylesheet" href="style.css?v=1.2.0" />
 </head>
 <body>
   <div id="game-wrap">
@@ -25,10 +25,23 @@
       <div class="dbg-row"><span>coyote</span><span id="dbg-coyote">-</span></div>
       <div class="dbg-row"><span>buffer</span><span id="dbg-buffer">-</span></div>
       <div class="dbg-row"><span>keys</span><span id="dbg-keys">-</span></div>
+      <div class="dbg-row"><span>press</span><span id="dbg-press">0</span></div>
+      <div class="dbg-row"><span>fired</span><span id="dbg-fired">0</span></div>
     </div>
 
     <!-- 右上：版本號 -->
-    <div id="version-pill" class="pill" title="Semantic Versioning">v1.1.2</div>
+    <div id="version-pill" class="pill" title="Semantic Versioning">v1.2.0</div>
+
+    <!-- 右側：執行 LOG（JSON Lines, ISO 8601 ts, level） -->
+    <section id="log-panel" aria-label="執行紀錄（JSON Lines）">
+      <header class="log-header">
+        <strong>LOG</strong>
+        <div class="spacer"></div>
+        <button id="log-copy" class="pill sm" title="複製所有紀錄">Copy</button>
+        <button id="log-clear" class="pill sm" title="清空">Clear</button>
+      </header>
+      <pre id="log-lines" aria-live="polite" aria-atomic="false"></pre>
+    </section>
 
     <!-- 觸控控制器：分左右兩組 -->
     <div id="touch-left" class="touch-stack" aria-label="左側控制" role="group">
@@ -48,7 +61,7 @@
     <p>此為教學用開源範例，無使用任何任天堂素材。</p>
   </div>
 
-  <script>window.__APP_VERSION__ = "1.1.2";</script>
-  <script src="main.js?v=1.1.2"></script>
+  <script>window.__APP_VERSION__ = "1.2.0";</script>
+  <script src="main.js?v=1.2.0"></script>
 </body>
 </html>
