@@ -4,35 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>像素跑跳示範（觸控版）</title>
-  <!-- Cache-busting：改日期就能逼瀏覽器抓新檔 -->
-  <link rel="stylesheet" href="style.css?v=2025-08-09" />
+  <link rel="stylesheet" href="style.css?v=1.1.1" />
 </head>
 <body>
   <div id="game-wrap">
-    <!-- tabindex 讓 canvas 能吃到鍵盤事件 -->
     <canvas id="game" width="960" height="540" tabindex="0" aria-label="平台動作遊戲"></canvas>
-    <div id="hud">
+    <div id="hud-top-center" role="status" aria-live="polite">
       <div class="pill">分數 <span id="score">0</span></div>
       <div class="pill">關卡 1-1</div>
     </div>
-
-    <!-- 觸控控制器 -->
-    <div id="touch-controls" aria-label="觸控控制器" role="group">
-      <button class="btn dpad" id="left" aria-label="左">◀</button>
-      <button class="btn dpad" id="right" aria-label="右">▶</button>
-      <button class="btn jump" id="jump" aria-label="跳躍">⤴</button>
-      <button class="btn action" id="action" aria-label="動作">★</button>
+    <div id="debug-panel" aria-label="偵錯資訊（FPS/狀態）">
+      <div class="dbg-row"><span>FPS</span><span id="dbg-fps">-</span></div>
+      <div class="dbg-row"><span>x,y</span><span id="dbg-pos">-</span></div>
+      <div class="dbg-row"><span>vx,vy</span><span id="dbg-vel">-</span></div>
+      <div class="dbg-row"><span>ground</span><span id="dbg-ground">-</span></div>
+      <div class="dbg-row"><span>coyote</span><span id="dbg-coyote">-</span></div>
+      <div class="dbg-row"><span>buffer</span><span id="dbg-buffer">-</span></div>
+      <div class="dbg-row"><span>keys</span><span id="dbg-keys">-</span></div>
+    </div>
+    <div id="version-pill" class="pill" title="Semantic Versioning">v1.1.1</div>
+    <div id="touch-left" class="touch-stack" aria-label="左側控制" role="group">
+      <button class="btn small" id="left" aria-label="左">◀</button>
+      <button class="btn small" id="jump" aria-label="跳躍">⤴</button>
+    </div>
+    <div id="touch-right" class="touch-stack" aria-label="右側控制" role="group">
+      <button class="btn small" id="right" aria-label="右">▶</button>
+      <button class="btn small" id="action" aria-label="動作">★</button>
     </div>
   </div>
-
   <div id="help">
     <h1>像素跑跳示範（類瑪莉風格）</h1>
     <p>電腦：方向鍵左右移動，<kbd>Z</kbd> 跳躍，<kbd>X</kbd> 動作。</p>
     <p>手機／平板：直接點選畫面上的虛擬按鈕。</p>
     <p>此為教學用開源範例，無使用任何任天堂素材。</p>
   </div>
-
-  <!-- Cache-busting -->
-  <script src="main.js?v=2025-08-09"></script>
+  <script>window.__APP_VERSION__ = "1.1.1";</script>
+  <script src="main.js?v=1.1.1"></script>
 </body>
 </html>
