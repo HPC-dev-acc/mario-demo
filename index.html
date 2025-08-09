@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>像素跑跳示範（觸控版）</title>
-  <link rel="stylesheet" href="style.css?v=1.3.4">
+  <link rel="stylesheet" href="style.css?v=1.3.6">
 </head>
 <body>
   <div id="layout">
@@ -12,62 +12,55 @@
       <div id="game-wrap">
         <canvas id="game" width="960" height="540" tabindex="0" aria-label="平台動作遊戲"></canvas>
 
-        <!-- 上：中間 HUD（分數 / 關卡） -->
-        <div id="hud-top-center" role="status" aria-live="polite">
+        <div id="hud-top-center">
           <div class="pill">分數 <span id="score">0</span></div>
           <div class="pill">關卡 1-1</div>
         </div>
 
-        <!-- 上：左側 偵錯面板 -->
-        <div id="debug-panel" aria-label="偵錯資訊 (FPS/狀態)">
-          <div class="dbg-row"><span>FPS</span><span id="dbg-fps">—</span></div>
-          <div class="dbg-row"><span>x,y</span><span id="dbg-pos">—</span></div>
-          <div class="dbg-row"><span>vx,vy</span><span id="dbg-vel">—</span></div>
-          <div class="dbg-row"><span>ground</span><span id="dbg-ground">—</span></div>
-          <div class="dbg-row"><span>coyote</span><span id="dbg-coyote">—</span></div>
-          <div class="dbg-row"><span>buffer</span><span id="dbg-buffer">—</span></div>
-          <div class="dbg-row"><span>keys</span><span id="dbg-keys">—</span></div>
-          <div class="dbg-row"><span>press</span><span id="dbg-press">0</span></div>
-          <div class="dbg-row"><span>fired</span><span id="dbg-fired">0</span></div>
+        <div id="debug-panel">
+          <div class="dbg-row"><span>FPS</span><span id="dbg-fps" class="dbg-val">—</span></div>
+          <div class="dbg-row"><span>x,y</span><span id="dbg-pos" class="dbg-val">—</span></div>
+          <div class="dbg-row"><span>vx,vy</span><span id="dbg-vel" class="dbg-val">—</span></div>
+          <div class="dbg-row"><span>ground</span><span id="dbg-ground" class="dbg-val">—</span></div>
+          <div class="dbg-row"><span>coyote</span><span id="dbg-coyote" class="dbg-val">—</span></div>
+          <div class="dbg-row"><span>buffer</span><span id="dbg-buffer" class="dbg-val">—</span></div>
+          <div class="dbg-row"><span>keys</span><span id="dbg-keys" class="dbg-val">—</span></div>
+          <div class="dbg-row"><span>press</span><span id="dbg-press" class="dbg-val">0</span></div>
+          <div class="dbg-row"><span>fired</span><span id="dbg-fired" class="dbg-val">0</span></div>
         </div>
 
-        <!-- 上：右側（版本 / LOG 工具列） -->
         <div id="hud-top-right">
-          <div id="version-pill" class="pill" title="Semantic Versioning">v1.3.4</div>
-          <div id="log-toolbar" class="pill" aria-label="LOG 工具列">
+          <div id="version-pill" class="pill">v1.3.6</div>
+          <div id="log-toolbar" class="pill">
             <strong>LOG</strong>
             <button id="log-copy" type="button" class="btn">Copy</button>
             <button id="log-clear" type="button" class="btn">Clear</button>
           </div>
         </div>
 
-        <!-- 下：按鍵（左/跳、右/動作） -->
-        <aside id="touch-left" class="touch-stack" aria-label="左側虛擬鍵" role="group">
-          <button id="left"  class="touch-btn" aria-label="向左">◀</button>
-          <button id="jump"  class="touch-btn" aria-label="跳躍">⬆</button>
+        <aside id="touch-left" class="touch-stack">
+          <button id="left"  class="touch-btn">◀</button>
+          <button id="jump"  class="touch-btn">⬆</button>
         </aside>
-        <aside id="touch-right" class="touch-stack" aria-label="右側虛擬鍵" role="group">
-          <button id="right"  class="touch-btn" aria-label="向右">▶</button>
-          <button id="action" class="touch-btn" aria-label="動作">★</button>
+        <aside id="touch-right" class="touch-stack">
+          <button id="right"  class="touch-btn">▶</button>
+          <button id="action" class="touch-btn">★</button>
         </aside>
 
-        <!-- 通關遮罩 -->
         <div id="clear-layer" hidden>
           <div class="stage-title">STAGE CLEAR!</div>
           <button id="btn-restart" class="btn primary">重新開始</button>
         </div>
       </div>
     </div>
-
     <div id="note">
       <h1>像素跑跳示範（類瑪莉風格）</h1>
       <p>電腦：方向鍵左右移動，<kbd>Z</kbd> 跳躍，<kbd>X</kbd> 動作。</p>
       <p>手機／平板：直接點選畫面上的虛擬按鈕。</p>
-      <p>此為教學用開源範例，無使用任何任天堂素材。</p>
     </div>
   </div>
 
-  <script>window.__APP_VERSION__ = "1.3.4";</script>
-  <script defer src="main.js?v=1.3.4"></script>
+  <script>window.__APP_VERSION__ = "1.3.6";</script>
+  <script defer src="main.js?v=1.3.6"></script>
 </body>
 </html>
