@@ -5,6 +5,18 @@ html, body {
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans TC','Hiragino Sans','游ゴシック体',sans-serif;
   overscroll-behavior: none;
 }
+
+/* 外層左右排版：左遊戲、右 LOG */
+#layout {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 10px 10px 24px;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 12px;
+}
+
+#game-col { min-width: 0; }
 #game-wrap { position: relative; margin: 0 auto; max-width: 960px; }
 #game { width: 100%; height: auto; display:block; background: linear-gradient(#87CEEB, #cce9ff 60%); touch-action: none; }
 
@@ -15,6 +27,7 @@ html, body {
 }
 .pill { background: rgba(0,0,0,.55); color:#fff; padding:6px 10px; border-radius:999px; font-size:14px; }
 .pill.sm { font-size:12px; padding:4px 8px; border-radius:999px; }
+.pill.lg { font-size:16px; padding:10px 16px; }
 
 /* 左上偵錯視窗 */
 #debug-panel {
@@ -27,13 +40,13 @@ html, body {
 /* 右上版本號 */
 #version-pill { position:absolute; right:8px; top:8px; z-index: 12; }
 
-/* 右側 LOG 面板 */
+/* 右側 LOG 面板（在遊戲區外） */
 #log-panel {
-  position:absolute; top:46px; right:8px; z-index: 11;
-  width: 280px; height: 62%;
+  height: 540px;
   display:flex; flex-direction:column;
   background: rgba(0,0,0,.5); color:#e6e6e6; border-radius:10px;
   backdrop-filter: blur(4px);
+  overflow: hidden;
 }
 #log-panel .log-header {
   display:flex; align-items:center; gap:8px; padding:6px 8px; border-bottom:1px solid rgba(255,255,255,.12);
@@ -61,6 +74,16 @@ html, body {
 }
 .btn.small { width: 104px; height: 64px; }
 .btn:active { transform: translateY(2px); }
+
+/* 過關慶祝畫面 */
+#celebrate {
+  position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  gap:16px; background: rgba(0,0,0,.35); z-index: 30;
+}
+#celebrate .title {
+  color:#fff; letter-spacing:2px; font-weight:700;
+  font-size: 42px; text-shadow: 0 4px 18px rgba(0,0,0,.5);
+}
 
 @media (min-width: 800px) {
   .btn.small { width: 120px; height: 68px; font-size:22px; }
