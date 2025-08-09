@@ -1,5 +1,5 @@
 // 版本號（Semantic Versioning）
-const VERSION = (window.__APP_VERSION__ || "1.3.2");
+const VERSION = (window.__APP_VERSION__ || "1.3.4");
 
 (() => {
   const canvas = document.getElementById('game');
@@ -7,17 +7,13 @@ const VERSION = (window.__APP_VERSION__ || "1.3.2");
 
   // ===== Logger（JSON Lines, ISO 8601, level） =====
   const Logger = (() => {
-    const BUF_MAX = 600;
+    const BUF_MAX = 400;
     const buf = [];
-    const pre = () => document.getElementById('log-lines');
-    const nowISO = () => new Date().toISOString(); // RFC3339 / ISO 8601 (UTC)
+    const nowISO = () => new Date().toISOString();
     function push(level, evt, data) {
       const rec = { ts: nowISO(), level, evt };
       if (data && typeof data === 'object' && Object.keys(data).length) rec.data = data;
-      const line = JSON.stringify(rec);
-      buf.push(line); if (buf.length > BUF_MAX) buf.shift();
-      const el = pre();
-      if (el) { el.textContent = buf.join('\n'); el.scrollTop = el.scrollHeight; }
+      buf.push(JSON.stringify(rec)); if (buf.length > BUF_MAX) buf.shift();
     }
     return {
       trace: (evt, data) => push('TRACE', evt, data),
@@ -26,24 +22,27 @@ const VERSION = (window.__APP_VERSION__ || "1.3.2");
       warn:  (evt, data) => push('WARN',  evt, data),
       error: (evt, data) => push('ERROR', evt, data),
       lines: () => buf.slice(),
-      clear: () => { buf.length = 0; const el = pre(); if (el) el.textContent = ''; },
+      clear: () => { buf.length = 0; } // 僅手動清除；不自動清
     };
   })();
   window.LOG = Logger;
 
-  const logCopyBtn = document.getElementById('log-copy');
+  // LOG 工具列（只有 Copy / Clear；不顯示內容，不自動清）
+  const logCopyBtn  = document.getElementById('log-copy');
   const logClearBtn = document.getElementById('log-clear');
   if (logCopyBtn) logCopyBtn.addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(Logger.lines().join('\n')); } catch(_) {}
   });
   if (logClearBtn) logClearBtn.addEventListener('click', () => Logger.clear());
 
-  // 聚焦與鍵盤防捲動
+  // 讓 canvas 主動吃到鍵盤事件 + 任意互動自動聚焦
   canvas.setAttribute('tabindex', '0');
   function refocus(e){ try { if(e) e.preventDefault(); canvas.focus(); } catch(_){} }
   window.addEventListener('load', () => { refocus(); setVersionBadge(); Logger.info('app_start', {version: VERSION}); });
   window.addEventListener('pointerdown', (e)=>{ Logger.debug('pointerdown', {x:e.clientX,y:e.clientY}); refocus(e); }, { passive:false });
   window.addEventListener('touchstart', (e)=>{ Logger.debug('touchstart', {points: e.touches?.length||0}); refocus(e); }, { passive:false });
+
+  // 防止方向鍵/空白捲動
   window.addEventListener('keydown', (e) => {
     const c = e.code || e.key;
     if (c === 'Space' || c === 'ArrowUp' || c === 'ArrowDown' || c === 'ArrowLeft' || c === 'ArrowRight') e.preventDefault();
@@ -62,7 +61,7 @@ const VERSION = (window.__APP_VERSION__ || "1.3.2");
   const MAX_RUN = 5.2;
   const JUMP_VEL = -17.8;
 
-  // 關卡
+  // === 關卡資料 ===
   const LEVEL_H = 12;
   const LEVEL_W = 100;
   const level = Array.from({ length: LEVEL_H }, (_, y) => {
@@ -75,12 +74,6 @@ const VERSION = (window.__APP_VERSION__ || "1.3.2");
   for (let x = 30; x < 36; x++) level[9][x] = 2;
   for (let x = 45; x < 48; x++) level[6][x] = 2;
   for (let x = 70; x < 76; x++) level[9][x] = 2;
-
-  // 右邊終點（旗竿區域）
-  const GOAL_X = (LEVEL_W - 3) * TILE;
-  const GOAL_LINE = GOAL_X + TILE; // 末端前三格
-  // 左邊停止點（不可穿越）
-  const LEFT_STOP_X = 12; // 角色中心最小 x
 
   // 金幣
   const coins = new Set();
@@ -96,24 +89,15 @@ const VERSION = (window.__APP_VERSION__ || "1.3.2");
   const camera = { x: 0, y: 0 };
   const keys = { left: false, right: false, jump: false, action: false };
 
-  let elapsedMs = 0;
-
-  // 跳躍緩衝 / 土狼
+  // === 跳躍緩衝與土狼時間 ===
   let jumpBufferMs = 0, coyoteMs = 0;
   const JUMP_BUFFER_MAX = 120, COYOTE_MAX = 100;
   let dbgPress = 0, dbgFired = 0;
 
-  // 狀態：進行中 / 過關
-  let cleared = false;
-  const celebrateEl = document.getElementById('celebrate');
-  const replayBtn = document.getElementById('btn-replay');
-if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
-  if (replayBtn) replayBtn.addEventListener('click', () => location.reload());
-
   function pressJump(src){ jumpBufferMs = JUMP_BUFFER_MAX; keys.jump = true; dbgPress++; Logger.debug('jump_press', {src}); }
   function releaseJump(){ keys.jump = false; }
 
-  // 偵錯 HUD
+  // === 偵錯 HUD ===
   const dbg = {
     fpsEl: document.getElementById('dbg-fps'),
     posEl: document.getElementById('dbg-pos'),
@@ -205,7 +189,7 @@ if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
     if (wasGround && !entity.onGround) Logger.debug('ground_leave', {y: entity.y});
   }
 
-  // 分數 / 金幣（拿掉向上彈的效果）
+  // 分數 / 金幣
   let score = 0;
   const scoreEl = document.getElementById('score');
   function collectCoins(entity) {
@@ -220,6 +204,7 @@ if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
           if (Math.abs(entity.x - rx) < 26 && Math.abs(entity.y - ry) < 26) {
             level[y][x] = 0; coins.delete(`${x},${y}`);
             score += 10; if (scoreEl) scoreEl.textContent = score;
+            entity.vy = Math.min(entity.vy, -3);
             Logger.info('coin_collect', {x, y, score});
           }
         }
@@ -227,14 +212,33 @@ if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
     }
   }
 
+  // 左界限
+  function clampLeft(entity) {
+    const minX = entity.w / 2 + 0.01;
+    if (entity.x < minX) { entity.x = minX; if (entity.vx < 0) entity.vx = 0; }
+  }
+
+  // 目標（過關線）
+  const GOAL_X = (LEVEL_W * TILE) - (2 * TILE);
+  let cleared = false;
+  const clearLayer = document.getElementById('clear-layer');
+  const btnRestart = document.getElementById('btn-restart');
+  if (btnRestart) btnRestart.addEventListener('click', () => {
+    // 重新開始：不要清空 LOG
+    cleared = false;
+    if (clearLayer) clearLayer.hidden = true;
+    player.x = 3*TILE; player.y = 6*TILE; player.vx = 0; player.vy = 0; player.onGround = false;
+    score = 0; if (scoreEl) scoreEl.textContent = '0';
+    Logger.info('restart', {version: VERSION});
+  });
+
   // 鍵盤輸入
   window.addEventListener('keydown', (e) => {
-    if (cleared) return;
     const code = e.code || e.key;
-    if (code === 'ArrowLeft') { e.preventDefault(); keys.left = true; }
-    if (code === 'ArrowRight'){ e.preventDefault(); keys.right = true; }
+    if (code === 'ArrowLeft')  { e.preventDefault(); keys.left = true; }
+    if (code === 'ArrowRight') { e.preventDefault(); keys.right = true; }
     if (code === 'KeyZ' || code === 'Space') { e.preventDefault(); pressJump('kb'); }
-    if (code === 'KeyX') { e.preventDefault(); keys.action = true; Logger.debug('action', {src:'kb'}); }
+    if (code === 'KeyX')      { e.preventDefault(); keys.action = true; Logger.debug('action', {src:'kb'}); }
   }, { passive:false });
   window.addEventListener('keyup', (e) => {
     const code = e.code || e.key;
@@ -248,7 +252,7 @@ if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
   const btn = (id) => document.getElementById(id);
   const bindHold = (el, prop) => {
     if (!el) return;
-    const on = () => { if (cleared) return; keys[prop] = true; el.classList.add('hold'); if (prop === 'jump') pressJump('touch'); };
+    const on = () => { keys[prop] = true; el.classList.add('hold'); if (prop === 'jump') pressJump('touch'); };
     const off = () => { if (prop === 'jump') releaseJump(); keys[prop] = false; el.classList.remove('hold'); };
     const start = (e) => { e.preventDefault(); on(); };
     const end = (e) => { e.preventDefault(); off(); };
@@ -277,107 +281,68 @@ if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
   }
 
   function update(dt) {
-    elapsedMs += dt * 16.6667;
-    if (!cleared && celebrateEl && !celebrateEl.hidden) { celebrateEl.hidden = true; LOG.debug("stage_clear_force_hide"); }
-    if (cleared) { // 過關後讓角色慢慢停下
-      player.vx *= 0.9;
-      player.vy = Math.min(player.vy + 0.6 * dt, 8);
-      resolveCollisions(player);
-      camera.x = Math.max(0, Math.min(player.x - canvas.width / 2, LEVEL_W * TILE - canvas.width));
-          // 更新偵錯 HUD（補回）
-      const round = (n) => Math.round(n);
-      if (dbg.posEl)   dbg.posEl.textContent   = `${round(player.x)}, ${round(player.y)}`;
-      if (dbg.velEl)   dbg.velEl.textContent   = `${player.vx.toFixed(2)}, ${player.vy.toFixed(2)}`;
-      if (dbg.groundEl)dbg.groundEl.textContent= player.onGround ? '✔' : '—';
-      if (dbg.coyoteEl)dbg.coyoteEl.textContent= `${Math.ceil(coyoteMs)}`;
-      if (dbg.bufferEl)dbg.bufferEl.textContent= `${Math.ceil(jumpBufferMs)}`;
-      const k = `${keys.left?'L':''}${keys.right?'R':''}${keys.jump?'/J':''}${keys.action?'/X':''}`;
-      if (dbg.keysEl)  dbg.keysEl.textContent  = k || '—';
-      if (dbg.pressEl) dbg.pressEl.textContent = `${dbgPress}`;
-      if (dbg.firedEl) dbg.firedEl.textContent = `${dbgFired}`;
-      return;
-    }
-
     const dtMs = dt * 16.6667;
 
-    if (keys.left) player.vx -= MOVE_SPEED * dt;
-    if (keys.right) player.vx += MOVE_SPEED * dt;
-    player.vx = Math.max(Math.min(player.vx, MAX_RUN), -MAX_RUN);
+    if (!cleared) {
+      if (keys.left)  player.vx -= MOVE_SPEED * dt;
+      if (keys.right) player.vx += MOVE_SPEED * dt;
+      player.vx = Math.max(Math.min(player.vx, MAX_RUN), -MAX_RUN);
 
-    // 左邊停止點（不可超過）
-    if (player.x < LEFT_STOP_X) { player.x = LEFT_STOP_X; if (player.vx < 0) player.vx = 0; }
+      // 土狼時間 / 緩衝
+      if (player.onGround) coyoteMs = COYOTE_MAX; else coyoteMs = Math.max(0, coyoteMs - dtMs);
+      jumpBufferMs = Math.max(0, jumpBufferMs - dtMs);
 
-    // 土狼時間 / 緩衝
-    if (player.onGround) coyoteMs = COYOTE_MAX; else coyoteMs = Math.max(0, coyoteMs - dtMs);
-    jumpBufferMs = Math.max(0, jumpBufferMs - dtMs);
+      if (jumpBufferMs > 0 && (player.onGround || coyoteMs > 0)) {
+        player.vy = JUMP_VEL;
+        player.onGround = false;
+        jumpBufferMs = 0;
+        coyoteMs = 0;
+        dbgFired++; Logger.info('jump_fired', {vy: player.vy});
+      }
 
-    if (jumpBufferMs > 0 && (player.onGround || coyoteMs > 0)) {
-      player.vy = JUMP_VEL;
-      player.onGround = false;
-      jumpBufferMs = 0; coyoteMs = 0;
-      dbgFired++; Logger.info('jump_fired', {vy: player.vy});
+      player.vy += GRAVITY * dt * 60;
+      if (player.vy > 24) player.vy = 24;
+
+      if (player.onGround && !keys.left && !keys.right) {
+        player.vx *= FRICTION;
+        if (Math.abs(player.vx) < 0.05) player.vx = 0;
+      }
+
+      if (player.vx !== 0) player.facing = player.vx > 0 ? 1 : -1;
+
+      resolveCollisions(player);
+      clampLeft(player);
+      collectCoins(player);
+
+      if (player.x > GOAL_X) {
+        cleared = true;
+        if (clearLayer) clearLayer.hidden = false;
+        Logger.info('stage_clear', {score});
+      }
+    } else {
+      // 通關後，輕微阻尼
+      player.vx *= 0.9; player.vy *= 0.9;
     }
-
-    // 正確的重力積分（不要再 *60）
-    player.vy += GRAVITY * dt;
-    if (player.vy > 24) player.vy = 24;
-
-    if (player.onGround && !keys.left && !keys.right) {
-      player.vx *= FRICTION;
-      if (Math.abs(player.vx) < 0.05) player.vx = 0;
-    }
-
-    if (player.vx !== 0) player.facing = player.vx > 0 ? 1 : -1;
-
-    resolveCollisions(player);
-    collectCoins(player);
-
-    // 檢查過關（到達右端）
-    const playerRight = player.x + player.w / 2;
-    if (elapsedMs >= 1200 && playerRight >= GOAL_LINE) triggerClear();
 
     camera.x = Math.max(0, Math.min(player.x - canvas.width / 2, LEVEL_W * TILE - canvas.width));
+    camera.y = 0;
+
+    // === 更新偵錯 HUD（每幀執行；不可放在 cleared 分支內） ===
+    const round = (n) => Math.round(n);
+    if (dbg.posEl)   dbg.posEl.textContent    = `${round(player.x)}, ${round(player.y)}`;
+    if (dbg.velEl)   dbg.velEl.textContent    = `${player.vx.toFixed(2)}, ${player.vy.toFixed(2)}`;
+    if (dbg.groundEl)dbg.groundEl.textContent = player.onGround ? '✔' : '—';
+    if (dbg.coyoteEl)dbg.coyoteEl.textContent = `${Math.ceil(coyoteMs)}`;
+    if (dbg.bufferEl)dbg.bufferEl.textContent = `${Math.ceil(jumpBufferMs)}`;
+    const k = `${keys.left?'L':''}${keys.right?'R':''}${keys.jump?'/J':''}${keys.action?'/X':''}`;
+    if (dbg.keysEl)  dbg.keysEl.textContent   = k || '—';
+    if (dbg.pressEl) dbg.pressEl.textContent  = `${dbgPress}`;
+    if (dbg.firedEl) dbg.firedEl.textContent  = `${dbgFired}`;
   }
 
-  function triggerClear(){
-    if (cleared) return;
-    cleared = true;
-    keys.left = keys.right = keys.jump = keys.action = false;
-    Logger.info('stage_clear', {score});
-    if (celebrateEl) celebrateEl.hidden = false;
-    // 簡單煙火粒子
-    spawnFireworks();
-  }
-
-  // --- 粒子煙火（簡單版） ---
-  const fireworks = [];
-  function spawnFireworks(){
-    for (let n=0;n<6;n++){
-      const cx = (Math.random()*0.6+0.2)*canvas.width;
-      const cy = (Math.random()*0.3+0.15)*canvas.height;
-      const color = `hsl(${Math.floor(Math.random()*360)},90%,60%)`;
-      for (let i=0;i<60;i++){
-        const a = Math.random()*Math.PI*2;
-        const s = Math.random()*3+1.5;
-        fireworks.push({x:cx,y:cy,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:60,color});
-      }
-    }
-  }
-  function renderFireworks(){
-    for (const p of fireworks){
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = Math.max(p.life/60, 0);
-      ctx.fillRect(p.x, p.y, 2, 2);
-      p.x += p.vx; p.y += p.vy; p.vy += 0.02; p.life -= 1;
-    }
-    ctx.globalAlpha = 1;
-    for (let i=fireworks.length-1;i>=0;i--) if (fireworks[i].life<=0) fireworks.splice(i,1);
-  }
-
-  // --- 繪製 ---
   function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // 雲
+    // 背景雲
     for (let i = 0; i < 6; i++) {
       const cx = (i * 300 - (camera.x * 0.4) % 300);
       const cy = 60 + (i % 2) * 40;
@@ -385,8 +350,6 @@ if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
     }
     ctx.save();
     ctx.translate(-camera.x, -camera.y);
-
-    // 地形 / 磚 / 金幣
     for (let y = 0; y < LEVEL_H; y++) {
       for (let x = 0; x < LEVEL_W; x++) {
         const t = level[y][x];
@@ -396,33 +359,11 @@ if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
         if (t === 3) drawCoin(px + TILE/2, py + TILE/2);
       }
     }
-
-    // 右端終點旗竿
-    drawGoal(GOAL_X, (LEVEL_H-2)*TILE);
-
     drawPlayer(player);
     ctx.restore();
-
-    // 前景地面
+    // 地面草條
     ctx.fillStyle = '#72bf53';
     ctx.fillRect(0, canvas.height - 28, canvas.width, 28);
-
-    // 慶祝粒子
-    if (cleared) renderFireworks();
-  }
-
-  function drawGoal(x, groundY){
-    // 旗桿
-    ctx.fillStyle = '#ddd';
-    ctx.fillRect(x+TILE, groundY - TILE*6, 6, TILE*6);
-    // 旗子
-    const t = performance.now()/500;
-    ctx.fillStyle = '#2ecc71';
-    ctx.beginPath();
-    ctx.moveTo(x+TILE+6, groundY - TILE*6 + 10);
-    ctx.lineTo(x+TILE+6+28, groundY - TILE*6 + 18 + Math.sin(t)*3);
-    ctx.lineTo(x+TILE+6, groundY - TILE*6 + 26);
-    ctx.closePath(); ctx.fill();
   }
 
   function drawGround(x, y) {

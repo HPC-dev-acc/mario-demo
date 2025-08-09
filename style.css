@@ -1,100 +1,78 @@
+/* 基本佈局 */
+:root {
+  --bg: #8cc9e8;
+  --card: rgba(255,255,255,.85);
+  --shadow: 0 8px 28px rgba(0,0,0,.18);
+  --pill: rgba(255,255,255,.9);
+  --ink: #2b2b2b;
+  --ink-muted: rgba(0,0,0,.55);
+}
 * { box-sizing: border-box; }
-html, body {
-  margin:0; padding:0; height:100%;
-  background:#87CEEB;
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans TC','Hiragino Sans','游ゴシック体',sans-serif;
-  overscroll-behavior: none;
+html, body { height: 100%; }
+body {
+  margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans TC", "Segoe UI", Roboto, "Helvetica Neue", Arial, "蘋果儷中黑", "微軟正黑體", sans-serif;
+  background: var(--bg);
 }
 
-/* 外層左右排版：左遊戲、右 LOG */
-#layout {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 10px 10px 24px;
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 12px;
+#layout { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
+#game-col { display: flex; justify-content: center; }
+#game-wrap {
+  position: relative; width: 960px; height: 540px;
+  border-radius: 16px; overflow: hidden;
+  background: linear-gradient(#bfe8ff, #a2d3f0 60%, #89c0e2);
+  box-shadow: var(--shadow);
 }
+canvas { display: block; width: 100%; height: 100%; outline: none; }
 
-#game-col { min-width: 0; }
-#game-wrap { position: relative; margin: 0 auto; max-width: 960px; }
-#game { width: 100%; height: auto; display:block; background: linear-gradient(#87CEEB, #cce9ff 60%); touch-action: none; }
-
-/* 置中上方 HUD */
-#hud-top-center {
-  position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
-  display:flex; gap:10px; z-index: 10; align-items:center;
+.pill {
+  background: var(--pill); color: var(--ink); padding: 4px 10px; border-radius: 999px;
+  font-size: 14px; line-height: 1; display: inline-flex; align-items: center; gap: 8px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.08);
 }
-.pill { background: rgba(0,0,0,.55); color:#fff; padding:6px 10px; border-radius:999px; font-size:14px; }
-.pill.sm { font-size:12px; padding:4px 8px; border-radius:999px; }
-.pill.lg { font-size:16px; padding:10px 16px; }
-
-/* 左上偵錯視窗 */
-#debug-panel {
-  position: absolute; top: 8px; left: 8px; z-index: 11;
-  background: rgba(0,0,0,.5); color:#fff; padding:8px 10px; border-radius:10px;
-  font-size:12px; line-height:1.2; min-width: 160px; backdrop-filter: blur(4px);
-}
-#debug-panel .dbg-row { display:flex; justify-content:space-between; gap:8px; }
-
-/* 右上版本號 */
-#version-pill { position:absolute; right:8px; top:8px; z-index: 12; }
-
-/* 右側 LOG 面板（在遊戲區外） */
-#log-panel {
-  height: 540px;
-  display:flex; flex-direction:column;
-  background: rgba(0,0,0,.5); color:#e6e6e6; border-radius:10px;
-  backdrop-filter: blur(4px);
-  overflow: hidden;
-}
-#log-panel .log-header {
-  display:flex; align-items:center; gap:8px; padding:6px 8px; border-bottom:1px solid rgba(255,255,255,.12);
-  font-size:12px;
-}
-#log-panel .log-header .spacer { flex:1; }
-#log-lines {
-  flex:1; margin:0; padding:8px; overflow:auto; font:12px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  white-space:pre; tab-size:2;
-}
-
-/* 觸控控制器：左右下角，按鈕縮小 */
-.touch-stack {
-  position: absolute; bottom: 14px; display:flex; flex-direction:column; gap:12px;
-  pointer-events: auto; touch-action: none; z-index: 20;
-}
-#touch-left { left: 14px; }
-#touch-right { right: 14px; }
 .btn {
-  pointer-events: auto; user-select:none; -webkit-user-select:none;
-  touch-action: none;
-  border:none; background: rgba(255,255,255,.2); backdrop-filter: blur(6px);
-  padding: 12px 16px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,.18);
-  color:#111; font-size: 20px;
+  border: none; border-radius: 999px; padding: 6px 10px; cursor: pointer;
+  background: #eef3f7; color: var(--ink); box-shadow: 0 1px 0 rgba(0,0,0,.08);
 }
-.btn.small { width: 104px; height: 64px; }
-.btn:active { transform: translateY(2px); }
+.btn.primary { background: #2f7cf0; color: #fff; }
 
-/* 過關慶祝畫面 */
-#celebrate {
-  position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center;
-  gap:16px; background: rgba(0,0,0,.35); z-index: 30;
+#hud-top-center {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 10px;
 }
-#celebrate .title {
-  color:#fff; letter-spacing:2px; font-weight:700;
-  font-size: 42px; text-shadow: 0 4px 18px rgba(0,0,0,.5);
+#debug-panel {
+  position: absolute; top: 10px; left: 10px; width: 124px;
+  background: rgba(0,0,0,.35); color: #fff; border-radius: 12px; padding: 6px 10px;
+  font-size: 12px; line-height: 1.25; backdrop-filter: blur(2px);
 }
-
-@media (min-width: 800px) {
-  .btn.small { width: 120px; height: 68px; font-size:22px; }
+#debug-panel .dbg-row { display: flex; justify-content: space-between; gap: 8px; }
+#hud-top-right {
+  position: absolute; top: 10px; right: 10px; display: flex; gap: 10px; align-items: center;
 }
-@media (pointer: fine) {
-  #touch-left, #touch-right { opacity: .75; }
+#log-toolbar strong { margin-right: 2px; font-weight: 700; }
+
+.touch-stack {
+  position: absolute; bottom: 20px; display: grid; gap: 12px;
 }
+#touch-left { left: 20px; grid-template-columns: 100px; }
+#touch-right{ right: 20px; grid-template-columns: 100px; }
+.touch-btn {
+  width: 100px; height: 64px; border-radius: 14px; border: none;
+  background: rgba(255,255,255,.85); font-size: 22px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.18); color: #222;
+}
+.touch-btn.hold { transform: translateY(1px); opacity: .92; }
 
-#help { color:#123; max-width:960px; margin: 12px auto; padding: 0 12px 24px; }
-#help h1 { margin: 12px 0; font-size:20px; }
+#clear-layer {
+  position: absolute; inset: 0; display: grid; place-content: center; gap: 16px;
+  background: rgba(0,0,0,.25); text-align: center;
+}
+.stage-title { font-size: 42px; color: #fff; font-weight: 800; text-shadow: 0 2px 16px rgba(0,0,0,.35); }
 
+#note { color: var(--ink); max-width: 960px; margin: 16px auto 0; }
+#note h1 { font-size: 18px; margin: 0 0 8px; color: var(--ink); }
+#note p { margin: 6px 0; color: var(--ink-muted); }
 
-/* Ensure celebrate overlay stays hidden when [hidden] is present */
-#celebrate[hidden]{display:none !important;}
+@media (max-width: 1100px) {
+  #layout { margin: 12px auto; }
+  #note { padding: 0 4px; }
+}
