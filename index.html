@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>像素跑跳示範（觸控版）</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game-wrap">
+    <canvas id="game" width="960" height="540" aria-label="平台動作遊戲"></canvas>
+    <div id="hud">
+      <div class="pill">分數 <span id="score">0</span></div>
+      <div class="pill">關卡 1-1</div>
+    </div>
+
+    <!-- 觸控控制器 -->
+    <div id="touch-controls" aria-label="觸控控制器" role="group">
+      <button class="btn dpad" id="left" aria-label="左">◀</button>
+      <button class="btn dpad" id="right" aria-label="右">▶</button>
+      <button class="btn jump" id="jump" aria-label="跳躍">⤴</button>
+      <button class="btn action" id="action" aria-label="動作">★</button>
+    </div>
+  </div>
+
+  <div id="help">
+    <h1>像素跑跳示範（類瑪莉風格）</h1>
+    <p>電腦：方向鍵左右移動，<kbd>Z</kbd> 跳躍，<kbd>X</kbd> 動作。</p>
+    <p>手機／平板：直接點選畫面上的虛擬按鈕。</p>
+    <p>此為教學用開源範例，無使用任何任天堂素材。</p>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
