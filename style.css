@@ -3,44 +3,22 @@ html, body {
   margin:0; padding:0; height:100%;
   background:#87CEEB;
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans TC','Hiragino Sans','游ゴシック体',sans-serif;
-  overscroll-behavior: none;         /* 防 iOS 全域捲動 */
+  overscroll-behavior: none;
 }
 #game-wrap { position: relative; margin: 0 auto; max-width: 960px; }
 #game { width: 100%; height: auto; display:block; background: linear-gradient(#87CEEB, #cce9ff 60%); touch-action: none; }
-
-#hud { position:absolute; top:8px; left:8px; display:flex; gap:8px; z-index: 10; }
-.pill { background: rgba(0,0,0,.5); color:#fff; padding:6px 10px; border-radius:999px; font-size:14px; }
-
+#hud-top-center { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); display:flex; gap:10px; z-index: 10; align-items:center; }
+.pill { background: rgba(0,0,0,.55); color:#fff; padding:6px 10px; border-radius:999px; font-size:14px; }
+#debug-panel { position: absolute; top: 8px; left: 8px; z-index: 11; background: rgba(0,0,0,.5); color:#fff; padding:8px 10px; border-radius:10px; font-size:12px; line-height:1.2; min-width: 140px; backdrop-filter: blur(4px); }
+#debug-panel .dbg-row { display:flex; justify-content:space-between; gap:8px; }
+#version-pill { position:absolute; right:8px; top:8px; z-index: 11; }
+.touch-stack { position: absolute; bottom: 14px; display:flex; flex-direction:column; gap:12px; pointer-events: none; touch-action: none; }
+#touch-left { left: 14px; }
+#touch-right { right: 14px; }
+.btn { pointer-events: auto; user-select:none; -webkit-user-select:none; touch-action: none; border:none; background: rgba(255,255,255,.2); backdrop-filter: blur(6px); padding: 12px 16px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,.18); color:#111; font-size: 20px; }
+.btn.small { width: 104px; height: 64px; }
+.btn:active { transform: translateY(2px); }
+@media (min-width: 800px) { .btn.small { width: 120px; height: 68px; font-size:22px; } }
+@media (pointer: fine) { #touch-left, #touch-right { opacity: .75; } }
 #help { color:#123; max-width:960px; margin: 12px auto; padding: 0 12px 24px; }
 #help h1 { margin: 12px 0; font-size:20px; }
-
-#touch-controls { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px; display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 16px; pointer-events: none; touch-action: none; }
-.btn {
-  pointer-events: auto;
-  user-select:none; -webkit-user-select:none;
-  touch-action: none;                /* 禁止按鈕觸發頁面手勢 */
-  border:none;
-  background: rgba(255,255,255,.2);
-  backdrop-filter: blur(6px);
-  padding: 16px; border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.2);
-  color:#111; font-size: 24px;
-}
-.btn:active { transform: translateY(2px); }
-.dpad { justify-self: start; width: 48vw; max-width: 320px; height: 96px; display:flex; align-items:center; justify-content: space-between; }
-.dpad#left::before { content: '左'; margin-left:8px; font-size:14px; opacity:.7; }
-.dpad#right::after { content: '右'; margin-right:8px; font-size:14px; opacity:.7; }
-.jump { justify-self: end; width: 28vw; max-width: 200px; height: 96px; font-weight: 700; }
-.action { justify-self: end; width: 20vw; max-width: 140px; height: 72px; font-weight: 700; opacity: .8; }
-
-/* 將左右鍵拆成兩個可點區域 */
-#left, #right { position: relative; display:flex; }
-#left::after, #right::before { content:''; display:block; width: 1px; height: 100%; background: rgba(0,0,0,.06); }
-
-@media (min-width: 800px) {
-  #touch-controls { padding: 20px 24px; }
-}
-/* redeploy */
-@media (pointer: fine) {
-  #touch-controls { display: grid; opacity:.7; }
-}
