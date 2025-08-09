@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>像素跑跳示範（觸控版）</title>
-  <link rel="stylesheet" href="style.css" />
+  <!-- Cache-busting：改日期就能逼瀏覽器抓新檔 -->
+  <link rel="stylesheet" href="style.css?v=2025-08-09" />
 </head>
 <body>
   <div id="game-wrap">
-    <canvas id="game" width="960" height="540" aria-label="平台動作遊戲"></canvas>
+    <!-- tabindex 讓 canvas 能吃到鍵盤事件 -->
+    <canvas id="game" width="960" height="540" tabindex="0" aria-label="平台動作遊戲"></canvas>
     <div id="hud">
       <div class="pill">分數 <span id="score">0</span></div>
       <div class="pill">關卡 1-1</div>
@@ -30,6 +32,7 @@
     <p>此為教學用開源範例，無使用任何任天堂素材。</p>
   </div>
 
-  <script src="main.js"></script>
+  <!-- Cache-busting -->
+  <script src="main.js?v=2025-08-09"></script>
 </body>
 </html>

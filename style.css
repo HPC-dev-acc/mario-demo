@@ -3,7 +3,7 @@ html, body {
   margin:0; padding:0; height:100%;
   background:#87CEEB;
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans TC','Hiragino Sans','游ゴシック体',sans-serif;
-  overscroll-behavior: none;         /* 新增：避免 iOS 捲動干擾 */
+  overscroll-behavior: none;         /* 防 iOS 全域捲動 */
 }
 #game-wrap { position: relative; margin: 0 auto; max-width: 960px; }
 #game { width: 100%; height: auto; display:block; background: linear-gradient(#87CEEB, #cce9ff 60%); touch-action: none; }
@@ -14,11 +14,11 @@ html, body {
 #help { color:#123; max-width:960px; margin: 12px auto; padding: 0 12px 24px; }
 #help h1 { margin: 12px 0; font-size:20px; }
 
-#touch-controls { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px; display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 16px; pointer-events: none; }
+#touch-controls { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px; display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 16px; pointer-events: none; touch-action: none; }
 .btn {
   pointer-events: auto;
   user-select:none; -webkit-user-select:none;
-  touch-action: none;                /* 由 manipulation 改成 none */
+  touch-action: none;                /* 禁止按鈕觸發頁面手勢 */
   border:none;
   background: rgba(255,255,255,.2);
   backdrop-filter: blur(6px);
@@ -34,8 +34,7 @@ html, body {
 .action { justify-self: end; width: 20vw; max-width: 140px; height: 72px; font-weight: 700; opacity: .8; }
 
 /* 將左右鍵拆成兩個可點區域 */
-#left, #right { position: relative; }
-#left, #right { display:flex; }
+#left, #right { position: relative; display:flex; }
 #left::after, #right::before { content:''; display:block; width: 1px; height: 100%; background: rgba(0,0,0,.06); }
 
 @media (min-width: 800px) {
@@ -43,6 +42,5 @@ html, body {
 }
 
 @media (pointer: fine) {
-  /* 桌面端可選擇隱藏觸控鍵（如想保持展示，將 display 改回 grid） */
   #touch-controls { display: grid; opacity:.7; }
 }

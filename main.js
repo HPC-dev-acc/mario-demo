@@ -1,15 +1,30 @@
-// 簡易平台動作遊戲（教學範例，iOS/Safari 修正版）
+// 修正版：加入 cache-busting、Canvas 聚焦、全域防捲動；保留 Jump Buffer + Coyote Time
 (() => {
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
 
+  // 讓 canvas 主動吃到鍵盤事件 + 任意互動自動聚焦
+  canvas.setAttribute('tabindex', '0');
+  function refocus(e){ try { if(e) e.preventDefault(); canvas.focus(); } catch(_){} }
+  window.addEventListener('load', () => { refocus(); });
+  window.addEventListener('pointerdown', refocus, { passive:false });
+  window.addEventListener('touchstart', refocus, { passive:false });
+
+  // 全域防止空白鍵與方向鍵捲動（保險）
+  window.addEventListener('keydown', (e) => {
+    const c = e.code || e.key;
+    if (c === 'Space' || c === 'ArrowUp' || c === 'ArrowDown' || c === 'ArrowLeft' || c === 'ArrowRight') {
+      e.preventDefault();
+    }
+  }, { passive:false });
+
   // === 遊戲常數 ===
   const TILE = 48;
-  const GRAVITY = 0.88;    // ↓ 略降，跳得更高
+  const GRAVITY = 0.88;
   const FRICTION = 0.8;
   const MOVE_SPEED = 0.7;
   const MAX_RUN = 5.2;
-  const JUMP_VEL = -17.8;  // ↑ 略增，跨台更穩
+  const JUMP_VEL = -17.8;
 
   // === 關卡資料 ===
   const LEVEL_H = 12;
@@ -19,7 +34,6 @@
     if (y >= LEVEL_H - 2) row.fill(1); // 地板
     return row;
   });
-  // 平台
   for (let x = 10; x < 15; x++) level[8][x] = 2;
   for (let x = 20; x < 23; x++) level[7][x] = 2, level[8][x] = 2;
   for (let x = 30; x < 36; x++) level[9][x] = 2;
@@ -37,27 +51,15 @@
     vx: 0, vy: 0, onGround: false, facing: 1, lives: 3
   };
 
-  // 相機
   const camera = { x: 0, y: 0 };
-
-  // 輸入狀態
   const keys = { left: false, right: false, jump: false, action: false };
 
-  // 跳躍緩衝（Jump Buffer）與土狼時間（Coyote Time）
-  let jumpBufferMs = 0;          // 最近按下跳躍可保留的時間
-  let coyoteMs = 0;              // 離地後仍可跳的寬限
-  const JUMP_BUFFER_MAX = 120;   // 120ms
-  const COYOTE_MAX = 100;        // 100ms
+  // 跳躍緩衝與土狼時間
+  let jumpBufferMs = 0, coyoteMs = 0;
+  const JUMP_BUFFER_MAX = 120, COYOTE_MAX = 100;
+  function pressJump(){ jumpBufferMs = JUMP_BUFFER_MAX; keys.jump = true; }
+  function releaseJump(){ keys.jump = false; }
 
-  function pressJump() {
-    jumpBufferMs = JUMP_BUFFER_MAX;
-    keys.jump = true;
-  }
-  function releaseJump() {
-    keys.jump = false;
-  }
-
-  // 小工具
   const worldToTile = (px) => Math.floor(px / TILE);
   const rectVsTileSolid = (x, y) => {
     const tx = worldToTile(x), ty = worldToTile(y);
@@ -95,7 +97,6 @@
     // 垂直
     entity.y += entity.vy;
     entity.onGround = false;
-
     if (entity.vy > 0) {
       const bottom = entity.y + entity.h / 2;
       const left = entity.x - entity.w / 2 + 6;
@@ -146,14 +147,14 @@
     }
   }
 
-  // === 鍵盤（用 e.code，並阻止捲動） ===
+  // 鍵盤：用 e.code 並阻止預設捲動
   window.addEventListener('keydown', (e) => {
     const code = e.code || e.key;
     if (code === 'ArrowLeft') { e.preventDefault(); keys.left = true; }
     if (code === 'ArrowRight'){ e.preventDefault(); keys.right = true; }
     if (code === 'KeyZ' || code === 'Space') { e.preventDefault(); pressJump(); }
     if (code === 'KeyX') { e.preventDefault(); keys.action = true; }
-  });
+  }, { passive:false });
   window.addEventListener('keyup', (e) => {
     const code = e.code || e.key;
     if (code === 'ArrowLeft') keys.left = false;
@@ -162,31 +163,27 @@
     if (code === 'KeyX') keys.action = false;
   });
 
-  // === 觸控（加上 touch 後援 + 防捲動） ===
+  // 觸控（pointer + touch 後援）
   const btn = (id) => document.getElementById(id);
   const bindHold = (el, prop) => {
     const on = () => { keys[prop] = true; el.classList.add('hold'); if (prop === 'jump') pressJump(); };
     const off = () => { if (prop === 'jump') releaseJump(); keys[prop] = false; el.classList.remove('hold'); };
-
-    // Pointer
     const start = (e) => { e.preventDefault(); on(); };
     const end = (e) => { e.preventDefault(); off(); };
     el.addEventListener('pointerdown', start);
     el.addEventListener('pointerup', end);
     el.addEventListener('pointercancel', end);
     el.addEventListener('pointerleave', end);
-
-    // Touch 後援（iOS Chrome / Edge）
-    el.addEventListener('touchstart', (e) => { e.preventDefault(); on(); }, { passive: false });
-    el.addEventListener('touchend',   (e) => { e.preventDefault(); off(); }, { passive: false });
-    el.addEventListener('touchcancel',(e) => { e.preventDefault(); off(); }, { passive: false });
+    el.addEventListener('touchstart', (e)=>{ e.preventDefault(); on(); }, { passive:false });
+    el.addEventListener('touchend',   (e)=>{ e.preventDefault(); off(); }, { passive:false });
+    el.addEventListener('touchcancel',(e)=>{ e.preventDefault(); off(); }, { passive:false });
   };
   bindHold(btn('left'), 'left');
   bindHold(btn('right'), 'right');
   bindHold(btn('jump'), 'jump');
   bindHold(btn('action'), 'action');
 
-  // === 迴圈 ===
+  // 迴圈
   let last = 0;
   function loop(t) {
     const dt = Math.min(32, t - last);
@@ -197,10 +194,8 @@
   }
 
   function update(dt) {
-    // 時間（毫秒）
     const dtMs = dt * 16.6667;
 
-    // 水平移動
     if (keys.left) player.vx -= MOVE_SPEED * dt;
     if (keys.right) player.vx += MOVE_SPEED * dt;
     player.vx = Math.max(Math.min(player.vx, MAX_RUN), -MAX_RUN);
@@ -209,7 +204,6 @@
     if (player.onGround) coyoteMs = COYOTE_MAX; else coyoteMs = Math.max(0, coyoteMs - dtMs);
     jumpBufferMs = Math.max(0, jumpBufferMs - dtMs);
 
-    // 跳躍（更寬容）
     if (jumpBufferMs > 0 && (player.onGround || coyoteMs > 0)) {
       player.vy = JUMP_VEL;
       player.onGround = false;
@@ -217,41 +211,32 @@
       coyoteMs = 0;
     }
 
-    // 重力
     player.vy += GRAVITY * dt * 60;
     if (player.vy > 24) player.vy = 24;
 
-    // 地面摩擦
     if (player.onGround && !keys.left && !keys.right) {
       player.vx *= FRICTION;
       if (Math.abs(player.vx) < 0.05) player.vx = 0;
     }
 
-    // 面向
     if (player.vx !== 0) player.facing = player.vx > 0 ? 1 : -1;
 
-    // 碰撞 / 收集
     resolveCollisions(player);
     collectCoins(player);
 
-    // 相機
     camera.x = Math.max(0, Math.min(player.x - canvas.width / 2, LEVEL_W * TILE - canvas.width));
     camera.y = 0;
   }
 
   function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // 雲
     for (let i = 0; i < 6; i++) {
       const cx = (i * 300 - (camera.x * 0.4) % 300);
       const cy = 60 + (i % 2) * 40;
       drawCloud(cx, cy); drawCloud(cx + 150, cy + 15);
     }
-
     ctx.save();
     ctx.translate(-camera.x, -camera.y);
-
-    // 磚塊 & 地板 & 金幣
     for (let y = 0; y < LEVEL_H; y++) {
       for (let x = 0; x < LEVEL_W; x++) {
         const t = level[y][x];
@@ -261,18 +246,12 @@
         if (t === 3) drawCoin(px + TILE/2, py + TILE/2);
       }
     }
-
-    // 玩家
     drawPlayer(player);
-
     ctx.restore();
-
-    // 地平線
     ctx.fillStyle = '#72bf53';
     ctx.fillRect(0, canvas.height - 28, canvas.width, 28);
   }
 
-  // === 美術繪製 ===
   function drawGround(x, y) {
     ctx.fillStyle = '#8b5a2b'; ctx.fillRect(x, y, TILE, TILE);
     ctx.fillStyle = '#976939'; for (let i = 0; i < 2; i++) ctx.fillRect(x, y + i * 24, TILE, 2);
@@ -310,6 +289,5 @@
     ctx.restore();
   }
 
-  // 啟動
   requestAnimationFrame(loop);
 })();
