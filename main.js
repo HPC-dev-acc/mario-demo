@@ -1,18 +1,51 @@
 // 版本號（Semantic Versioning）
-const VERSION = (window.__APP_VERSION__ || "1.1.2");
+const VERSION = (window.__APP_VERSION__ || "1.2.0");
 
 (() => {
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
 
+  // ===== Logger（JSON Lines, ISO 8601, level） =====
+  const Logger = (() => {
+    const BUF_MAX = 400;
+    const buf = [];
+    const pre = () => document.getElementById('log-lines');
+    const nowISO = () => new Date().toISOString(); // RFC3339 / ISO 8601 (UTC)
+    function push(level, evt, data) {
+      const rec = { ts: nowISO(), level, evt };
+      if (data && typeof data === 'object' && Object.keys(data).length) rec.data = data;
+      const line = JSON.stringify(rec);
+      buf.push(line); if (buf.length > BUF_MAX) buf.shift();
+      const el = pre();
+      if (el) { el.textContent = buf.join('\n'); el.scrollTop = el.scrollHeight; }
+    }
+    return {
+      trace: (evt, data) => push('TRACE', evt, data),
+      debug: (evt, data) => push('DEBUG', evt, data),
+      info:  (evt, data) => push('INFO',  evt, data),
+      warn:  (evt, data) => push('WARN',  evt, data),
+      error: (evt, data) => push('ERROR', evt, data),
+      lines: () => buf.slice(),
+      clear: () => { buf.length = 0; const el = pre(); if (el) el.textContent = ''; },
+    };
+  })();
+  window.LOG = Logger; // 需要時可在 Console 呼叫
+
+  const logCopyBtn = document.getElementById('log-copy');
+  const logClearBtn = document.getElementById('log-clear');
+  if (logCopyBtn) logCopyBtn.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(Logger.lines().join('\n')); } catch(_) {}
+  });
+  if (logClearBtn) logClearBtn.addEventListener('click', () => Logger.clear());
+
   // 讓 canvas 主動吃到鍵盤事件 + 任意互動自動聚焦
   canvas.setAttribute('tabindex', '0');
   function refocus(e){ try { if(e) e.preventDefault(); canvas.focus(); } catch(_){} }
-  window.addEventListener('load', () => { refocus(); setVersionBadge(); });
-  window.addEventListener('pointerdown', refocus, { passive:false });
-  window.addEventListener('touchstart', refocus, { passive:false });
+  window.addEventListener('load', () => { refocus(); setVersionBadge(); Logger.info('app_start', {version: VERSION}); });
+  window.addEventListener('pointerdown', (e)=>{ Logger.debug('pointerdown', {x:e.clientX,y:e.clientY}); refocus(e); }, { passive:false });
+  window.addEventListener('touchstart', (e)=>{ Logger.debug('touchstart', {points: e.touches?.length||0}); refocus(e); }, { passive:false });
 
-  // 全域防止空白鍵與方向鍵捲動（保險）
+  // 防止方向鍵/空白捲動
   window.addEventListener('keydown', (e) => {
     const c = e.code || e.key;
     if (c === 'Space' || c === 'ArrowUp' || c === 'ArrowDown' || c === 'ArrowLeft' || c === 'ArrowRight') {
@@ -64,10 +97,12 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
   // === 跳躍緩衝與土狼時間 ===
   let jumpBufferMs = 0, coyoteMs = 0;
   const JUMP_BUFFER_MAX = 120, COYOTE_MAX = 100;
-  function pressJump(){ jumpBufferMs = JUMP_BUFFER_MAX; keys.jump = true; }
+  let dbgPress = 0, dbgFired = 0;
+
+  function pressJump(src){ jumpBufferMs = JUMP_BUFFER_MAX; keys.jump = true; dbgPress++; Logger.debug('jump_press', {src}); }
   function releaseJump(){ keys.jump = false; }
 
-  // === 偵錯（FPS/座標/速度/狀態/按鍵） ===
+  // === 偵錯 HUD ===
   const dbg = {
     fpsEl: document.getElementById('dbg-fps'),
     posEl: document.getElementById('dbg-pos'),
@@ -76,11 +111,13 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
     coyoteEl: document.getElementById('dbg-coyote'),
     bufferEl: document.getElementById('dbg-buffer'),
     keysEl: document.getElementById('dbg-keys'),
+    pressEl: document.getElementById('dbg-press'),
+    firedEl: document.getElementById('dbg-fired'),
   };
   let fpsLast = performance.now(), fpsCnt = 0, fpsVal = 0;
   function updFps(t){
     fpsCnt++;
-    if (t - fpsLast >= 250){ // 每 0.25s 更新
+    if (t - fpsLast >= 250){
       const now = performance.now();
       fpsVal = Math.round(1000 * fpsCnt / (now - fpsLast));
       fpsLast = now; fpsCnt = 0;
@@ -124,6 +161,7 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
 
     // 垂直
     entity.y += entity.vy;
+    const wasGround = entity.onGround;
     entity.onGround = false;
     if (entity.vy > 0) {
       const bottom = entity.y + entity.h / 2;
@@ -143,6 +181,7 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
         const tx = worldToTile(x), ty = worldToTile(top);
         if (ty >= 0 && level[ty][tx] === 2) {
           level[ty][tx] = 0; entity.vy = 2;
+          Logger.info('brick_hit', {tx,ty});
           coins.add(`${tx},${ty-1}`); level[ty-1][tx] = 3;
         }
         if (rectVsTileSolid(x, top)) {
@@ -151,6 +190,8 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
         }
       }
     }
+    if (!wasGround && entity.onGround) Logger.debug('ground_enter', {y: entity.y});
+    if (wasGround && !entity.onGround) Logger.debug('ground_leave', {y: entity.y});
   }
 
   // 分數 / 金幣
@@ -169,19 +210,20 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
             level[y][x] = 0; coins.delete(`${x},${y}`);
             score += 10; if (scoreEl) scoreEl.textContent = score;
             entity.vy = Math.min(entity.vy, -3);
+            Logger.info('coin_collect', {x, y, score});
           }
         }
       }
     }
   }
 
-  // 鍵盤：用 e.code 並阻止預設捲動
+  // 鍵盤輸入
   window.addEventListener('keydown', (e) => {
     const code = e.code || e.key;
     if (code === 'ArrowLeft') { e.preventDefault(); keys.left = true; }
     if (code === 'ArrowRight'){ e.preventDefault(); keys.right = true; }
-    if (code === 'KeyZ' || code === 'Space') { e.preventDefault(); pressJump(); }
-    if (code === 'KeyX') { e.preventDefault(); keys.action = true; }
+    if (code === 'KeyZ' || code === 'Space') { e.preventDefault(); pressJump('kb'); }
+    if (code === 'KeyX') { e.preventDefault(); keys.action = true; Logger.debug('action', {src:'kb'}); }
   }, { passive:false });
   window.addEventListener('keyup', (e) => {
     const code = e.code || e.key;
@@ -194,14 +236,15 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
   // 觸控（pointer + touch 後援）
   const btn = (id) => document.getElementById(id);
   const bindHold = (el, prop) => {
-    const on = () => { keys[prop] = true; el.classList.add('hold'); if (prop === 'jump') pressJump(); };
+    if (!el) return;
+    const on = () => { keys[prop] = true; el.classList.add('hold'); if (prop === 'jump') pressJump('touch'); };
     const off = () => { if (prop === 'jump') releaseJump(); keys[prop] = false; el.classList.remove('hold'); };
     const start = (e) => { e.preventDefault(); on(); };
     const end = (e) => { e.preventDefault(); off(); };
-    el.addEventListener('pointerdown', start);
-    el.addEventListener('pointerup', end);
-    el.addEventListener('pointercancel', end);
-    el.addEventListener('pointerleave', end);
+    el.addEventListener('pointerdown', start, { passive:false });
+    el.addEventListener('pointerup', end, { passive:false });
+    el.addEventListener('pointercancel', end, { passive:false });
+    el.addEventListener('pointerleave', end, { passive:false });
     el.addEventListener('touchstart', (e)=>{ e.preventDefault(); on(); }, { passive:false });
     el.addEventListener('touchend',   (e)=>{ e.preventDefault(); off(); }, { passive:false });
     el.addEventListener('touchcancel',(e)=>{ e.preventDefault(); off(); }, { passive:false });
@@ -211,7 +254,7 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
   bindHold(btn('jump'), 'jump');
   bindHold(btn('action'), 'action');
 
-  // 迴圈
+  // 主迴圈
   let last = 0;
   function loop(t) {
     const dt = Math.min(32, t - last);
@@ -230,7 +273,7 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
     player.vx = Math.max(Math.min(player.vx, MAX_RUN), -MAX_RUN);
 
     // 土狼時間 / 緩衝
-    if (player.onGround) coyoteMs = COYOTE_MAX; else coyoteMs = Math.max(0, coyoteMs - dtMs);
+    if (player.onGround) coyoteMs = 100; else coyoteMs = Math.max(0, coyoteMs - dtMs);
     jumpBufferMs = Math.max(0, jumpBufferMs - dtMs);
 
     if (jumpBufferMs > 0 && (player.onGround || coyoteMs > 0)) {
@@ -238,6 +281,7 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
       player.onGround = false;
       jumpBufferMs = 0;
       coyoteMs = 0;
+      dbgFired++; Logger.info('jump_fired', {vy: player.vy});
     }
 
     player.vy += GRAVITY * dt * 60;
@@ -265,6 +309,8 @@ const VERSION = (window.__APP_VERSION__ || "1.1.2");
     if (dbg.bufferEl) dbg.bufferEl.textContent = `${Math.ceil(jumpBufferMs)}`;
     const k = `${keys.left?'L':''}${keys.right?'R':''}${keys.jump?'/J':''}${keys.action?'/X':''}`;
     if (dbg.keysEl) dbg.keysEl.textContent = k || '—';
+    if (dbg.pressEl) dbg.pressEl.textContent = `${dbgPress}`;
+    if (dbg.firedEl) dbg.firedEl.textContent = `${dbgFired}`;
   }
 
   function render() {
