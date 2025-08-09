@@ -284,7 +284,7 @@ const VERSION = (window.__APP_VERSION__ || "1.2.0");
       dbgFired++; Logger.info('jump_fired', {vy: player.vy});
     }
 
-    player.vy += GRAVITY * dt * 60;
+    player.vy += GRAVITY * dt;
     if (player.vy > 24) player.vy = 24;
 
     if (player.onGround && !keys.left && !keys.right) {
