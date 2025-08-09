@@ -284,6 +284,17 @@ if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
       player.vy = Math.min(player.vy + 0.6 * dt, 8);
       resolveCollisions(player);
       camera.x = Math.max(0, Math.min(player.x - canvas.width / 2, LEVEL_W * TILE - canvas.width));
+          // 更新偵錯 HUD（補回）
+      const round = (n) => Math.round(n);
+      if (dbg.posEl)   dbg.posEl.textContent   = `${round(player.x)}, ${round(player.y)}`;
+      if (dbg.velEl)   dbg.velEl.textContent   = `${player.vx.toFixed(2)}, ${player.vy.toFixed(2)}`;
+      if (dbg.groundEl)dbg.groundEl.textContent= player.onGround ? '✔' : '—';
+      if (dbg.coyoteEl)dbg.coyoteEl.textContent= `${Math.ceil(coyoteMs)}`;
+      if (dbg.bufferEl)dbg.bufferEl.textContent= `${Math.ceil(jumpBufferMs)}`;
+      const k = `${keys.left?'L':''}${keys.right?'R':''}${keys.jump?'/J':''}${keys.action?'/X':''}`;
+      if (dbg.keysEl)  dbg.keysEl.textContent  = k || '—';
+      if (dbg.pressEl) dbg.pressEl.textContent = `${dbgPress}`;
+      if (dbg.firedEl) dbg.firedEl.textContent = `${dbgFired}`;
       return;
     }
 
