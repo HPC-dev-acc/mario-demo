@@ -1,23 +1,78 @@
-/* 佈局與樣式（含偵錯面板防抖） */
-:root { --bg:#8cc9e8; --pill:rgba(255,255,255,.9); --ink:#2b2b2b; --ink-muted:rgba(0,0,0,.55); --shadow:0 8px 28px rgba(0,0,0,.18); }
-*{box-sizing:border-box} html,body{height:100%} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans TC","Segoe UI",Roboto,"Helvetica Neue",Arial,"蘋果儷中黑","微軟正黑體",sans-serif;background:var(--bg)}
-#layout{max-width:1200px;margin:24px auto;padding:0 16px} #game-col{display:flex;justify-content:center}
-#game-wrap{position:relative;width:960px;height:540px;border-radius:16px;overflow:hidden;background:linear-gradient(#bfe8ff,#a2d3f0 60%,#89c0e2);box-shadow:var(--shadow)}
-canvas{display:block;width:100%;height:100%;outline:none}
-.pill{background:var(--pill);color:var(--ink);padding:4px 10px;border-radius:999px;font-size:14px;line-height:1;display:inline-flex;align-items:center;gap:8px;box-shadow:0 1px 0 rgba(0,0,0,.08)}
-.btn{border:none;border-radius:999px;padding:6px 10px;cursor:pointer;background:#eef3f7;color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.08)}
-.btn.primary{background:#2f7cf0;color:#fff}
-#hud-top-center{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px}
-#hud-top-right{position:absolute;top:10px;right:10px;display:flex;gap:10px;align-items:center}
-#debug-panel{position:absolute;top:10px;left:10px;width:160px;background:rgba(0,0,0,.35);color:#fff;border-radius:12px;padding:6px 10px;font-size:12px;line-height:1.25;backdrop-filter:blur(2px);
-  font-variant-numeric:tabular-nums;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
-#debug-panel .dbg-row{display:flex;justify-content:space-between;gap:8px}
-#debug-panel .dbg-val{display:inline-block;width:86px;text-align:right}
-.touch-stack{position:absolute;bottom:20px;display:grid;gap:12px}
-#touch-left{left:20px;grid-template-columns:100px}
-#touch-right{right:20px;grid-template-columns:100px}
-.touch-btn{width:100px;height:64px;border-radius:14px;border:none;background:rgba(255,255,255,.85);font-size:22px;box-shadow:0 8px 18px rgba(0,0,0,.18);color:#222}
-.touch-btn.hold{transform:translateY(1px);opacity:.92}
-#clear-layer{position:absolute;inset:0;display:grid;place-content:center;gap:16px;background:rgba(0,0,0,.25);text-align:center}
-.stage-title{font-size:42px;color:#fff;font-weight:800;text-shadow:0 2px 16px rgba(0,0,0,.35)}
-#note{color:var(--ink);max-width:960px;margin:16px auto 0} #note h1{font-size:18px;margin:0 0 8px} #note p{margin:6px 0;color:var(--ink-muted)}
+/* 基本佈局 */
+:root {
+  --bg: #8cc9e8;
+  --card: rgba(255,255,255,.85);
+  --shadow: 0 8px 28px rgba(0,0,0,.18);
+  --pill: rgba(255,255,255,.9);
+  --ink: #2b2b2b;
+  --ink-muted: rgba(0,0,0,.55);
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans TC", "Segoe UI", Roboto, "Helvetica Neue", Arial, "蘋果儷中黑", "微軟正黑體", sans-serif;
+  background: var(--bg);
+}
+
+#layout { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
+#game-col { display: flex; justify-content: center; }
+#game-wrap {
+  position: relative; width: 960px; height: 540px;
+  border-radius: 16px; overflow: hidden;
+  background: linear-gradient(#bfe8ff, #a2d3f0 60%, #89c0e2);
+  box-shadow: var(--shadow);
+}
+canvas { display: block; width: 100%; height: 100%; outline: none; }
+
+.pill {
+  background: var(--pill); color: var(--ink); padding: 4px 10px; border-radius: 999px;
+  font-size: 14px; line-height: 1; display: inline-flex; align-items: center; gap: 8px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.08);
+}
+.btn {
+  border: none; border-radius: 999px; padding: 6px 10px; cursor: pointer;
+  background: #eef3f7; color: var(--ink); box-shadow: 0 1px 0 rgba(0,0,0,.08);
+}
+.btn.primary { background: #2f7cf0; color: #fff; }
+
+#hud-top-center {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 10px;
+}
+#debug-panel {
+  position: absolute; top: 10px; left: 10px; width: 124px;
+  background: rgba(0,0,0,.35); color: #fff; border-radius: 12px; padding: 6px 10px;
+  font-size: 12px; line-height: 1.25; backdrop-filter: blur(2px);
+}
+#debug-panel .dbg-row { display: flex; justify-content: space-between; gap: 8px; }
+#hud-top-right {
+  position: absolute; top: 10px; right: 10px; display: flex; gap: 10px; align-items: center;
+}
+#log-toolbar strong { margin-right: 2px; font-weight: 700; }
+
+.touch-stack {
+  position: absolute; bottom: 20px; display: grid; gap: 12px;
+}
+#touch-left { left: 20px; grid-template-columns: 100px; }
+#touch-right{ right: 20px; grid-template-columns: 100px; }
+.touch-btn {
+  width: 100px; height: 64px; border-radius: 14px; border: none;
+  background: rgba(255,255,255,.85); font-size: 22px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.18); color: #222;
+}
+.touch-btn.hold { transform: translateY(1px); opacity: .92; }
+
+#clear-layer {
+  position: absolute; inset: 0; display: grid; place-content: center; gap: 16px;
+  background: rgba(0,0,0,.25); text-align: center;
+}
+.stage-title { font-size: 42px; color: #fff; font-weight: 800; text-shadow: 0 2px 16px rgba(0,0,0,.35); }
+
+#note { color: var(--ink); max-width: 960px; margin: 16px auto 0; }
+#note h1 { font-size: 18px; margin: 0 0 8px; color: var(--ink); }
+#note p { margin: 6px 0; color: var(--ink-muted); }
+
+@media (max-width: 1100px) {
+  #layout { margin: 12px auto; }
+  #note { padding: 0 4px; }
+}
