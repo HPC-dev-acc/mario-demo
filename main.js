@@ -1,5 +1,5 @@
 // 版本號（Semantic Versioning）
-const VERSION = (window.__APP_VERSION__ || "1.3.0");
+const VERSION = (window.__APP_VERSION__ || "1.3.1");
 
 (() => {
   const canvas = document.getElementById('game');
@@ -78,6 +78,7 @@ const VERSION = (window.__APP_VERSION__ || "1.3.0");
 
   // 右邊終點（旗竿區域）
   const GOAL_X = (LEVEL_W - 3) * TILE; // 末端前三格
+  const GOAL_LINE = GOAL_X + TILE;
   // 左邊停止點（不可穿越）
   const LEFT_STOP_X = 12; // 角色中心最小 x
 
@@ -95,6 +96,8 @@ const VERSION = (window.__APP_VERSION__ || "1.3.0");
   const camera = { x: 0, y: 0 };
   const keys = { left: false, right: false, jump: false, action: false };
 
+  let elapsedMs = 0;
+
   // 跳躍緩衝 / 土狼
   let jumpBufferMs = 0, coyoteMs = 0;
   const JUMP_BUFFER_MAX = 120, COYOTE_MAX = 100;
@@ -106,7 +109,8 @@ const VERSION = (window.__APP_VERSION__ || "1.3.0");
   const replayBtn = document.getElementById('btn-replay');
   if (replayBtn) replayBtn.addEventListener('click', () => location.reload());
 
-  function pressJump(src){ jumpBufferMs = JUMP_BUFFER_MAX; keys.jump = true; dbgPress++; Logger.debug('jump_press', {src}); }
+  if (celebrateEl) { celebrateEl.hidden = true; LOG.debug("stage_clear_hide"); }
+function pressJump(src){ jumpBufferMs = JUMP_BUFFER_MAX; keys.jump = true; dbgPress++; Logger.debug('jump_press', {src}); }
   function releaseJump(){ keys.jump = false; }
 
   // 偵錯 HUD
@@ -273,6 +277,7 @@ const VERSION = (window.__APP_VERSION__ || "1.3.0");
   }
 
   function update(dt) {
+    elapsedMs += dt * 16.6667;
     if (cleared) { // 過關後讓角色慢慢停下
       player.vx *= 0.9;
       player.vy = Math.min(player.vy + 0.6 * dt, 8);
@@ -316,7 +321,8 @@ const VERSION = (window.__APP_VERSION__ || "1.3.0");
     collectCoins(player);
 
     // 檢查過關（到達右端）
-    if (player.x >= GOAL_X) triggerClear();
+    const playerRight = player.x + player.w / 2;
+    if (elapsedMs >= 1200 && playerRight >= GOAL_LINE) triggerClear();
 
     camera.x = Math.max(0, Math.min(player.x - canvas.width / 2, LEVEL_W * TILE - canvas.width));
   }
@@ -326,6 +332,7 @@ const VERSION = (window.__APP_VERSION__ || "1.3.0");
     cleared = true;
     keys.left = keys.right = keys.jump = keys.action = false;
     Logger.info('stage_clear', {score});
+    Logger.debug('stage_clear_show');
     if (celebrateEl) celebrateEl.hidden = false;
     // 簡單煙火粒子
     spawnFireworks();
