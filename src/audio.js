@@ -24,7 +24,14 @@ export function play(name) {
   if (!buffer) return;
   const source = audioCtx.createBufferSource();
   source.buffer = buffer;
-  source.connect(audioCtx.destination);
+  const gain = audioCtx.createGain();
+  const volume = 0.8;
+  const now = audioCtx.currentTime;
+  const end = now + buffer.duration;
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(volume, now + 0.01); // 10 ms
+  gain.gain.setValueAtTime(volume, end - 0.05); // 50 ms
+  gain.gain.linearRampToValueAtTime(0, end);
+  source.connect(gain).connect(audioCtx.destination);
   source.start(0);
 }
-
