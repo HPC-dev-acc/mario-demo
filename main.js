@@ -148,6 +148,12 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
         if (solidAt(x,top)){ ent.y = Math.floor(top/TILE)*TILE + TILE + ent.h/2 + .01; ent.vy=0; break; }
       }
     }
+    // Keep entity within horizontal level bounds
+    const minX = ent.w/2;
+    const maxX = LEVEL_W*TILE - ent.w/2;
+    if (ent.x < minX){ ent.x = minX; ent.vx = 0; }
+    if (ent.x > maxX){ ent.x = maxX; ent.vx = 0; }
+
     if (!wasGround && ent.onGround) Logger.debug('ground_enter',{y:ent.y});
     if (wasGround && !ent.onGround) Logger.debug('ground_leave',{y:ent.y});
   }
