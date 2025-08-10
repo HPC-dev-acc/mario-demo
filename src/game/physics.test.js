@@ -1,4 +1,4 @@
-import { resolveCollisions, collectCoins, TILE, TRAFFIC_LIGHT } from './physics.js';
+import { resolveCollisions, collectCoins, TILE, TRAFFIC_LIGHT, isJumpBlocked } from './physics.js';
 
 function makeLevel(w, h) {
   return Array.from({ length: h }, () => Array(w).fill(0));
@@ -45,4 +45,12 @@ test('collecting a coin adds score and removes coin', () => {
   expect(gained).toBe(10);
   expect(level[1][1]).toBe(0);
   expect(coins.has('1,1')).toBe(false);
+});
+
+test('jumping is blocked near red traffic light', () => {
+  const lights = { '3,2': { state: 'red' } };
+  const ent = { x: TILE * 3 + TILE / 2, y: TILE * 2 + TILE / 2 };
+  expect(isJumpBlocked(ent, lights)).toBe(true);
+  lights['3,2'].state = 'green';
+  expect(isJumpBlocked(ent, lights)).toBe(false);
 });
