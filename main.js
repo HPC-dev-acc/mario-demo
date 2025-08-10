@@ -61,6 +61,9 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
   const addCoin = (cx,cy)=>{ level[cy][cx]=3; coins.add(`${cx},${cy}`); };
   addCoin(12,7); addCoin(33,8); addCoin(21,6); addCoin(31,8); addCoin(46,5); addCoin(72,8);
 
+  // Keep a pristine copy of the level layout (coins/bricks) for restarting
+  const initialLevel = level.map(row => row.slice());
+
   // 玩家與相機
   const player = { x: 3*TILE, y: 6*TILE, w:28, h:40, vx:0, vy:0, onGround:false, facing:1 };
   const camera = { x:0, y:0 };
@@ -186,6 +189,15 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
     player.x = 3*TILE; player.y = 6*TILE; player.vx=0; player.vy=0; player.onGround=false;
     camera.x=0; stageCleared=false; if (stageClearEl) stageClearEl.hidden = true;
     score=0; if (scoreEl) scoreEl.textContent = score;
+
+    // Restore level layout and coin positions
+    coins.clear();
+    for(let y=0;y<LEVEL_H;y++){
+      for(let x=0;x<LEVEL_W;x++){
+        level[y][x] = initialLevel[y][x];
+        if (initialLevel[y][x] === 3) coins.add(`${x},${y}`);
+      }
+    }
   }
 
   // 主要迴圈
