@@ -1,6 +1,6 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT } from './src/game/physics.js';
-/* v1.4.0 */
-const VERSION = (window.__APP_VERSION__ || "1.4.0");
+/* v1.4.2 */
+const VERSION = (window.__APP_VERSION__ || "1.4.2");
 
 (() => {
   const canvas = document.getElementById('game');
@@ -41,6 +41,8 @@ const VERSION = (window.__APP_VERSION__ || "1.4.0");
   const MOVE_SPEED = 0.7;
   const MAX_RUN = 5.2;
   const JUMP_VEL = -17.8;
+  const SLIDE_SPEED = 9;
+  const SLIDE_TIME = 200; // ms
 
   // === 關卡 ===
   const LEVEL_W = 100, LEVEL_H = 12;
@@ -86,7 +88,7 @@ const VERSION = (window.__APP_VERSION__ || "1.4.0");
   spawnLights();
 
   // 玩家與相機
-  const player = { x: 3*TILE, y: 6*TILE, w:28, h:40, vx:0, vy:0, onGround:false, facing:1 };
+  const player = { x: 3*TILE, y: 6*TILE, w:28, h:40, vx:0, vy:0, onGround:false, facing:1, sliding:0 };
   const camera = { x:0, y:0 };
 
   // 輸入
@@ -158,7 +160,7 @@ const VERSION = (window.__APP_VERSION__ || "1.4.0");
   }
   function restartStage(){
     // 重設玩家與狀態，但不清除 LOG（依你的需求）
-    player.x = 3*TILE; player.y = 6*TILE; player.vx=0; player.vy=0; player.onGround=false;
+    player.x = 3*TILE; player.y = 6*TILE; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0;
     camera.x=0; stageCleared=false; if (stageClearEl) stageClearEl.hidden = true;
     score=0; if (scoreEl) scoreEl.textContent = score;
 
@@ -186,9 +188,19 @@ const VERSION = (window.__APP_VERSION__ || "1.4.0");
   function update(dt){
     const dtMs = dt*16.6667;
 
-    if (keys.left) player.vx -= MOVE_SPEED*dt;
-    if (keys.right) player.vx += MOVE_SPEED*dt;
-    player.vx = Math.max(Math.min(player.vx, MAX_RUN), -MAX_RUN);
+    if (player.sliding > 0) {
+      player.sliding = Math.max(0, player.sliding - dtMs);
+      player.vx = player.facing * SLIDE_SPEED;
+    } else {
+      if (keys.left) player.vx -= MOVE_SPEED*dt;
+      if (keys.right) player.vx += MOVE_SPEED*dt;
+      player.vx = Math.max(Math.min(player.vx, MAX_RUN), -MAX_RUN);
+      if (keys.action && player.onGround) {
+        player.sliding = SLIDE_TIME;
+        player.vx = player.facing * SLIDE_SPEED;
+        keys.action = false;
+      }
+    }
 
     // 土狼/緩衝
     if (player.onGround) coyoteMs = COYOTE_MAX; else coyoteMs = Math.max(0, coyoteMs - dtMs);
@@ -204,7 +216,7 @@ const VERSION = (window.__APP_VERSION__ || "1.4.0");
     player.vy += GRAVITY * dt;
     if (player.vy>24) player.vy=24;
 
-    if (player.onGround && !keys.left && !keys.right){
+    if (player.onGround && player.sliding <= 0 && !keys.left && !keys.right){
       player.vx *= FRICTION;
       if (Math.abs(player.vx) < .05) player.vx = 0;
     }
