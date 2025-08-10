@@ -32,3 +32,19 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
 
 #doc-title{font-size:18px;margin:22px 0 6px}
 .doc{margin:0;color:#19313a;opacity:.85}
+
+/* Stage clear effect */
+.clear-effect{
+  position:absolute;
+  width:80px;
+  height:80px;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  animation:clear-spin 1.5s ease-out forwards;
+  pointer-events:none;
+}
+@keyframes clear-spin{
+  from{transform:translate(-50%,-50%) scale(.5) rotate(0deg);opacity:1;}
+  to{transform:translate(-50%,-50%) scale(1.5) rotate(720deg);opacity:0;}
+}

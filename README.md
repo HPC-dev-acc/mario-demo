@@ -1,6 +1,6 @@
 # Mario Demo
 
-This project is a simple platformer demo inspired by classic 2D side-scrollers.
+This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect.
 
 ## Testing
 
