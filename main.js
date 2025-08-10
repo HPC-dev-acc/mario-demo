@@ -1,3 +1,4 @@
+import { TILE, resolveCollisions, collectCoins } from './src/game/physics.js';
 /* v1.3.6b */
 const VERSION = (window.__APP_VERSION__ || "1.3.6b");
 
@@ -35,7 +36,6 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
   }
 
   // === 常數 ===
-  const TILE = 48;
   const GRAVITY = 0.88;
   const FRICTION = 0.8;
   const MOVE_SPEED = 0.7;
@@ -121,63 +121,8 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
   };
   let fpsLast=performance.now(), fpsCnt=0, fpsVal=0;
   function updFps(t){ fpsCnt++; if (t-fpsLast>=250){ const now=performance.now(); fpsVal=Math.round(1000*fpsCnt/(now-fpsLast)); fpsLast=now; fpsCnt=0; if(dbg.fpsEl) dbg.fpsEl.textContent = `${fpsVal}`; } }
-  const worldToTile = (px)=>Math.floor(px/TILE);
-  const solidAt = (x,y)=>{ const tx=worldToTile(x), ty=worldToTile(y); if(ty<0||ty>=LEVEL_H||tx<0||tx>=LEVEL_W) return 0; const t=level[ty][tx]; return (t===1||t===2)?t:0; };
-
-  function resolveCollisions(ent){
-    // X
-    ent.x += ent.vx;
-    if (ent.vx<0){
-      const left = ent.x-ent.w/2, top = ent.y-ent.h/2+4, bottom = ent.y+ent.h/2-1;
-      for(let y=top; y<=bottom; y+=TILE/2){ if (solidAt(left,y)){ ent.x = Math.floor(left/TILE)*TILE + TILE + ent.w/2 + .01; ent.vx=0; break; } }
-    } else if (ent.vx>0){
-      const right = ent.x+ent.w/2, top = ent.y-ent.h/2+4, bottom = ent.y+ent.h/2-1;
-      for(let y=top; y<=bottom; y+=TILE/2){ if (solidAt(right,y)){ ent.x = Math.floor(right/TILE)*TILE - ent.w/2 - .01; ent.vx=0; break; } }
-    }
-    // Y
-    ent.y += ent.vy;
-    const wasGround = ent.onGround; ent.onGround=false;
-    if (ent.vy>0){
-      const bottom = ent.y+ent.h/2, left = ent.x-ent.w/2+6, right = ent.x+ent.w/2-6;
-      for(let x=left; x<=right; x+=TILE/2){ if (solidAt(x,bottom)){ ent.y = Math.floor(bottom/TILE)*TILE - ent.h/2 - .01; ent.vy=0; ent.onGround=true; break; } }
-    } else if (ent.vy<0){
-      const top = ent.y-ent.h/2, left = ent.x-ent.w/2+6, right = ent.x+ent.w/2-6;
-      for(let x=left; x<=right; x+=TILE/2){
-        const tx=worldToTile(x), ty=worldToTile(top);
-        if (ty>=0 && level[ty][tx]===2){ level[ty][tx]=0; ent.vy=2; Logger.info('brick_hit',{tx,ty}); }
-        if (solidAt(x,top)){ ent.y = Math.floor(top/TILE)*TILE + TILE + ent.h/2 + .01; ent.vy=0; break; }
-      }
-    }
-    // Keep entity within horizontal level bounds
-    const minX = ent.w/2;
-    const maxX = LEVEL_W*TILE - ent.w/2;
-    if (ent.x < minX){ ent.x = minX; ent.vx = 0; }
-    if (ent.x > maxX){ ent.x = maxX; ent.vx = 0; }
-
-    if (!wasGround && ent.onGround) Logger.debug('ground_enter',{y:ent.y});
-    if (wasGround && !ent.onGround) Logger.debug('ground_leave',{y:ent.y});
-  }
-
   // 分數 & 金幣
   let score=0; const scoreEl = document.getElementById('score');
-  function collectCoins(ent){
-    const cx=worldToTile(ent.x), cy=worldToTile(ent.y);
-    for(let y=cy-1;y<=cy+1;y++){
-      for(let x=cx-1;x<=cx+1;x++){
-        if (y<0||y>=LEVEL_H||x<0||x>=LEVEL_W) continue;
-        if (level[y][x]===3){
-          const rx=x*TILE+TILE/2, ry=y*TILE+TILE/2;
-          if (Math.abs(ent.x-rx)<26 && Math.abs(ent.y-ry)<26){
-            level[y][x]=0; coins.delete(`${x},${y}`);
-            score+=10; if (scoreEl) scoreEl.textContent=score;
-            ent.vy = Math.min(ent.vy, -3);
-            Logger.info('coin_collect',{x,y,score});
-          }
-        }
-      }
-    }
-  }
-
   // 完關
   let stageCleared = false;
   const stageClearEl = document.getElementById('stage-clear');
@@ -244,8 +189,12 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
 
     if (player.vx !== 0) player.facing = player.vx>0 ? 1 : -1;
 
-    resolveCollisions(player);
-    collectCoins(player);
+    resolveCollisions(player, level);
+    const gained = collectCoins(player, level, coins);
+    if (gained) {
+      score += gained;
+      if (scoreEl) scoreEl.textContent = score;
+    }
     maybeClear();
 
     // 相機（限制左界，避免掉出畫外；右側保留 0~關卡寬）
