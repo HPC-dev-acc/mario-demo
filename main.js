@@ -4,6 +4,9 @@ import { loadSounds, play } from './src/audio.js';
 /* v1.4.8 */
 const VERSION = (window.__APP_VERSION__ || "1.4.8");
 
+let lastImpactAt = 0;
+const IMPACT_COOLDOWN_MS = 120;
+
 (() => {
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
@@ -299,7 +302,13 @@ const VERSION = (window.__APP_VERSION__ || "1.4.8");
     const collisionEvents = {};
     resolveCollisions(player, level, lights, collisionEvents);
     const gained = collectCoins(player, level, coins);
-    if (collisionEvents.impact) play('impact');
+    if (collisionEvents.impact) {
+      const now = performance.now();
+      if (now - lastImpactAt >= IMPACT_COOLDOWN_MS) {
+        play('impact');
+        lastImpactAt = now;
+      }
+    }
     if (gained) {
       score += gained;
       if (scoreEl) scoreEl.textContent = score;
