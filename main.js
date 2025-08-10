@@ -1,10 +1,11 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT } from './src/game/physics.js';
-/* v1.4.3 */
-const VERSION = (window.__APP_VERSION__ || "1.4.3");
+/* v1.4.4 */
+const VERSION = (window.__APP_VERSION__ || "1.4.4");
 
 (() => {
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
+  const gameWrap = document.getElementById('game-wrap');
 
   // Logger（記憶體緩衝，不自動清除）
   const Logger = (() => {
@@ -158,6 +159,18 @@ const VERSION = (window.__APP_VERSION__ || "1.4.3");
     stageClearEl.appendChild(fx);
     setTimeout(()=>fx.remove(),1500);
   }
+  function triggerSlideEffect(x, y, facing){
+    if (!gameWrap) return;
+    const fx = document.createElement('img');
+    fx.src = 'assets/slide-dust.svg';
+    fx.alt = '';
+    fx.className = 'slide-effect';
+    fx.style.left = `${x}px`;
+    fx.style.top = `${y}px`;
+    fx.style.setProperty('--sx', facing);
+    gameWrap.appendChild(fx);
+    setTimeout(()=>fx.remove(),500);
+  }
   const btnRestart = document.getElementById('btn-restart');
   if (btnRestart) btnRestart.addEventListener('click', ()=> restartStage());
   function maybeClear(){
@@ -210,6 +223,7 @@ const VERSION = (window.__APP_VERSION__ || "1.4.3");
       if (keys.action && player.onGround) {
         player.sliding = SLIDE_TIME;
         player.vx = player.facing * SLIDE_SPEED;
+        triggerSlideEffect(player.x - camera.x, player.y - camera.y + player.h/2, player.facing);
         keys.action = false;
       }
     }
