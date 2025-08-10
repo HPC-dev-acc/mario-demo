@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>像素跑跳示範（類瑪莉風格）</title>
-    <link rel="stylesheet" href="style.css?v=1.4.4" />
+    <link rel="stylesheet" href="style.css?v=1.4.5" />
 </head>
 <body>
   <main id="layout">
@@ -13,6 +13,7 @@
       <div id="hud-top-center" aria-live="polite">
         <div class="pill">分數 <span id="score">0</span></div>
         <div class="pill">關卡 1-1</div>
+        <div class="pill">時間 <span id="timer">60</span></div>
       </div>
 
       <div id="game-wrap">
@@ -34,7 +35,7 @@
 
       <!-- 右上：版本膠囊 + LOG 控制 -->
       <div id="top-right">
-            <div id="version-pill" class="pill" title="Semantic Versioning">v1.4.4</div>
+            <div id="version-pill" class="pill" title="Semantic Versioning">v1.4.5</div>
         <div id="log-controls" class="pill">
           <strong>LOG</strong>
           <button id="log-copy" class="mini">Copy</button>
@@ -57,6 +58,11 @@
         <div class="title">STAGE CLEAR!</div>
         <button id="btn-restart" class="primary">重新開始</button>
       </div>
+      <!-- 失敗畫面（預設隱藏） -->
+      <div id="stage-fail" aria-live="assertive" hidden>
+        <div class="title">TIME UP!</div>
+        <button id="btn-restart-fail" class="primary">重新開始</button>
+      </div>
     </section>
 
     <!-- 說明 -->
@@ -69,8 +75,8 @@
   </main>
 
   <script>
-      window.__APP_VERSION__ = "1.4.4";
+      window.__APP_VERSION__ = "1.4.5";
     </script>
-    <script type="module" src="main.js?v=1.4.4"></script>
+    <script type="module" src="main.js?v=1.4.5"></script>
   </body>
   </html>
