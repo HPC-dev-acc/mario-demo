@@ -62,6 +62,7 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
   const wasGround = ent.onGround;
   ent.onGround = false;
   if (ent.vy > 0) {
+    const vyPrev = ent.vy;
     const bottom = ent.y + ent.h / 2;
     const left = ent.x - ent.w / 2 + 6;
     const right = ent.x + ent.w / 2 - 6;
@@ -70,7 +71,7 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
         ent.y = Math.floor(bottom / TILE) * TILE - ent.h / 2 - 0.01;
         ent.vy = 0;
         ent.onGround = true;
-        events.impact = true;
+        if (!wasGround && vyPrev > 0.5) events.impact = true;
         break;
       }
     }
