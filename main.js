@@ -1,8 +1,8 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked } from './src/game/physics.js';
 import { advanceLight } from './src/game/trafficLight.js';
-import { loadSounds, play } from './src/audio.js';
-/* v1.4.8 */
-const VERSION = (window.__APP_VERSION__ || "1.4.8");
+import { loadSounds, play, playMusic, toggleMusic } from './src/audio.js';
+/* v1.4.9 */
+const VERSION = (window.__APP_VERSION__ || "1.4.9");
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
@@ -31,6 +31,14 @@ const IMPACT_COOLDOWN_MS = 120;
   document.getElementById('log-copy').addEventListener('click', ()=>Logger.copy());
   document.getElementById('log-clear').addEventListener('click', ()=>Logger.clear());
   Logger.info('app_start', { version: VERSION });
+
+  const bgmToggle = document.getElementById('bgm-toggle');
+  if (bgmToggle) {
+    bgmToggle.addEventListener('click', () => {
+      const on = toggleMusic();
+      bgmToggle.textContent = on ? 'Mute' : 'Unmute';
+    });
+  }
 
   // 讓 canvas 聚焦（鍵盤可用）
   canvas.setAttribute('tabindex', '0');
@@ -407,6 +415,7 @@ const IMPACT_COOLDOWN_MS = 120;
 
   // 啟動
   loadSounds().then(() => {
+    playMusic();
     requestAnimationFrame(loop);
   });
 })();

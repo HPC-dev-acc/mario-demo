@@ -13,6 +13,8 @@ Sound effects in `assets/sounds` are sourced from [Kenney](https://kenney.nl/ass
 - `coin.wav` – played when collecting a coin.
 - `fail.wav` – played when the timer expires and the stage is failed.
 
+Background music (`assets/music/background.wav`) plays in a loop when the game starts. Use the **BGM** control in the top-right corner of the screen to mute or unmute it.
+
 ## Testing
 
 Install dependencies and run the test suite:
