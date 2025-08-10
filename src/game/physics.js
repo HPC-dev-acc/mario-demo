@@ -28,7 +28,7 @@ export function isJumpBlocked(ent, lights = {}) {
   return false;
 }
 
-export function resolveCollisions(ent, level, lights = {}) {
+export function resolveCollisions(ent, level, lights = {}, events = {}) {
   // Horizontal movement
   ent.x += ent.vx;
   if (ent.vx < 0) {
@@ -39,6 +39,7 @@ export function resolveCollisions(ent, level, lights = {}) {
       if (solidAt(level, left, y, lights)) {
         ent.x = Math.floor(left / TILE) * TILE + TILE + ent.w / 2 + 0.01;
         ent.vx = 0;
+        events.impact = true;
         break;
       }
     }
@@ -50,6 +51,7 @@ export function resolveCollisions(ent, level, lights = {}) {
       if (solidAt(level, right, y, lights)) {
         ent.x = Math.floor(right / TILE) * TILE - ent.w / 2 - 0.01;
         ent.vx = 0;
+        events.impact = true;
         break;
       }
     }
@@ -68,6 +70,7 @@ export function resolveCollisions(ent, level, lights = {}) {
         ent.y = Math.floor(bottom / TILE) * TILE - ent.h / 2 - 0.01;
         ent.vy = 0;
         ent.onGround = true;
+        events.impact = true;
         break;
       }
     }
@@ -81,10 +84,12 @@ export function resolveCollisions(ent, level, lights = {}) {
       if (ty >= 0 && level[ty][tx] === 2) {
         level[ty][tx] = 0;
         ent.vy = 2;
+        events.impact = true;
       }
       if (solidAt(level, x, top, lights)) {
         ent.y = Math.floor(top / TILE) * TILE + TILE + ent.h / 2 + 0.01;
         ent.vy = 0;
+        events.impact = true;
         break;
       }
     }
@@ -96,10 +101,12 @@ export function resolveCollisions(ent, level, lights = {}) {
   if (ent.x < minX) {
     ent.x = minX;
     ent.vx = 0;
+    events.impact = true;
   }
   if (ent.x > maxX) {
     ent.x = maxX;
     ent.vx = 0;
+    events.impact = true;
   }
 
   if (!wasGround && ent.onGround) {
