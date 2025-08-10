@@ -1,4 +1,9 @@
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const masterGain = audioCtx.createGain();
+masterGain.gain.value = 0.5;
+const masterCompressor = audioCtx.createDynamicsCompressor();
+masterCompressor.connect(masterGain);
+masterGain.connect(audioCtx.destination);
 const buffers = {};
 
 const files = {
@@ -33,6 +38,6 @@ export function play(name) {
   const end = start + buffer.duration;
   gain.gain.setValueAtTime(volume, end - 0.05); // 50 ms
   gain.gain.linearRampToValueAtTime(0, end);
-  source.connect(gain).connect(audioCtx.destination);
+  source.connect(gain).connect(masterCompressor);
   source.start(start);
 }
