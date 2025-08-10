@@ -48,3 +48,16 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
   from{transform:translate(-50%,-50%) scale(.5) rotate(0deg);opacity:1;}
   to{transform:translate(-50%,-50%) scale(1.5) rotate(720deg);opacity:0;}
 }
+
+/* Slide effect */
+.slide-effect{
+  position:absolute;
+  width:48px;
+  height:24px;
+  pointer-events:none;
+  animation:slide-pop .5s ease-out forwards;
+}
+@keyframes slide-pop{
+  from{opacity:.8;transform:translate(-50%,-50%) scaleX(var(--sx,1)) scale(1);}
+  to{opacity:0;transform:translate(-50%,-50%) scaleX(var(--sx,1)) scale(.5);}
+}
