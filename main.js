@@ -1,6 +1,6 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT } from './src/game/physics.js';
-/* v1.4.4 */
-const VERSION = (window.__APP_VERSION__ || "1.4.4");
+/* v1.4.5 */
+const VERSION = (window.__APP_VERSION__ || "1.4.5");
 
 (() => {
   const canvas = document.getElementById('game');
@@ -147,9 +147,14 @@ const VERSION = (window.__APP_VERSION__ || "1.4.4");
   function updFps(t){ fpsCnt++; if (t-fpsLast>=250){ const now=performance.now(); fpsVal=Math.round(1000*fpsCnt/(now-fpsLast)); fpsLast=now; fpsCnt=0; if(dbg.fpsEl) dbg.fpsEl.textContent = `${fpsVal}`; } }
   // 分數 & 金幣
   let score=0; const scoreEl = document.getElementById('score');
-  // 完關
+  // 計時器
+  let timeLeftMs = 60000;
+  const timerEl = document.getElementById('timer');
+  // 完關 / 失敗
   let stageCleared = false;
+  let stageFailed = false;
   const stageClearEl = document.getElementById('stage-clear');
+  const stageFailEl = document.getElementById('stage-fail');
   function triggerClearEffect(){
     if (!stageClearEl) return;
     const fx = document.createElement('img');
@@ -171,10 +176,19 @@ const VERSION = (window.__APP_VERSION__ || "1.4.4");
     gameWrap.appendChild(fx);
     setTimeout(()=>fx.remove(),500);
   }
+  function triggerFailEffect(){
+    if (!gameWrap) return;
+    const fx = document.createElement('div');
+    fx.className = 'fail-effect';
+    gameWrap.appendChild(fx);
+    setTimeout(()=>fx.remove(),1000);
+  }
   const btnRestart = document.getElementById('btn-restart');
   if (btnRestart) btnRestart.addEventListener('click', ()=> restartStage());
+  const btnRestartFail = document.getElementById('btn-restart-fail');
+  if (btnRestartFail) btnRestartFail.addEventListener('click', ()=> restartStage());
   function maybeClear(){
-    if (!stageCleared && player.x >= GOAL_X){
+    if (!stageCleared && !stageFailed && player.x >= GOAL_X){
       stageCleared = true;
       if (stageClearEl) {
         stageClearEl.hidden = false;
@@ -186,8 +200,11 @@ const VERSION = (window.__APP_VERSION__ || "1.4.4");
   function restartStage(){
     // 重設玩家與狀態，但不清除 LOG（依你的需求）
     player.x = 3*TILE; player.y = 6*TILE; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0;
-    camera.x=0; stageCleared=false; if (stageClearEl) stageClearEl.hidden = true;
+    camera.x=0; stageCleared=false; stageFailed=false;
+    if (stageClearEl) stageClearEl.hidden = true;
+    if (stageFailEl) stageFailEl.hidden = true;
     score=0; if (scoreEl) scoreEl.textContent = score;
+    timeLeftMs = 60000; if (timerEl) timerEl.textContent = 60;
 
     // Restore level layout and coin positions
     coins.clear();
@@ -212,6 +229,18 @@ const VERSION = (window.__APP_VERSION__ || "1.4.4");
 
   function update(dt){
     const dtMs = dt*16.6667;
+    if (!stageCleared && !stageFailed) {
+      timeLeftMs = Math.max(0, timeLeftMs - dtMs);
+      if (timerEl) timerEl.textContent = Math.ceil(timeLeftMs / 1000);
+      if (timeLeftMs <= 0) {
+        stageFailed = true;
+        if (stageFailEl) {
+          stageFailEl.hidden = false;
+          triggerFailEffect();
+        }
+        Logger.info('stage_fail', {score});
+      }
+    }
 
     if (player.sliding > 0) {
       player.sliding = Math.max(0, player.sliding - dtMs);

@@ -30,6 +30,11 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
 #stage-clear .title{font-size:44px;color:white;text-shadow:0 6px 18px rgba(0,0,0,.35);margin-bottom:14px;font-weight:900;letter-spacing:1px}
 #stage-clear .primary{appearance:none;border:0;border-radius:999px;padding:10px 22px;background:var(--accent);color:#fff;font-weight:800;box-shadow:0 10px 20px rgba(42,124,255,.35)}
 
+#stage-fail{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.25);z-index:8}
+#stage-fail[hidden]{display:none}
+#stage-fail .title{font-size:44px;color:white;text-shadow:0 6px 18px rgba(0,0,0,.35);margin-bottom:14px;font-weight:900;letter-spacing:1px}
+#stage-fail .primary{appearance:none;border:0;border-radius:999px;padding:10px 22px;background:#e74c3c;color:#fff;font-weight:800;box-shadow:0 10px 20px rgba(231,76,60,.35)}
+
 #doc-title{font-size:18px;margin:22px 0 6px}
 .doc{margin:0;color:#19313a;opacity:.85}
 
@@ -47,6 +52,18 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
 @keyframes clear-spin{
   from{transform:translate(-50%,-50%) scale(.5) rotate(0deg);opacity:1;}
   to{transform:translate(-50%,-50%) scale(1.5) rotate(720deg);opacity:0;}
+}
+
+.fail-effect{
+  position:absolute;
+  inset:0;
+  background:rgba(255,0,0,.4);
+  animation:fail-flash 1s ease-out forwards;
+  pointer-events:none;
+}
+@keyframes fail-flash{
+  from{opacity:1;}
+  to{opacity:0;}
 }
 
 /* Slide effect */
