@@ -1,6 +1,6 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT } from './src/game/physics.js';
-/* v1.4.2 */
-const VERSION = (window.__APP_VERSION__ || "1.4.2");
+/* v1.4.3 */
+const VERSION = (window.__APP_VERSION__ || "1.4.3");
 
 (() => {
   const canvas = document.getElementById('game');
@@ -149,12 +149,24 @@ const VERSION = (window.__APP_VERSION__ || "1.4.2");
   // 完關
   let stageCleared = false;
   const stageClearEl = document.getElementById('stage-clear');
+  function triggerClearEffect(){
+    if (!stageClearEl) return;
+    const fx = document.createElement('img');
+    fx.src = 'assets/clear-star.svg';
+    fx.alt = '';
+    fx.className = 'clear-effect';
+    stageClearEl.appendChild(fx);
+    setTimeout(()=>fx.remove(),1500);
+  }
   const btnRestart = document.getElementById('btn-restart');
   if (btnRestart) btnRestart.addEventListener('click', ()=> restartStage());
   function maybeClear(){
     if (!stageCleared && player.x >= GOAL_X){
       stageCleared = true;
-      if (stageClearEl) stageClearEl.hidden = false;
+      if (stageClearEl) {
+        stageClearEl.hidden = false;
+        triggerClearEffect();
+      }
       Logger.info('stage_clear', {score});
     }
   }
