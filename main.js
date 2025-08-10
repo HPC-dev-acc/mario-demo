@@ -1,6 +1,6 @@
-import { TILE, resolveCollisions, collectCoins } from './src/game/physics.js';
-/* v1.3.6b */
-const VERSION = (window.__APP_VERSION__ || "1.3.6b");
+import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT } from './src/game/physics.js';
+/* v1.4.0 */
+const VERSION = (window.__APP_VERSION__ || "1.4.0");
 
 (() => {
   const canvas = document.getElementById('game');
@@ -63,6 +63,27 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
 
   // Keep a pristine copy of the level layout (coins/bricks) for restarting
   const initialLevel = level.map(row => row.slice());
+
+  // 交通號誌
+  let lights = {};
+  function spawnLights(){
+    // remove old lights
+    for(const k in lights){
+      const [lx,ly] = k.split(',').map(Number);
+      if(level[ly][lx] === TRAFFIC_LIGHT) level[ly][lx] = 0;
+    }
+    lights = {};
+    let placed = 0;
+    while(placed < 3){
+      const x = Math.floor(Math.random()*LEVEL_W);
+      if(level[9][x] === 0 && level[10][x] === 1){
+        level[9][x] = TRAFFIC_LIGHT;
+        lights[`${x},9`] = { state: Math.random()<0.5? 'green':'red', timer:0 };
+        placed++;
+      }
+    }
+  }
+  spawnLights();
 
   // 玩家與相機
   const player = { x: 3*TILE, y: 6*TILE, w:28, h:40, vx:0, vy:0, onGround:false, facing:1 };
@@ -149,6 +170,7 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
         if (initialLevel[y][x] === 3) coins.add(`${x},${y}`);
       }
     }
+    spawnLights();
   }
 
   // 主要迴圈
@@ -189,7 +211,17 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
 
     if (player.vx !== 0) player.facing = player.vx>0 ? 1 : -1;
 
-    resolveCollisions(player, level);
+    // update traffic lights
+    for(const key in lights){
+      const l = lights[key];
+      l.timer += dtMs;
+      if(l.timer >= 1000){
+        l.timer = 0;
+        l.state = l.state === 'red' ? 'green' : 'red';
+      }
+    }
+
+    resolveCollisions(player, level, lights);
     const gained = collectCoins(player, level, coins);
     if (gained) {
       score += gained;
@@ -230,6 +262,7 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
         if (t===1) drawGround(px,py);
         if (t===2) drawBrick(px,py);
         if (t===3) drawCoin(px+TILE/2, py+TILE/2);
+        if (t===TRAFFIC_LIGHT) drawTrafficLight(px,py, lights[`${x},${y}`]?.state);
       }
     }
     // 左界牆（避免落出左邊）
@@ -263,6 +296,12 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
     ctx.scale(scaleX,1);
     ctx.beginPath(); ctx.fillStyle='#ffd400'; ctx.arc(0,0,12,0,Math.PI*2); ctx.fill();
     ctx.fillStyle='#ffea80'; ctx.fillRect(-3,-6,6,12); ctx.restore();
+  }
+  function drawTrafficLight(x,y,state){
+    ctx.fillStyle='#555';
+    ctx.fillRect(x+20,y+TILE-24,8,24); // pole
+    ctx.fillStyle= state==='red' ? '#e22' : '#2ecc40';
+    ctx.beginPath(); ctx.arc(x+24,y+12,8,0,Math.PI*2); ctx.fill();
   }
   function drawCloud(x,y){
     ctx.fillStyle='rgba(255,255,255,.9)';

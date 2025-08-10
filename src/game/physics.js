@@ -1,17 +1,22 @@
 export const TILE = 48;
+export const TRAFFIC_LIGHT = 4;
 
 export const worldToTile = (px) => Math.floor(px / TILE);
 
-export function solidAt(level, x, y) {
+export function solidAt(level, x, y, lights = {}) {
   const tx = worldToTile(x);
   const ty = worldToTile(y);
   if (ty < 0 || ty >= level.length) return 0;
   if (tx < 0 || tx >= level[0].length) return 0;
   const t = level[ty][tx];
+  if (t === TRAFFIC_LIGHT) {
+    const state = lights[`${tx},${ty}`]?.state;
+    return state === 'red' ? TRAFFIC_LIGHT : 0;
+  }
   return t === 1 || t === 2 ? t : 0;
 }
 
-export function resolveCollisions(ent, level) {
+export function resolveCollisions(ent, level, lights = {}) {
   // Horizontal movement
   ent.x += ent.vx;
   if (ent.vx < 0) {
@@ -19,7 +24,7 @@ export function resolveCollisions(ent, level) {
     const top = ent.y - ent.h / 2 + 4;
     const bottom = ent.y + ent.h / 2 - 1;
     for (let y = top; y <= bottom; y += TILE / 2) {
-      if (solidAt(level, left, y)) {
+      if (solidAt(level, left, y, lights)) {
         ent.x = Math.floor(left / TILE) * TILE + TILE + ent.w / 2 + 0.01;
         ent.vx = 0;
         break;
@@ -30,7 +35,7 @@ export function resolveCollisions(ent, level) {
     const top = ent.y - ent.h / 2 + 4;
     const bottom = ent.y + ent.h / 2 - 1;
     for (let y = top; y <= bottom; y += TILE / 2) {
-      if (solidAt(level, right, y)) {
+      if (solidAt(level, right, y, lights)) {
         ent.x = Math.floor(right / TILE) * TILE - ent.w / 2 - 0.01;
         ent.vx = 0;
         break;
@@ -47,7 +52,7 @@ export function resolveCollisions(ent, level) {
     const left = ent.x - ent.w / 2 + 6;
     const right = ent.x + ent.w / 2 - 6;
     for (let x = left; x <= right; x += TILE / 2) {
-      if (solidAt(level, x, bottom)) {
+      if (solidAt(level, x, bottom, lights)) {
         ent.y = Math.floor(bottom / TILE) * TILE - ent.h / 2 - 0.01;
         ent.vy = 0;
         ent.onGround = true;
@@ -65,7 +70,7 @@ export function resolveCollisions(ent, level) {
         level[ty][tx] = 0;
         ent.vy = 2;
       }
-      if (solidAt(level, x, top)) {
+      if (solidAt(level, x, top, lights)) {
         ent.y = Math.floor(top / TILE) * TILE + TILE + ent.h / 2 + 0.01;
         ent.vy = 0;
         break;

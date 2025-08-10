@@ -1,4 +1,4 @@
-import { resolveCollisions, collectCoins, TILE } from './physics.js';
+import { resolveCollisions, collectCoins, TILE, TRAFFIC_LIGHT } from './physics.js';
 
 function makeLevel(w, h) {
   return Array.from({ length: h }, () => Array(w).fill(0));
@@ -11,6 +11,22 @@ test('entity does not pass through a wall', () => {
   resolveCollisions(ent, level);
   expect(ent.vx).toBe(0);
   expect(ent.x).toBeLessThan(TILE * 3 - ent.w / 2);
+});
+
+test('traffic lights block only when red', () => {
+  const level = makeLevel(5, 5);
+  level[2][3] = TRAFFIC_LIGHT;
+  const lights = { '3,2': { state: 'red' } };
+  const ent = { x: TILE * 2, y: TILE * 2, w: 28, h: 40, vx: 60, vy: 0, onGround: false };
+  resolveCollisions(ent, level, lights);
+  expect(ent.vx).toBe(0);
+
+  // try again with green light
+  ent.x = TILE * 2;
+  ent.vx = 60;
+  lights['3,2'].state = 'green';
+  resolveCollisions(ent, level, lights);
+  expect(ent.vx).not.toBe(0);
 });
 
 test('collecting a coin adds score and removes coin', () => {
