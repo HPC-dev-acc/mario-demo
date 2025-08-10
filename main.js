@@ -1,5 +1,6 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked } from './src/game/physics.js';
 import { advanceLight } from './src/game/trafficLight.js';
+import { loadSounds, play } from './src/audio.js';
 /* v1.4.8 */
 const VERSION = (window.__APP_VERSION__ || "1.4.8");
 
@@ -8,21 +9,6 @@ const VERSION = (window.__APP_VERSION__ || "1.4.8");
   const ctx = canvas.getContext('2d');
   const gameWrap = document.getElementById('game-wrap');
 
-  const sounds = {
-    jump: new Audio('assets/sounds/jump.wav'),
-    impact: new Audio('assets/sounds/impact.wav'),
-    slide: new Audio('assets/sounds/slide.wav'),
-    clear: new Audio('assets/sounds/clear.wav'),
-    coin: new Audio('assets/sounds/coin.wav'),
-    fail: new Audio('assets/sounds/fail.wav'),
-  };
-  function playSound(name) {
-    const s = sounds[name];
-    if (s) {
-      s.currentTime = 0;
-      s.play();
-    }
-  }
 
   // Logger（記憶體緩衝，不自動清除）
   const Logger = (() => {
@@ -212,7 +198,7 @@ const VERSION = (window.__APP_VERSION__ || "1.4.8");
         stageClearEl.hidden = false;
         triggerClearEffect();
       }
-      playSound('clear');
+      play('clear');
       Logger.info('stage_clear', {score});
     }
   }
@@ -257,7 +243,7 @@ const VERSION = (window.__APP_VERSION__ || "1.4.8");
           stageFailEl.hidden = false;
           triggerFailEffect();
         }
-        playSound('fail');
+        play('fail');
         Logger.info('stage_fail', {score});
       }
     }
@@ -273,7 +259,7 @@ const VERSION = (window.__APP_VERSION__ || "1.4.8");
         player.sliding = SLIDE_TIME;
         player.vx = player.facing * SLIDE_SPEED;
         triggerSlideEffect(player.x - camera.x, player.y - camera.y + player.h/2, player.facing);
-        playSound('slide');
+        play('slide');
         keys.action = false;
       }
     }
@@ -286,7 +272,7 @@ const VERSION = (window.__APP_VERSION__ || "1.4.8");
       if (!isJumpBlocked(player, lights)) {
         player.vy = JUMP_VEL;
         player.onGround = false; jumpBufferMs=0; coyoteMs=0;
-        playSound('jump');
+        play('jump');
         dbgFired++; Logger.info('jump_fired', {vy:player.vy});
       } else {
         jumpBufferMs = 0;
@@ -313,11 +299,11 @@ const VERSION = (window.__APP_VERSION__ || "1.4.8");
     const collisionEvents = {};
     resolveCollisions(player, level, lights, collisionEvents);
     const gained = collectCoins(player, level, coins);
-    if (collisionEvents.impact) playSound('impact');
+    if (collisionEvents.impact) play('impact');
     if (gained) {
       score += gained;
       if (scoreEl) scoreEl.textContent = score;
-      playSound('coin');
+      play('coin');
     }
     maybeClear();
 
@@ -411,5 +397,7 @@ const VERSION = (window.__APP_VERSION__ || "1.4.8");
   }
 
   // 啟動
-  requestAnimationFrame(loop);
+  loadSounds().then(() => {
+    requestAnimationFrame(loop);
+  });
 })();
