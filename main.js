@@ -1,7 +1,7 @@
-import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT } from './src/game/physics.js';
+import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked } from './src/game/physics.js';
 import { advanceLight } from './src/game/trafficLight.js';
-/* v1.4.6 */
-const VERSION = (window.__APP_VERSION__ || "1.4.6");
+/* v1.4.7 */
+const VERSION = (window.__APP_VERSION__ || "1.4.7");
 
 (() => {
   const canvas = document.getElementById('game');
@@ -264,9 +264,14 @@ const VERSION = (window.__APP_VERSION__ || "1.4.6");
     jumpBufferMs = Math.max(0, jumpBufferMs - dtMs);
 
     if (jumpBufferMs>0 && (player.onGround || coyoteMs>0)){
-      player.vy = JUMP_VEL;
-      player.onGround = false; jumpBufferMs=0; coyoteMs=0;
-      dbgFired++; Logger.info('jump_fired', {vy:player.vy});
+      if (!isJumpBlocked(player, lights)) {
+        player.vy = JUMP_VEL;
+        player.onGround = false; jumpBufferMs=0; coyoteMs=0;
+        dbgFired++; Logger.info('jump_fired', {vy:player.vy});
+      } else {
+        jumpBufferMs = 0;
+        Logger.info('jump_blocked', { reason: 'red_light' });
+      }
     }
 
     // ★ 正確重力：不要再 *60

@@ -16,6 +16,18 @@ export function solidAt(level, x, y, lights = {}) {
   return t === 1 || t === 2 ? t : 0;
 }
 
+export function isJumpBlocked(ent, lights = {}) {
+  const tx = worldToTile(ent.x);
+  const ty = worldToTile(ent.y);
+  for (const key in lights) {
+    const [lx, ly] = key.split(',').map(Number);
+    if (lights[key].state === 'red' && Math.abs(lx - tx) <= 1 && Math.abs(ly - ty) <= 1) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function resolveCollisions(ent, level, lights = {}) {
   // Horizontal movement
   ent.x += ent.vx;
