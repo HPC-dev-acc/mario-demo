@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>像素跑跳示範（類瑪莉風格）</title>
-    <link rel="stylesheet" href="style.css?v=1.4.8" />
+    <link rel="stylesheet" href="style.css?v=1.4.9" />
 </head>
 <body>
   <main id="layout">
@@ -35,11 +35,15 @@
 
       <!-- 右上：版本膠囊 + LOG 控制 -->
       <div id="top-right">
-            <div id="version-pill" class="pill" title="Semantic Versioning">v1.4.8</div>
+            <div id="version-pill" class="pill" title="Semantic Versioning">v1.4.9</div>
         <div id="log-controls" class="pill">
           <strong>LOG</strong>
           <button id="log-copy" class="mini">Copy</button>
           <button id="log-clear" class="mini">Clear</button>
+        </div>
+        <div id="audio-controls" class="pill">
+          <strong>BGM</strong>
+          <button id="bgm-toggle" class="mini">Mute</button>
         </div>
       </div>
 
@@ -70,13 +74,14 @@
     <p class="doc">
       電腦：方向鍵左右移動，Z 跳躍，X 動作。<br/>
       手機 / 平板：直接點選畫面上的虛擬按鈕。<br/>
-      此為教學用開源範例，無使用任何任天堂素材。
+      此為教學用開源範例，無使用任何任天堂素材。<br/>
+      右上角可開關背景音樂。
     </p>
   </main>
 
   <script>
-      window.__APP_VERSION__ = "1.4.8";
+      window.__APP_VERSION__ = "1.4.9";
     </script>
-    <script type="module" src="main.js?v=1.4.8"></script>
+    <script type="module" src="main.js?v=1.4.9"></script>
   </body>
   </html>
