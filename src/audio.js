@@ -26,12 +26,13 @@ export function play(name) {
   source.buffer = buffer;
   const gain = audioCtx.createGain();
   const volume = 0.8;
-  const now = audioCtx.currentTime;
-  const end = now + buffer.duration;
-  gain.gain.setValueAtTime(0, now);
-  gain.gain.linearRampToValueAtTime(volume, now + 0.01); // 10 ms
+  const start = audioCtx.currentTime + 0.005;
+  gain.gain.value = 0;
+  gain.gain.setValueAtTime(0, start);
+  gain.gain.linearRampToValueAtTime(volume, start + 0.01); // 10 ms
+  const end = start + buffer.duration;
   gain.gain.setValueAtTime(volume, end - 0.05); // 50 ms
   gain.gain.linearRampToValueAtTime(0, end);
   source.connect(gain).connect(audioCtx.destination);
-  source.start(0);
+  source.start(start);
 }
