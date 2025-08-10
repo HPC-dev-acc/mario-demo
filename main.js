@@ -1,6 +1,6 @@
 import { TILE, resolveCollisions, collectCoins } from './src/game/physics.js';
-/* v1.3.6b */
-const VERSION = (window.__APP_VERSION__ || "1.3.6b");
+/* v1.4.1 */
+const VERSION = (window.__APP_VERSION__ || "1.4.1");
 
 (() => {
   const canvas = document.getElementById('game');
@@ -41,6 +41,8 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
   const MOVE_SPEED = 0.7;
   const MAX_RUN = 5.2;
   const JUMP_VEL = -17.8;
+  const DASH_SPEED = 8.5;
+  const DASH_TIME = 180; // ms
 
   // === 關卡 ===
   const LEVEL_W = 100, LEVEL_H = 12;
@@ -65,7 +67,7 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
   const initialLevel = level.map(row => row.slice());
 
   // 玩家與相機
-  const player = { x: 3*TILE, y: 6*TILE, w:28, h:40, vx:0, vy:0, onGround:false, facing:1 };
+  const player = { x: 3*TILE, y: 6*TILE, w:28, h:40, vx:0, vy:0, onGround:false, facing:1, sliding:false };
   const camera = { x:0, y:0 };
 
   // 輸入
@@ -75,7 +77,7 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
     if (c==='ArrowLeft'){ e.preventDefault(); keys.left=true; }
     if (c==='ArrowRight'){ e.preventDefault(); keys.right=true; }
     if (c==='KeyZ' || c==='Space'){ e.preventDefault(); pressJump('kb'); }
-    if (c==='KeyX'){ e.preventDefault(); keys.action=true; }
+    if (c==='KeyX'){ e.preventDefault(); keys.action=true; startDash(); }
   }, {passive:false});
   window.addEventListener('keyup', (e)=>{
     const c = e.code || e.key;
@@ -88,7 +90,7 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
   // 觸控
   const bindHold = (id, prop) => {
     const el = document.getElementById(id); if (!el) return;
-    const on = () => { keys[prop]=true; el.classList.add('hold'); if (prop==='jump') pressJump('touch'); };
+    const on = () => { keys[prop]=true; el.classList.add('hold'); if (prop==='jump') pressJump('touch'); if (prop==='action') startDash(); };
     const off = () => { if (prop==='jump') releaseJump(); keys[prop]=false; el.classList.remove('hold'); };
     const start = e=>{ e.preventDefault(); on(); }, end = e=>{ e.preventDefault(); off(); };
     el.addEventListener('pointerdown', start, {passive:false});
@@ -101,11 +103,20 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
   bindHold('left','left'); bindHold('right','right'); bindHold('jump','jump'); bindHold('action','action');
 
   // 跳躍緩衝 & 土狼時間
-  let jumpBufferMs=0, coyoteMs=0;
+  let jumpBufferMs=0, coyoteMs=0, dashMs=0;
   const JUMP_BUFFER_MAX=120, COYOTE_MAX=100;
   let dbgPress=0, dbgFired=0;
   function pressJump(src){ jumpBufferMs=JUMP_BUFFER_MAX; keys.jump=true; dbgPress++; Logger.debug('jump_press',{src}); }
   function releaseJump(){ keys.jump=false; }
+  function startDash(){
+    if (player.onGround && dashMs<=0){
+      if (keys.left) player.facing = -1;
+      if (keys.right) player.facing = 1;
+      dashMs = DASH_TIME;
+      player.sliding = true;
+      player.vx = DASH_SPEED * player.facing;
+    }
+  }
 
   // 工具
   const dbg = {
@@ -164,9 +175,15 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
   function update(dt){
     const dtMs = dt*16.6667;
 
-    if (keys.left) player.vx -= MOVE_SPEED*dt;
-    if (keys.right) player.vx += MOVE_SPEED*dt;
-    player.vx = Math.max(Math.min(player.vx, MAX_RUN), -MAX_RUN);
+    if (dashMs>0){
+      dashMs -= dtMs;
+      player.vx = DASH_SPEED * player.facing;
+      if (dashMs<=0) player.sliding=false;
+    } else {
+      if (keys.left) player.vx -= MOVE_SPEED*dt;
+      if (keys.right) player.vx += MOVE_SPEED*dt;
+      player.vx = Math.max(Math.min(player.vx, MAX_RUN), -MAX_RUN);
+    }
 
     // 土狼/緩衝
     if (player.onGround) coyoteMs = COYOTE_MAX; else coyoteMs = Math.max(0, coyoteMs - dtMs);
@@ -182,7 +199,7 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
     player.vy += GRAVITY * dt;
     if (player.vy>24) player.vy=24;
 
-    if (player.onGround && !keys.left && !keys.right){
+    if (player.onGround && !keys.left && !keys.right && dashMs<=0){
       player.vx *= FRICTION;
       if (Math.abs(player.vx) < .05) player.vx = 0;
     }
@@ -270,11 +287,19 @@ const VERSION = (window.__APP_VERSION__ || "1.3.6b");
   }
   function drawPlayer(p){
     ctx.save(); ctx.translate(p.x,p.y); ctx.scale(p.facing,1);
-    ctx.fillStyle='#3b3b3b'; ctx.fillRect(-12,18,10,8); ctx.fillRect(2,18,10,8);
-    ctx.fillStyle='#e83f3f'; ctx.fillRect(-14,-8,28,24);
-    ctx.fillStyle='#f0c090'; ctx.fillRect(-12,-28,24,20);
-    ctx.fillStyle='#d22f2f'; ctx.fillRect(-12,-32,24,8); ctx.fillRect(-12,-32,26,4);
-    ctx.fillStyle='#222'; ctx.fillRect(-4,-20,4,4); ctx.fillRect(2,-20,4,4);
+    if (p.sliding){
+      ctx.fillStyle='#3b3b3b'; ctx.fillRect(-14,18,28,8);
+      ctx.fillStyle='#e83f3f'; ctx.fillRect(-14,0,28,18);
+      ctx.fillStyle='#f0c090'; ctx.fillRect(-12,-18,24,18);
+      ctx.fillStyle='#d22f2f'; ctx.fillRect(-12,-22,24,8); ctx.fillRect(-12,-22,26,4);
+      ctx.fillStyle='#222'; ctx.fillRect(-4,-12,4,4); ctx.fillRect(2,-12,4,4);
+    } else {
+      ctx.fillStyle='#3b3b3b'; ctx.fillRect(-12,18,10,8); ctx.fillRect(2,18,10,8);
+      ctx.fillStyle='#e83f3f'; ctx.fillRect(-14,-8,28,24);
+      ctx.fillStyle='#f0c090'; ctx.fillRect(-12,-28,24,20);
+      ctx.fillStyle='#d22f2f'; ctx.fillRect(-12,-32,24,8); ctx.fillRect(-12,-32,26,4);
+      ctx.fillStyle='#222'; ctx.fillRect(-4,-20,4,4); ctx.fillRect(2,-20,4,4);
+    }
     ctx.restore();
   }
 
