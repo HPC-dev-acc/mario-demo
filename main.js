@@ -1,6 +1,7 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT } from './src/game/physics.js';
-/* v1.4.5 */
-const VERSION = (window.__APP_VERSION__ || "1.4.5");
+import { advanceLight } from './src/game/trafficLight.js';
+/* v1.4.6 */
+const VERSION = (window.__APP_VERSION__ || "1.4.6");
 
 (() => {
   const canvas = document.getElementById('game');
@@ -81,7 +82,8 @@ const VERSION = (window.__APP_VERSION__ || "1.4.5");
       const x = Math.floor(Math.random()*LEVEL_W);
       if(level[9][x] === 0 && level[10][x] === 1){
         level[9][x] = TRAFFIC_LIGHT;
-        lights[`${x},9`] = { state: Math.random()<0.5? 'green':'red', timer:0 };
+        const states = ['red','yellow','green'];
+        lights[`${x},9`] = { state: states[Math.floor(Math.random()*states.length)], timer:0 };
         placed++;
       }
     }
@@ -279,13 +281,8 @@ const VERSION = (window.__APP_VERSION__ || "1.4.5");
     if (player.vx !== 0) player.facing = player.vx>0 ? 1 : -1;
 
     // update traffic lights
-    for(const key in lights){
-      const l = lights[key];
-      l.timer += dtMs;
-      if(l.timer >= 1000){
-        l.timer = 0;
-        l.state = l.state === 'red' ? 'green' : 'red';
-      }
+    for (const key in lights) {
+      advanceLight(lights[key], dtMs);
     }
 
     resolveCollisions(player, level, lights);
@@ -367,7 +364,8 @@ const VERSION = (window.__APP_VERSION__ || "1.4.5");
   function drawTrafficLight(x,y,state){
     ctx.fillStyle='#555';
     ctx.fillRect(x+20,y+TILE-24,8,24); // pole
-    ctx.fillStyle= state==='red' ? '#e22' : '#2ecc40';
+    const colors = { red: '#e22', yellow: '#ff0', green: '#2ecc40' };
+    ctx.fillStyle = colors[state] || '#2ecc40';
     ctx.beginPath(); ctx.arc(x+24,y+12,8,0,Math.PI*2); ctx.fill();
   }
   function drawCloud(x,y){

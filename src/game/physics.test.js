@@ -27,6 +27,13 @@ test('traffic lights block only when red', () => {
   lights['3,2'].state = 'green';
   resolveCollisions(ent, level, lights);
   expect(ent.vx).not.toBe(0);
+
+  // yellow light should also not block
+  ent.x = TILE * 2;
+  ent.vx = 60;
+  lights['3,2'].state = 'yellow';
+  resolveCollisions(ent, level, lights);
+  expect(ent.vx).not.toBe(0);
 });
 
 test('collecting a coin adds score and removes coin', () => {
