@@ -33,9 +33,9 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
 #stage-clear .title{font-size:44px;color:white;text-shadow:0 6px 18px rgba(0,0,0,.35);margin-bottom:14px;font-weight:900;letter-spacing:1px}
 #stage-clear .primary{appearance:none;border:0;border-radius:999px;padding:10px 22px;background:var(--accent);color:#fff;font-weight:800;box-shadow:0 10px 20px rgba(42,124,255,.35)}
 
-#stage-fail{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.25);z-index:8}
+#stage-fail{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(0,0,0,.25);z-index:8}
 #stage-fail[hidden]{display:none}
-#stage-fail .title{font-size:44px;color:white;text-shadow:0 6px 18px rgba(0,0,0,.35);margin-bottom:14px;font-weight:900;letter-spacing:1px}
+#stage-fail .title{font-size:44px;color:white;text-shadow:0 6px 18px rgba(0,0,0,.35);margin:0 0 14px;font-weight:900;letter-spacing:1px}
 #stage-fail .primary{appearance:none;border:0;border-radius:999px;padding:10px 22px;background:#e74c3c;color:#fff;font-weight:800;box-shadow:0 10px 20px rgba(231,76,60,.35)}
 
 #doc-title{font-size:18px;margin:22px 0 6px}

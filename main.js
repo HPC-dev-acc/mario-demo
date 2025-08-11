@@ -1,8 +1,8 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked } from './src/game/physics.js';
 import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
-/* v1.4.11 */
-const VERSION = (window.__APP_VERSION__ || "1.4.11");
+/* v1.4.12 */
+const VERSION = (window.__APP_VERSION__ || "1.4.12");
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
