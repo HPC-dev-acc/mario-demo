@@ -51,7 +51,11 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
     if (startVersion) startVersion.textContent = `v${version}`;
   }
   window.addEventListener('load', () => { refocus(); setVersionBadge(); });
-  window.addEventListener('pointerdown', (e) => { refocus(e); }, { passive: false });
+  window.addEventListener('pointerdown', (e) => {
+    const t = e.target;
+    if (t instanceof HTMLElement && t.matches('button, a, input, textarea, select, label')) return;
+    refocus(e);
+  }, { passive: false });
   window.addEventListener('keydown', () => resumeAudio(), { once: true });
   window.addEventListener('pointerdown', () => resumeAudio(), { once: true });
 

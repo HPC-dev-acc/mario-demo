@@ -56,3 +56,14 @@ test('preload error shows retry and allows retry', () => {
   expect(retried).toBe(true);
   expect(document.getElementById('start-status').textContent).toBe('Loading...');
 });
+
+test('does not refocus when clicking interactive elements', () => {
+  const canvas = setupDOM();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const spy = jest.spyOn(canvas, 'focus');
+  const btn = document.getElementById('btn-start');
+  btn.dispatchEvent(new Event('pointerdown', { bubbles: true, cancelable: true }));
+  expect(spy).not.toHaveBeenCalled();
+  document.body.dispatchEvent(new Event('pointerdown', { bubbles: true, cancelable: true }));
+  expect(spy).toHaveBeenCalled();
+});
