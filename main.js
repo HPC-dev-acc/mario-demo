@@ -6,8 +6,8 @@ import { createGameState } from './src/game/state.js';
 import { render } from './src/render.js';
 import { loadPlayerSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
-/* v1.4.0 */
-const VERSION = (window.__APP_VERSION__ || "1.4.0");
+/* v1.4.1 */
+const VERSION = (window.__APP_VERSION__ || "1.4.1");
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
@@ -17,7 +17,7 @@ const IMPACT_COOLDOWN_MS = 120;
   const ctx = canvas.getContext('2d');
 
   const ui = initUI(canvas, { resumeAudio, toggleMusic, version: VERSION });
-  const { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, showStageClear, showStageFail, hideStageOverlays } = ui;
+  const { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, showStageClear, showStageFail, hideStageOverlays, startScreen } = ui;
   Logger.info('app_start', { version: VERSION });
 
   const state = createGameState();
@@ -182,15 +182,22 @@ const IMPACT_COOLDOWN_MS = 120;
     if (dbg.firedEl) dbg.firedEl.textContent = `${dbgFired}`;
   }
 
-  loadSounds()
-    .then(() => loadPlayerSprites())
-    .then((sprites) => {
-      state.playerSprites = sprites;
-      resumeAudio();
-      playMusic();
-      requestAnimationFrame(loop);
-    }).catch((err) => {
-      console.error('Failed to load resources', err);
-    });
+  function beginGame(){
+    resumeAudio();
+    playMusic();
+    requestAnimationFrame(loop);
+  }
+  function preload(){
+    loadSounds()
+      .then(() => loadPlayerSprites())
+      .then((sprites) => {
+        state.playerSprites = sprites;
+        startScreen.showStart(() => beginGame());
+      }).catch((err) => {
+        console.error('Failed to load resources', err);
+        startScreen.showError(() => preload());
+      });
+  }
+  preload();
 })();
 

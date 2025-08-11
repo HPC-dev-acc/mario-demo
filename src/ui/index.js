@@ -1,5 +1,9 @@
 export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
   const gameWrap = document.getElementById('game-wrap');
+  const startPage = document.getElementById('start-page');
+  const startStatus = document.getElementById('start-status');
+  const btnStart = document.getElementById('btn-start');
+  const btnRetry = document.getElementById('btn-retry');
 
   const Logger = (() => {
     const BUF_MAX = 400;
@@ -45,6 +49,32 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
   window.addEventListener('pointerdown', (e) => { refocus(e); }, { passive: false });
   window.addEventListener('keydown', () => resumeAudio(), { once: true });
   window.addEventListener('pointerdown', () => resumeAudio(), { once: true });
+
+  function showLoading() {
+    if (startStatus) startStatus.textContent = 'Loading...';
+    if (btnStart) btnStart.hidden = true;
+    if (btnRetry) btnRetry.hidden = true;
+    if (startPage) startPage.hidden = false;
+  }
+  function showStart(onStart) {
+    if (startStatus) startStatus.textContent = '';
+    if (btnRetry) btnRetry.hidden = true;
+    if (btnStart) {
+      btnStart.hidden = false;
+      btnStart.onclick = () => { if (startPage) startPage.hidden = true; onStart(); };
+    }
+  }
+  function showError(onRetry) {
+    if (startStatus) startStatus.textContent = 'Failed to load resources';
+    if (btnStart) btnStart.hidden = true;
+    if (btnRetry) {
+      btnRetry.hidden = false;
+      btnRetry.onclick = () => { showLoading(); onRetry(); };
+    }
+    if (startPage) startPage.hidden = false;
+  }
+  const startScreen = { showLoading, showStart, showError };
+  showLoading();
 
   const dbg = {
     fpsEl: document.getElementById('dbg-fps'),
@@ -95,5 +125,5 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
   function showStageFail() { if (stageFailEl) stageFailEl.hidden = false; }
   function hideStageOverlays() { if (stageClearEl) stageClearEl.hidden = true; if (stageFailEl) stageFailEl.hidden = true; }
 
-  return { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, showStageClear, showStageFail, hideStageOverlays };
+  return { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, showStageClear, showStageFail, hideStageOverlays, startScreen };
 }
