@@ -6,8 +6,7 @@ import { createGameState } from './src/game/state.js';
 import { render } from './src/render.js';
 import { loadPlayerSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
-import { VERSION as PKG_VERSION } from './src/version.js';
-const VERSION = window.__APP_VERSION__ || PKG_VERSION;
+const VERSION = window.__APP_VERSION__;
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
