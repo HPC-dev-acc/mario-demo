@@ -1,6 +1,6 @@
 # Mario Demo
 
-**Version: 1.5.4**
+**Version: 1.5.5**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
@@ -9,7 +9,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Doubled player character dimensions for a larger appearance.
 - Fixed player sprite positioning by drawing images with explicit width and height parameters.
 - Ensured player sprite scales to match the player's width and height.
-- The in-game version badge now reads the version directly from `package.json`.
+- The in-game version badge now reads the version from `package.json` via a JSON import assertion, with `window.__APP_VERSION__` acting as an override.
 
 ## Audio
 
@@ -34,3 +34,7 @@ npm test
 ```
 
 The tests verify collision handling, coin collection logic, and traffic light state transitions. Continuous integration runs the same command on each push and pull request.
+
+## Versioning
+
+`src/version.js` imports `package.json` using a JSON import assertion and exports the value as `VERSION`. `main.js` combines this with any `window.__APP_VERSION__` value so the version can be overridden at runtime.
