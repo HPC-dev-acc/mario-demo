@@ -93,4 +93,5 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
   background:var(--bg);
   z-index:20;
 }
+#start-page[hidden]{display:none}
 #start-page .title{font-size:2rem;font-weight:bold;}

@@ -42,6 +42,7 @@ test('start button click hides start page', () => {
   btn.click();
   expect(started).toBe(true);
   expect(document.getElementById('start-page').hidden).toBe(true);
+  expect(getComputedStyle(document.getElementById('start-page')).display).toBe('none');
 });
 
 test('preload error shows retry and allows retry', () => {

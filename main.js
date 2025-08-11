@@ -6,8 +6,8 @@ import { createGameState } from './src/game/state.js';
 import { render } from './src/render.js';
 import { loadPlayerSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
-/* v1.5.0 */
-const VERSION = (window.__APP_VERSION__ || "1.5.0");
+/* v1.5.1 */
+const VERSION = (window.__APP_VERSION__ || "1.5.1");
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
