@@ -63,6 +63,7 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   ctx.save();
   ctx.translate(p.x, p.y);
   ctx.scale(p.facing, 1);
+  const { w, h } = p; // use player dimensions for scaling
   let anim;
   if (p.sliding > 0) anim = sprites?.slide;
   else if (!p.onGround) anim = sprites?.jump;
@@ -71,7 +72,7 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   if (anim && anim.length) {
     const frame = Math.floor(t / 100) % anim.length;
     const img = anim[frame];
-    ctx.drawImage(img, -p.w / 2, -p.h / 2, p.w, p.h);
+    ctx.drawImage(img, -w / 2, -h / 2, w, h);
   }
   ctx.restore();
 }

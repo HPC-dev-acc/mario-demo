@@ -5,6 +5,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 ## Recent Changes
 
 - Fixed player sprite positioning by drawing images with explicit width and height parameters.
+- Ensured player sprite scales to match the player's width and height.
 
 ## Audio
 

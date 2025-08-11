@@ -59,3 +59,17 @@ test('drawPlayer centers sprite with correct size', () => {
   drawPlayer(ctx, p, sprites, 0);
   expect(ctx.drawImage).toHaveBeenCalledWith(img, -p.w / 2, -p.h / 2, p.w, p.h);
 });
+
+test('drawPlayer scales image to player dimensions', () => {
+  const img = {};
+  const sprites = { idle: [img] };
+  const ctx = {
+    save: jest.fn(), translate: jest.fn(), scale: jest.fn(),
+    drawImage: jest.fn(), restore: jest.fn(),
+  };
+  const p = { x: 0, y: 0, facing: 1, w: 40, h: 50, vx: 0, vy: 0, onGround: true, sliding: 0 };
+  drawPlayer(ctx, p, sprites, 0);
+  const call = ctx.drawImage.mock.calls[0];
+  expect(call[3]).toBe(p.w);
+  expect(call[4]).toBe(p.h);
+});
