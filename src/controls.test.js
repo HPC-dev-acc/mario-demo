@@ -17,3 +17,31 @@ test('jump key triggers pressJump', () => {
   window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }));
   expect(pressJump).toHaveBeenCalled();
 });
+
+test('pointerdown and pointerup update key flags', () => {
+  document.body.innerHTML = '<div id="left"></div>';
+  const keys = createControls();
+  const left = document.getElementById('left');
+
+  left.dispatchEvent(new Event('pointerdown'));
+  expect(keys.left).toBe(true);
+
+  left.dispatchEvent(new Event('pointerup'));
+  expect(keys.left).toBe(false);
+});
+
+test('pointer events on jump trigger callbacks', () => {
+  document.body.innerHTML = '<div id="jump"></div>';
+  const pressJump = jest.fn();
+  const releaseJump = jest.fn();
+  const keys = createControls(pressJump, releaseJump);
+  const jump = document.getElementById('jump');
+
+  jump.dispatchEvent(new Event('pointerdown'));
+  expect(keys.jump).toBe(true);
+  expect(pressJump).toHaveBeenCalledWith('touch');
+
+  jump.dispatchEvent(new Event('pointerup'));
+  expect(keys.jump).toBe(false);
+  expect(releaseJump).toHaveBeenCalled();
+});
