@@ -6,8 +6,8 @@ import { createGameState } from './src/game/state.js';
 import { render } from './src/render.js';
 import { loadPlayerSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
-/* v1.5.1 */
-const VERSION = (window.__APP_VERSION__ || "1.5.1");
+/* v1.5.3 */
+const VERSION = (window.__APP_VERSION__ || "1.5.3");
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
@@ -65,7 +65,7 @@ const IMPACT_COOLDOWN_MS = 120;
   function restartStage(){
     resumeAudio();
     playMusic();
-    player.x = 3*TILE; player.y = 6*TILE; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0;
+    player.x = 3*TILE; player.y = 6*TILE - 20; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0;
     camera.x=0; stageCleared=false; stageFailed=false;
     hideStageOverlays();
     score=0; if (scoreEl) scoreEl.textContent = score;
