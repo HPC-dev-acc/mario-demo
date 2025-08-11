@@ -47,3 +47,15 @@ test('drawPlayer chooses correct sprite', () => {
   drawPlayer(ctx, p, sprites, 0);
   expect(ctx.drawImage.mock.calls[0][0]).toBe(sprites.slide[0]);
 });
+
+test('drawPlayer centers sprite with correct size', () => {
+  const img = {};
+  const sprites = { idle: [img] };
+  const ctx = {
+    save: jest.fn(), translate: jest.fn(), scale: jest.fn(),
+    drawImage: jest.fn(), restore: jest.fn(),
+  };
+  const p = { x: 0, y: 0, facing: 1, w: 48, h: 32, vx: 0, vy: 0, onGround: true, sliding: 0 };
+  drawPlayer(ctx, p, sprites, 0);
+  expect(ctx.drawImage).toHaveBeenCalledWith(img, -p.w / 2, -p.h / 2, p.w, p.h);
+});
