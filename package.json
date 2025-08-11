@@ -1,6 +1,6 @@
 {
   "name": "mario-demo",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "type": "module",
   "scripts": {
     "test": "jest"
