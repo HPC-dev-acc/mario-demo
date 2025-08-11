@@ -1,14 +1,7 @@
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const masterGain = audioCtx.createGain();
-masterGain.gain.value = 0.5;
-const masterCompressor = audioCtx.createDynamicsCompressor();
-masterCompressor.connect(masterGain);
-masterGain.connect(audioCtx.destination);
-
-const musicGain = audioCtx.createGain();
-musicGain.gain.value = 0.5;
-musicGain.connect(masterCompressor);
-
+let audioCtx;
+let masterGain;
+let masterCompressor;
+let musicGain;
 let musicSource = null;
 
 const buffers = {};
@@ -23,7 +16,27 @@ const files = {
   background: 'assets/music/background.wav',
 };
 
+export function initAudioContext() {
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) {
+    audioCtx = null;
+    return;
+  }
+  audioCtx = new Ctx();
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = 0.5;
+  masterCompressor = audioCtx.createDynamicsCompressor();
+  masterCompressor.connect(masterGain);
+  masterGain.connect(audioCtx.destination);
+  musicGain = audioCtx.createGain();
+  musicGain.gain.value = 0.5;
+  musicGain.connect(masterCompressor);
+}
+
+initAudioContext();
+
 export async function loadSounds() {
+  if (!audioCtx) return;
   const entries = Object.entries(files);
   await Promise.all(entries.map(async ([name, url]) => {
     try {
@@ -42,10 +55,11 @@ export async function loadSounds() {
 }
 
 export function resumeAudio() {
-  return audioCtx.resume();
+  return audioCtx?.resume?.();
 }
 
 export function play(name) {
+  if (!audioCtx) return;
   const buffer = buffers[name];
   if (!buffer) return;
   const source = audioCtx.createBufferSource();
@@ -64,6 +78,7 @@ export function play(name) {
 }
 
 export function playMusic() {
+  if (!audioCtx) return;
   const buffer = buffers.background;
   if (!buffer || musicSource) return;
   const source = audioCtx.createBufferSource();
@@ -75,7 +90,9 @@ export function playMusic() {
 }
 
 export function toggleMusic() {
+  if (!audioCtx || !musicGain) return false;
   const enabled = musicGain.gain.value > 0;
   musicGain.gain.value = enabled ? 0 : 0.5;
   return !enabled;
 }
+

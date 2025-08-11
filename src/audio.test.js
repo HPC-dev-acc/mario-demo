@@ -65,3 +65,15 @@ test('loadSounds logs and continues when a sound fails to load', async () => {
   expect(console.error).toHaveBeenCalled();
   expect(() => play('fail')).not.toThrow();
 });
+
+test('initAudioContext no-ops when Web Audio API is missing', async () => {
+  delete window.AudioContext;
+  delete window.webkitAudioContext;
+  jest.resetModules();
+  const { initAudioContext, loadSounds, play, playMusic, toggleMusic } = await import('./audio.js');
+  expect(() => initAudioContext()).not.toThrow();
+  await expect(loadSounds()).resolves.toBeUndefined();
+  expect(() => play('jump')).not.toThrow();
+  expect(() => playMusic()).not.toThrow();
+  expect(toggleMusic()).toBe(false);
+});
