@@ -39,7 +39,6 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
       if (solidAt(level, left, y, lights)) {
         ent.x = Math.floor(left / TILE) * TILE + TILE + ent.w / 2 + 0.01;
         ent.vx = 0;
-        events.impact = true;
         break;
       }
     }
@@ -51,7 +50,6 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
       if (solidAt(level, right, y, lights)) {
         ent.x = Math.floor(right / TILE) * TILE - ent.w / 2 - 0.01;
         ent.vx = 0;
-        events.impact = true;
         break;
       }
     }
@@ -62,7 +60,6 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
   const wasGround = ent.onGround;
   ent.onGround = false;
   if (ent.vy > 0) {
-    const vyPrev = ent.vy;
     const bottom = ent.y + ent.h / 2;
     const left = ent.x - ent.w / 2 + 6;
     const right = ent.x + ent.w / 2 - 6;
@@ -71,7 +68,6 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
         ent.y = Math.floor(bottom / TILE) * TILE - ent.h / 2 - 0.01;
         ent.vy = 0;
         ent.onGround = true;
-        if (!wasGround && vyPrev > 0.5) events.impact = true;
         break;
       }
     }
@@ -85,12 +81,11 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
       if (ty >= 0 && level[ty][tx] === 2) {
         level[ty][tx] = 0;
         ent.vy = 2;
-        events.impact = true;
+        events.brickHit = true;
       }
       if (solidAt(level, x, top, lights)) {
         ent.y = Math.floor(top / TILE) * TILE + TILE + ent.h / 2 + 0.01;
         ent.vy = 0;
-        events.impact = true;
         break;
       }
     }
@@ -102,12 +97,10 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
   if (ent.x < minX) {
     ent.x = minX;
     ent.vx = 0;
-    events.impact = true;
   }
   if (ent.x > maxX) {
     ent.x = maxX;
     ent.vx = 0;
-    events.impact = true;
   }
 
   if (!wasGround && ent.onGround) {

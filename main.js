@@ -1,8 +1,8 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked } from './src/game/physics.js';
 import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
-/* v1.4.12 */
-const VERSION = (window.__APP_VERSION__ || "1.4.12");
+/* v1.4.13 */
+const VERSION = (window.__APP_VERSION__ || "1.4.13");
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
@@ -322,7 +322,7 @@ const IMPACT_COOLDOWN_MS = 120;
     const collisionEvents = {};
     resolveCollisions(player, level, lights, collisionEvents);
     const gained = collectCoins(player, level, coins);
-    if (collisionEvents.impact) {
+    if (collisionEvents.brickHit) {
       const now = performance.now();
       if (now - lastImpactAt >= IMPACT_COOLDOWN_MS) {
         play('impact');

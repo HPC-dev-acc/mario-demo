@@ -7,7 +7,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 Sound effects in `assets/sounds` are sourced from [Kenney](https://kenney.nl/assets) and are used as follows:
 
 - `jump.wav` – played when the player jumps.
-- `impact.wav` – played when the player collides with terrain or obstacles.
+- `impact.wav` – played when the player hits a brick from below.
 - `slide.wav` – played when initiating a slide.
 - `clear.wav` – played upon clearing the stage.
 - `coin.wav` – played when collecting a coin.

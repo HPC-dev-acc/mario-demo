@@ -54,3 +54,37 @@ test('jumping is blocked near red traffic light', () => {
   lights['3,2'].state = 'green';
   expect(isJumpBlocked(ent, lights)).toBe(false);
 });
+
+test('brick hit event triggers only on upward block collisions', () => {
+  const level = makeLevel(3, 3);
+  // place brick above the entity
+  level[0][1] = 2;
+  const ent = { x: TILE * 1 + TILE / 2, y: TILE * 1 + TILE / 2, w: 28, h: 40, vx: 0, vy: -10, onGround: false };
+  const events = {};
+  resolveCollisions(ent, level, {}, events);
+  expect(events.brickHit).toBe(true);
+
+  // falling onto ground should not trigger brickHit
+  const level2 = makeLevel(3, 3);
+  level2[2][1] = 1;
+  const ent2 = {
+    x: TILE * 1 + TILE / 2,
+    y: TILE * 2 - 21,
+    w: 28,
+    h: 40,
+    vx: 0,
+    vy: 5,
+    onGround: false,
+  };
+  const events2 = {};
+  resolveCollisions(ent2, level2, {}, events2);
+  expect(events2.brickHit).toBeUndefined();
+
+  // hitting a wall sideways should also stay silent
+  const level3 = makeLevel(3, 3);
+  level3[1][2] = 1;
+  const ent3 = { x: TILE * 1, y: TILE * 1, w: 28, h: 40, vx: 60, vy: 0, onGround: false };
+  const events3 = {};
+  resolveCollisions(ent3, level3, {}, events3);
+  expect(events3.brickHit).toBeUndefined();
+});
