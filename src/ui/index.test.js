@@ -67,3 +67,16 @@ test('does not refocus when clicking interactive elements', () => {
   document.body.dispatchEvent(new Event('pointerdown', { bubbles: true, cancelable: true }));
   expect(spy).toHaveBeenCalled();
 });
+
+test('start button pointerdown not canceled and click hides start page', () => {
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  let started = false;
+  ui.startScreen.showStart(() => { started = true; });
+  const btn = document.getElementById('btn-start');
+  const dispatched = btn.dispatchEvent(new Event('pointerdown', { bubbles: true, cancelable: true }));
+  expect(dispatched).toBe(true);
+  btn.click();
+  expect(started).toBe(true);
+  expect(document.getElementById('start-page').hidden).toBe(true);
+});
