@@ -1,8 +1,49 @@
 import { initUI } from './index.js';
 
+function setupDOM() {
+  document.body.innerHTML = `
+    <div id="start-page">
+      <div id="start-status"></div>
+      <button id="btn-start" hidden>START</button>
+      <button id="btn-retry" hidden>Retry</button>
+    </div>
+    <canvas id="game"></canvas>`;
+  return document.getElementById('game');
+}
+
 test('initUI exposes Logger', () => {
-  document.body.innerHTML = '<canvas id="game"></canvas>';
-  const canvas = document.getElementById('game');
+  const canvas = setupDOM();
   const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
   expect(typeof ui.Logger.info).toBe('function');
+});
+
+test('start button hidden before preload complete', () => {
+  const canvas = setupDOM();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  expect(document.getElementById('btn-start').hidden).toBe(true);
+});
+
+test('start button click hides start page', () => {
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  let started = false;
+  ui.startScreen.showStart(() => { started = true; });
+  const btn = document.getElementById('btn-start');
+  expect(btn.hidden).toBe(false);
+  btn.click();
+  expect(started).toBe(true);
+  expect(document.getElementById('start-page').hidden).toBe(true);
+});
+
+test('preload error shows retry and allows retry', () => {
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  let retried = false;
+  ui.startScreen.showError(() => { retried = true; });
+  const retry = document.getElementById('btn-retry');
+  expect(retry.hidden).toBe(false);
+  expect(document.getElementById('start-status').textContent).toMatch(/Failed/);
+  retry.click();
+  expect(retried).toBe(true);
+  expect(document.getElementById('start-status').textContent).toBe('Loading...');
 });

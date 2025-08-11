@@ -81,3 +81,16 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
   from{opacity:.8;transform:translate(-50%,-50%) scaleX(var(--sx,1)) scale(1);}
   to{opacity:0;transform:translate(-50%,-50%) scaleX(var(--sx,1)) scale(.5);}
 }
+
+#start-page{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:1rem;
+  background:var(--bg);
+  z-index:20;
+}
+#start-page .title{font-size:2rem;font-weight:bold;}
