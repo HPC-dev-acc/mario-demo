@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>像素跑跳示範（類瑪莉風格）</title>
-    <link rel="stylesheet" href="style.css?v=1.4.13" />
+    <link rel="stylesheet" href="style.css?v=1.4.14" />
 </head>
 <body>
   <main id="layout">
@@ -35,7 +35,7 @@
 
       <!-- 右上：版本膠囊 + 設定 -->
       <div id="top-right">
-        <div id="version-pill" class="pill" title="Semantic Versioning">v1.4.13</div>
+        <div id="version-pill" class="pill" title="Semantic Versioning">v1.4.14</div>
         <button id="settings-toggle" class="pill" aria-label="設定">⚙</button>
         <div id="settings-menu">
           <div id="log-controls" class="pill">
@@ -50,14 +50,14 @@
         </div>
       </div>
 
-      <!-- 觸控：左下左/跳，右下右/星 -->
+      <!-- 觸控：左下衝刺/跳，右下右/左 -->
       <div id="touch-left" class="touch-stack" aria-label="左側按鈕" role="group">
-        <button id="left" class="touch-btn" aria-label="向左">◀</button>
+        <button id="action" class="touch-btn" aria-label="衝刺">⚡</button>
         <button id="jump" class="touch-btn" aria-label="跳躍">⇧</button>
       </div>
       <div id="touch-right" class="touch-stack" aria-label="右側按鈕" role="group">
         <button id="right" class="touch-btn" aria-label="向右">▶</button>
-        <button id="action" class="touch-btn" aria-label="動作">★</button>
+        <button id="left" class="touch-btn" aria-label="向左">◀</button>
       </div>
 
       <!-- 完關畫面（預設隱藏） -->
@@ -83,8 +83,8 @@
   </main>
 
   <script>
-      window.__APP_VERSION__ = "1.4.13";
+      window.__APP_VERSION__ = "1.4.14";
     </script>
-    <script type="module" src="main.js?v=1.4.13"></script>
+    <script type="module" src="main.js?v=1.4.14"></script>
   </body>
   </html>
