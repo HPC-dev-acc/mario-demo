@@ -71,7 +71,7 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   if (anim && anim.length) {
     const frame = Math.floor(t / 100) % anim.length;
     const img = anim[frame];
-    ctx.drawImage(img, -p.w / 2, -p.h / 2);
+    ctx.drawImage(img, -p.w / 2, -p.h / 2, p.w, p.h);
   }
   ctx.restore();
 }

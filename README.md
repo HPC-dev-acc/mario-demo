@@ -2,6 +2,10 @@
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
+## Recent Changes
+
+- Fixed player sprite positioning by drawing images with explicit width and height parameters.
+
 ## Audio
 
 Sound effects in `assets/sounds` are sourced from [Kenney](https://kenney.nl/assets) and are used as follows:
