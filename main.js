@@ -187,9 +187,15 @@ const IMPACT_COOLDOWN_MS = 120;
     playMusic();
     requestAnimationFrame(loop);
   }
+  function withTimeout(promise, ms, msg) {
+    return Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error(msg)), ms)),
+    ]);
+  }
   function preload(){
-    loadSounds()
-      .then(() => loadPlayerSprites())
+    withTimeout(loadSounds(), 10000, 'Timed out loading sounds')
+      .then(() => withTimeout(loadPlayerSprites(), 10000, 'Timed out loading sprites'))
       .then((sprites) => {
         state.playerSprites = sprites;
         startScreen.showStart(() => beginGame());
