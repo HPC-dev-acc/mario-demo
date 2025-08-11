@@ -17,9 +17,9 @@ export function createGameState() {
   const addCoin = (cx, cy) => { level[cy][cx] = 3; coins.add(`${cx},${cy}`); };
   addCoin(12, 7); addCoin(33, 8); addCoin(21, 6); addCoin(31, 8); addCoin(46, 5); addCoin(72, 8);
 
-  const initialLevel = level.map(row => row.slice());
+    const initialLevel = level.map(row => row.slice());
 
-  const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null };
+    const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null };
   state.spawnLights = function spawnLights() {
     for (const k in state.lights) {
       const [lx, ly] = k.split(',').map(Number);

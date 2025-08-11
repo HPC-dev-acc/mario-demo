@@ -4,9 +4,10 @@ import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/aud
 import { createControls } from './src/controls.js';
 import { createGameState } from './src/game/state.js';
 import { render } from './src/render.js';
+import { loadPlayerSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
-/* v1.4.14 */
-const VERSION = (window.__APP_VERSION__ || "1.4.14");
+/* v1.4.0 */
+const VERSION = (window.__APP_VERSION__ || "1.4.0");
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
@@ -181,10 +182,15 @@ const IMPACT_COOLDOWN_MS = 120;
     if (dbg.firedEl) dbg.firedEl.textContent = `${dbgFired}`;
   }
 
-  loadSounds().then(() => {
-    resumeAudio();
-    playMusic();
-    requestAnimationFrame(loop);
-  });
+  loadSounds()
+    .then(() => loadPlayerSprites())
+    .then((sprites) => {
+      state.playerSprites = sprites;
+      resumeAudio();
+      playMusic();
+      requestAnimationFrame(loop);
+    }).catch((err) => {
+      console.error('Failed to load resources', err);
+    });
 })();
 
