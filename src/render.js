@@ -1,7 +1,7 @@
 import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 
 export function render(ctx, state) {
-  const { level, lights, player, camera, GOAL_X, LEVEL_W, LEVEL_H } = state;
+  const { level, lights, player, camera, GOAL_X, LEVEL_W, LEVEL_H, playerSprites } = state;
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   for (let i = 0; i < 6; i++) {
     const cx = (i * 300 - (camera.x * 0.4) % 300), cy = 60 + (i % 2) * 40;
@@ -9,22 +9,22 @@ export function render(ctx, state) {
   }
   ctx.save();
   ctx.translate(-camera.x, -camera.y);
-  for (let y = 0; y < LEVEL_H; y++) {
-    for (let x = 0; x < LEVEL_W; x++) {
-      const t = level[y][x], px = x * TILE, py = y * TILE;
-      if (t === 1) drawGround(ctx, px, py);
-      if (t === 2) drawBrick(ctx, px, py);
-      if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2);
-      if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[`${x},${y}`]?.state);
+    for (let y = 0; y < LEVEL_H; y++) {
+      for (let x = 0; x < LEVEL_W; x++) {
+        const t = level[y][x], px = x * TILE, py = y * TILE;
+        if (t === 1) drawGround(ctx, px, py);
+        if (t === 2) drawBrick(ctx, px, py);
+        if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2);
+        if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[`${x},${y}`]?.state);
+      }
     }
-  }
-  ctx.fillStyle = 'rgba(0,0,0,.15)';
-  ctx.fillRect(-TILE, -TILE, TILE, LEVEL_H * TILE + 2 * TILE);
-  ctx.fillStyle = 'rgba(255,255,255,.65)';
-  ctx.fillRect(GOAL_X, 0, 6, LEVEL_H * TILE);
-  drawPlayer(ctx, player);
-  ctx.restore();
-  ctx.fillStyle = '#72bf53';
+    ctx.fillStyle = 'rgba(0,0,0,.15)';
+    ctx.fillRect(-TILE, -TILE, TILE, LEVEL_H * TILE + 2 * TILE);
+    ctx.fillStyle = 'rgba(255,255,255,.65)';
+    ctx.fillRect(GOAL_X, 0, 6, LEVEL_H * TILE);
+    drawPlayer(ctx, player, playerSprites);
+    ctx.restore();
+    ctx.fillStyle = '#72bf53';
   ctx.fillRect(0, ctx.canvas.height - 28, ctx.canvas.width, 28);
 }
 
@@ -59,12 +59,19 @@ function drawCloud(ctx, x, y) {
   ctx.arc(x - 24, y + 6, 18, 0, Math.PI * 2);
   ctx.fill();
 }
-function drawPlayer(ctx, p) {
-  ctx.save(); ctx.translate(p.x, p.y); ctx.scale(p.facing, 1);
-  ctx.fillStyle = '#3b3b3b'; ctx.fillRect(-12, 18, 10, 8); ctx.fillRect(2, 18, 10, 8);
-  ctx.fillStyle = '#e83f3f'; ctx.fillRect(-14, -8, 28, 24);
-  ctx.fillStyle = '#f0c090'; ctx.fillRect(-12, -28, 24, 20);
-  ctx.fillStyle = '#d22f2f'; ctx.fillRect(-12, -32, 24, 8); ctx.fillRect(-12, -32, 26, 4);
-  ctx.fillStyle = '#222'; ctx.fillRect(-4, -20, 4, 4); ctx.fillRect(2, -20, 4, 4);
+export function drawPlayer(ctx, p, sprites, t = performance.now()) {
+  ctx.save();
+  ctx.translate(p.x, p.y);
+  ctx.scale(p.facing, 1);
+  let anim;
+  if (p.sliding > 0) anim = sprites?.slide;
+  else if (!p.onGround) anim = sprites?.jump;
+  else if (Math.abs(p.vx) > 0.1) anim = sprites?.run;
+  else anim = sprites?.idle;
+  if (anim && anim.length) {
+    const frame = Math.floor(t / 100) % anim.length;
+    const img = anim[frame];
+    ctx.drawImage(img, -p.w / 2, -p.h / 2);
+  }
   ctx.restore();
 }
