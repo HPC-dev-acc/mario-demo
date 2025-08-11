@@ -32,6 +32,10 @@ export async function loadSounds() {
   }));
 }
 
+export function resumeAudio() {
+  return audioCtx.resume();
+}
+
 export function play(name) {
   const buffer = buffers[name];
   if (!buffer) return;

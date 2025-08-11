@@ -1,8 +1,8 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked } from './src/game/physics.js';
 import { advanceLight } from './src/game/trafficLight.js';
-import { loadSounds, play, playMusic, toggleMusic } from './src/audio.js';
-/* v1.4.9 */
-const VERSION = (window.__APP_VERSION__ || "1.4.9");
+import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
+/* v1.4.11 */
+const VERSION = (window.__APP_VERSION__ || "1.4.11");
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
@@ -53,6 +53,8 @@ const IMPACT_COOLDOWN_MS = 120;
   function refocus(e){ try{ if(e) e.preventDefault(); canvas.focus(); }catch(_){} }
   window.addEventListener('load', ()=>{ refocus(); setVersionBadge(); });
   window.addEventListener('pointerdown', (e)=>{ refocus(e); }, {passive:false});
+  window.addEventListener('keydown', () => resumeAudio(), { once: true });
+  window.addEventListener('pointerdown', () => resumeAudio(), { once: true });
 
   function setVersionBadge(){
     const el = document.getElementById('version-pill'); if (el) el.textContent = `v${VERSION}`;
@@ -222,6 +224,8 @@ const IMPACT_COOLDOWN_MS = 120;
     }
   }
   function restartStage(){
+    resumeAudio();
+    playMusic();
     // 重設玩家與狀態，但不清除 LOG（依你的需求）
     player.x = 3*TILE; player.y = 6*TILE; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0;
     camera.x=0; stageCleared=false; stageFailed=false;
@@ -423,6 +427,7 @@ const IMPACT_COOLDOWN_MS = 120;
 
   // 啟動
   loadSounds().then(() => {
+    resumeAudio();
     playMusic();
     requestAnimationFrame(loop);
   });
