@@ -32,6 +32,14 @@ const IMPACT_COOLDOWN_MS = 120;
   document.getElementById('log-clear').addEventListener('click', ()=>Logger.clear());
   Logger.info('app_start', { version: VERSION });
 
+  const settingsToggle = document.getElementById('settings-toggle');
+  const settingsMenu = document.getElementById('settings-menu');
+  if (settingsToggle && settingsMenu) {
+    settingsToggle.addEventListener('click', () => {
+      settingsMenu.classList.toggle('open');
+    });
+  }
+
   const bgmToggle = document.getElementById('bgm-toggle');
   if (bgmToggle) {
     bgmToggle.addEventListener('click', () => {
