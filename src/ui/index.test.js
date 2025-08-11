@@ -4,9 +4,11 @@ function setupDOM() {
   document.body.innerHTML = `
     <div id="start-page">
       <div id="start-status"></div>
+      <div id="start-version"></div>
       <button id="btn-start" hidden>START</button>
       <button id="btn-retry" hidden>Retry</button>
     </div>
+    <div id="version-pill"></div>
     <canvas id="game"></canvas>`;
   return document.getElementById('game');
 }
@@ -21,6 +23,13 @@ test('start button hidden before preload complete', () => {
   const canvas = setupDOM();
   initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
   expect(document.getElementById('btn-start').hidden).toBe(true);
+});
+
+test('shows version on start page', () => {
+  const canvas = setupDOM();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  window.dispatchEvent(new Event('load'));
+  expect(document.getElementById('start-version').textContent).toBe('v0');
 });
 
 test('start button click hides start page', () => {

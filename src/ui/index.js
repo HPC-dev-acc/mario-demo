@@ -2,6 +2,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
   const gameWrap = document.getElementById('game-wrap');
   const startPage = document.getElementById('start-page');
   const startStatus = document.getElementById('start-status');
+  const startVersion = document.getElementById('start-version');
   const btnStart = document.getElementById('btn-start');
   const btnRetry = document.getElementById('btn-retry');
 
@@ -44,20 +45,25 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
 
   canvas.setAttribute('tabindex', '0');
   function refocus(e) { try { if (e) e.preventDefault(); canvas.focus(); } catch (_) {} }
-  function setVersionBadge() { const el = document.getElementById('version-pill'); if (el) el.textContent = `v${version}`; }
+  function setVersionBadge() {
+    const pill = document.getElementById('version-pill');
+    if (pill) pill.textContent = `v${version}`;
+    if (startVersion) startVersion.textContent = `v${version}`;
+  }
   window.addEventListener('load', () => { refocus(); setVersionBadge(); });
   window.addEventListener('pointerdown', (e) => { refocus(e); }, { passive: false });
   window.addEventListener('keydown', () => resumeAudio(), { once: true });
   window.addEventListener('pointerdown', () => resumeAudio(), { once: true });
 
+  function setStatus(msg) { if (startStatus) startStatus.textContent = msg; }
   function showLoading() {
-    if (startStatus) startStatus.textContent = 'Loading...';
+    setStatus('Loading...');
     if (btnStart) btnStart.hidden = true;
     if (btnRetry) btnRetry.hidden = true;
     if (startPage) startPage.hidden = false;
   }
   function showStart(onStart) {
-    if (startStatus) startStatus.textContent = '';
+    setStatus('');
     if (btnRetry) btnRetry.hidden = true;
     if (btnStart) {
       btnStart.hidden = false;
@@ -65,7 +71,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
     }
   }
   function showError(onRetry) {
-    if (startStatus) startStatus.textContent = 'Failed to load resources';
+    setStatus('Failed to load resources');
     if (btnStart) btnStart.hidden = true;
     if (btnRetry) {
       btnRetry.hidden = false;
@@ -73,7 +79,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
     }
     if (startPage) startPage.hidden = false;
   }
-  const startScreen = { showLoading, showStart, showError };
+  const startScreen = { showLoading, showStart, showError, setStatus };
   showLoading();
 
   const dbg = {

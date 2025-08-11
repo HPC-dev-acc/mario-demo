@@ -6,8 +6,8 @@ import { createGameState } from './src/game/state.js';
 import { render } from './src/render.js';
 import { loadPlayerSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
-/* v1.4.1 */
-const VERSION = (window.__APP_VERSION__ || "1.4.1");
+/* v1.5.0 */
+const VERSION = (window.__APP_VERSION__ || "1.5.0");
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
@@ -194,8 +194,12 @@ const IMPACT_COOLDOWN_MS = 120;
     ]);
   }
   function preload(){
+    startScreen.setStatus('Loading sounds...');
     withTimeout(loadSounds(), 10000, 'Timed out loading sounds')
-      .then(() => withTimeout(loadPlayerSprites(), 10000, 'Timed out loading sprites'))
+      .then(() => {
+        startScreen.setStatus('Loading sprites...');
+        return withTimeout(loadPlayerSprites(), 10000, 'Timed out loading sprites');
+      })
       .then((sprites) => {
         state.playerSprites = sprites;
         startScreen.showStart(() => beginGame());
