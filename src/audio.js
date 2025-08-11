@@ -26,9 +26,18 @@ const files = {
 export async function loadSounds() {
   const entries = Object.entries(files);
   await Promise.all(entries.map(async ([name, url]) => {
-    const res = await fetch(url);
-    const arrayBuffer = await res.arrayBuffer();
-    buffers[name] = await audioCtx.decodeAudioData(arrayBuffer);
+    try {
+      const res = await fetch(url);
+      const arrayBuffer = await res.arrayBuffer();
+      buffers[name] = await audioCtx.decodeAudioData(arrayBuffer);
+    } catch (err) {
+      console.error(`Failed to load sound "${name}" from ${url}`, err);
+      try {
+        buffers[name] = audioCtx.createBuffer(1, 1, audioCtx.sampleRate);
+      } catch (_) {
+        // if buffer creation fails, leave sound undefined
+      }
+    }
   }));
 }
 
