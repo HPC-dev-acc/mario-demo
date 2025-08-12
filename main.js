@@ -1,4 +1,5 @@
 import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked } from './src/game/physics.js';
+import { BASE_W, updatePlayerWidth } from './src/game/width.js';
 import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
 import { createControls } from './src/controls.js';
@@ -65,7 +66,7 @@ const IMPACT_COOLDOWN_MS = 120;
   function restartStage(){
     resumeAudio();
     playMusic();
-    player.x = 3*TILE; player.y = 6*TILE - 20; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0; player.h = player.baseH;
+    player.x = 3*TILE; player.y = 6*TILE - 20; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0; player.h = player.baseH; player.w = player.baseW || BASE_W;
     camera.x=0; stageCleared=false; stageFailed=false;
     hideStageOverlays();
     score=0; if (scoreEl) scoreEl.textContent = score;
@@ -163,6 +164,8 @@ const IMPACT_COOLDOWN_MS = 120;
     }
 
     if (player.vx !== 0) player.facing = player.vx>0 ? 1 : -1;
+
+    updatePlayerWidth(player);
 
     for (const key in state.lights) {
       advanceLight(state.lights[key], dtMs);
