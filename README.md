@@ -1,6 +1,6 @@
 # Mario Demo
 
-**Version: 1.5.43**
+**Version: 1.5.44**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
@@ -44,6 +44,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Player width now depends on `running` or `blocked`; blocked runners keep full width.
 - Width adjustment now considers airborne state so vertical jumps retain the base width.
 - Coin collection now uses the player's dimensions for more reliable detection.
+- Fixed a loading screen hang by properly clearing timed asset loads.
 
 ## Audio
 
