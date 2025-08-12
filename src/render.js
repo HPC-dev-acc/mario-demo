@@ -59,10 +59,10 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   let anim;
   if (p.sliding > 0) anim = sprites?.slide;
   else if (!p.onGround) anim = sprites?.jump;
-  else if (Math.abs(p.vx) > 0.1) anim = sprites?.run;
+  else if (p.running && (Math.abs(p.vx) > 0.1 || p.blocked)) anim = sprites?.run;
   else anim = sprites?.idle;
   if (anim && anim.length) {
-    const frame = Math.floor(t / 100) % anim.length;
+    const frame = Math.floor(t / (p.blocked ? 200 : 100)) % anim.length;
     const img = anim[frame];
     ctx.drawImage(img, -w / 2, -h / 2, w, h);
   }

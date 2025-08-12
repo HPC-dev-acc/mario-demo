@@ -13,6 +13,18 @@ test('entity does not pass through a wall', () => {
   expect(ent.x).toBeLessThan(TILE * 3 - ent.w / 2);
 });
 
+test('horizontal collisions toggle blocked flag', () => {
+  const level = makeLevel(5, 5);
+  level[2][3] = 1; // wall block to the right
+  const ent = { x: TILE * 2, y: TILE * 2, w: 56, h: 80, vx: 60, vy: 0, onGround: false };
+  resolveCollisions(ent, level);
+  expect(ent.blocked).toBe(true);
+  ent.x = TILE * 1;
+  ent.vx = 0;
+  resolveCollisions(ent, level);
+  expect(ent.blocked).toBe(false);
+});
+
 test('traffic lights block only when red', () => {
   const level = makeLevel(5, 5);
   level[2][3] = TRAFFIC_LIGHT;

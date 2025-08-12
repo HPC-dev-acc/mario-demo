@@ -133,19 +133,19 @@ test('drawPlayer chooses correct sprite', () => {
     drawImage: jest.fn(), restore: jest.fn(),
     fillStyle: '',
   };
-  const p = { x: 0, y: 0, shadowY: 24, facing: 1, w: 48, h: 48, vx: 0, vy: 0, onGround: true, sliding: 0 };
+  const p = { x: 0, y: 0, shadowY: 24, facing: 1, w: 48, h: 48, vx: 0, vy: 0, onGround: true, sliding: 0, running: false, blocked: false };
   drawPlayer(ctx, p, sprites, 0);
   expect(ctx.drawImage.mock.calls[0][0]).toBe(sprites.idle[0]);
   ctx.drawImage.mockClear();
-  p.vx = 1;
+  p.vx = 1; p.running = true;
   drawPlayer(ctx, p, sprites, 0);
   expect(ctx.drawImage.mock.calls[0][0]).toBe(sprites.run[0]);
   ctx.drawImage.mockClear();
-  p.vx = 0; p.onGround = false;
+  p.vx = 0; p.onGround = false; p.running = false;
   drawPlayer(ctx, p, sprites, 0);
   expect(ctx.drawImage.mock.calls[0][0]).toBe(sprites.jump[0]);
   ctx.drawImage.mockClear();
-  p.onGround = true; p.sliding = 1;
+  p.onGround = true; p.sliding = 1; p.running = true;
   drawPlayer(ctx, p, sprites, 0);
   expect(ctx.drawImage.mock.calls[0][0]).toBe(sprites.slide[0]);
 });
