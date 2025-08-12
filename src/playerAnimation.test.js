@@ -26,11 +26,13 @@ test('player animation changes with state', () => {
     fillRect: jest.fn(),
     beginPath: jest.fn(),
     arc: jest.fn(),
+    ellipse: jest.fn(),
     fill: jest.fn(),
     strokeRect: jest.fn(),
     restore: jest.fn(),
     scale: jest.fn(),
     drawImage: jest.fn(),
+    fillStyle: '',
   };
   global.performance.now = () => 0;
   render(ctx, state);
