@@ -1,8 +1,9 @@
-import objects from '../../assets/objects.json' assert { type: 'json' };
+import objects from '../../assets/objects.js';
 import { TRAFFIC_LIGHT } from './physics.js';
 import { createGameState } from './state.js';
 
-test('loads objects.json into game state', () => {
+test('loads objects.js into game state', () => {
+  expect(Array.isArray(objects)).toBe(true);
   const state = createGameState();
   const brickCount = objects.filter(o => o.type === 'brick').length;
   const coinCount = objects.filter(o => o.type === 'coin').length;
