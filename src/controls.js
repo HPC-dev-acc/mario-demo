@@ -22,7 +22,7 @@ export function createControls(pressJump, releaseJump) {
   });
   const bindHold = (id, prop) => {
     const el = document.getElementById(id); if (!el) return;
-    const on = () => { keys[prop] = true; el.classList.add('hold'); if (prop === 'jump') pressJump('touch'); };
+    const on = () => { keys[prop] = true; el.classList.add('hold'); if (prop === 'jump' && typeof pressJump === 'function') pressJump('touch'); };
     const off = () => { if (prop === 'jump' && releaseJump) releaseJump(); keys[prop] = false; el.classList.remove('hold'); };
     const start = e => { e.preventDefault(); on(); }, end = e => { e.preventDefault(); off(); };
     el.addEventListener('pointerdown', start, { passive: false });
