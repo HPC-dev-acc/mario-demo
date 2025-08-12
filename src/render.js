@@ -3,7 +3,7 @@ import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 export const Y_OFFSET = 80;
 
 export function render(ctx, state) {
-  const { level, lights, player, camera, GOAL_X, LEVEL_W, LEVEL_H, playerSprites } = state;
+  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites } = state;
   if (ctx.canvas && ctx.canvas.style) {
     ctx.canvas.style.backgroundPosition = `${-Math.floor(camera.x)}px 0px`;
   }
@@ -20,8 +20,6 @@ export function render(ctx, state) {
     }
     ctx.fillStyle = 'rgba(0,0,0,.15)';
     ctx.fillRect(-TILE, -TILE, TILE, LEVEL_H * TILE + 2 * TILE);
-    ctx.fillStyle = 'rgba(255,255,255,.65)';
-    ctx.fillRect(GOAL_X, 0, 6, LEVEL_H * TILE);
     drawPlayer(ctx, player, playerSprites);
     ctx.restore();
 }
