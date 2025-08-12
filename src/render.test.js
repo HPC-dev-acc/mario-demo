@@ -212,7 +212,7 @@ test('drawTrafficLight draws aligned sprite', () => {
   const ctx = { drawImage: jest.fn() };
   drawTrafficLight(ctx, 0, 0, 'red', sprites);
   const call = ctx.drawImage.mock.calls[0];
-  const dh = TILE * 2.5;
+  const dh = TILE * 3.75;
   const dw = sprites.red.sw * (dh / sprites.red.sh);
   expect(call[0]).toBe(img);
   expect(call[1]).toBe(0);
