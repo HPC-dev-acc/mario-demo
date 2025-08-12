@@ -24,3 +24,9 @@ test('blocked players maintain base width even while running', () => {
   updatePlayerWidth(p);
   expect(p.w).toBe(BASE_W);
 });
+
+test('player width stays base during slide', () => {
+  const p = { running: false, blocked: false, onGround: true, w: BASE_W, sliding: 100 };
+  updatePlayerWidth(p);
+  expect(p.w).toBe(BASE_W);
+});
