@@ -5,7 +5,7 @@ import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/aud
 import { createControls } from './src/controls.js';
 import { createGameState } from './src/game/state.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
-import { render } from './src/render.js';
+import { render, Y_OFFSET } from './src/render.js';
 import { loadPlayerSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
 const VERSION = window.__APP_VERSION__;
@@ -135,7 +135,11 @@ const IMPACT_COOLDOWN_MS = 120;
         player.sliding = SLIDE_TIME;
         player.vx = player.facing * SLIDE_SPEED;
         enterSlide(player);
-        triggerSlideEffect(player.x - camera.x, player.y - camera.y + player.h/2, player.facing);
+        triggerSlideEffect(
+          player.x - camera.x,
+          player.y - camera.y + player.h / 2 + Y_OFFSET,
+          player.facing
+        );
         play('slide');
         keys.action = false;
       }

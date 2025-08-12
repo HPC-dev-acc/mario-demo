@@ -1,12 +1,21 @@
-import { enterSlide, exitSlide } from './game/slide.js';
+import { initUI } from './ui/index.js';
+import { Y_OFFSET } from './render.js';
 
-test('enterSlide scales player height to 75% and keeps bottom fixed', () => {
-  const player = { h: 120, baseH: 120, y: 100 };
-  const bottom = player.y + player.h / 2;
-  enterSlide(player);
-  expect(player.h).toBe(90);
-  expect(player.y + player.h / 2).toBe(bottom);
-  exitSlide(player);
-  expect(player.h).toBe(120);
-  expect(player.y + player.h / 2).toBe(bottom);
+function setupDOM() {
+  document.body.innerHTML = '<div id="game-wrap"><canvas id="game"></canvas></div>';
+  return document.getElementById('game');
+}
+
+test('slide effect draws at feet accounting for Y_OFFSET', () => {
+  jest.useFakeTimers();
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const playerY = 200;
+  const playerH = 120;
+  ui.triggerSlideEffect(150, playerY + playerH / 2 + Y_OFFSET, 1);
+  const fx = document.querySelector('.slide-effect');
+  expect(fx.style.top).toBe(`${playerY + playerH / 2 + Y_OFFSET - 12}px`);
+  jest.advanceTimersByTime(500);
+  expect(document.querySelector('.slide-effect')).toBeNull();
+  jest.useRealTimers();
 });
