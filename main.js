@@ -79,6 +79,21 @@ const IMPACT_COOLDOWN_MS = 120;
     spawnLights();
   }
 
+  window.__testHooks = {
+    restartStage,
+    getState: () => state,
+    getScore: () => score,
+    getTimeLeft: () => timeLeftMs,
+    setScore: (v) => { score = v; if (scoreEl) scoreEl.textContent = v; },
+    setTimeLeft: (v) => { timeLeftMs = v; if (timerEl) timerEl.textContent = Math.ceil(v/1000); },
+    setStageCleared: (v) => { stageCleared = v; },
+    setStageFailed: (v) => { stageFailed = v; },
+    getStageCleared: () => stageCleared,
+    getStageFailed: () => stageFailed,
+    getScoreEl: () => scoreEl,
+    getTimerEl: () => timerEl,
+  };
+
   let last=0;
   function loop(t){
     const dt = Math.min(32, t-last); last=t;
