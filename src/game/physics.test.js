@@ -60,6 +60,26 @@ test('collecting a coin adds score and removes coin', () => {
   expect(coins.has('1,1')).toBe(false);
 });
 
+test('coin collection uses entity dimensions for detection', () => {
+  const coinX = TILE * 1 + TILE / 2;
+  const coinY = TILE * 1 + TILE / 2;
+  const positions = [
+    { x: coinX + 30, y: coinY },
+    { x: coinX - 30, y: coinY },
+    { x: coinX, y: coinY + 50 },
+    { x: coinX, y: coinY - 50 },
+    { x: coinX + 30, y: coinY + 50 },
+  ];
+  for (const pos of positions) {
+    const level = makeLevel(3, 3);
+    level[1][1] = 3;
+    const coins = new Set(['1,1']);
+    const ent = { x: pos.x, y: pos.y, w: BASE_W, h: 120, vx: 0, vy: 0 };
+    const gained = collectCoins(ent, level, coins);
+    expect(gained).toBe(10);
+  }
+});
+
 test('jumping is blocked near red traffic light', () => {
   const lights = { '3,2': { state: 'red' } };
   const ent = { x: TILE * 3 + TILE / 2, y: TILE * 2 + TILE / 2 };
