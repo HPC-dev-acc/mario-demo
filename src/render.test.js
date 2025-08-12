@@ -1,5 +1,6 @@
 import { render, drawPlayer } from './render.js';
 import { createGameState } from './game/state.js';
+import { TILE } from './game/physics.js';
 
 test('render runs without throwing', () => {
   const state = createGameState();
@@ -63,6 +64,37 @@ test('render does not draw bottom green ground', () => {
   };
   render(ctx, state);
   expect(ctx.fillRect).not.toHaveBeenCalledWith(0, ctx.canvas.height - 28, ctx.canvas.width, 28);
+});
+
+test('render omits ground tiles', () => {
+  const state = {
+    level: [[1]],
+    lights: {},
+    player: { x: 0, y: 0, w: 40, h: 40, facing: 1, sliding: 0, onGround: true },
+    camera: { x: 0, y: 0 },
+    GOAL_X: 0,
+    LEVEL_W: 1,
+    LEVEL_H: 1,
+    playerSprites: null,
+  };
+  const ctx = {
+    canvas: { width: TILE, height: TILE },
+    clearRect: jest.fn(),
+    save: jest.fn(),
+    translate: jest.fn(),
+    fillRect: jest.fn(),
+    beginPath: jest.fn(),
+    arc: jest.fn(),
+    ellipse: jest.fn(),
+    fill: jest.fn(),
+    strokeRect: jest.fn(),
+    restore: jest.fn(),
+    scale: jest.fn(),
+    drawImage: jest.fn(),
+    fillStyle: '',
+  };
+  render(ctx, state);
+  expect(ctx.fillRect).not.toHaveBeenCalledWith(0, 0, TILE, TILE);
 });
 
 test('drawPlayer chooses correct sprite', () => {
