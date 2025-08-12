@@ -1,5 +1,7 @@
 import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 
+export const Y_OFFSET = 80;
+
 export function render(ctx, state) {
   const { level, lights, player, camera, GOAL_X, LEVEL_W, LEVEL_H, playerSprites } = state;
   if (ctx.canvas && ctx.canvas.style) {
@@ -7,7 +9,7 @@ export function render(ctx, state) {
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.save();
-  ctx.translate(-camera.x, -camera.y);
+  ctx.translate(-camera.x, -camera.y + Y_OFFSET);
     for (let y = 0; y < LEVEL_H; y++) {
       for (let x = 0; x < LEVEL_W; x++) {
         const t = level[y][x], px = x * TILE, py = y * TILE;

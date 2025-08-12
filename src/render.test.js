@@ -1,4 +1,4 @@
-import { render, drawPlayer } from './render.js';
+import { render, drawPlayer, Y_OFFSET } from './render.js';
 import { createGameState } from './game/state.js';
 import { TILE } from './game/physics.js';
 
@@ -20,6 +20,28 @@ test('render runs without throwing', () => {
     fillStyle: '',
   };
   expect(() => render(ctx, state)).not.toThrow();
+});
+
+test('render applies vertical offset', () => {
+  const state = createGameState();
+  state.camera.y = 10;
+  const ctx = {
+    canvas: { width: 256, height: 240 },
+    clearRect: jest.fn(),
+    save: jest.fn(),
+    translate: jest.fn(),
+    fillRect: jest.fn(),
+    beginPath: jest.fn(),
+    arc: jest.fn(),
+    ellipse: jest.fn(),
+    fill: jest.fn(),
+    strokeRect: jest.fn(),
+    restore: jest.fn(),
+    scale: jest.fn(),
+    fillStyle: '',
+  };
+  render(ctx, state);
+  expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -state.camera.y + Y_OFFSET);
 });
 
 test('render does not call drawCloud', () => {
