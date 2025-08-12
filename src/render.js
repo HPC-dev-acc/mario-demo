@@ -2,6 +2,9 @@ import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 
 export function render(ctx, state) {
   const { level, lights, player, camera, GOAL_X, LEVEL_W, LEVEL_H, playerSprites } = state;
+  if (ctx.canvas && ctx.canvas.style) {
+    ctx.canvas.style.backgroundPosition = `${-Math.floor(camera.x)}px 0px`;
+  }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   for (let i = 0; i < 6; i++) {
     const cx = (i * 300 - (camera.x * 0.4) % 300), cy = 60 + (i % 2) * 40;

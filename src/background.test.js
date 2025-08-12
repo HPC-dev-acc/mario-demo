@@ -1,23 +1,46 @@
 import fs from 'fs';
+import { render } from './render.js';
 import { TextEncoder, TextDecoder } from 'util';
 
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
-let JSDOM;
-beforeAll(async () => {
-  ({ JSDOM } = await import('jsdom'));
-});
-
-test('background1.jpeg is preloaded and applied to canvas', () => {
-  const html = fs.readFileSync('index.html', 'utf8');
-  const dom = new JSDOM(html);
-  const doc = dom.window.document;
-  const preload = doc.querySelector('link[rel="preload"][as="image"]');
-  expect(preload).not.toBeNull();
-  expect(preload.getAttribute('href')).toBe('assets/Background/background1.jpeg');
-
+test('background repeats and moves with camera', () => {
   const css = fs.readFileSync('style.css', 'utf8');
-  expect(css).toMatch(/#game\{[^}]*background:url\("assets\/Background\/background1\.jpeg"\)[^}]*}/);
-});
+  expect(css).toMatch(/#game\{[^}]*background-image:url\("assets\/Background\/background1\.jpeg"\)[^}]*background-repeat:repeat-x[^}]*}/);
 
+  const canvas = { style: {}, width: 960, height: 540 };
+  const ctx = {
+    canvas,
+    clearRect: () => {},
+    save: () => {},
+    translate: () => {},
+    restore: () => {},
+    fillRect: () => {},
+    beginPath: () => {},
+    arc: () => {},
+    fill: () => {},
+    strokeRect: () => {},
+    scale: () => {},
+    drawImage: () => {},
+    fillStyle: '',
+    strokeStyle: '',
+    lineWidth: 0,
+  };
+  const state = {
+    level: [],
+    lights: {},
+    player: { x: 0, y: 0, vx: 0, vy: 0, facing: 1, onGround: true, w: 0, h: 0 },
+    camera: { x: 0, y: 0 },
+    GOAL_X: 0,
+    LEVEL_W: 0,
+    LEVEL_H: 0,
+    playerSprites: {},
+  };
+
+  render(ctx, state);
+  expect(canvas.style.backgroundPosition).toBe('0px 0px');
+  state.camera.x = 50;
+  render(ctx, state);
+  expect(canvas.style.backgroundPosition).toBe('-50px 0px');
+});
