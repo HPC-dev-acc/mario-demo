@@ -1,11 +1,12 @@
 # Mario Demo
 
-**Version: 1.5.42**
+**Version: 1.5.43**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
 
+- Level layout, coins, and traffic lights are now loaded from `assets/objects.json`, removing hard-coded objects and random light spawning.
 - Traffic lights now spawn at quarter points across the level for even distribution.
 - Sliding now keeps the player's full width to avoid layout issues on iPad Safari.
 - Traffic lights now render from PNG sprites and are scaled up 1.5× to roughly 3.75 tiles with aligned positions.
@@ -56,6 +57,16 @@ Sound effects in `assets/sounds` are sourced from [Kenney](https://kenney.nl/ass
 - `fail.wav` – played when the timer expires and the stage is failed.
 
 Background music (`assets/music/background.wav`) plays in a loop when the game starts. Use the **BGM** control in the top-right corner of the screen to mute or unmute it.
+
+## Configuration
+
+Stage objects are defined in `assets/objects.json`. Each entry in the array looks like:
+
+```json
+{ "type": "coin", "x": 12, "y": 4, "transparent": true }
+```
+
+Supported `type` values are `brick`, `coin`, and `light`. The `x` and `y` fields use tile coordinates. `transparent` marks whether an object should be drawn without blocking movement. `createGameState` loads this file to populate the level, coins, and traffic lights.
 
 ## Testing
 

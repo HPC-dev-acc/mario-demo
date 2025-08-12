@@ -1,0 +1,24 @@
+import objects from '../../assets/objects.json' assert { type: 'json' };
+import { TRAFFIC_LIGHT } from './physics.js';
+import { createGameState } from './state.js';
+
+test('loads objects.json into game state', () => {
+  const state = createGameState();
+  const brickCount = objects.filter(o => o.type === 'brick').length;
+  const coinCount = objects.filter(o => o.type === 'coin').length;
+  const lightCount = objects.filter(o => o.type === 'light').length;
+
+  let bricks = 0;
+  for (const row of state.level) bricks += row.filter(v => v === 2).length;
+  expect(bricks).toBe(brickCount);
+  expect(state.coins.size).toBe(coinCount);
+  expect(Object.keys(state.lights)).toHaveLength(lightCount);
+
+  const sampleCoin = objects.find(o => o.type === 'coin');
+  expect(state.level[sampleCoin.y][sampleCoin.x]).toBe(3);
+  expect(state.coins.has(`${sampleCoin.x},${sampleCoin.y}`)).toBe(true);
+
+  const sampleLight = objects.find(o => o.type === 'light');
+  expect(state.level[sampleLight.y][sampleLight.x]).toBe(TRAFFIC_LIGHT);
+  expect(state.lights).toHaveProperty(`${sampleLight.x},${sampleLight.y}`);
+});
