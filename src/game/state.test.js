@@ -1,5 +1,6 @@
 import { createGameState } from './state.js';
 import { TILE } from './physics.js';
+import { BASE_W } from './width.js';
 
 test('createGameState returns initial values', () => {
   const state = createGameState();
@@ -7,8 +8,8 @@ test('createGameState returns initial values', () => {
   expect(state.level[0].length).toBe(state.LEVEL_W);
   expect(state.player.x).toBe(3 * TILE);
   expect(state.player.y).toBe(3 * TILE - 20);
-  expect(state.player.w).toBe(56);
-  expect(state.player.h).toBe(80);
+  expect(state.player.w).toBe(BASE_W);
+  expect(state.player.h).toBe(120);
   expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
   expect(state.coins.size).toBeGreaterThan(0);
   expect(state.level[state.LEVEL_H - 5].every(v => v === 1)).toBe(true);
