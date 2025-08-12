@@ -9,7 +9,7 @@ function setupDOM() {
       <button id="btn-retry" hidden>Retry</button>
     </div>
     <div id="version-pill"></div>
-    <canvas id="game"></canvas>`;
+    <div id="game-wrap"><canvas id="game"></canvas></div>`;
   return document.getElementById('game');
 }
 
@@ -80,4 +80,17 @@ test('start button pointerdown not canceled and click hides start page', () => {
   btn.click();
   expect(started).toBe(true);
   expect(document.getElementById('start-page').hidden).toBe(true);
+});
+
+test('triggerStartEffect inserts and removes element', () => {
+  jest.useFakeTimers();
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  ui.triggerStartEffect();
+  const el = document.querySelector('.start-effect');
+  expect(el).not.toBeNull();
+  expect(el.textContent).toBe("Let's Go!");
+  jest.advanceTimersByTime(1000);
+  expect(document.querySelector('.start-effect')).toBeNull();
+  jest.useRealTimers();
 });

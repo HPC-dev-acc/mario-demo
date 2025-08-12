@@ -18,7 +18,7 @@ const IMPACT_COOLDOWN_MS = 120;
   const ctx = canvas.getContext('2d');
 
   const ui = initUI(canvas, { resumeAudio, toggleMusic, version: VERSION });
-  const { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, showStageClear, showStageFail, hideStageOverlays, startScreen } = ui;
+  const { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen } = ui;
   Logger.info('app_start', { version: VERSION });
 
   const state = createGameState();
@@ -79,6 +79,7 @@ const IMPACT_COOLDOWN_MS = 120;
       }
     }
     spawnLights();
+    triggerStartEffect();
   }
 
   window.__testHooks = {
@@ -205,6 +206,7 @@ const IMPACT_COOLDOWN_MS = 120;
   }
 
   function beginGame(){
+    triggerStartEffect();
     resumeAudio();
     playMusic();
     requestAnimationFrame(loop);

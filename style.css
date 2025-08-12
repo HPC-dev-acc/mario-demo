@@ -90,6 +90,26 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
   to{opacity:0;transform:translate(-50%,-50%) scaleX(var(--sx,1)) scale(.5);}
 }
 
+/* Start effect */
+.start-effect{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:48px;
+  font-weight:900;
+  color:white;
+  text-shadow:0 4px 8px rgba(0,0,0,.3);
+  animation:start-pop 1s ease-out forwards;
+  pointer-events:none;
+}
+@keyframes start-pop{
+  from{opacity:0;transform:scale(.5);}
+  50%{opacity:1;transform:scale(1);}
+  to{opacity:0;transform:scale(1.5);}
+}
+
 #start-page{
   position:fixed;
   inset:0;

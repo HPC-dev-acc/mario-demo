@@ -40,6 +40,7 @@ async function loadGame() {
       triggerClearEffect: jest.fn(),
       triggerSlideEffect: jest.fn(),
       triggerFailEffect: jest.fn(),
+      triggerStartEffect: jest.fn(),
       showStageClear: jest.fn(),
       showStageFail: jest.fn(),
       hideStageOverlays: jest.fn(),
