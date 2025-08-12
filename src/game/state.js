@@ -1,4 +1,5 @@
 import { TILE, TRAFFIC_LIGHT } from './physics.js';
+import { BASE_W } from './width.js';
 
 export function createGameState() {
   const LEVEL_W = 100, LEVEL_H = 12;
@@ -39,7 +40,7 @@ export function createGameState() {
   };
   state.spawnLights();
 
-  state.player = { x: 3 * TILE, y: 6 * TILE - 20, w: 56, h: 80, baseH: 80, vx: 0, vy: 0, onGround: false, facing: 1, sliding: 0 };
+  state.player = { x: 3 * TILE, y: 6 * TILE - 20, w: BASE_W, h: 80, baseH: 80, baseW: BASE_W, vx: 0, vy: 0, onGround: false, facing: 1, sliding: 0 };
   state.camera = { x: 0, y: 0 };
 
   return state;
