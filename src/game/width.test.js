@@ -4,8 +4,8 @@ test('BASE_W matches expected pixel width', () => {
   expect(BASE_W).toBe(84);
 });
 
-test('player width shrinks when idle and restores when running', () => {
-  const p = { running: false, blocked: false, w: BASE_W };
+test('player width shrinks when idle on ground and restores when running', () => {
+  const p = { running: false, blocked: false, onGround: true, w: BASE_W };
   updatePlayerWidth(p);
   expect(p.w).toBe(BASE_W * 2 / 3);
   p.running = true;
@@ -13,8 +13,14 @@ test('player width shrinks when idle and restores when running', () => {
   expect(p.w).toBe(BASE_W);
 });
 
+test('player width stays base when jumping vertically', () => {
+  const p = { running: false, blocked: false, onGround: false, w: BASE_W };
+  updatePlayerWidth(p);
+  expect(p.w).toBe(BASE_W);
+});
+
 test('blocked players maintain base width even while running', () => {
-  const p = { running: true, blocked: true, w: BASE_W };
+  const p = { running: true, blocked: true, onGround: true, w: BASE_W };
   updatePlayerWidth(p);
   expect(p.w).toBe(BASE_W);
 });
