@@ -1,6 +1,6 @@
 import { TILE, TRAFFIC_LIGHT } from './physics.js';
 import { BASE_W } from './width.js';
-import objects from '../../assets/objects.json' assert { type: 'json' };
+import objects from '../../assets/objects.js';
 
 export function createGameState() {
   const LEVEL_W = 100, LEVEL_H = 12;

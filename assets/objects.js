@@ -1,4 +1,4 @@
-[
+export default [
   { "type": "brick", "x": 10, "y": 5, "transparent": false },
   { "type": "brick", "x": 11, "y": 5, "transparent": false },
   { "type": "brick", "x": 12, "y": 5, "transparent": false },
@@ -28,4 +28,4 @@
   { "type": "light", "x": 25, "y": 6, "transparent": false },
   { "type": "light", "x": 50, "y": 6, "transparent": false },
   { "type": "light", "x": 75, "y": 6, "transparent": false }
-]
+];
