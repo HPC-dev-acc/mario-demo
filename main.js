@@ -165,14 +165,13 @@ const IMPACT_COOLDOWN_MS = 120;
 
     if (player.vx !== 0) player.facing = player.vx>0 ? 1 : -1;
 
-    updatePlayerWidth(player);
-
     for (const key in state.lights) {
       advanceLight(state.lights[key], dtMs);
     }
 
     const collisionEvents = {};
     resolveCollisions(player, level, state.lights, collisionEvents);
+    updatePlayerWidth(player);
     if (player.onGround) {
       player.shadowY = player.y + player.h / 2;
     }
