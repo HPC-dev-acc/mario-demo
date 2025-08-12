@@ -8,6 +8,7 @@ import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render, Y_OFFSET } from './src/render.js';
 import { loadPlayerSprites, loadTrafficLightSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
+import { withTimeout } from './src/utils/withTimeout.js';
 const VERSION = window.__APP_VERSION__;
 
 let lastImpactAt = 0;
@@ -214,12 +215,6 @@ const IMPACT_COOLDOWN_MS = 120;
     resumeAudio();
     playMusic();
     requestAnimationFrame(loop);
-  }
-  function withTimeout(promise, ms, msg) {
-    return Promise.race([
-      promise,
-      new Promise((_, reject) => setTimeout(() => reject(new Error(msg)), ms)),
-    ]);
   }
   function preload(){
     startScreen.setStatus('Loading sounds...');
