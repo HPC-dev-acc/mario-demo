@@ -6,10 +6,6 @@ export function render(ctx, state) {
     ctx.canvas.style.backgroundPosition = `${-Math.floor(camera.x)}px 0px`;
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  for (let i = 0; i < 6; i++) {
-    const cx = (i * 300 - (camera.x * 0.4) % 300), cy = 60 + (i % 2) * 40;
-    drawCloud(ctx, cx, cy); drawCloud(ctx, cx + 150, cy + 15);
-  }
   ctx.save();
   ctx.translate(-camera.x, -camera.y);
     for (let y = 0; y < LEVEL_H; y++) {
@@ -54,13 +50,6 @@ function drawTrafficLight(ctx, x, y, state) {
   const colors = { red: '#e22', yellow: '#ff0', green: '#2ecc40' };
   ctx.fillStyle = colors[state] || '#2ecc40';
   ctx.beginPath(); ctx.arc(x + 24, y + 12, 8, 0, Math.PI * 2); ctx.fill();
-}
-function drawCloud(ctx, x, y) {
-  ctx.fillStyle = 'rgba(255,255,255,.9)';
-  ctx.beginPath(); ctx.arc(x, y, 24, 0, Math.PI * 2);
-  ctx.arc(x + 24, y + 6, 18, 0, Math.PI * 2);
-  ctx.arc(x - 24, y + 6, 18, 0, Math.PI * 2);
-  ctx.fill();
 }
 export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   ctx.save();

@@ -19,6 +19,27 @@ test('render runs without throwing', () => {
   expect(() => render(ctx, state)).not.toThrow();
 });
 
+test('render does not call drawCloud', () => {
+  const state = createGameState();
+  const ctx = {
+    canvas: { width: 256, height: 240 },
+    clearRect: jest.fn(),
+    save: jest.fn(),
+    translate: jest.fn(),
+    fillRect: jest.fn(),
+    beginPath: jest.fn(),
+    arc: jest.fn(),
+    fill: jest.fn(),
+    strokeRect: jest.fn(),
+    restore: jest.fn(),
+    scale: jest.fn(),
+  };
+  global.drawCloud = jest.fn();
+  render(ctx, state);
+  expect(global.drawCloud).not.toHaveBeenCalled();
+  delete global.drawCloud;
+});
+
 test('drawPlayer chooses correct sprite', () => {
   const mk = (name) => ({ name });
   const sprites = {
