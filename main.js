@@ -66,7 +66,7 @@ const IMPACT_COOLDOWN_MS = 120;
   function restartStage(){
     resumeAudio();
     playMusic();
-    player.x = 3*TILE; player.y = 6*TILE - 20; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0; player.h = player.baseH; player.w = player.baseW || BASE_W;
+    player.x = 3*TILE; player.y = 3*TILE - 20; player.shadowY = player.y + player.h/2; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0; player.h = player.baseH; player.w = player.baseW || BASE_W;
     camera.x=0; stageCleared=false; stageFailed=false;
     hideStageOverlays();
     score=0; if (scoreEl) scoreEl.textContent = score;
