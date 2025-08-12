@@ -5,22 +5,22 @@ export function createControls(pressJump, releaseJump) {
     const k = e.key?.toLowerCase();
     if (c === 'ArrowLeft' || k === 'a') { e.preventDefault(); keys.left = true; }
     if (c === 'ArrowRight' || k === 'd') { e.preventDefault(); keys.right = true; }
-    if ((c === 'ArrowUp' || c === 'Space' || k === 'w' || k === 'z') && !keys.jump) {
+    if ((c === 'ArrowUp' || c === 'Space' || c === 'KeyZ' || k === 'w' || k === 'z') && !keys.jump) {
       if (pressJump) pressJump('kbd');
       e.preventDefault();
     }
-    if (k === 'x' || k === 'k' || k === 'j') { e.preventDefault(); keys.action = true; }
+    if (c === 'KeyX' || k === 'x' || k === 'k' || k === 'j') { e.preventDefault(); keys.action = true; }
   });
   window.addEventListener('keyup', (e) => {
     const c = e.code;
     const k = e.key?.toLowerCase();
     if (c === 'ArrowLeft' || k === 'a') keys.left = false;
     if (c === 'ArrowRight' || k === 'd') keys.right = false;
-    if (c === 'ArrowUp' || c === 'Space' || k === 'w' || k === 'z') {
+    if (c === 'ArrowUp' || c === 'Space' || c === 'KeyZ' || k === 'w' || k === 'z') {
       keys.jump = false;
       if (releaseJump) releaseJump();
     }
-    if (k === 'x' || k === 'k' || k === 'j') keys.action = false;
+    if (c === 'KeyX' || k === 'x' || k === 'k' || k === 'j') keys.action = false;
   });
   const bindHold = (id, prop) => {
     const el = document.getElementById(id); if (!el) return;

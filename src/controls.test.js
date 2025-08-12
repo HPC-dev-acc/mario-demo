@@ -37,6 +37,25 @@ test('x key triggers action regardless of code', () => {
   expect(keys.action).toBe(false);
 });
 
+test('KeyZ code triggers jump even if key differs', () => {
+  let keys;
+  const pressJump = jest.fn(() => { keys.jump = true; });
+  const releaseJump = jest.fn(() => { keys.jump = false; });
+  keys = createControls(pressJump, releaseJump);
+  window.dispatchEvent(new KeyboardEvent('keydown', { key: 'y', code: 'KeyZ' }));
+  expect(pressJump).toHaveBeenCalled();
+  window.dispatchEvent(new KeyboardEvent('keyup', { key: 'y', code: 'KeyZ' }));
+  expect(releaseJump).toHaveBeenCalled();
+});
+
+test('KeyX code triggers action even if key differs', () => {
+  const keys = createControls();
+  window.dispatchEvent(new KeyboardEvent('keydown', { key: 'o', code: 'KeyX' }));
+  expect(keys.action).toBe(true);
+  window.dispatchEvent(new KeyboardEvent('keyup', { key: 'o', code: 'KeyX' }));
+  expect(keys.action).toBe(false);
+});
+
 test('pointerdown and pointerup update key flags', () => {
   document.body.innerHTML = '<div id="left"></div>';
   const keys = createControls();
