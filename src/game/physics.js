@@ -47,6 +47,7 @@ export function isJumpBlocked(ent, lights = {}) {
 export function resolveCollisions(ent, level, lights = {}, events = {}) {
   // Horizontal movement
   ent.x += ent.vx;
+  ent.blocked = false;
   if (ent.vx < 0) {
     const left = ent.x - ent.w / 2;
     const top = ent.y - ent.h / 2 + 4;
@@ -55,6 +56,7 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
       if (solidAt(level, left, y, lights)) {
         ent.x = Math.floor(left / TILE) * TILE + TILE + ent.w / 2 + 0.01;
         ent.vx = 0;
+        ent.blocked = true;
         break;
       }
     }
@@ -66,6 +68,7 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
       if (solidAt(level, right, y, lights)) {
         ent.x = Math.floor(right / TILE) * TILE - ent.w / 2 - 0.01;
         ent.vx = 0;
+        ent.blocked = true;
         break;
       }
     }

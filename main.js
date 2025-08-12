@@ -139,6 +139,7 @@ const IMPACT_COOLDOWN_MS = 120;
         keys.action = false;
       }
     }
+    player.running = keys.left || keys.right;
 
     if (player.onGround) coyoteMs = COYOTE_MAX; else coyoteMs = Math.max(0, coyoteMs - dtMs);
     jumpBufferMs = Math.max(0, jumpBufferMs - dtMs);
