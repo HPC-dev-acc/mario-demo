@@ -1,5 +1,6 @@
 import pkg from '../package.json' assert { type: 'json' };
 import { TILE, resolveCollisions, findGroundY } from './game/physics.js';
+import { BASE_W } from './game/width.js';
 
 async function loadGame() {
   document.body.innerHTML = '<canvas id="game"></canvas>';
@@ -70,6 +71,8 @@ describe('restartStage integration', () => {
 
     expect(state.player.x).toBe(3 * TILE);
     expect(state.player.y).toBe(3 * TILE - 20);
+    expect(state.player.w).toBe(BASE_W);
+    expect(state.player.h).toBe(120);
     expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
     expect(state.level[state.LEVEL_H - 5][0]).toBe(1);
     expect(state.level[state.LEVEL_H - 4][0]).toBe(1);
@@ -94,6 +97,8 @@ describe('restartStage integration', () => {
 
     expect(state.player.x).toBe(3 * TILE);
     expect(state.player.y).toBe(3 * TILE - 20);
+    expect(state.player.w).toBe(BASE_W);
+    expect(state.player.h).toBe(120);
     expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
     expect(state.level[state.LEVEL_H - 5][0]).toBe(1);
     expect(state.level[state.LEVEL_H - 4][0]).toBe(1);

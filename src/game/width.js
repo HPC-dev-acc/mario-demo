@@ -1,4 +1,4 @@
-export const BASE_W = 56;
+export const BASE_W = 84;
 
 export function updatePlayerWidth(player) {
   if (player.onGround && player.sliding <= 0 && player.vx === 0) {
