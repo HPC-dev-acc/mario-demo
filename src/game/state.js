@@ -27,16 +27,12 @@ export function createGameState() {
       if (level[ly][lx] === TRAFFIC_LIGHT) level[ly][lx] = 0;
     }
     state.lights = {};
-    let placed = 0;
-    while (placed < 3) {
-      const x = Math.floor(Math.random() * LEVEL_W);
-      if (level[6][x] === 0 && level[7][x] === 1) {
-        level[6][x] = TRAFFIC_LIGHT;
-        const states = ['red', 'yellow', 'green'];
-        state.lights[`${x},6`] = { state: states[Math.floor(Math.random() * states.length)], timer: 0 };
-        placed++;
-      }
-    }
+    const xs = [LEVEL_W / 4, LEVEL_W / 2, (3 * LEVEL_W) / 4].map(Math.floor);
+    xs.forEach(x => {
+      level[6][x] = TRAFFIC_LIGHT;
+      const states = ['red', 'yellow', 'green'];
+      state.lights[`${x},6`] = { state: states[Math.floor(Math.random() * states.length)], timer: 0 };
+    });
   };
   state.spawnLights();
 
