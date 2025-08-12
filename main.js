@@ -6,7 +6,7 @@ import { createControls } from './src/controls.js';
 import { createGameState } from './src/game/state.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render, Y_OFFSET } from './src/render.js';
-import { loadPlayerSprites } from './src/sprites.js';
+import { loadPlayerSprites, loadTrafficLightSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
 const VERSION = window.__APP_VERSION__;
 
@@ -226,10 +226,14 @@ const IMPACT_COOLDOWN_MS = 120;
     withTimeout(loadSounds(), 10000, 'Timed out loading sounds')
       .then(() => {
         startScreen.setStatus('Loading sprites...');
-        return withTimeout(loadPlayerSprites(), 10000, 'Timed out loading sprites');
+        return withTimeout(Promise.all([
+          loadPlayerSprites(),
+          loadTrafficLightSprites(),
+        ]), 10000, 'Timed out loading sprites');
       })
-      .then((sprites) => {
-        state.playerSprites = sprites;
+      .then(([playerSprites, trafficLightSprites]) => {
+        state.playerSprites = playerSprites;
+        state.trafficLightSprites = trafficLightSprites;
         startScreen.showStart(() => beginGame());
       }).catch((err) => {
         console.error('Failed to load resources', err);

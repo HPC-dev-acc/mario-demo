@@ -15,7 +15,7 @@ export function render(ctx, state) {
         const t = level[y][x], px = x * TILE, py = y * TILE;
         if (t === 2) drawBrick(ctx, px, py);
         if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2);
-        if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[`${x},${y}`]?.state);
+          if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[`${x},${y}`]?.state, state.trafficLightSprites);
       }
     }
     ctx.fillStyle = 'rgba(0,0,0,.15)';
@@ -36,13 +36,17 @@ function drawCoin(ctx, cx, cy) {
   ctx.beginPath(); ctx.fillStyle = '#ffd400'; ctx.arc(0, 0, 12, 0, Math.PI * 2); ctx.fill();
   ctx.fillStyle = '#ffea80'; ctx.fillRect(-3, -6, 6, 12); ctx.restore();
 }
-function drawTrafficLight(ctx, x, y, state) {
-  ctx.fillStyle = '#555';
-  ctx.fillRect(x + 20, y + TILE - 24, 8, 24);
-  const colors = { red: '#e22', yellow: '#ff0', green: '#2ecc40' };
-  ctx.fillStyle = colors[state] || '#2ecc40';
-  ctx.beginPath(); ctx.arc(x + 24, y + 12, 8, 0, Math.PI * 2); ctx.fill();
+export function drawTrafficLight(ctx, x, y, state, sprites) {
+  const sprite = sprites?.[state] || sprites?.green;
+  if (!sprite) return;
+  const { img, sx, sy, sw, sh } = sprite;
+  const dh = TILE * 2.5;
+  const dw = sw * (dh / sh);
+  const dx = x + TILE / 2 - dw / 2;
+  const dy = y + TILE - dh;
+  ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
 }
+
 export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   const { w, h } = p; // use player dimensions for scaling
   ctx.save();
