@@ -40,7 +40,7 @@ export function drawTrafficLight(ctx, x, y, state, sprites) {
   const sprite = sprites?.[state] || sprites?.green;
   if (!sprite) return;
   const { img, sx, sy, sw, sh } = sprite;
-  const dh = TILE * 2.5;
+  const dh = TILE * 3.75;
   const dw = sw * (dh / sh);
   const dx = x + TILE / 2 - dw / 2;
   const dy = y + TILE - dh;
