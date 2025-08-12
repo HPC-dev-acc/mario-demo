@@ -173,6 +173,9 @@ const IMPACT_COOLDOWN_MS = 120;
 
     const collisionEvents = {};
     resolveCollisions(player, level, state.lights, collisionEvents);
+    if (player.onGround) {
+      player.shadowY = player.y + player.h / 2;
+    }
     const gained = collectCoins(player, level, coins);
     if (collisionEvents.brickHit) {
       const now = performance.now();
