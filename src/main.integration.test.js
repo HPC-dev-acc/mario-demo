@@ -68,7 +68,10 @@ describe('restartStage integration', () => {
     hooks.restartStage();
 
     expect(state.player.x).toBe(3 * TILE);
-    expect(state.player.y).toBe(6 * TILE - 20);
+    expect(state.player.y).toBe(3 * TILE - 20);
+    expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
+    expect(state.level[state.LEVEL_H - 5][0]).toBe(1);
+    expect(state.level[state.LEVEL_H - 4][0]).toBe(1);
     expect(hooks.getScore()).toBe(0);
     expect(hooks.getTimeLeft()).toBe(60000);
     expect(scoreEl.textContent).toBe('0');
@@ -89,7 +92,10 @@ describe('restartStage integration', () => {
     hooks.restartStage();
 
     expect(state.player.x).toBe(3 * TILE);
-    expect(state.player.y).toBe(6 * TILE - 20);
+    expect(state.player.y).toBe(3 * TILE - 20);
+    expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
+    expect(state.level[state.LEVEL_H - 5][0]).toBe(1);
+    expect(state.level[state.LEVEL_H - 4][0]).toBe(1);
     expect(hooks.getScore()).toBe(0);
     expect(hooks.getTimeLeft()).toBe(60000);
     expect(scoreEl.textContent).toBe('0');
