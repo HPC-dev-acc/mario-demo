@@ -1,4 +1,4 @@
 module.exports = {
   presets: [['@babel/preset-env', { targets: { node: 'current' } }]],
-  plugins: ['@babel/plugin-syntax-import-assertions'],
+  plugins: ['@babel/plugin-syntax-import-assertions', 'babel-plugin-transform-import-meta'],
 };

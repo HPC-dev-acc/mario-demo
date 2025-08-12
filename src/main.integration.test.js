@@ -20,19 +20,21 @@ async function loadGame() {
     set textContent(v) { this._text = String(v); },
   };
 
-  jest.doMock('../src/audio.js', () => ({
-    loadSounds: () => Promise.resolve(),
+  const audio = {
+    loadSounds: jest.fn(() => Promise.resolve()),
     play: jest.fn(),
     playMusic: jest.fn(),
     toggleMusic: jest.fn(),
     resumeAudio: jest.fn(),
-  }));
+  };
+  jest.doMock('../src/audio.js', () => audio);
 
     jest.doMock('../src/sprites.js', () => ({
       loadPlayerSprites: () => Promise.resolve(),
       loadTrafficLightSprites: () => Promise.resolve({}),
     }));
 
+  let startCallback;
   jest.doMock('../src/ui/index.js', () => ({
     initUI: () => ({
       Logger: { info: jest.fn(), debug: jest.fn() },
@@ -46,13 +48,28 @@ async function loadGame() {
       showStageClear: jest.fn(),
       showStageFail: jest.fn(),
       hideStageOverlays: jest.fn(),
-      startScreen: { setStatus: jest.fn(), showStart: jest.fn(), showError: jest.fn() },
+      startScreen: { setStatus: jest.fn(), showStart: jest.fn((cb) => { startCallback = cb; }), showError: jest.fn() },
     }),
   }));
 
   await import('../main.js');
-  return { hooks: window.__testHooks, scoreEl, timerEl };
+  await new Promise((r) => setTimeout(r, 0));
+  return { hooks: window.__testHooks, scoreEl, timerEl, audio, startCallback };
 }
+
+describe('audio loading', () => {
+  afterEach(() => {
+    jest.resetModules();
+  });
+
+  test('loadSounds waits for start interaction', async () => {
+    const { audio, startCallback } = await loadGame();
+    expect(audio.loadSounds).not.toHaveBeenCalled();
+    startCallback();
+    expect(audio.resumeAudio).toHaveBeenCalled();
+    expect(audio.loadSounds).toHaveBeenCalled();
+  });
+});
 
 describe('restartStage integration', () => {
   afterEach(() => {

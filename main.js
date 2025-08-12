@@ -213,19 +213,15 @@ const IMPACT_COOLDOWN_MS = 120;
   function beginGame(){
     triggerStartEffect();
     resumeAudio();
-    playMusic();
+    loadSounds().then(() => playMusic());
     requestAnimationFrame(loop);
   }
   function preload(){
-    startScreen.setStatus('Loading sounds...');
-    withTimeout(loadSounds(), 10000, 'Timed out loading sounds')
-      .then(() => {
-        startScreen.setStatus('Loading sprites...');
-        return withTimeout(Promise.all([
-          loadPlayerSprites(),
-          loadTrafficLightSprites(),
-        ]), 10000, 'Timed out loading sprites');
-      })
+    startScreen.setStatus('Loading sprites...');
+    withTimeout(Promise.all([
+      loadPlayerSprites(),
+      loadTrafficLightSprites(),
+    ]), 10000, 'Timed out loading sprites')
       .then(([playerSprites, trafficLightSprites]) => {
         state.playerSprites = playerSprites;
         state.trafficLightSprites = trafficLightSprites;

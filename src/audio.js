@@ -6,14 +6,15 @@ let musicSource = null;
 
 const buffers = {};
 
+const baseURL = new URL('.', import.meta.url);
 const files = {
-  jump: 'assets/sounds/jump.wav',
-  impact: 'assets/sounds/impact.wav',
-  slide: 'assets/sounds/slide.wav',
-  clear: 'assets/sounds/clear.wav',
-  coin: 'assets/sounds/coin.wav',
-  fail: 'assets/sounds/fail.wav',
-  background: 'assets/music/background.wav',
+  jump: new URL('../assets/sounds/jump.wav', baseURL).href,
+  impact: new URL('../assets/sounds/impact.wav', baseURL).href,
+  slide: new URL('../assets/sounds/slide.wav', baseURL).href,
+  clear: new URL('../assets/sounds/clear.wav', baseURL).href,
+  coin: new URL('../assets/sounds/coin.wav', baseURL).href,
+  fail: new URL('../assets/sounds/fail.wav', baseURL).href,
+  background: new URL('../assets/music/background.wav', baseURL).href,
 };
 
 export function initAudioContext() {
