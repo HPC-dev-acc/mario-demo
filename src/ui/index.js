@@ -131,9 +131,17 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
     gameWrap.appendChild(fx);
     setTimeout(() => fx.remove(), 1000);
   }
+  function triggerStartEffect() {
+    if (!gameWrap) return;
+    const fx = document.createElement('div');
+    fx.className = 'start-effect';
+    fx.textContent = "Let's Go!";
+    gameWrap.appendChild(fx);
+    setTimeout(() => fx.remove(), 1000);
+  }
   function showStageClear() { if (stageClearEl) stageClearEl.hidden = false; }
   function showStageFail() { if (stageFailEl) stageFailEl.hidden = false; }
   function hideStageOverlays() { if (stageClearEl) stageClearEl.hidden = true; if (stageFailEl) stageFailEl.hidden = true; }
 
-  return { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, showStageClear, showStageFail, hideStageOverlays, startScreen };
+  return { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen };
 }
