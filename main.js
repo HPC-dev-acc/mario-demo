@@ -1,4 +1,4 @@
-import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked } from './src/game/physics.js';
+import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked, findGroundY } from './src/game/physics.js';
 import { BASE_W, updatePlayerWidth } from './src/game/width.js';
 import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
@@ -171,10 +171,8 @@ const IMPACT_COOLDOWN_MS = 120;
 
     const collisionEvents = {};
     resolveCollisions(player, level, state.lights, collisionEvents);
+    player.shadowY = findGroundY(level, player.x, state.lights);
     updatePlayerWidth(player);
-    if (player.onGround) {
-      player.shadowY = player.y + player.h / 2;
-    }
     const gained = collectCoins(player, level, coins);
     if (collisionEvents.brickHit) {
       const now = performance.now();

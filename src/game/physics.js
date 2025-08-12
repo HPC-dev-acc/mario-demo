@@ -16,6 +16,22 @@ export function solidAt(level, x, y, lights = {}) {
   return t === 1 || t === 2 ? t : 0;
 }
 
+export function findGroundY(level, x, lights = {}) {
+  const tx = worldToTile(x);
+  for (let ty = 0; ty < level.length; ty++) {
+    const t = level[ty][tx];
+    if (t === 0) continue;
+    if (t === TRAFFIC_LIGHT) {
+      const state = lights[`${tx},${ty}`]?.state;
+      if (state !== 'red') continue;
+    }
+    if (t === 1 || t === 2 || t === TRAFFIC_LIGHT) {
+      return ty * TILE;
+    }
+  }
+  return level.length * TILE;
+}
+
 export function isJumpBlocked(ent, lights = {}) {
   const tx = worldToTile(ent.x);
   const ty = worldToTile(ent.y);
