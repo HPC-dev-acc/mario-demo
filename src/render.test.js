@@ -88,6 +88,28 @@ test('render does not draw bottom green ground', () => {
   expect(ctx.fillRect).not.toHaveBeenCalledWith(0, ctx.canvas.height - 28, ctx.canvas.width, 28);
 });
 
+test('render does not draw goal line', () => {
+  const state = createGameState();
+  const ctx = {
+    canvas: { width: 256, height: 240 },
+    clearRect: jest.fn(),
+    save: jest.fn(),
+    translate: jest.fn(),
+    fillRect: jest.fn(),
+    beginPath: jest.fn(),
+    arc: jest.fn(),
+    ellipse: jest.fn(),
+    fill: jest.fn(),
+    strokeRect: jest.fn(),
+    restore: jest.fn(),
+    scale: jest.fn(),
+    fillStyle: '',
+  };
+  render(ctx, state);
+  const xs = ctx.fillRect.mock.calls.map(c => c[0]);
+  expect(xs).not.toContain(state.GOAL_X);
+});
+
 test('render omits ground tiles', () => {
   const state = {
     level: [[1]],
