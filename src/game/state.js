@@ -20,7 +20,7 @@ export function createGameState() {
 
     const initialLevel = level.map(row => row.slice());
 
-    const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null };
+      const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null, trafficLightSprites: null };
   state.spawnLights = function spawnLights() {
     for (const k in state.lights) {
       const [lx, ly] = k.split(',').map(Number);

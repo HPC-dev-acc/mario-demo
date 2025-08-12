@@ -1,4 +1,4 @@
-import { render, drawPlayer, Y_OFFSET } from './render.js';
+import { render, drawPlayer, drawTrafficLight, Y_OFFSET } from './render.js';
 import { createGameState } from './game/state.js';
 import { TILE, findGroundY } from './game/physics.js';
 
@@ -200,6 +200,29 @@ test('drawPlayer scales image to player dimensions', () => {
   const call = ctx.drawImage.mock.calls[0];
   expect(call[3]).toBe(p.w);
   expect(call[4]).toBe(p.h);
+});
+
+test('drawTrafficLight draws aligned sprite', () => {
+  const img = {};
+  const sprites = {
+    red: { img, sx: 0, sy: 3, sw: 1024, sh: 1532 },
+    yellow: { img, sx: 0, sy: 3, sw: 1024, sh: 1532 },
+    green: { img, sx: 0, sy: 3, sw: 1024, sh: 1532 },
+  };
+  const ctx = { drawImage: jest.fn() };
+  drawTrafficLight(ctx, 0, 0, 'red', sprites);
+  const call = ctx.drawImage.mock.calls[0];
+  const dh = TILE * 2.5;
+  const dw = sprites.red.sw * (dh / sprites.red.sh);
+  expect(call[0]).toBe(img);
+  expect(call[1]).toBe(0);
+  expect(call[2]).toBe(3);
+  expect(call[3]).toBe(1024);
+  expect(call[4]).toBe(1532);
+  expect(call[5]).toBeCloseTo(TILE / 2 - dw / 2);
+  expect(call[6]).toBeCloseTo(TILE - dh);
+  expect(call[7]).toBeCloseTo(dw);
+  expect(call[8]).toBeCloseTo(dh);
 });
 
 test('drawPlayer draws a shadow beneath the player', () => {

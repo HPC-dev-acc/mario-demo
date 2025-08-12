@@ -28,9 +28,10 @@ async function loadGame() {
     resumeAudio: jest.fn(),
   }));
 
-  jest.doMock('../src/sprites.js', () => ({
-    loadPlayerSprites: () => Promise.resolve(),
-  }));
+    jest.doMock('../src/sprites.js', () => ({
+      loadPlayerSprites: () => Promise.resolve(),
+      loadTrafficLightSprites: () => Promise.resolve({}),
+    }));
 
   jest.doMock('../src/ui/index.js', () => ({
     initUI: () => ({
