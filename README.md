@@ -1,6 +1,6 @@
 # Mario Demo
 
-**Version: 1.5.32**
+**Version: 1.5.33**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
@@ -12,7 +12,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Raised ground three rows higher, updated spawn height and traffic light placement.
 - Added a semi-transparent shadow beneath the player.
 - Removed cloud rendering from the background for a cleaner scene.
-- Sliding now halves the player's height and preserves foot position.
+- Sliding now reduces the player's height to 75% of its base and preserves foot position.
 - Safeguarded touch jump input when no `pressJump` callback is supplied.
 - Generated `version.js` and HTML query parameters from `package.json` via the `npm run build` script.
 - `npm run build` now compares existing files and only overwrites them when the version changes, keeping git clean during tests.

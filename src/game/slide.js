@@ -1,6 +1,6 @@
 export function enterSlide(player) {
   if (!player.baseH) player.baseH = player.h;
-  const newH = player.baseH / 2;
+  const newH = player.baseH * 0.75;
   const delta = (player.h - newH) / 2;
   player.h = newH;
   player.y += delta;
