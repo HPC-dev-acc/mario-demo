@@ -1,6 +1,6 @@
 import { render, drawPlayer, Y_OFFSET } from './render.js';
 import { createGameState } from './game/state.js';
-import { TILE } from './game/physics.js';
+import { TILE, findGroundY } from './game/physics.js';
 
 test('render runs without throwing', () => {
   const state = createGameState();
@@ -239,4 +239,16 @@ test('shadow position is unaffected by player y changes', () => {
   const second = ctx.ellipse.mock.calls[1];
   expect(second[0]).toBe(first[0]);
   expect(second[1]).toBe(first[1]);
+});
+
+test('findGroundY returns floor height when under a block', () => {
+  const state = createGameState();
+  const { level, player } = state;
+  const columnX = 7;
+  level[5][columnX] = 1;
+  player.x = columnX * TILE + TILE / 2;
+  player.y = (state.LEVEL_H - 5) * TILE - player.h / 2;
+  const groundY = (state.LEVEL_H - 5) * TILE;
+  const shadowY = findGroundY(level, player.x, player.y + player.h / 2);
+  expect(shadowY).toBe(groundY);
 });
