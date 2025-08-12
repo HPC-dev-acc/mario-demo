@@ -54,6 +54,10 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   ctx.translate(p.x, p.y);
   ctx.scale(p.facing, 1);
   const { w, h } = p; // use player dimensions for scaling
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.beginPath();
+  ctx.ellipse(0, h / 2, w / 2, h / 4, 0, 0, Math.PI * 2);
+  ctx.fill();
   let anim;
   if (p.sliding > 0) anim = sprites?.slide;
   else if (!p.onGround) anim = sprites?.jump;

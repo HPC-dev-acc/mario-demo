@@ -19,6 +19,7 @@ test('background repeats and moves with camera', () => {
     fillRect: () => {},
     beginPath: () => {},
     arc: () => {},
+    ellipse: () => {},
     fill: () => {},
     strokeRect: () => {},
     scale: () => {},
