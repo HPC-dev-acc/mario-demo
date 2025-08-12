@@ -215,7 +215,9 @@ test('drawPlayer draws a shadow beneath the player', () => {
   };
   const p = { x: 0, y: 0, shadowY: 25, facing: 1, w: 40, h: 50, vx: 0, vy: 0, onGround: true, sliding: 0 };
   drawPlayer(ctx, p, sprites, 0);
-  expect(ctx.ellipse).toHaveBeenCalledWith(p.x, p.shadowY, p.w / 2, p.h / 4, 0, 0, Math.PI * 2);
+  expect(ctx.ellipse).toHaveBeenCalledWith(p.x, p.shadowY, p.w / 2, p.h / 8, 0, 0, Math.PI * 2);
+  const [, , rx, ry] = ctx.ellipse.mock.calls[0];
+  expect(rx).toBeGreaterThan(ry);
   expect(fillStyle).toBe('rgba(0,0,0,0.3)');
   expect(ctx.fill).toHaveBeenCalled();
 });

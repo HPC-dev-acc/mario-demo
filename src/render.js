@@ -48,7 +48,7 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.3)';
   ctx.beginPath();
-  ctx.ellipse(p.x, p.shadowY, w / 2, h / 4, 0, 0, Math.PI * 2);
+  ctx.ellipse(p.x, p.shadowY, w / 2, h / 8, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
   ctx.save();
