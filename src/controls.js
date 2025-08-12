@@ -1,24 +1,26 @@
 export function createControls(pressJump, releaseJump) {
   const keys = { left: false, right: false, jump: false, action: false };
   window.addEventListener('keydown', (e) => {
-    const c = e.code || e.key;
-    if (c === 'ArrowLeft' || c === 'KeyA') { e.preventDefault(); keys.left = true; }
-    if (c === 'ArrowRight' || c === 'KeyD') { e.preventDefault(); keys.right = true; }
-    if ((c === 'ArrowUp' || c === 'KeyW' || c === 'Space') && !keys.jump) {
+    const c = e.code;
+    const k = e.key?.toLowerCase();
+    if (c === 'ArrowLeft' || k === 'a') { e.preventDefault(); keys.left = true; }
+    if (c === 'ArrowRight' || k === 'd') { e.preventDefault(); keys.right = true; }
+    if ((c === 'ArrowUp' || c === 'Space' || k === 'w' || k === 'z') && !keys.jump) {
       if (pressJump) pressJump('kbd');
       e.preventDefault();
     }
-    if (c === 'KeyX' || c === 'KeyK' || c === 'KeyZ' || c === 'KeyJ') { e.preventDefault(); keys.action = true; }
+    if (k === 'x' || k === 'k' || k === 'j') { e.preventDefault(); keys.action = true; }
   });
   window.addEventListener('keyup', (e) => {
-    const c = e.code || e.key;
-    if (c === 'ArrowLeft' || c === 'KeyA') keys.left = false;
-    if (c === 'ArrowRight' || c === 'KeyD') keys.right = false;
-    if (c === 'ArrowUp' || c === 'KeyW' || c === 'Space') {
+    const c = e.code;
+    const k = e.key?.toLowerCase();
+    if (c === 'ArrowLeft' || k === 'a') keys.left = false;
+    if (c === 'ArrowRight' || k === 'd') keys.right = false;
+    if (c === 'ArrowUp' || c === 'Space' || k === 'w' || k === 'z') {
       keys.jump = false;
       if (releaseJump) releaseJump();
     }
-    if (c === 'KeyX' || c === 'KeyK' || c === 'KeyZ' || c === 'KeyJ') keys.action = false;
+    if (k === 'x' || k === 'k' || k === 'j') keys.action = false;
   });
   const bindHold = (id, prop) => {
     const el = document.getElementById(id); if (!el) return;
