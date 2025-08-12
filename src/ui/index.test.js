@@ -94,3 +94,17 @@ test('triggerStartEffect inserts and removes element', () => {
   expect(document.querySelector('.start-effect')).toBeNull();
   jest.useRealTimers();
 });
+
+test('triggerSlideEffect positions dust at player feet and removes it', () => {
+  jest.useFakeTimers();
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  ui.triggerSlideEffect(100, 200, 1);
+  const fx = document.querySelector('.slide-effect');
+  expect(fx).not.toBeNull();
+  expect(fx.style.left).toBe('88px');
+  expect(fx.style.top).toBe('188px');
+  jest.advanceTimersByTime(500);
+  expect(document.querySelector('.slide-effect')).toBeNull();
+  jest.useRealTimers();
+});
