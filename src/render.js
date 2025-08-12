@@ -23,8 +23,6 @@ export function render(ctx, state) {
     ctx.fillRect(GOAL_X, 0, 6, LEVEL_H * TILE);
     drawPlayer(ctx, player, playerSprites);
     ctx.restore();
-    ctx.fillStyle = '#72bf53';
-  ctx.fillRect(0, ctx.canvas.height - 28, ctx.canvas.width, 28);
 }
 
 function drawGround(ctx, x, y) {

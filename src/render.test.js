@@ -40,6 +40,25 @@ test('render does not call drawCloud', () => {
   delete global.drawCloud;
 });
 
+test('render does not draw bottom green ground', () => {
+  const state = createGameState();
+  const ctx = {
+    canvas: { width: 256, height: 240 },
+    clearRect: jest.fn(),
+    save: jest.fn(),
+    translate: jest.fn(),
+    fillRect: jest.fn(),
+    beginPath: jest.fn(),
+    arc: jest.fn(),
+    fill: jest.fn(),
+    strokeRect: jest.fn(),
+    restore: jest.fn(),
+    scale: jest.fn(),
+  };
+  render(ctx, state);
+  expect(ctx.fillRect).not.toHaveBeenCalledWith(0, ctx.canvas.height - 28, ctx.canvas.width, 28);
+});
+
 test('drawPlayer chooses correct sprite', () => {
   const mk = (name) => ({ name });
   const sprites = {
