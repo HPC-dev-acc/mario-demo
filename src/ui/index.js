@@ -118,8 +118,10 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
     fx.src = 'assets/slide-dust.svg';
     fx.alt = '';
     fx.className = 'slide-effect';
-    fx.style.left = `${x}px`;
-    fx.style.top = `${y}px`;
+    const H_OFF = 12;
+    const V_OFF = 12;
+    fx.style.left = `${x - facing * H_OFF}px`;
+    fx.style.top = `${y - V_OFF}px`;
     fx.style.setProperty('--sx', facing);
     gameWrap.appendChild(fx);
     setTimeout(() => fx.remove(), 500);
