@@ -89,6 +89,26 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
         break;
       }
     }
+  } else {
+    const bottom = ent.y + ent.h / 2;
+    const left = ent.x - ent.w / 2 + 6;
+    const right = ent.x + ent.w / 2 - 6;
+    for (let x = left; x <= right; x += TILE / 2) {
+      if (solidAt(level, x, bottom, lights)) {
+        ent.y = Math.floor(bottom / TILE) * TILE - ent.h / 2 - 0.01;
+        ent.onGround = true;
+        break;
+      }
+    }
+    const top = ent.y - ent.h / 2;
+    if (!ent.onGround) {
+      for (let x = left; x <= right; x += TILE / 2) {
+        if (solidAt(level, x, top, lights)) {
+          ent.y = Math.floor(top / TILE) * TILE + TILE + ent.h / 2 + 0.01;
+          break;
+        }
+      }
+    }
   }
 
   // Keep entity within horizontal level bounds
