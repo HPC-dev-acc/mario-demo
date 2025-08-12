@@ -128,14 +128,29 @@ describe('shadowY behavior', () => {
     player.vx = 0;
     player.vy = 0;
     resolveCollisions(player, level, state.lights);
-    player.shadowY = findGroundY(level, player.x, state.lights);
+    player.shadowY = findGroundY(level, player.x, player.y + player.h / 2, state.lights);
     const groundY = (state.LEVEL_H - 5) * TILE;
     expect(player.shadowY).toBe(groundY);
 
     player.x = columnX * TILE + TILE / 2;
     player.y = 5 * TILE - player.h / 2 - 10;
     resolveCollisions(player, level, state.lights);
-    player.shadowY = findGroundY(level, player.x, state.lights);
+    player.shadowY = findGroundY(level, player.x, player.y + player.h / 2, state.lights);
     expect(player.shadowY).toBe(5 * TILE);
+  });
+
+  test('returns ground height when standing under a block', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    const { level, player } = state;
+    const columnX = 10;
+    level[5][columnX] = 1; // block above
+
+    player.x = columnX * TILE + TILE / 2;
+    player.y = (state.LEVEL_H - 5) * TILE - player.h / 2;
+    resolveCollisions(player, level, state.lights);
+    player.shadowY = findGroundY(level, player.x, player.y + player.h / 2, state.lights);
+    const groundY = (state.LEVEL_H - 5) * TILE;
+    expect(player.shadowY).toBe(groundY);
   });
 });
