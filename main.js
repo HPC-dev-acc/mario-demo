@@ -3,6 +3,7 @@ import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
 import { createControls } from './src/controls.js';
 import { createGameState } from './src/game/state.js';
+import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render } from './src/render.js';
 import { loadPlayerSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
@@ -64,7 +65,7 @@ const IMPACT_COOLDOWN_MS = 120;
   function restartStage(){
     resumeAudio();
     playMusic();
-    player.x = 3*TILE; player.y = 6*TILE - 20; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0;
+    player.x = 3*TILE; player.y = 6*TILE - 20; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0; player.h = player.baseH;
     camera.x=0; stageCleared=false; stageFailed=false;
     hideStageOverlays();
     score=0; if (scoreEl) scoreEl.textContent = score;
@@ -122,13 +123,16 @@ const IMPACT_COOLDOWN_MS = 120;
     if (player.sliding > 0) {
       player.sliding = Math.max(0, player.sliding - dtMs);
       player.vx = player.facing * SLIDE_SPEED;
+      if (player.sliding === 0) exitSlide(player);
     } else {
+      if (player.h !== player.baseH) exitSlide(player);
       if (keys.left) player.vx -= MOVE_SPEED*dt;
       if (keys.right) player.vx += MOVE_SPEED*dt;
       player.vx = Math.max(Math.min(player.vx, MAX_RUN), -MAX_RUN);
       if (keys.action && player.onGround) {
         player.sliding = SLIDE_TIME;
         player.vx = player.facing * SLIDE_SPEED;
+        enterSlide(player);
         triggerSlideEffect(player.x - camera.x, player.y - camera.y + player.h/2, player.facing);
         play('slide');
         keys.action = false;
