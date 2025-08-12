@@ -45,3 +45,11 @@ test('pointer events on jump trigger callbacks', () => {
   expect(keys.jump).toBe(false);
   expect(releaseJump).toHaveBeenCalled();
 });
+
+test('jump without pressJump does not throw', () => {
+  document.body.innerHTML = '<div id="jump"></div>';
+  const keys = createControls();
+  const jump = document.getElementById('jump');
+  expect(() => jump.dispatchEvent(new Event('pointerdown'))).not.toThrow();
+  expect(keys.jump).toBe(true);
+});
