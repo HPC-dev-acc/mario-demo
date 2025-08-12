@@ -161,7 +161,10 @@ export function collectCoins(ent, level, coins) {
       if (level[y][x] === 3) {
         const rx = x * TILE + TILE / 2;
         const ry = y * TILE + TILE / 2;
-        if (Math.abs(ent.x - rx) < 26 && Math.abs(ent.y - ry) < 26) {
+        if (
+          Math.abs(ent.x - rx) < ent.w / 2 &&
+          Math.abs(ent.y - ry) < ent.h / 2
+        ) {
           level[y][x] = 0;
           coins.delete(`${x},${y}`);
           ent.vy = Math.min(ent.vy, -3);
