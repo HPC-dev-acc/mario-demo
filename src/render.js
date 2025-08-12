@@ -11,7 +11,6 @@ export function render(ctx, state) {
     for (let y = 0; y < LEVEL_H; y++) {
       for (let x = 0; x < LEVEL_W; x++) {
         const t = level[y][x], px = x * TILE, py = y * TILE;
-        if (t === 1) drawGround(ctx, px, py);
         if (t === 2) drawBrick(ctx, px, py);
         if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2);
         if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[`${x},${y}`]?.state);
@@ -25,11 +24,6 @@ export function render(ctx, state) {
     ctx.restore();
 }
 
-function drawGround(ctx, x, y) {
-  ctx.fillStyle = '#8b5a2b'; ctx.fillRect(x, y, TILE, TILE);
-  ctx.fillStyle = '#976939'; for (let i = 0; i < 2; i++) ctx.fillRect(x, y + i * 24, TILE, 2);
-  ctx.fillStyle = '#6b3f17'; ctx.fillRect(x, y + 32, TILE, 16);
-}
 function drawBrick(ctx, x, y) {
   ctx.fillStyle = '#b84a2b'; ctx.fillRect(x, y, TILE, TILE);
   ctx.strokeStyle = 'rgba(0,0,0,.25)'; ctx.lineWidth = 2;
