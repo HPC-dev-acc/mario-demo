@@ -1,6 +1,6 @@
 # Mario Demo
 
-**Version: 1.5.11**
+**Version: 1.5.12**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
@@ -15,6 +15,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - The in-game version badge is now injected through a global variable defined in `version.js` and no longer imports `package.json` directly.
 - Added `initAudioContext` to safely handle environments without the Web Audio API.
 - Added integration tests covering `restartStage` to ensure state resets correctly.
+- Replaced the in-game background with `background1.jpeg` and preloaded it on the start page.
 
 ## Audio
 
