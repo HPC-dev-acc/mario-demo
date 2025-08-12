@@ -1,6 +1,6 @@
 {
   "name": "mario-demo",
-  "version": "1.5.44",
+  "version": "1.5.45",
   "type": "module",
   "scripts": {
     "build": "node scripts/update-version.mjs",
@@ -11,7 +11,8 @@
     "@babel/preset-env": "^7.22.5",
     "babel-jest": "^29.7.0",
     "jest": "^29.7.0",
-    "jsdom": "^23.0.0"
+    "jsdom": "^23.0.0",
+    "babel-plugin-transform-import-meta": "^2.3.3"
   },
   "jest": {
     "testEnvironment": "jsdom"

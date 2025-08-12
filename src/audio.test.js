@@ -46,6 +46,10 @@ global.fetch = jest.fn((url) => {
   });
 });
 
+function getFetchCalls() {
+  return global.fetch.mock.calls.map((c) => c[0]);
+}
+
 beforeEach(() => {
   jest.spyOn(console, 'error').mockImplementation(() => {});
 });
@@ -62,6 +66,8 @@ test('loadSounds logs and continues when a sound fails to load', async () => {
   jest.resetModules();
   const { loadSounds, play } = await import('./audio.js');
   await expect(loadSounds()).resolves.toBeUndefined();
+  const calls = getFetchCalls();
+  expect(calls.some((u) => u.endsWith('/assets/sounds/jump.wav'))).toBe(true);
   expect(console.error).toHaveBeenCalled();
   expect(() => play('fail')).not.toThrow();
 });

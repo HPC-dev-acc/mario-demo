@@ -1,4 +1,4 @@
-import { loadPlayerSprites } from './sprites.js';
+import { loadPlayerSprites, loadTrafficLightSprites } from './sprites.js';
 
 describe('loadPlayerSprites', () => {
   const OriginalImage = global.Image;
@@ -14,6 +14,7 @@ describe('loadPlayerSprites', () => {
     const sprites = await loadPlayerSprites();
     expect(Object.keys(sprites)).toEqual(['idle', 'run', 'jump', 'slide']);
     expect(loaded).toHaveLength(40);
+    expect(loaded[0]).toMatch(/\/assets\/sprites\/player\/Idle__000\.png$/);
   });
 
   test('rejects on load error', async () => {
@@ -22,4 +23,14 @@ describe('loadPlayerSprites', () => {
     };
     await expect(loadPlayerSprites()).rejects.toThrow('Failed to load image');
   });
+});
+
+test('loadTrafficLightSprites resolves with proper paths', async () => {
+  const loaded = [];
+  global.Image = class {
+    set src(v) { loaded.push(v); if (this.onload) setTimeout(() => this.onload()); }
+  };
+  await expect(loadTrafficLightSprites()).resolves.toBeDefined();
+  expect(loaded).toHaveLength(3);
+  expect(loaded[0]).toMatch(/\/assets\/sprites\/Infra\/redlight\.PNG$/);
 });
