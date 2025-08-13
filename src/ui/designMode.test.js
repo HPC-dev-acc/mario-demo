@@ -114,9 +114,24 @@ test('getSelected returns object and render highlights it', async () => {
   const obj = hooks.getObjects()[0];
   enableBtn.click();
   canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: obj.x * TILE + 1, clientY: obj.y * TILE + 1 }));
-  window.dispatchEvent(new window.MouseEvent('pointerup'));
+  window.dispatchEvent(new window.MouseEvent('pointerup', { clientX: obj.x * TILE + 1, clientY: obj.y * TILE + 1 }));
   const sel = hooks.designGetSelected();
   expect(sel).toBe(obj);
   hooks.runRender();
   expect(ctx.strokeRect).toHaveBeenCalledWith(obj.x * TILE, obj.y * TILE, TILE, TILE);
+});
+
+test('clicking selected object again cancels selection', async () => {
+  const { hooks, canvas } = await loadGame();
+  const enableBtn = document.getElementById('design-enable');
+  const obj = hooks.getObjects()[0];
+  enableBtn.click();
+  const clientX = obj.x * TILE + 1;
+  const clientY = obj.y * TILE + 1;
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX, clientY }));
+  window.dispatchEvent(new window.MouseEvent('pointerup', { clientX, clientY }));
+  expect(hooks.designGetSelected()).toBe(obj);
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX, clientY }));
+  window.dispatchEvent(new window.MouseEvent('pointerup', { clientX, clientY }));
+  expect(hooks.designGetSelected()).toBe(null);
 });
