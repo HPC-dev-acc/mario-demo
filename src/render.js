@@ -5,7 +5,7 @@ function getHighlightColor() {
 }
 
 export function render(ctx, state, design) {
-  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, transparent } = state;
+  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, transparent, patterns } = state;
   if (ctx.canvas && ctx.canvas.style) {
     ctx.canvas.style.backgroundPosition = `${-Math.floor(camera.x)}px 0px`;
   }
@@ -17,7 +17,11 @@ export function render(ctx, state, design) {
         const t = level[y][x], px = x * TILE, py = y * TILE;
         const key = `${x},${y}`;
         const isTransparent = transparent?.has(key);
-        if (t === 2) drawBrick(ctx, px, py, isTransparent);
+        const patt = patterns?.[key];
+        if (t === 2) {
+          if (patt) drawBrickPattern(ctx, px, py, patt, isTransparent);
+          else drawBrick(ctx, px, py, isTransparent);
+        }
         if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2, isTransparent);
         if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[key]?.state, state.trafficLightSprites, isTransparent);
       }
@@ -41,6 +45,17 @@ function drawBrick(ctx, x, y, transparent = false) {
   ctx.fillStyle = '#b84a2b'; ctx.fillRect(x, y, TILE, TILE);
   ctx.strokeStyle = 'rgba(0,0,0,.25)'; ctx.lineWidth = 2;
   for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) ctx.strokeRect(x + c * 16 + 1, y + r * 16 + 1, 14, 14);
+  if (transparent) ctx.restore();
+}
+
+function drawBrickPattern(ctx, x, y, pattern, transparent = false) {
+  if (transparent) { ctx.save(); ctx.globalAlpha = 0.5; }
+  const h = TILE / 2;
+  ctx.fillStyle = '#b84a2b';
+  if (pattern[0]) ctx.fillRect(x, y, h, h);
+  if (pattern[1]) ctx.fillRect(x + h, y, h, h);
+  if (pattern[2]) ctx.fillRect(x, y + h, h, h);
+  if (pattern[3]) ctx.fillRect(x + h, y + h, h, h);
   if (transparent) ctx.restore();
 }
 function drawCoin(ctx, cx, cy, transparent = false) {

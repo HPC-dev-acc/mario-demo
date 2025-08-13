@@ -16,10 +16,12 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
   const coins = new Set();
   const lightConfigs = [];
   const transparent = new Set();
+  const patterns = {};
   for (const obj of customObjects) {
     obj.y += Y_OFFSET;
-    const { type, x, y, transparent: isTransparent = false } = obj;
+    const { type, x, y, transparent: isTransparent = false, collision } = obj;
     if (isTransparent) transparent.add(`${x},${y}`);
+    if (collision) patterns[`${x},${y}`] = collision;
     if (type === 'brick') level[y][x] = 2;
     else if (type === 'coin') {
       level[y][x] = 3;
@@ -32,7 +34,31 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
 
   const initialLevel = level.map(row => row.slice());
 
-  const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null, trafficLightSprites: null, transparent };
+  function buildCollisions() {
+    const grid = Array.from({ length: LEVEL_H * 2 }, () => Array(LEVEL_W * 2).fill(0));
+    for (let y = 0; y < LEVEL_H; y++) {
+      for (let x = 0; x < LEVEL_W; x++) {
+        const t = level[y][x];
+        if (t === 1 || t === 2 || t === TRAFFIC_LIGHT) {
+          const base = t === TRAFFIC_LIGHT ? TRAFFIC_LIGHT : 1;
+          const cy = y * 2, cx = x * 2;
+          grid[cy][cx] = grid[cy][cx + 1] = grid[cy + 1][cx] = grid[cy + 1][cx + 1] = base;
+        }
+      }
+    }
+    for (const key in patterns) {
+      const [x, y] = key.split(',').map(Number);
+      const p = patterns[key];
+      const cy = y * 2, cx = x * 2;
+      grid[cy][cx] = p[0] ? 1 : 0;
+      grid[cy][cx + 1] = p[1] ? 1 : 0;
+      grid[cy + 1][cx] = p[2] ? 1 : 0;
+      grid[cy + 1][cx + 1] = p[3] ? 1 : 0;
+    }
+    return grid;
+  }
+
+  const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null, trafficLightSprites: null, transparent, collisions: null, patterns, buildCollisions };
   state.spawnLights = function spawnLights() {
     for (const k in state.lights) {
       const [lx, ly] = k.split(',').map(Number);
@@ -43,6 +69,7 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
       level[y][x] = TRAFFIC_LIGHT;
       state.lights[`${x},${y}`] = { state: 'green', timer: 0 };
     }
+    state.collisions = buildCollisions();
   };
   state.spawnLights();
 

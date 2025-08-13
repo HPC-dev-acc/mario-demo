@@ -141,20 +141,21 @@ describe('shadowY behavior', () => {
     const { level, player } = state;
     const columnX = 20;
     for (let y = 5 + Y_OFFSET; y <= 8 + Y_OFFSET; y++) level[y][columnX] = 1;
+    state.collisions = state.buildCollisions();
 
     player.x = (columnX - 1) * TILE + TILE / 2;
     player.y = (state.LEVEL_H - 5) * TILE - player.h / 2;
     player.vx = 0;
     player.vy = 0;
-    resolveCollisions(player, level, state.lights);
-    player.shadowY = findGroundY(level, player.x, player.y + player.h / 2, state.lights);
+    resolveCollisions(player, level, state.collisions, state.lights);
+    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
     const groundY = (state.LEVEL_H - 5) * TILE;
     expect(player.shadowY).toBe(groundY);
 
     player.x = columnX * TILE + TILE / 2;
     player.y = (5 + Y_OFFSET) * TILE - player.h / 2 - 10;
-    resolveCollisions(player, level, state.lights);
-    player.shadowY = findGroundY(level, player.x, player.y + player.h / 2, state.lights);
+    resolveCollisions(player, level, state.collisions, state.lights);
+    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
     expect(player.shadowY).toBe((5 + Y_OFFSET) * TILE);
   });
 
@@ -164,11 +165,12 @@ describe('shadowY behavior', () => {
     const { level, player } = state;
     const columnX = 10;
     level[5 + Y_OFFSET][columnX] = 1; // block above
+    state.collisions = state.buildCollisions();
 
     player.x = columnX * TILE + TILE / 2;
     player.y = (state.LEVEL_H - 5) * TILE - player.h / 2;
-    resolveCollisions(player, level, state.lights);
-    player.shadowY = findGroundY(level, player.x, player.y + player.h / 2, state.lights);
+    resolveCollisions(player, level, state.collisions, state.lights);
+    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
     const groundY = (state.LEVEL_H - 5) * TILE;
     expect(player.shadowY).toBe(groundY);
   });

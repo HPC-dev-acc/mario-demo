@@ -1,36 +1,38 @@
 export const TILE = 48;
+export const COLL_TILE = TILE / 2;
 export const TRAFFIC_LIGHT = 4;
 
 export const worldToTile = (px) => Math.floor(px / TILE);
+export const worldToCollTile = (px) => Math.floor(px / COLL_TILE);
 
-export function solidAt(level, x, y, lights = {}) {
-  const tx = worldToTile(x);
-  const ty = worldToTile(y);
-  if (ty < 0 || ty >= level.length) return 0;
-  if (tx < 0 || tx >= level[0].length) return 0;
-  const t = level[ty][tx];
+export function solidAt(collisions, x, y, lights = {}) {
+  const tx = worldToCollTile(x);
+  const ty = worldToCollTile(y);
+  if (ty < 0 || ty >= collisions.length) return 0;
+  if (tx < 0 || tx >= collisions[0].length) return 0;
+  const t = collisions[ty][tx];
   if (t === TRAFFIC_LIGHT) {
-    const state = lights[`${tx},${ty}`]?.state;
+    const state = lights[`${Math.floor(tx / 2)},${Math.floor(ty / 2)}`]?.state;
     return state === 'red' ? TRAFFIC_LIGHT : 0;
   }
-  return t === 1 || t === 2 ? t : 0;
+  return t;
 }
 
-export function findGroundY(level, x, fromY, lights = {}) {
-  const tx = worldToTile(x);
-  let ty = Math.max(0, worldToTile(fromY));
-  for (; ty < level.length; ty++) {
-    const t = level[ty][tx];
+export function findGroundY(collisions, x, fromY, lights = {}) {
+  const tx = worldToCollTile(x);
+  let ty = Math.max(0, worldToCollTile(fromY));
+  for (; ty < collisions.length; ty++) {
+    const t = collisions[ty][tx];
     if (t === 0) continue;
     if (t === TRAFFIC_LIGHT) {
-      const state = lights[`${tx},${ty}`]?.state;
+      const state = lights[`${Math.floor(tx / 2)},${Math.floor(ty / 2)}`]?.state;
       if (state !== 'red') continue;
     }
-    if (t === 1 || t === 2 || t === TRAFFIC_LIGHT) {
-      return ty * TILE;
+    if (t) {
+      return ty * COLL_TILE;
     }
   }
-  return level.length * TILE;
+  return collisions.length * COLL_TILE;
 }
 
 export function isJumpBlocked(ent, lights = {}) {
@@ -45,7 +47,7 @@ export function isJumpBlocked(ent, lights = {}) {
   return false;
 }
 
-export function resolveCollisions(ent, level, lights = {}, events = {}) {
+export function resolveCollisions(ent, level, collisions, lights = {}, events = {}) {
   // Horizontal movement
   ent.x += ent.vx;
   ent.blocked = false;
@@ -53,9 +55,12 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
     const left = ent.x - ent.w / 2;
     const top = ent.y - ent.h / 2 + 4;
     const bottom = ent.y + ent.h / 2 - 1;
-    for (let y = top; y <= bottom; y += TILE / 2) {
-      if (solidAt(level, left, y, lights)) {
-        ent.x = Math.floor(left / TILE) * TILE + TILE + ent.w / 2 + 0.01;
+    for (let y = top; y <= bottom; y += COLL_TILE) {
+      if (solidAt(collisions, left, y, lights)) {
+        const ty = worldToCollTile(y);
+        let cx = worldToCollTile(left);
+        while (cx < collisions[0].length && collisions[ty][cx]) cx++;
+        ent.x = cx * COLL_TILE + ent.w / 2 + 0.01;
         ent.vx = 0;
         ent.blocked = true;
         break;
@@ -65,9 +70,12 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
     const right = ent.x + ent.w / 2;
     const top = ent.y - ent.h / 2 + 4;
     const bottom = ent.y + ent.h / 2 - 1;
-    for (let y = top; y <= bottom; y += TILE / 2) {
-      if (solidAt(level, right, y, lights)) {
-        ent.x = Math.floor(right / TILE) * TILE - ent.w / 2 - 0.01;
+    for (let y = top; y <= bottom; y += COLL_TILE) {
+      if (solidAt(collisions, right, y, lights)) {
+        const ty = worldToCollTile(y);
+        let cx = worldToCollTile(right);
+        while (cx >= 0 && collisions[ty][cx]) cx--;
+        ent.x = (cx + 1) * COLL_TILE - ent.w / 2 - 0.01;
         ent.vx = 0;
         ent.blocked = true;
         break;
@@ -83,9 +91,12 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
     const bottom = ent.y + ent.h / 2;
     const left = ent.x - ent.w / 2 + 6;
     const right = ent.x + ent.w / 2 - 6;
-    for (let x = left; x <= right; x += TILE / 2) {
-      if (solidAt(level, x, bottom, lights)) {
-        ent.y = Math.floor(bottom / TILE) * TILE - ent.h / 2 - 0.01;
+    for (let x = left; x <= right; x += COLL_TILE) {
+      if (solidAt(collisions, x, bottom, lights)) {
+        const tx = worldToCollTile(x);
+        let cy = worldToCollTile(bottom);
+        while (cy >= 0 && collisions[cy][tx]) cy--;
+        ent.y = (cy + 1) * COLL_TILE - ent.h / 2 - 0.01;
         ent.vy = 0;
         ent.onGround = true;
         break;
@@ -95,16 +106,21 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
     const top = ent.y - ent.h / 2;
     const left = ent.x - ent.w / 2 + 6;
     const right = ent.x + ent.w / 2 - 6;
-    for (let x = left; x <= right; x += TILE / 2) {
+    for (let x = left; x <= right; x += COLL_TILE) {
       const tx = worldToTile(x);
       const ty = worldToTile(top);
       if (ty >= 0 && level[ty][tx] === 2) {
         level[ty][tx] = 0;
+        const cy = ty * 2, cx = tx * 2;
+        collisions[cy][cx] = collisions[cy][cx + 1] = collisions[cy + 1][cx] = collisions[cy + 1][cx + 1] = 0;
         ent.vy = 2;
         events.brickHit = true;
       }
-      if (solidAt(level, x, top, lights)) {
-        ent.y = Math.floor(top / TILE) * TILE + TILE + ent.h / 2 + 0.01;
+      if (solidAt(collisions, x, top, lights)) {
+        const tx = worldToCollTile(x);
+        let cy = worldToCollTile(top);
+        while (cy < collisions.length && collisions[cy][tx]) cy++;
+        ent.y = cy * COLL_TILE + ent.h / 2 + 0.01;
         ent.vy = 0;
         break;
       }
@@ -113,18 +129,24 @@ export function resolveCollisions(ent, level, lights = {}, events = {}) {
     const bottom = ent.y + ent.h / 2;
     const left = ent.x - ent.w / 2 + 6;
     const right = ent.x + ent.w / 2 - 6;
-    for (let x = left; x <= right; x += TILE / 2) {
-      if (solidAt(level, x, bottom, lights)) {
-        ent.y = Math.floor(bottom / TILE) * TILE - ent.h / 2 - 0.01;
+    for (let x = left; x <= right; x += COLL_TILE) {
+      if (solidAt(collisions, x, bottom, lights)) {
+        const tx = worldToCollTile(x);
+        let cy = worldToCollTile(bottom);
+        while (cy >= 0 && collisions[cy][tx]) cy--;
+        ent.y = (cy + 1) * COLL_TILE - ent.h / 2 - 0.01;
         ent.onGround = true;
         break;
       }
     }
     const top = ent.y - ent.h / 2;
     if (!ent.onGround) {
-      for (let x = left; x <= right; x += TILE / 2) {
-        if (solidAt(level, x, top, lights)) {
-          ent.y = Math.floor(top / TILE) * TILE + TILE + ent.h / 2 + 0.01;
+      for (let x = left; x <= right; x += COLL_TILE) {
+        if (solidAt(collisions, x, top, lights)) {
+          const tx = worldToCollTile(x);
+          let cy = worldToCollTile(top);
+          while (cy < collisions.length && collisions[cy][tx]) cy++;
+          ent.y = cy * COLL_TILE + ent.h / 2 + 0.01;
           break;
         }
       }
