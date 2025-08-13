@@ -1,6 +1,6 @@
 # Mario Demo
 
-**Version: 1.5.59**
+**Version: 1.5.60**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
@@ -16,6 +16,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Transparency toggle now only affects the currently selected object; clicking without a selection does nothing.
 - Design mode now exposes an `isEnabled()` helper, highlights the canvas, and blocks default pointer behavior during drags.
 - Design mode now pauses the countdown timer while active.
+- Design mode includes an **新增** button that spawns a 24px collision block at the top edge of the current view and updates collisions and level data immediately.
 - Added optional `transparent` flag to stage objects for see-through rendering without changing collisions.
 - Fixed loading screen hang on subpath deployments by resolving asset URLs relative to modules and deferring audio initialization until the player presses **START**.
 - Level layout, coins, and traffic lights are now loaded from `assets/objects.js`, removing hard-coded objects and random light spawning.
@@ -85,6 +86,7 @@ Supported `type` values are `brick`, `coin`, and `light`. The `x` and `y` fields
 
 Open the settings menu and use the **LEVEL** controls to enable design mode. The canvas gains a dashed outline while active. While design mode is on, the countdown timer pauses. Click or tap an object to select it, drag it to a new tile, then release to drop it. Click the selected object again to clear the selection. Disabling design mode clears the current selection. The transparency toggle affects only the current selection; clicking it with nothing selected has no effect. The layout can be saved as JSON for editing.
 While an object is selected, you can move it one tile at a time with the `W`, `A`, `S`, and `D` keys for up, left, down, and right nudges respectively.
+When enabled, an **新增** button appears to place a 24px collision block along the top of the current camera view.
 
 ## Testing
 

@@ -1,4 +1,4 @@
-import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked, findGroundY } from './src/game/physics.js';
+import { TILE, COLL_TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked, findGroundY } from './src/game/physics.js';
 import { BASE_W, updatePlayerWidth } from './src/game/width.js';
 import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
@@ -157,7 +157,22 @@ const IMPACT_COOLDOWN_MS = 120;
     function getSelected() {
       return selected;
     }
-    return { enable, isEnabled, toggleTransparent, save, getSelected };
+    function addBlock() {
+      const cx = Math.floor((camera.x + canvas.width / 2) / COLL_TILE);
+      const cy = Math.floor(camera.y / COLL_TILE);
+      const tx = Math.floor(cx / 2);
+      const ty = Math.floor(cy / 2);
+      const q = (cy % 2) * 2 + (cx % 2);
+      level[ty][tx] = 2;
+      const key = `${tx},${ty}`;
+      const patt = state.patterns[key] || [0, 0, 0, 0];
+      patt[q] = 1;
+      state.patterns[key] = patt;
+      const existing = designObjects.find(o => o.x === tx && o.y === ty && o.type === 'brick');
+      if (existing) existing.collision = patt; else designObjects.push({ type: 'brick', x: tx, y: ty, transparent: false, collision: patt });
+      state.collisions = state.buildCollisions();
+    }
+    return { enable, isEnabled, toggleTransparent, save, getSelected, addBlock };
   })();
   const ui = initUI(canvas, {
     resumeAudio,
@@ -242,6 +257,7 @@ const IMPACT_COOLDOWN_MS = 120;
     designEnable: design.enable,
     designToggleTransparent: design.toggleTransparent,
     designSave: design.save,
+    designAddBlock: design.addBlock,
     designIsEnabled: design.isEnabled,
     designGetSelected: design.getSelected,
     getObjects: () => designObjects,

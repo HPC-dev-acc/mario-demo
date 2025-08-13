@@ -8,6 +8,7 @@ async function loadGame() {
     <button id="design-enable" aria-pressed="false">啟用</button>
     <div id="design-transparent"></div>
     <div id="design-save"></div>
+    <button id="design-add" hidden></button>
   `;
   const canvas = document.getElementById('game');
   const ctx = {
@@ -134,4 +135,24 @@ test('clicking selected object again cancels selection', async () => {
   canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX, clientY }));
   window.dispatchEvent(new window.MouseEvent('pointerup', { clientX, clientY }));
   expect(hooks.designGetSelected()).toBe(null);
+});
+
+test('add button inserts a 24px block at the top of the view', async () => {
+  const { hooks } = await loadGame();
+  const enableBtn = document.getElementById('design-enable');
+  const addBtn = document.getElementById('design-add');
+  const canvas = document.getElementById('game');
+  expect(addBtn.hidden).toBe(true);
+  enableBtn.click();
+  expect(addBtn.hidden).toBe(false);
+  addBtn.click();
+  const state = hooks.getState();
+  const cx = Math.floor((state.camera.x + canvas.width / 2) / (TILE / 2));
+  const cy = Math.floor(state.camera.y / (TILE / 2));
+  const key = `${Math.floor(cx / 2)},${Math.floor(cy / 2)}`;
+  const q = (cy % 2) * 2 + (cx % 2);
+  const expected = [0,0,0,0]; expected[q] = 1;
+  expect(state.patterns[key]).toEqual(expected);
+  expect(state.collisions[cy][cx]).toBe(1);
+  expect(hooks.getObjects().some(o => o.x === Math.floor(cx/2) && o.y === Math.floor(cy/2))).toBe(true);
 });
