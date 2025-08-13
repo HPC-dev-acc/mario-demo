@@ -12,6 +12,9 @@ function setupDOM() {
       <button id="info-toggle" class="pill">ℹ</button>
       <div id="version-pill"></div>
     </div>
+    <div id="hud-top-center">
+      <button id="fullscreen-toggle" class="pill">⛶</button>
+    </div>
     <div id="info-panel" hidden></div>
     <div id="game-wrap"><canvas id="game"></canvas></div>`;
   return document.getElementById('game');
@@ -123,4 +126,20 @@ test('info toggle shows and hides info panel', () => {
   expect(panel.hidden).toBe(false);
   toggle.click();
   expect(panel.hidden).toBe(true);
+});
+
+test('fullscreen toggle requests and exits fullscreen', () => {
+  const canvas = setupDOM();
+  canvas.requestFullscreen = jest.fn().mockResolvedValue();
+  document.exitFullscreen = jest.fn().mockResolvedValue();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const btn = document.getElementById('fullscreen-toggle');
+  btn.click();
+  expect(canvas.requestFullscreen).toHaveBeenCalled();
+  expect(btn.textContent).toBe('🞬');
+  document.fullscreenElement = canvas;
+  btn.click();
+  expect(document.exitFullscreen).toHaveBeenCalled();
+  expect(btn.textContent).toBe('⛶');
+  document.fullscreenElement = null;
 });
