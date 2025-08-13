@@ -3,7 +3,7 @@ import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 export const Y_OFFSET = 80;
 
 export function render(ctx, state) {
-  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites } = state;
+  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, transparent } = state;
   if (ctx.canvas && ctx.canvas.style) {
     ctx.canvas.style.backgroundPosition = `${-Math.floor(camera.x)}px 0px`;
   }
@@ -13,9 +13,11 @@ export function render(ctx, state) {
     for (let y = 0; y < LEVEL_H; y++) {
       for (let x = 0; x < LEVEL_W; x++) {
         const t = level[y][x], px = x * TILE, py = y * TILE;
-        if (t === 2) drawBrick(ctx, px, py);
-        if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2);
-          if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[`${x},${y}`]?.state, state.trafficLightSprites);
+        const key = `${x},${y}`;
+        const isTransparent = transparent?.has(key);
+        if (t === 2) drawBrick(ctx, px, py, isTransparent);
+        if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2, isTransparent);
+        if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[key]?.state, state.trafficLightSprites, isTransparent);
       }
     }
     ctx.fillStyle = 'rgba(0,0,0,.15)';
@@ -24,19 +26,22 @@ export function render(ctx, state) {
     ctx.restore();
 }
 
-function drawBrick(ctx, x, y) {
+function drawBrick(ctx, x, y, transparent = false) {
+  if (transparent) { ctx.save(); ctx.globalAlpha = 0.5; }
   ctx.fillStyle = '#b84a2b'; ctx.fillRect(x, y, TILE, TILE);
   ctx.strokeStyle = 'rgba(0,0,0,.25)'; ctx.lineWidth = 2;
   for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) ctx.strokeRect(x + c * 16 + 1, y + r * 16 + 1, 14, 14);
+  if (transparent) ctx.restore();
 }
-function drawCoin(ctx, cx, cy) {
+function drawCoin(ctx, cx, cy, transparent = false) {
   ctx.save(); ctx.translate(cx, cy);
+  if (transparent) ctx.globalAlpha = 0.5;
   const t = (performance.now() / 200) % (Math.PI * 2), scaleX = Math.abs(Math.cos(t)) * .8 + .2;
   ctx.scale(scaleX, 1);
   ctx.beginPath(); ctx.fillStyle = '#ffd400'; ctx.arc(0, 0, 12, 0, Math.PI * 2); ctx.fill();
   ctx.fillStyle = '#ffea80'; ctx.fillRect(-3, -6, 6, 12); ctx.restore();
 }
-export function drawTrafficLight(ctx, x, y, state, sprites) {
+export function drawTrafficLight(ctx, x, y, state, sprites, transparent = false) {
   const sprite = sprites?.[state] || sprites?.green;
   if (!sprite) return;
   const { img, sx, sy, sw, sh } = sprite;
@@ -44,7 +49,9 @@ export function drawTrafficLight(ctx, x, y, state, sprites) {
   const dw = sw * (dh / sh);
   const dx = x + TILE / 2 - dw / 2;
   const dy = y + TILE - dh;
+  if (transparent) { ctx.save(); ctx.globalAlpha = 0.5; }
   ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
+  if (transparent) ctx.restore();
 }
 
 export function drawPlayer(ctx, p, sprites, t = performance.now()) {

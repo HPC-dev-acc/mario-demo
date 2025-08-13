@@ -2,7 +2,7 @@ import { TILE, TRAFFIC_LIGHT } from './physics.js';
 import { BASE_W } from './width.js';
 import objects from '../../assets/objects.js';
 
-export function createGameState() {
+export function createGameState(customObjects = objects) {
   const LEVEL_W = 100, LEVEL_H = 12;
   const level = Array.from({ length: LEVEL_H }, (_, y) => {
     const row = Array.from({ length: LEVEL_W }, () => 0);
@@ -11,12 +11,15 @@ export function createGameState() {
   });
   const coins = new Set();
   const lightConfigs = [];
-  for (const obj of objects) {
-    if (obj.type === 'brick') level[obj.y][obj.x] = 2;
-    else if (obj.type === 'coin') {
-      level[obj.y][obj.x] = 3;
-      coins.add(`${obj.x},${obj.y}`);
-    } else if (obj.type === 'light') {
+  const transparent = new Set();
+  for (const obj of customObjects) {
+    const { type, x, y, transparent: isTransparent = false } = obj;
+    if (isTransparent) transparent.add(`${x},${y}`);
+    if (type === 'brick') level[y][x] = 2;
+    else if (type === 'coin') {
+      level[y][x] = 3;
+      coins.add(`${x},${y}`);
+    } else if (type === 'light') {
       lightConfigs.push(obj);
     }
   }
@@ -24,7 +27,7 @@ export function createGameState() {
 
   const initialLevel = level.map(row => row.slice());
 
-  const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null, trafficLightSprites: null };
+  const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null, trafficLightSprites: null, transparent };
   state.spawnLights = function spawnLights() {
     for (const k in state.lights) {
       const [lx, ly] = k.split(',').map(Number);
