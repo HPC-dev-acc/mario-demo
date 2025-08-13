@@ -1,7 +1,5 @@
 import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 
-export const Y_OFFSET = 80;
-
 function getHighlightColor() {
   return getComputedStyle(document.documentElement).getPropertyValue('--designHighlight') || '#ff0';
 }
@@ -13,7 +11,7 @@ export function render(ctx, state, design) {
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.save();
-  ctx.translate(-camera.x, -camera.y + Y_OFFSET);
+  ctx.translate(-camera.x, -camera.y);
     for (let y = 0; y < LEVEL_H; y++) {
       for (let x = 0; x < LEVEL_W; x++) {
         const t = level[y][x], px = x * TILE, py = y * TILE;
