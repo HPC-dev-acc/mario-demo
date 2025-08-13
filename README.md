@@ -1,11 +1,12 @@
 # Mario Demo
 
-**Version: 1.5.46**
+**Version: 1.5.47**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
 
+- Added optional `transparent` flag to stage objects for see-through rendering without changing collisions.
 - Fixed loading screen hang on subpath deployments by resolving asset URLs relative to modules and deferring audio initialization until the player presses **START**.
 - Level layout, coins, and traffic lights are now loaded from `assets/objects.js`, removing hard-coded objects and random light spawning.
 - Traffic lights now spawn at quarter points across the level for even distribution.
@@ -65,10 +66,10 @@ Background music (`assets/music/background.wav`) plays in a loop when the game s
 Stage objects are defined in `assets/objects.js` as a JavaScript module. Each entry in the array looks like:
 
 ```js
-{ type: 'coin', x: 12, y: 4, transparent: true }
+{ type: 'brick', x: 12, y: 4, transparent: true }
 ```
 
-Supported `type` values are `brick`, `coin`, and `light`. The `x` and `y` fields use tile coordinates. `transparent` marks whether an object should be drawn without blocking movement. `createGameState` loads this file to populate the level, coins, and traffic lights.
+Supported `type` values are `brick`, `coin`, and `light`. The `x` and `y` fields use tile coordinates. The optional `transparent` flag (default `false`) renders an object at 50% opacity without changing its collision behavior. Use it for invisible blocks, debugging layouts, or allowing coins to appear ghost-like. `createGameState` loads this file to populate the level, coins, and traffic lights.
 
 ## Testing
 
