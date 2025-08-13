@@ -1,11 +1,12 @@
 # Mario Demo
 
-**Version: 1.5.47**
+**Version: 1.5.48**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
 
+- Added experimental level design mode with drag-and-drop editing, transparency toggling, and JSON export.
 - Added optional `transparent` flag to stage objects for see-through rendering without changing collisions.
 - Fixed loading screen hang on subpath deployments by resolving asset URLs relative to modules and deferring audio initialization until the player presses **START**.
 - Level layout, coins, and traffic lights are now loaded from `assets/objects.js`, removing hard-coded objects and random light spawning.
@@ -70,6 +71,10 @@ Stage objects are defined in `assets/objects.js` as a JavaScript module. Each en
 ```
 
 Supported `type` values are `brick`, `coin`, and `light`. The `x` and `y` fields use tile coordinates. The optional `transparent` flag (default `false`) renders an object at 50% opacity without changing its collision behavior. Use it for invisible blocks, debugging layouts, or allowing coins to appear ghost-like. `createGameState` loads this file to populate the level, coins, and traffic lights.
+
+## Level Design Mode
+
+Open the settings menu and use the **LEVEL** controls to enable design mode. Existing objects can be dragged to new tile positions, their transparency toggled, and the current layout saved as a JSON file for editing.
 
 ## Testing
 

@@ -1,6 +1,6 @@
 {
   "name": "mario-demo",
-  "version": "1.5.47",
+  "version": "1.5.48",
   "type": "module",
   "scripts": {
     "build": "node scripts/update-version.mjs",

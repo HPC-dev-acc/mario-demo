@@ -1,4 +1,4 @@
-export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
+export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {}) {
   const gameWrap = document.getElementById('game-wrap');
   const startPage = document.getElementById('start-page');
   const startStatus = document.getElementById('start-status');
@@ -41,6 +41,15 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version }) {
       const on = toggleMusic();
       bgmToggle.textContent = on ? 'Mute' : 'Unmute';
     });
+  }
+
+  if (design) {
+    const enableBtn = document.getElementById('design-enable');
+    const transBtn = document.getElementById('design-transparent');
+    const saveBtn = document.getElementById('design-save');
+    enableBtn?.addEventListener('click', () => design.enable());
+    transBtn?.addEventListener('click', () => design.toggleTransparent());
+    saveBtn?.addEventListener('click', () => design.save());
   }
 
   canvas.setAttribute('tabindex', '0');

@@ -4,6 +4,7 @@ import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
 import { createControls } from './src/controls.js';
 import { createGameState } from './src/game/state.js';
+import objects from './assets/objects.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render, Y_OFFSET } from './src/render.js';
 import { loadPlayerSprites, loadTrafficLightSprites } from './src/sprites.js';
@@ -18,12 +19,101 @@ const IMPACT_COOLDOWN_MS = 120;
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
 
-  const ui = initUI(canvas, { resumeAudio, toggleMusic, version: VERSION });
+  const designObjects = objects.map(o => ({ ...o }));
+  const state = createGameState(designObjects);
+  const { level, coins, initialLevel, spawnLights, player, camera, GOAL_X, LEVEL_W, LEVEL_H, lights, transparent } = state;
+  const design = (function () {
+    let enabled = false;
+    let selected = null;
+    function enable() {
+      enabled = !enabled;
+      if (enabled) {
+        canvas.addEventListener('pointerdown', onDown);
+        canvas.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+      } else {
+        canvas.removeEventListener('pointerdown', onDown);
+        canvas.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        selected = null;
+      }
+    }
+    function findObj(x, y) {
+      return designObjects.find(o => o.x === x && o.y === y);
+    }
+    function onDown(e) {
+      const rect = canvas.getBoundingClientRect();
+      const tileX = Math.floor((e.clientX - rect.left + camera.x) / TILE);
+      const tileY = Math.floor((e.clientY - rect.top) / TILE);
+      selected = findObj(tileX, tileY) || null;
+    }
+    function onMove(e) {
+      if (!selected) return;
+      const rect = canvas.getBoundingClientRect();
+      const tileX = Math.floor((e.clientX - rect.left + camera.x) / TILE);
+      const tileY = Math.floor((e.clientY - rect.top) / TILE);
+      if (tileX === selected.x && tileY === selected.y) return;
+      moveSelected(selected, tileX, tileY);
+    }
+    function onUp() { selected = null; }
+    function moveSelected(obj, x, y) {
+      const oldKey = `${obj.x},${obj.y}`;
+      const newKey = `${x},${y}`;
+      if (obj.type === 'brick') {
+        level[obj.y][obj.x] = 0;
+        level[y][x] = 2;
+      } else if (obj.type === 'coin') {
+        level[obj.y][obj.x] = 0;
+        coins.delete(oldKey);
+        level[y][x] = 3;
+        coins.add(newKey);
+      } else if (obj.type === 'light') {
+        level[obj.y][obj.x] = 0;
+        delete lights[oldKey];
+        level[y][x] = TRAFFIC_LIGHT;
+        lights[newKey] = { state: 'red', timer: 0 };
+      }
+      const wasTrans = transparent.has(oldKey);
+      if (wasTrans) {
+        transparent.delete(oldKey);
+        transparent.add(newKey);
+      }
+      obj.x = x;
+      obj.y = y;
+    }
+    function toggleTransparent() {
+      if (selected) toggleObj(selected);
+      else {
+        for (const obj of designObjects) {
+          if (obj.type === 'brick') toggleObj(obj);
+        }
+      }
+    }
+    function toggleObj(obj) {
+      const key = `${obj.x},${obj.y}`;
+      obj.transparent = !obj.transparent;
+      if (obj.transparent) transparent.add(key); else transparent.delete(key);
+    }
+    function save() {
+      const data = JSON.stringify(designObjects, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'objects.json';
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+    }
+    return { enable, toggleTransparent, save };
+  })();
+  const ui = initUI(canvas, {
+    resumeAudio,
+    toggleMusic,
+    version: VERSION,
+    design,
+  });
   const { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen } = ui;
   Logger.info('app_start', { version: VERSION });
-
-  const state = createGameState();
-  const { level, coins, initialLevel, spawnLights, player, camera, GOAL_X, LEVEL_W, LEVEL_H } = state;
 
   const GRAVITY = 0.88;
   const FRICTION = 0.8;
@@ -96,6 +186,10 @@ const IMPACT_COOLDOWN_MS = 120;
     getStageFailed: () => stageFailed,
     getScoreEl: () => scoreEl,
     getTimerEl: () => timerEl,
+    designEnable: design.enable,
+    designToggleTransparent: design.toggleTransparent,
+    designSave: design.save,
+    getObjects: () => designObjects,
   };
 
   let last=0;
