@@ -25,6 +25,8 @@ const IMPACT_COOLDOWN_MS = 120;
   const design = (function () {
     let enabled = false;
     let selected = null;
+    let downX = 0, downY = 0;
+    let maybeDeselect = false;
     function enable() {
       enabled = !enabled;
       if (enabled) {
@@ -54,7 +56,15 @@ const IMPACT_COOLDOWN_MS = 120;
       const rect = canvas.getBoundingClientRect();
       const tileX = Math.floor((e.clientX - rect.left + camera.x) / TILE);
       const tileY = Math.floor((e.clientY - rect.top) / TILE);
-      selected = findObj(tileX, tileY) || null;
+      const obj = findObj(tileX, tileY) || null;
+      if (obj === selected) {
+        maybeDeselect = true;
+      } else {
+        selected = obj;
+        maybeDeselect = false;
+      }
+      downX = e.clientX;
+      downY = e.clientY;
     }
     function onMove(e) {
       e.preventDefault();
@@ -63,10 +73,18 @@ const IMPACT_COOLDOWN_MS = 120;
       const tileX = Math.floor((e.clientX - rect.left + camera.x) / TILE);
       const tileY = Math.floor((e.clientY - rect.top) / TILE);
       if (tileX === selected.x && tileY === selected.y) return;
+      maybeDeselect = false;
       moveSelected(selected, tileX, tileY);
     }
     function onUp(e) {
       e.preventDefault();
+      if (maybeDeselect) {
+        const dx = Math.abs(e.clientX - downX);
+        const dy = Math.abs(e.clientY - downY);
+        if (dx < 5 && dy < 5) {
+          selected = null;
+        }
+      }
     }
     function onKey(e) {
       if (!selected) return;
