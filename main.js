@@ -31,11 +31,13 @@ const IMPACT_COOLDOWN_MS = 120;
         canvas.addEventListener('pointerdown', onDown);
         canvas.addEventListener('pointermove', onMove);
         window.addEventListener('pointerup', onUp);
+        window.addEventListener('keydown', onKey);
         canvas.classList.add('design-active');
       } else {
         canvas.removeEventListener('pointerdown', onDown);
         canvas.removeEventListener('pointermove', onMove);
         window.removeEventListener('pointerup', onUp);
+        window.removeEventListener('keydown', onKey);
         canvas.classList.remove('design-active');
         selected = null;
       }
@@ -66,7 +68,30 @@ const IMPACT_COOLDOWN_MS = 120;
     function onUp(e) {
       e.preventDefault();
     }
+    function onKey(e) {
+      if (!selected) return;
+      let { x, y } = selected;
+      switch (e.key.toLowerCase()) {
+        case 'a':
+          x -= 1;
+          break;
+        case 'd':
+          x += 1;
+          break;
+        case 'w':
+          y -= 1;
+          break;
+        case 's':
+          y += 1;
+          break;
+        default:
+          return;
+      }
+      moveSelected(selected, x, y);
+    }
     function moveSelected(obj, x, y) {
+      if (x < 0 || y < 0 || x >= LEVEL_W || y >= LEVEL_H) return;
+      if (level[y][x] !== 0) return;
       const oldKey = `${obj.x},${obj.y}`;
       const newKey = `${x},${y}`;
       if (obj.type === 'brick') {

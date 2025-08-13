@@ -1,12 +1,13 @@
 # Mario Demo
 
-**Version: 1.5.53**
+**Version: 1.5.54**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
 
 - Design mode enable button now reflects its on/off state with an `active` style, `aria-pressed` attribute, and text toggling between “啟用” and “停用”.
+- While in design mode, selected objects can be nudged with the `W`, `A`, `S`, `D` keys.
 - Added experimental level design mode with drag-and-drop editing, transparency toggling, and JSON export.
 - Transparency toggle now only affects the currently selected object; clicking without a selection does nothing.
 - Design mode now exposes an `isEnabled()` helper, highlights the canvas, and blocks default pointer behavior during drags.
@@ -80,6 +81,7 @@ Supported `type` values are `brick`, `coin`, and `light`. The `x` and `y` fields
 ## Level Design Mode
 
 Open the settings menu and use the **LEVEL** controls to enable design mode. The canvas gains a dashed outline while active. While design mode is on, the countdown timer pauses. Click or tap an object to select it, drag it to a new tile, then release to drop it. Disabling design mode clears the current selection. The transparency toggle affects only the current selection; clicking it with nothing selected has no effect. The layout can be saved as JSON for editing.
+While an object is selected, you can move it one tile at a time with the `W`, `A`, `S`, and `D` keys for up, left, down, and right nudges respectively.
 
 ## Testing
 
