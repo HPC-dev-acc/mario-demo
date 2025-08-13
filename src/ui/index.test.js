@@ -8,7 +8,11 @@ function setupDOM() {
       <button id="btn-start" hidden>START</button>
       <button id="btn-retry" hidden>Retry</button>
     </div>
-    <div id="version-pill"></div>
+    <div id="top-right">
+      <button id="info-toggle" class="pill">ℹ</button>
+      <div id="version-pill"></div>
+    </div>
+    <div id="info-panel" hidden></div>
     <div id="game-wrap"><canvas id="game"></canvas></div>`;
   return document.getElementById('game');
 }
@@ -107,4 +111,16 @@ test('triggerSlideEffect positions dust at player feet and removes it', () => {
   jest.advanceTimersByTime(500);
   expect(document.querySelector('.slide-effect')).toBeNull();
   jest.useRealTimers();
+});
+
+test('info toggle shows and hides info panel', () => {
+  const canvas = setupDOM();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const panel = document.getElementById('info-panel');
+  const toggle = document.getElementById('info-toggle');
+  expect(panel.hidden).toBe(true);
+  toggle.click();
+  expect(panel.hidden).toBe(false);
+  toggle.click();
+  expect(panel.hidden).toBe(true);
 });

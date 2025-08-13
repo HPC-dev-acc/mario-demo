@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.60**
+**Version: 1.5.61**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
+- Added an Info panel toggled by a top-right ℹ button with gameplay instructions.
 - Added a 24px collision grid allowing half-tile and custom sub-tile collision patterns with matching visuals.
 - Adjusted traffic light timings to green (2s), yellow (1s), and red (3s) with the cycle starting on green.
 - Shifted the entire world down by two tiles (96px) so objects, player, and map align with grid without rendering offsets.

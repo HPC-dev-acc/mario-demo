@@ -27,6 +27,14 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   document.getElementById('log-copy')?.addEventListener('click', () => Logger.copy());
   document.getElementById('log-clear')?.addEventListener('click', () => Logger.clear());
 
+  const infoToggle = document.getElementById('info-toggle');
+  const infoPanel = document.getElementById('info-panel');
+  if (infoToggle && infoPanel) {
+    infoToggle.addEventListener('click', () => {
+      infoPanel.hidden = !infoPanel.hidden;
+    });
+  }
+
   const settingsToggle = document.getElementById('settings-toggle');
   const settingsMenu = document.getElementById('settings-menu');
   if (settingsToggle && settingsMenu) {
