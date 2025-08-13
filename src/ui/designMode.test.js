@@ -10,9 +10,22 @@ async function loadGame() {
     <div id="design-save"></div>
   `;
   const canvas = document.getElementById('game');
-  canvas.getContext = () => ({
-    fillRect: () => {},
-  });
+  const ctx = {
+    canvas,
+    fillRect: jest.fn(),
+    strokeRect: jest.fn(),
+    save: jest.fn(),
+    restore: jest.fn(),
+    translate: jest.fn(),
+    clearRect: jest.fn(),
+    beginPath: jest.fn(),
+    arc: jest.fn(),
+    fill: jest.fn(),
+    drawImage: jest.fn(),
+    scale: jest.fn(),
+    ellipse: jest.fn(),
+  };
+  canvas.getContext = () => ctx;
   window.__APP_VERSION__ = pkg.version;
   global.requestAnimationFrame = jest.fn();
   window.requestAnimationFrame = global.requestAnimationFrame;
@@ -30,7 +43,7 @@ async function loadGame() {
   }));
   await import('../../main.js');
   await Promise.resolve();
-  return { hooks: window.__testHooks, canvas, audio };
+  return { hooks: window.__testHooks, canvas, audio, ctx };
 }
 
 test('design mode enables and drags objects', async () => {
@@ -75,4 +88,17 @@ test('timer pauses while design mode is enabled', async () => {
   hooks.runUpdate(60);
   hooks.runUpdate(60);
   expect(hooks.getTimeLeft()).toBe(before);
+});
+
+test('getSelected returns object and render highlights it', async () => {
+  const { hooks, canvas, ctx } = await loadGame();
+  const enableBtn = document.getElementById('design-enable');
+  const obj = hooks.getObjects()[0];
+  enableBtn.click();
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: obj.x * TILE + 1, clientY: obj.y * TILE + 1 }));
+  window.dispatchEvent(new window.MouseEvent('pointerup'));
+  const sel = hooks.designGetSelected();
+  expect(sel).toBe(obj);
+  hooks.runRender();
+  expect(ctx.strokeRect).toHaveBeenCalledWith(obj.x * TILE, obj.y * TILE, TILE, TILE);
 });
