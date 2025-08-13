@@ -91,7 +91,7 @@ test('transparent toggle affects only the selected object', async () => {
   const { hooks, canvas } = await loadGame();
   const enableBtn = document.getElementById('design-enable');
   const transBtn = document.getElementById('design-transparent');
-  const [first, second] = hooks.getObjects();
+  const [first, second] = hooks.getObjects().filter(o => !o.transparent);
   enableBtn.click();
   transBtn.click();
   expect(first.transparent).toBe(false);

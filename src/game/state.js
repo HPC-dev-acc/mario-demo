@@ -1,6 +1,6 @@
 import { TILE, TRAFFIC_LIGHT } from './physics.js';
 import { BASE_W } from './width.js';
-import objects from '../../assets/objects.js';
+import objects from '../../assets/objects.custom.js';
 
 export const Y_OFFSET = 2;
 export const SPAWN_X = 3 * TILE;

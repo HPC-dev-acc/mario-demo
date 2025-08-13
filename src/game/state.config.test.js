@@ -1,11 +1,11 @@
-import objects from '../../assets/objects.js';
+import objects from '../../assets/objects.custom.js';
 import { TRAFFIC_LIGHT } from './physics.js';
 import { createGameState, Y_OFFSET } from './state.js';
 
-test('loads objects.js into game state', () => {
+test('loads objects.custom.js into game state', () => {
   expect(Array.isArray(objects)).toBe(true);
   const state = createGameState();
-  const brickCount = objects.filter(o => o.type === 'brick').length;
+  const brickCount = new Set(objects.filter(o => o.type === 'brick').map(o => `${o.x},${o.y}`)).size;
   const coinCount = objects.filter(o => o.type === 'coin').length;
   const lightCount = objects.filter(o => o.type === 'light').length;
 
