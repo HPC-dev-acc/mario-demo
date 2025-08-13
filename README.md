@@ -1,11 +1,12 @@
 # Mario Demo
 
-**Version: 1.5.63**
+**Version: 1.5.64**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
 - Added a fullscreen toggle button in the HUD to switch the canvas between fullscreen and windowed modes.
+- In design mode, pressing the `Q` key rotates the selected 24px block clockwise within its parent tile.
 - Design mode's **新增** block now spawns centered below the HUD, stays 24px when moved, and keeps collisions and visuals aligned.
 - Added an Info panel toggled by a top-right ℹ button with gameplay instructions.
 - Added a 24px collision grid allowing half-tile and custom sub-tile collision patterns with matching visuals.
@@ -89,6 +90,7 @@ Supported `type` values are `brick`, `coin`, and `light`. The `x` and `y` fields
 
 Open the settings menu and use the **LEVEL** controls to enable design mode. The canvas gains a dashed outline while active. While design mode is on, the countdown timer pauses. Click or tap an object to select it, drag it to a new tile, then release to drop it. Click the selected object again to clear the selection. Disabling design mode clears the current selection. The transparency toggle affects only the current selection; clicking it with nothing selected has no effect. The layout can be saved as JSON for editing.
 While an object is selected, you can move it one tile at a time with the `W`, `A`, `S`, and `D` keys for up, left, down, and right nudges respectively.
+Press `Q` to cycle a selected 24px block through quadrants clockwise.
 When enabled, an **新增** button appears to place a 24px collision block centered below the HUD.
 
 ## Testing
