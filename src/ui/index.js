@@ -51,6 +51,19 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     });
   }
 
+  const fullscreenToggle = document.getElementById('fullscreen-toggle');
+  if (fullscreenToggle) {
+    fullscreenToggle.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        canvas.requestFullscreen?.().catch(() => {});
+        fullscreenToggle.textContent = '🞬';
+      } else {
+        document.exitFullscreen?.().catch(() => {});
+        fullscreenToggle.textContent = '⛶';
+      }
+    });
+  }
+
   if (design) {
     const enableBtn = document.getElementById('design-enable');
     const transBtn = document.getElementById('design-transparent');
