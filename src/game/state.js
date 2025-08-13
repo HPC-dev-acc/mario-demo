@@ -41,7 +41,7 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
     state.lights = {};
     for (const { x, y } of lightConfigs) {
       level[y][x] = TRAFFIC_LIGHT;
-      state.lights[`${x},${y}`] = { state: 'red', timer: 0 };
+      state.lights[`${x},${y}`] = { state: 'green', timer: 0 };
     }
   };
   state.spawnLights();
