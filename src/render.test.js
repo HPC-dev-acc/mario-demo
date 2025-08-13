@@ -269,9 +269,10 @@ test('findGroundY returns floor height when under a block', () => {
   const { level, player } = state;
   const columnX = 7;
   level[5 + Y_OFFSET][columnX] = 1;
+  state.collisions = state.buildCollisions();
   player.x = columnX * TILE + TILE / 2;
   player.y = (state.LEVEL_H - 5) * TILE - player.h / 2;
   const groundY = (state.LEVEL_H - 5) * TILE;
-  const shadowY = findGroundY(level, player.x, player.y + player.h / 2);
+  const shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2);
   expect(shadowY).toBe(groundY);
 });

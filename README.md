@@ -1,11 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.58**
+**Version: 1.5.59**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
-
+- Added a 24px collision grid allowing half-tile and custom sub-tile collision patterns with matching visuals.
 - Adjusted traffic light timings to green (2s), yellow (1s), and red (3s) with the cycle starting on green.
 - Shifted the entire world down by two tiles (96px) so objects, player, and map align with grid without rendering offsets.
 - Removed the downward camera offset so rendering uses unadjusted world coordinates.
@@ -79,7 +79,7 @@ Stage objects are defined in `assets/objects.js` as a JavaScript module. Each en
 { type: 'brick', x: 12, y: 4, transparent: true }
 ```
 
-Supported `type` values are `brick`, `coin`, and `light`. The `x` and `y` fields use tile coordinates. The optional `transparent` flag (default `false`) renders an object at 50% opacity without changing its collision behavior. Use it for invisible blocks, debugging layouts, or allowing coins to appear ghost-like. `createGameState` loads this file to populate the level, coins, and traffic lights.
+Supported `type` values are `brick`, `coin`, and `light`. The `x` and `y` fields use tile coordinates. The optional `transparent` flag (default `false`) renders an object at 50% opacity without changing its collision behavior. A `collision` array like `[1,1,0,0]` can define sub-tile patterns (top-left, top-right, bottom-left, bottom-right) on the 24px collision grid. `createGameState` loads this file to populate the level, coins, and traffic lights.
 
 ## Level Design Mode
 

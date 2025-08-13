@@ -133,6 +133,7 @@ const IMPACT_COOLDOWN_MS = 120;
       }
       obj.x = x;
       obj.y = y;
+      state.collisions = state.buildCollisions();
     }
       function toggleTransparent() {
         if (!selected) return;
@@ -325,8 +326,8 @@ const IMPACT_COOLDOWN_MS = 120;
     }
 
     const collisionEvents = {};
-    resolveCollisions(player, level, state.lights, collisionEvents);
-    player.shadowY = findGroundY(level, player.x, player.y + player.h / 2, state.lights);
+    resolveCollisions(player, level, state.collisions, state.lights, collisionEvents);
+    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
     updatePlayerWidth(player);
     const gained = collectCoins(player, level, coins);
     if (collisionEvents.brickHit) {

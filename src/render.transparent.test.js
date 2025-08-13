@@ -33,7 +33,7 @@ test('transparent bricks collide but render with alpha', () => {
     lineWidth: 0,
   };
   render(ctx, state);
-  expect(solidAt(state.level, TILE + 1, (1 + Y_OFFSET) * TILE + 1)).toBe(2);
+  expect(solidAt(state.collisions, TILE + 1, (1 + Y_OFFSET) * TILE + 1)).toBe(1);
   expect(alphas).toContain(0.5);
 });
 
