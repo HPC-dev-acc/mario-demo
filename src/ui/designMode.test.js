@@ -1,5 +1,5 @@
 import pkg from '../../package.json' assert { type: 'json' };
-import { TILE } from '../game/physics.js';
+import { TILE, COLL_TILE } from '../game/physics.js';
 
 async function loadGame() {
   jest.resetModules();
@@ -194,4 +194,39 @@ test('dragging an added 24px block preserves its pattern', async () => {
   expect(state.patterns[key]).toBeUndefined();
   expect(state.collisions[cy][cx]).toBe(0);
   expect(state.collisions[cy + 2][cx]).toBe(1);
+});
+
+test('pressing Q rotates a selected 24px block clockwise', async () => {
+  const { hooks, canvas } = await loadGame();
+  const enableBtn = document.getElementById('design-enable');
+  const addBtn = document.getElementById('design-add');
+  const hud = document.getElementById('hud-top-center');
+  enableBtn.click();
+  addBtn.click();
+  const state = hooks.getState();
+  const hudRect = hud.getBoundingClientRect();
+  const canvasRect = canvas.getBoundingClientRect();
+  const px = state.camera.x + canvas.width / 2;
+  const py = state.camera.y + (hudRect.bottom - canvasRect.top) + 4;
+  const cx = Math.floor(px / COLL_TILE);
+  const cy = Math.floor(py / COLL_TILE);
+  const tx = Math.floor(cx / 2);
+  const ty = Math.floor(cy / 2);
+  const key = `${tx},${ty}`;
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: tx * TILE + 1, clientY: ty * TILE + 1 }));
+  window.dispatchEvent(new window.MouseEvent('pointerup', { clientX: tx * TILE + 1, clientY: ty * TILE + 1 }));
+  const before = state.patterns[key].slice();
+  const q = before.indexOf(1);
+  window.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'q' }));
+  const after = state.patterns[key];
+  const expected = [before[2], before[0], before[3], before[1]];
+  expect(after).toEqual(expected);
+  const oldCx = tx * 2 + (q % 2);
+  const oldCy = ty * 2 + Math.floor(q / 2);
+  const rotMap = [1, 3, 0, 2];
+  const newQ = rotMap[q];
+  const newCx = tx * 2 + (newQ % 2);
+  const newCy = ty * 2 + Math.floor(newQ / 2);
+  expect(state.collisions[oldCy][oldCx]).toBe(0);
+  expect(state.collisions[newCy][newCx]).toBe(1);
 });

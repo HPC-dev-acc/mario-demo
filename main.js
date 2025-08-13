@@ -88,8 +88,13 @@ const IMPACT_COOLDOWN_MS = 120;
     }
     function onKey(e) {
       if (!selected) return;
+      const k = e.key.toLowerCase();
+      if (k === 'q') {
+        rotateSelected(selected);
+        return;
+      }
       let { x, y } = selected;
-      switch (e.key.toLowerCase()) {
+      switch (k) {
         case 'a':
           x -= 1;
           break;
@@ -106,6 +111,16 @@ const IMPACT_COOLDOWN_MS = 120;
           return;
       }
       moveSelected(selected, x, y);
+    }
+    function rotateSelected(obj) {
+      if (obj.type !== 'brick') return;
+      const patt = obj.collision;
+      if (!patt || patt.length !== 4) return;
+      const rotated = [patt[2], patt[0], patt[3], patt[1]];
+      obj.collision = rotated;
+      const key = `${obj.x},${obj.y}`;
+      state.patterns[key] = rotated;
+      state.collisions = state.buildCollisions();
     }
     function moveSelected(obj, x, y) {
       if (x < 0 || y < 0 || x >= LEVEL_W || y >= LEVEL_H) return;
