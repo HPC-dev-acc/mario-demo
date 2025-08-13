@@ -27,11 +27,16 @@ export function render(ctx, state, design) {
       }
     }
     if (design?.isEnabled?.()) {
-      const sel = design.getSelected?.();
+      ctx.strokeStyle = getHighlightColor();
+      ctx.lineWidth = 2;
+      const selObj = design.getSelected?.();
+      if (selObj) ctx.strokeRect(selObj.x * TILE, selObj.y * TILE, TILE, TILE);
+      const sel = state.selection;
       if (sel) {
-        ctx.strokeStyle = getHighlightColor();
-        ctx.lineWidth = 2;
-        ctx.strokeRect(sel.x * TILE, sel.y * TILE, TILE, TILE);
+        const h = TILE / 2;
+        const sx = sel.x * TILE + (sel.q % 2) * h;
+        const sy = sel.y * TILE + Math.floor(sel.q / 2) * h;
+        ctx.strokeRect(sx, sy, h, h);
       }
     }
     ctx.fillStyle = 'rgba(0,0,0,.15)';

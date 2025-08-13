@@ -213,24 +213,57 @@ test('pressing Q rotates a selected 24px block clockwise', async () => {
   const tx = Math.floor(cx / 2);
   const ty = Math.floor(cy / 2);
   const key = `${tx},${ty}`;
-  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: tx * TILE + 1, clientY: ty * TILE + 1 }));
-  window.dispatchEvent(new window.MouseEvent('pointerup', { clientX: tx * TILE + 1, clientY: ty * TILE + 1 }));
   const before = state.patterns[key].mask.map(r => r.slice());
   let q = 0;
   for (let r = 0; r < 2; r++) for (let c = 0; c < 2; c++) if (before[r][c]) q = r * 2 + c;
+  const h = TILE / 2;
+  const clickX = tx * TILE + (q % 2) * h + 1;
+  const clickY = ty * TILE + Math.floor(q / 2) * h + 1;
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: clickX, clientY: clickY }));
+  window.dispatchEvent(new window.MouseEvent('pointerup', { clientX: clickX, clientY: clickY }));
+  expect(state.selection).toEqual({ x: tx, y: ty, q });
   window.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'q' }));
   const after = state.patterns[key].mask;
-  const expected = [
-    [before[1][0], before[0][0]],
-    [before[1][1], before[0][1]],
-  ];
+  const rotMap = [1, 3, 0, 2];
+  const newQ = rotMap[q];
+  const expected = before.map(r => r.slice());
+  expected[Math.floor(q / 2)][q % 2] = 0;
+  expected[Math.floor(newQ / 2)][newQ % 2] = 1;
   expect(after).toEqual(expected);
   const oldCx = tx * 2 + (q % 2);
   const oldCy = ty * 2 + Math.floor(q / 2);
-  const rotMap = [1, 3, 0, 2];
-  const newQ = rotMap[q];
   const newCx = tx * 2 + (newQ % 2);
   const newCy = ty * 2 + Math.floor(newQ / 2);
   expect(state.collisions[oldCy][oldCx]).toBe(0);
   expect(state.collisions[newCy][newCx]).toBe(1);
+  expect(state.selection.q).toBe(newQ);
+});
+
+test('render highlights a selected 24px block', async () => {
+  const { hooks, canvas, ctx } = await loadGame();
+  const enableBtn = document.getElementById('design-enable');
+  const addBtn = document.getElementById('design-add');
+  const hud = document.getElementById('hud-top-center');
+  enableBtn.click();
+  addBtn.click();
+  const state = hooks.getState();
+  const hudRect = hud.getBoundingClientRect();
+  const canvasRect = canvas.getBoundingClientRect();
+  const px = state.camera.x + canvas.width / 2;
+  const py = state.camera.y + (hudRect.bottom - canvasRect.top) + 4;
+  const cx = Math.floor(px / COLL_TILE);
+  const cy = Math.floor(py / COLL_TILE);
+  const tx = Math.floor(cx / 2);
+  const ty = Math.floor(cy / 2);
+  const q = (cy % 2) * 2 + (cx % 2);
+  const h = TILE / 2;
+  const clickX = tx * TILE + (q % 2) * h + 1;
+  const clickY = ty * TILE + Math.floor(q / 2) * h + 1;
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: clickX, clientY: clickY }));
+  window.dispatchEvent(new window.MouseEvent('pointerup', { clientX: clickX, clientY: clickY }));
+  ctx.strokeRect.mockClear();
+  hooks.runRender();
+  const sx = tx * TILE + (q % 2) * h;
+  const sy = ty * TILE + Math.floor(q / 2) * h;
+  expect(ctx.strokeRect.mock.calls).toContainEqual([sx, sy, h, h]);
 });

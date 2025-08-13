@@ -42,6 +42,7 @@ const IMPACT_COOLDOWN_MS = 120;
         window.removeEventListener('keydown', onKey);
         canvas.classList.remove('design-active');
         selected = null;
+        state.selection = null;
       }
       return enabled;
     }
@@ -65,6 +66,14 @@ const IMPACT_COOLDOWN_MS = 120;
       }
       downX = e.clientX;
       downY = e.clientY;
+      const collX = Math.floor((e.clientX - rect.left + camera.x) / COLL_TILE);
+      const collY = Math.floor((e.clientY - rect.top) / COLL_TILE);
+      const selX = Math.floor(collX / 2);
+      const selY = Math.floor(collY / 2);
+      const q = (collY % 2) * 2 + (collX % 2);
+      const patt = state.patterns[`${selX},${selY}`];
+      if (patt && patt.mask[Math.floor(q / 2)][q % 2]) state.selection = { x: selX, y: selY, q };
+      else state.selection = null;
     }
     function onMove(e) {
       e.preventDefault();
@@ -87,12 +96,12 @@ const IMPACT_COOLDOWN_MS = 120;
       }
     }
     function onKey(e) {
-      if (!selected) return;
       const k = e.key.toLowerCase();
       if (k === 'q') {
-        rotateSelected(selected);
+        rotateSelection();
         return;
       }
+      if (!selected) return;
       let { x, y } = selected;
       switch (k) {
         case 'a':
@@ -112,17 +121,26 @@ const IMPACT_COOLDOWN_MS = 120;
       }
       moveSelected(selected, x, y);
     }
-    function rotateSelected(obj) {
-      if (obj.type !== 'brick') return;
-      const key = `${obj.x},${obj.y}`;
+    function rotateSelection() {
+      const sel = state.selection;
+      if (!sel) return;
+      const { x, y, q } = sel;
+      const key = `${x},${y}`;
       const patt = state.patterns[key];
       if (!patt) return;
-      const m = patt.mask;
-      patt.mask = [
-        [m[1][0], m[0][0]],
-        [m[1][1], m[0][1]],
-      ];
-      obj.collision = patt.mask.flat();
+      const mask = patt.mask;
+      const r = Math.floor(q / 2);
+      const c = q % 2;
+      if (!mask[r][c]) return;
+      mask[r][c] = 0;
+      const rotMap = [1, 3, 0, 2];
+      const newQ = rotMap[q];
+      const nr = Math.floor(newQ / 2);
+      const nc = newQ % 2;
+      mask[nr][nc] = 1;
+      sel.q = newQ;
+      const obj = designObjects.find(o => o.x === x && o.y === y && o.type === 'brick');
+      if (obj) obj.collision = mask.flat();
       state.collisions = state.buildCollisions();
     }
     function moveSelected(obj, x, y) {
@@ -152,8 +170,13 @@ const IMPACT_COOLDOWN_MS = 120;
         transparent.delete(oldKey);
         transparent.add(newKey);
       }
+      const wasSel = state.selection && state.selection.x === obj.x && state.selection.y === obj.y;
       obj.x = x;
       obj.y = y;
+      if (wasSel) {
+        state.selection.x = x;
+        state.selection.y = y;
+      }
       state.collisions = state.buildCollisions();
     }
       function toggleTransparent() {
