@@ -1,5 +1,5 @@
 import { render, drawPlayer, drawTrafficLight } from './render.js';
-import { createGameState } from './game/state.js';
+import { createGameState, Y_OFFSET } from './game/state.js';
 import { TILE, findGroundY } from './game/physics.js';
 
 test('render runs without throwing', () => {
@@ -268,7 +268,7 @@ test('findGroundY returns floor height when under a block', () => {
   const state = createGameState();
   const { level, player } = state;
   const columnX = 7;
-  level[5][columnX] = 1;
+  level[5 + Y_OFFSET][columnX] = 1;
   player.x = columnX * TILE + TILE / 2;
   player.y = (state.LEVEL_H - 5) * TILE - player.h / 2;
   const groundY = (state.LEVEL_H - 5) * TILE;

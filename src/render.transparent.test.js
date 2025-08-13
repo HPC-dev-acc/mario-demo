@@ -1,5 +1,5 @@
 import { render } from './render.js';
-import { createGameState } from './game/state.js';
+import { createGameState, Y_OFFSET } from './game/state.js';
 import { TILE, solidAt } from './game/physics.js';
 
 test('transparent bricks collide but render with alpha', () => {
@@ -33,7 +33,7 @@ test('transparent bricks collide but render with alpha', () => {
     lineWidth: 0,
   };
   render(ctx, state);
-  expect(solidAt(state.level, TILE + 1, TILE + 1)).toBe(2);
+  expect(solidAt(state.level, TILE + 1, (1 + Y_OFFSET) * TILE + 1)).toBe(2);
   expect(alphas).toContain(0.5);
 });
 
