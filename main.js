@@ -114,12 +114,15 @@ const IMPACT_COOLDOWN_MS = 120;
     }
     function rotateSelected(obj) {
       if (obj.type !== 'brick') return;
-      const patt = obj.collision;
-      if (!patt || patt.length !== 4) return;
-      const rotated = [patt[2], patt[0], patt[3], patt[1]];
-      obj.collision = rotated;
       const key = `${obj.x},${obj.y}`;
-      state.patterns[key] = rotated;
+      const patt = state.patterns[key];
+      if (!patt) return;
+      const m = patt.mask;
+      patt.mask = [
+        [m[1][0], m[0][0]],
+        [m[1][1], m[0][1]],
+      ];
+      obj.collision = patt.mask.flat();
       state.collisions = state.buildCollisions();
     }
     function moveSelected(obj, x, y) {
@@ -129,9 +132,10 @@ const IMPACT_COOLDOWN_MS = 120;
       const newKey = `${x},${y}`;
       if (obj.type === 'brick') {
         level[obj.y][obj.x] = 0;
+        const patt = state.patterns[oldKey];
         delete state.patterns[oldKey];
         level[y][x] = 2;
-        if (obj.collision) state.patterns[newKey] = obj.collision;
+        if (patt) state.patterns[newKey] = patt;
       } else if (obj.type === 'coin') {
         level[obj.y][obj.x] = 0;
         coins.delete(oldKey);
@@ -187,11 +191,15 @@ const IMPACT_COOLDOWN_MS = 120;
       const q = (cy % 2) * 2 + (cx % 2);
       level[ty][tx] = 2;
       const key = `${tx},${ty}`;
-      const patt = state.patterns[key] || [0, 0, 0, 0];
-      patt[q] = 1;
+      const patt = state.patterns[key] || { mask: [
+        [0, 0],
+        [0, 0],
+      ] };
+      patt.mask[Math.floor(q / 2)][q % 2] = 1;
       state.patterns[key] = patt;
+      const arr = patt.mask.flat();
       const existing = designObjects.find(o => o.x === tx && o.y === ty && o.type === 'brick');
-      if (existing) existing.collision = patt; else designObjects.push({ type: 'brick', x: tx, y: ty, transparent: false, collision: patt });
+      if (existing) existing.collision = arr; else designObjects.push({ type: 'brick', x: tx, y: ty, transparent: false, collision: arr });
       state.collisions = state.buildCollisions();
     }
     return { enable, isEnabled, toggleTransparent, save, getSelected, addBlock };

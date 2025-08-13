@@ -161,8 +161,8 @@ test('add button inserts a 24px block centered below the HUD', async () => {
   const ty = Math.floor(cy / 2);
   const key = `${tx},${ty}`;
   const q = (cy % 2) * 2 + (cx % 2);
-  const expected = [0,0,0,0]; expected[q] = 1;
-  expect(state.patterns[key]).toEqual(expected);
+  const expected = [[0,0],[0,0]]; expected[Math.floor(q/2)][q%2] = 1;
+  expect(state.patterns[key].mask).toEqual(expected);
   expect(state.collisions[cy][cx]).toBe(1);
   hooks.runRender();
   expect(ctx.fillRect.mock.calls.some(([x,y,w,h]) => x === tx * TILE && y === ty * TILE + TILE / 2 && w === TILE / 2 && h === TILE / 2)).toBe(true);
@@ -190,7 +190,7 @@ test('dragging an added 24px block preserves its pattern', async () => {
   canvas.dispatchEvent(new window.MouseEvent('pointermove', { clientX: tx * TILE + 1, clientY: (ty + 1) * TILE + 1 }));
   window.dispatchEvent(new window.MouseEvent('pointerup'));
   const newKey = `${tx},${ty + 1}`;
-  expect(state.patterns[newKey]).toEqual(patt);
+  expect(state.patterns[newKey]).toBe(patt);
   expect(state.patterns[key]).toBeUndefined();
   expect(state.collisions[cy][cx]).toBe(0);
   expect(state.collisions[cy + 2][cx]).toBe(1);
@@ -215,11 +215,15 @@ test('pressing Q rotates a selected 24px block clockwise', async () => {
   const key = `${tx},${ty}`;
   canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: tx * TILE + 1, clientY: ty * TILE + 1 }));
   window.dispatchEvent(new window.MouseEvent('pointerup', { clientX: tx * TILE + 1, clientY: ty * TILE + 1 }));
-  const before = state.patterns[key].slice();
-  const q = before.indexOf(1);
+  const before = state.patterns[key].mask.map(r => r.slice());
+  let q = 0;
+  for (let r = 0; r < 2; r++) for (let c = 0; c < 2; c++) if (before[r][c]) q = r * 2 + c;
   window.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'q' }));
-  const after = state.patterns[key];
-  const expected = [before[2], before[0], before[3], before[1]];
+  const after = state.patterns[key].mask;
+  const expected = [
+    [before[1][0], before[0][0]],
+    [before[1][1], before[0][1]],
+  ];
   expect(after).toEqual(expected);
   const oldCx = tx * 2 + (q % 2);
   const oldCy = ty * 2 + Math.floor(q / 2);
