@@ -1,12 +1,12 @@
 # Mario Demo
 
-**Version: 1.5.64**
+**Version: 1.5.65**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
 - Added a fullscreen toggle button in the HUD to switch the canvas between fullscreen and windowed modes.
-- In design mode, pressing the `Q` key rotates the selected 24px block clockwise within its parent tile.
+- In design mode, pressing the `Q` key rotates the selected 24px block clockwise within its parent tile using `patterns[key].mask` (2×2) as the sole data source.
 - Design mode's **新增** block now spawns centered below the HUD, stays 24px when moved, and keeps collisions and visuals aligned.
 - Added an Info panel toggled by a top-right ℹ button with gameplay instructions.
 - Added a 24px collision grid allowing half-tile and custom sub-tile collision patterns with matching visuals.

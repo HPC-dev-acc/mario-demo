@@ -19,7 +19,7 @@ export function render(ctx, state, design) {
         const isTransparent = transparent?.has(key);
         const patt = patterns?.[key];
         if (t === 2) {
-          if (patt) drawBrickPattern(ctx, px, py, patt, isTransparent);
+          if (patt) drawBrickPattern(ctx, px, py, patt.mask, isTransparent);
           else drawBrick(ctx, px, py, isTransparent);
         }
         if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2, isTransparent);
@@ -48,14 +48,14 @@ function drawBrick(ctx, x, y, transparent = false) {
   if (transparent) ctx.restore();
 }
 
-function drawBrickPattern(ctx, x, y, pattern, transparent = false) {
+function drawBrickPattern(ctx, x, y, mask, transparent = false) {
   if (transparent) { ctx.save(); ctx.globalAlpha = 0.5; }
   const h = TILE / 2;
   ctx.fillStyle = '#b84a2b';
-  if (pattern[0]) ctx.fillRect(x, y, h, h);
-  if (pattern[1]) ctx.fillRect(x + h, y, h, h);
-  if (pattern[2]) ctx.fillRect(x, y + h, h, h);
-  if (pattern[3]) ctx.fillRect(x + h, y + h, h, h);
+  if (mask[0][0]) ctx.fillRect(x, y, h, h);
+  if (mask[0][1]) ctx.fillRect(x + h, y, h, h);
+  if (mask[1][0]) ctx.fillRect(x, y + h, h, h);
+  if (mask[1][1]) ctx.fillRect(x + h, y + h, h, h);
   if (transparent) ctx.restore();
 }
 function drawCoin(ctx, cx, cy, transparent = false) {

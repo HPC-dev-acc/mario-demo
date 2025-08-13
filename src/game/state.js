@@ -21,7 +21,10 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
     obj.y += Y_OFFSET;
     const { type, x, y, transparent: isTransparent = false, collision } = obj;
     if (isTransparent) transparent.add(`${x},${y}`);
-    if (collision) patterns[`${x},${y}`] = collision;
+    if (collision) patterns[`${x},${y}`] = { mask: [
+      [collision[0], collision[1]],
+      [collision[2], collision[3]],
+    ] };
     if (type === 'brick') level[y][x] = 2;
     else if (type === 'coin') {
       level[y][x] = 3;
@@ -48,12 +51,12 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
     }
     for (const key in patterns) {
       const [x, y] = key.split(',').map(Number);
-      const p = patterns[key];
+      const { mask } = patterns[key];
       const cy = y * 2, cx = x * 2;
-      grid[cy][cx] = p[0] ? 1 : 0;
-      grid[cy][cx + 1] = p[1] ? 1 : 0;
-      grid[cy + 1][cx] = p[2] ? 1 : 0;
-      grid[cy + 1][cx + 1] = p[3] ? 1 : 0;
+      grid[cy][cx] = mask[0][0] ? 1 : 0;
+      grid[cy][cx + 1] = mask[0][1] ? 1 : 0;
+      grid[cy + 1][cx] = mask[1][0] ? 1 : 0;
+      grid[cy + 1][cx + 1] = mask[1][1] ? 1 : 0;
     }
     return grid;
   }
