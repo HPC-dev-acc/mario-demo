@@ -114,7 +114,9 @@ const IMPACT_COOLDOWN_MS = 120;
       const newKey = `${x},${y}`;
       if (obj.type === 'brick') {
         level[obj.y][obj.x] = 0;
+        delete state.patterns[oldKey];
         level[y][x] = 2;
+        if (obj.collision) state.patterns[newKey] = obj.collision;
       } else if (obj.type === 'coin') {
         level[obj.y][obj.x] = 0;
         coins.delete(oldKey);
@@ -158,8 +160,13 @@ const IMPACT_COOLDOWN_MS = 120;
       return selected;
     }
     function addBlock() {
-      const cx = Math.floor((camera.x + canvas.width / 2) / COLL_TILE);
-      const cy = Math.floor(camera.y / COLL_TILE);
+      const hud = document.getElementById('hud-top-center');
+      const hudRect = hud.getBoundingClientRect();
+      const canvasRect = canvas.getBoundingClientRect();
+      const px = camera.x + canvas.width / 2;
+      const py = camera.y + (hudRect.bottom - canvasRect.top) + 4;
+      const cx = Math.floor(px / COLL_TILE);
+      const cy = Math.floor(py / COLL_TILE);
       const tx = Math.floor(cx / 2);
       const ty = Math.floor(cy / 2);
       const q = (cy % 2) * 2 + (cx % 2);
