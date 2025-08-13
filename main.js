@@ -91,14 +91,10 @@ const IMPACT_COOLDOWN_MS = 120;
       obj.x = x;
       obj.y = y;
     }
-    function toggleTransparent() {
-      if (selected) toggleObj(selected);
-      else {
-        for (const obj of designObjects) {
-          if (obj.type === 'brick') toggleObj(obj);
-        }
+      function toggleTransparent() {
+        if (!selected) return;
+        toggleObj(selected);
       }
-    }
     function toggleObj(obj) {
       const key = `${obj.x},${obj.y}`;
       obj.transparent = !obj.transparent;
