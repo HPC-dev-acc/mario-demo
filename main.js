@@ -4,6 +4,7 @@ import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
 import { createControls } from './src/controls.js';
 import { createGameState, SPAWN_X, SPAWN_Y } from './src/game/state.js';
+import { toLogical } from './src/game/serialize.js';
 import objects from './assets/objects.custom.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render } from './src/render.js';
@@ -189,7 +190,8 @@ const IMPACT_COOLDOWN_MS = 120;
       if (obj.transparent) transparent.add(key); else transparent.delete(key);
     }
     function save() {
-      const data = JSON.stringify(designObjects, null, 2);
+      const out = toLogical(designObjects);
+      const data = JSON.stringify(out, null, 2);
       const blob = new Blob([data], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
