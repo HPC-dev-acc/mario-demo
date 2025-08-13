@@ -4,7 +4,7 @@ import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
 import { createControls } from './src/controls.js';
 import { createGameState, SPAWN_X, SPAWN_Y } from './src/game/state.js';
-import objects from './assets/objects.js';
+import objects from './assets/objects.custom.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render } from './src/render.js';
 import { loadPlayerSprites, loadTrafficLightSprites } from './src/sprites.js';
