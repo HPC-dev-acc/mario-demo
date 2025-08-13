@@ -1,4 +1,4 @@
-export default [
+[
   {
     "type": "brick",
     "x": 45,
