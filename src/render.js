@@ -5,7 +5,7 @@ function getHighlightColor() {
 }
 
 export function render(ctx, state, design) {
-  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, transparent, patterns } = state;
+  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, transparent, patterns, indestructible } = state;
   if (ctx.canvas && ctx.canvas.style) {
     ctx.canvas.style.backgroundPosition = `${-Math.floor(camera.x)}px 0px`;
   }
@@ -17,13 +17,15 @@ export function render(ctx, state, design) {
         const t = level[y][x], px = x * TILE, py = y * TILE;
         const key = `${x},${y}`;
         const isTransparent = transparent?.has(key);
+        const alpha = isTransparent ? (design?.isEnabled?.() ? 0.5 : 0) : 1;
         const patt = patterns?.[key];
         if (t === 2) {
-          if (patt) drawBrickPattern(ctx, px, py, patt.mask, isTransparent);
-          else drawBrick(ctx, px, py, isTransparent);
+          const locked = design?.isEnabled?.() && indestructible?.has(key);
+          if (patt) drawBrickPattern(ctx, px, py, patt.mask, alpha, locked);
+          else drawBrick(ctx, px, py, alpha, locked);
         }
-        if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2, isTransparent);
-        if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[key]?.state, state.trafficLightSprites, isTransparent);
+        if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2, alpha);
+        if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[key]?.state, state.trafficLightSprites, alpha);
       }
     }
     if (design?.isEnabled?.()) {
@@ -45,33 +47,35 @@ export function render(ctx, state, design) {
     ctx.restore();
 }
 
-function drawBrick(ctx, x, y, transparent = false) {
-  if (transparent) { ctx.save(); ctx.globalAlpha = 0.5; }
+function drawBrick(ctx, x, y, alpha = 1, locked = false) {
+  if (alpha < 1) { ctx.save(); ctx.globalAlpha = alpha; }
   ctx.fillStyle = '#b84a2b'; ctx.fillRect(x, y, TILE, TILE);
   ctx.strokeStyle = 'rgba(0,0,0,.25)'; ctx.lineWidth = 2;
   for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) ctx.strokeRect(x + c * 16 + 1, y + r * 16 + 1, 14, 14);
-  if (transparent) ctx.restore();
+  if (alpha < 1) ctx.restore();
+  if (locked) { ctx.save(); ctx.fillStyle = 'rgba(80,80,80,0.3)'; ctx.fillRect(x, y, TILE, TILE); ctx.restore(); }
 }
 
-function drawBrickPattern(ctx, x, y, mask, transparent = false) {
-  if (transparent) { ctx.save(); ctx.globalAlpha = 0.5; }
+function drawBrickPattern(ctx, x, y, mask, alpha = 1, locked = false) {
+  if (alpha < 1) { ctx.save(); ctx.globalAlpha = alpha; }
   const h = TILE / 2;
   ctx.fillStyle = '#b84a2b';
   if (mask[0][0]) ctx.fillRect(x, y, h, h);
   if (mask[0][1]) ctx.fillRect(x + h, y, h, h);
   if (mask[1][0]) ctx.fillRect(x, y + h, h, h);
   if (mask[1][1]) ctx.fillRect(x + h, y + h, h, h);
-  if (transparent) ctx.restore();
+  if (alpha < 1) ctx.restore();
+  if (locked) { ctx.save(); ctx.fillStyle = 'rgba(80,80,80,0.3)'; ctx.fillRect(x, y, TILE, TILE); ctx.restore(); }
 }
-function drawCoin(ctx, cx, cy, transparent = false) {
+function drawCoin(ctx, cx, cy, alpha = 1) {
   ctx.save(); ctx.translate(cx, cy);
-  if (transparent) ctx.globalAlpha = 0.5;
+  if (alpha < 1) ctx.globalAlpha = alpha;
   const t = (performance.now() / 200) % (Math.PI * 2), scaleX = Math.abs(Math.cos(t)) * .8 + .2;
   ctx.scale(scaleX, 1);
   ctx.beginPath(); ctx.fillStyle = '#ffd400'; ctx.arc(0, 0, 12, 0, Math.PI * 2); ctx.fill();
   ctx.fillStyle = '#ffea80'; ctx.fillRect(-3, -6, 6, 12); ctx.restore();
 }
-export function drawTrafficLight(ctx, x, y, state, sprites, transparent = false) {
+export function drawTrafficLight(ctx, x, y, state, sprites, alpha = 1) {
   const sprite = sprites?.[state] || sprites?.green;
   if (!sprite) return;
   const { img, sx, sy, sw, sh } = sprite;
@@ -79,9 +83,9 @@ export function drawTrafficLight(ctx, x, y, state, sprites, transparent = false)
   const dw = sw * (dh / sh);
   const dx = x + TILE / 2 - dw / 2;
   const dy = y + TILE - dh;
-  if (transparent) { ctx.save(); ctx.globalAlpha = 0.5; }
+  if (alpha < 1) { ctx.save(); ctx.globalAlpha = alpha; }
   ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
-  if (transparent) ctx.restore();
+  if (alpha < 1) ctx.restore();
 }
 
 export function drawPlayer(ctx, p, sprites, t = performance.now()) {

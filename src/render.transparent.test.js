@@ -2,7 +2,7 @@ import { render } from './render.js';
 import { createGameState, Y_OFFSET } from './game/state.js';
 import { TILE, solidAt } from './game/physics.js';
 
-test('transparent bricks collide but render with alpha', () => {
+test('transparent bricks collide but hide in game mode and show in design', () => {
   const objects = [{ type: 'brick', x: 1, y: 1, transparent: true }];
   const state = createGameState(objects);
   const alphas = [];
@@ -34,6 +34,9 @@ test('transparent bricks collide but render with alpha', () => {
   };
   render(ctx, state);
   expect(solidAt(state.collisions, TILE + 1, (1 + Y_OFFSET) * TILE + 1)).toBe(1);
+  expect(alphas).toContain(0);
+  alphas.length = 0;
+  render(ctx, state, { isEnabled: () => true });
   expect(alphas).toContain(0.5);
 });
 

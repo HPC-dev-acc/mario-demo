@@ -67,6 +67,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   if (design) {
     const enableBtn = document.getElementById('design-enable');
     const transBtn = document.getElementById('design-transparent');
+    const destroyBtn = document.getElementById('design-destroyable');
     const saveBtn = document.getElementById('design-save');
     const addBtn = document.getElementById('design-add');
     enableBtn?.addEventListener('click', () => {
@@ -77,6 +78,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
       if (addBtn) addBtn.hidden = !on;
     });
     transBtn?.addEventListener('click', () => design.toggleTransparent());
+    destroyBtn?.addEventListener('click', () => design.toggleDestroyable());
     saveBtn?.addEventListener('click', () => design.save());
     addBtn?.addEventListener('click', () => design.addBlock());
   }

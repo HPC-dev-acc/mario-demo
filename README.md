@@ -1,6 +1,6 @@
 # Mario Demo
 
-**Version: 1.5.69**
+**Version: 1.5.70**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
@@ -24,6 +24,8 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Design mode now pauses the countdown timer while active.
 - Design mode includes an **新增** button for placing 24px collision blocks.
 - Added optional `transparent` flag to stage objects for see-through rendering without changing collisions.
+- Transparent objects now render semi-transparently in design mode and are invisible during gameplay while remaining collidable.
+- Added a `destroyable` flag for bricks with a design-mode toggle; bricks marked as non-destroyable resist breakage in gameplay.
 - Fixed loading screen hang on subpath deployments by resolving asset URLs relative to modules and deferring audio initialization until the player presses **START**.
 - Level layout, coins, and traffic lights now load from `assets/objects.custom.js` when present, falling back to `assets/objects.js`, removing hard-coded objects and random light spawning.
 - Traffic lights now spawn at quarter points across the level for even distribution.

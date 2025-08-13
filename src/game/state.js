@@ -16,11 +16,13 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
   const coins = new Set();
   const lightConfigs = [];
   const transparent = new Set();
+  const indestructible = new Set();
   const patterns = {};
   for (const obj of customObjects) {
     obj.y += Y_OFFSET;
-    const { type, x, y, transparent: isTransparent = false, collision } = obj;
+    const { type, x, y, transparent: isTransparent = false, collision, destroyable = true } = obj;
     if (isTransparent) transparent.add(`${x},${y}`);
+    if (type === 'brick' && destroyable === false) indestructible.add(`${x},${y}`);
     if (collision) patterns[`${x},${y}`] = { mask: [
       [collision[0], collision[1]],
       [collision[2], collision[3]],
@@ -61,7 +63,7 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
     return grid;
   }
 
-  const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null, trafficLightSprites: null, transparent, collisions: null, patterns, buildCollisions, selection: null };
+  const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null, trafficLightSprites: null, transparent, indestructible, collisions: null, patterns, buildCollisions, selection: null };
   state.spawnLights = function spawnLights() {
     for (const k in state.lights) {
       const [lx, ly] = k.split(',').map(Number);
