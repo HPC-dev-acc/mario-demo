@@ -1,3 +1,4 @@
+/* Version: 1.5.49 */
 :root{
   --bg:#9fd4ea; --panel:#2d3b42; --panelText:#e8f1f5;
   --pill:#eeeeee; --pillText:#222; --accent:#2a7cff;
@@ -15,6 +16,11 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
   background-repeat:repeat-x;
   background-size:auto 100%;
   background-position:0 0;
+}
+
+#game.design-active{
+  cursor:move;
+  outline:2px dashed rgba(0,0,0,.5);
 }
 
 .pill{display:inline-flex;align-items:center;gap:.5rem;background:#eef2f3;color:var(--pillText);
