@@ -130,6 +130,17 @@ test('brick hit event triggers only on upward block collisions', () => {
   expect(events3.brickHit).toBeUndefined();
 });
 
+test('non-destroyable bricks remain intact', () => {
+  const world = makeWorld(3, 3);
+  setBlock(world, 1, 0, 2);
+  const ent = { x: TILE * 1 + TILE / 2, y: TILE * 1 + TILE / 2 + 20, w: BASE_W, h: 120, vx: 0, vy: -10, onGround: false };
+  const events = {};
+  const indestructible = new Set(['1,0']);
+  resolveCollisions(ent, world.level, world.collisions, {}, events, indestructible);
+  expect(events.brickHit).toBeUndefined();
+  expect(world.level[0][1]).toBe(2);
+});
+
 test('supports half-tile collisions', () => {
   const world = makeWorld(1, 1);
   world.collisions[1][0] = 1;

@@ -22,7 +22,7 @@ const IMPACT_COOLDOWN_MS = 120;
 
   const designObjects = objects.map(o => ({ ...o }));
   const state = createGameState(designObjects);
-  const { level, coins, initialLevel, spawnLights, player, camera, GOAL_X, LEVEL_W, LEVEL_H, lights, transparent } = state;
+  const { level, coins, initialLevel, spawnLights, player, camera, GOAL_X, LEVEL_W, LEVEL_H, lights, transparent, indestructible } = state;
   const design = (function () {
     let enabled = false;
     let selected = null;
@@ -97,6 +97,7 @@ const IMPACT_COOLDOWN_MS = 120;
       }
     }
     function onKey(e) {
+      if (e.key === 'D') { toggleDestroyable(); return; }
       const k = e.key.toLowerCase();
       if (k === 'q') {
         rotateSelection();
@@ -171,6 +172,11 @@ const IMPACT_COOLDOWN_MS = 120;
         transparent.delete(oldKey);
         transparent.add(newKey);
       }
+      const wasLock = indestructible.has(oldKey);
+      if (wasLock) {
+        indestructible.delete(oldKey);
+        indestructible.add(newKey);
+      }
       const wasSel = state.selection && state.selection.x === obj.x && state.selection.y === obj.y;
       obj.x = x;
       obj.y = y;
@@ -182,12 +188,15 @@ const IMPACT_COOLDOWN_MS = 120;
     }
       function toggleTransparent() {
         if (!selected) return;
-        toggleObj(selected);
+        const key = `${selected.x},${selected.y}`;
+        selected.transparent = !selected.transparent;
+        if (selected.transparent) transparent.add(key); else transparent.delete(key);
       }
-    function toggleObj(obj) {
-      const key = `${obj.x},${obj.y}`;
-      obj.transparent = !obj.transparent;
-      if (obj.transparent) transparent.add(key); else transparent.delete(key);
+    function toggleDestroyable() {
+      if (!selected || selected.type !== 'brick') return;
+      const key = `${selected.x},${selected.y}`;
+      selected.destroyable = selected.destroyable === false;
+      if (selected.destroyable === false) indestructible.add(key); else indestructible.delete(key);
     }
     function save() {
       const out = toLogical(designObjects);
@@ -224,10 +233,10 @@ const IMPACT_COOLDOWN_MS = 120;
       state.patterns[key] = patt;
       const arr = patt.mask.flat();
       const existing = designObjects.find(o => o.x === tx && o.y === ty && o.type === 'brick');
-      if (existing) existing.collision = arr; else designObjects.push({ type: 'brick', x: tx, y: ty, transparent: false, collision: arr });
+      if (existing) existing.collision = arr; else designObjects.push({ type: 'brick', x: tx, y: ty, transparent: false, destroyable: true, collision: arr });
       state.collisions = state.buildCollisions();
     }
-    return { enable, isEnabled, toggleTransparent, save, getSelected, addBlock };
+    return { enable, isEnabled, toggleTransparent, toggleDestroyable, save, getSelected, addBlock };
   })();
   const ui = initUI(canvas, {
     resumeAudio,
@@ -311,6 +320,7 @@ const IMPACT_COOLDOWN_MS = 120;
     getTimerEl: () => timerEl,
     designEnable: design.enable,
     designToggleTransparent: design.toggleTransparent,
+    designToggleDestroyable: design.toggleDestroyable,
     designSave: design.save,
     designAddBlock: design.addBlock,
     designIsEnabled: design.isEnabled,
@@ -397,7 +407,7 @@ const IMPACT_COOLDOWN_MS = 120;
     }
 
     const collisionEvents = {};
-    resolveCollisions(player, level, state.collisions, state.lights, collisionEvents);
+    resolveCollisions(player, level, state.collisions, state.lights, collisionEvents, state.indestructible);
     player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
     updatePlayerWidth(player);
     const gained = collectCoins(player, level, coins);

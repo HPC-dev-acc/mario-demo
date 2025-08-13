@@ -8,6 +8,7 @@ async function loadGame() {
     <canvas id="game" width="960" height="540"></canvas>
     <button id="design-enable" aria-pressed="false">啟用</button>
     <div id="design-transparent"></div>
+    <div id="design-destroyable"></div>
     <div id="design-save"></div>
     <button id="design-add" hidden></button>
   `;
@@ -100,6 +101,21 @@ test('transparent toggle affects only the selected object', async () => {
   transBtn.click();
   expect(first.transparent).toBe(true);
   expect(second.transparent).toBe(false);
+});
+
+test('destroyable toggle affects only the selected object', async () => {
+  const { hooks, canvas } = await loadGame();
+  const enableBtn = document.getElementById('design-enable');
+  const destroyBtn = document.getElementById('design-destroyable');
+  const [first, second] = hooks.getObjects().filter(o => o.type === 'brick').slice(0,2);
+  enableBtn.click();
+  destroyBtn.click();
+  expect(first.destroyable).not.toBe(false);
+  expect(second.destroyable).not.toBe(false);
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: first.x * TILE + 1, clientY: first.y * TILE + 1 }));
+  destroyBtn.click();
+  expect(first.destroyable).toBe(false);
+  expect(second.destroyable).not.toBe(false);
 });
 
 test('timer pauses while design mode is enabled', async () => {
