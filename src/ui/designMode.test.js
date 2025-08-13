@@ -15,6 +15,7 @@ async function loadGame() {
   });
   window.__APP_VERSION__ = pkg.version;
   global.requestAnimationFrame = jest.fn();
+  window.requestAnimationFrame = global.requestAnimationFrame;
   const audio = {
     loadSounds: jest.fn(() => Promise.resolve()),
     play: jest.fn(),
@@ -60,4 +61,15 @@ test('transparent toggle affects only the selected object', async () => {
   transBtn.click();
   expect(first.transparent).toBe(true);
   expect(second.transparent).toBe(false);
+});
+
+test('timer pauses while design mode is enabled', async () => {
+  const { hooks } = await loadGame();
+  const enableBtn = document.getElementById('design-enable');
+  enableBtn.click();
+  expect(hooks.designIsEnabled()).toBe(true);
+  const before = hooks.getTimeLeft();
+  hooks.runUpdate(60);
+  hooks.runUpdate(60);
+  expect(hooks.getTimeLeft()).toBe(before);
 });

@@ -210,7 +210,7 @@ const IMPACT_COOLDOWN_MS = 120;
 
   function update(dt){
     const dtMs = dt*16.6667;
-    if (!stageCleared && !stageFailed) {
+    if (!design.isEnabled() && !stageCleared && !stageFailed) {
       timeLeftMs = Math.max(0, timeLeftMs - dtMs);
       if (timerEl) timerEl.textContent = Math.ceil(timeLeftMs / 1000);
       if (timeLeftMs <= 0) {
@@ -310,6 +310,8 @@ const IMPACT_COOLDOWN_MS = 120;
     if (dbg.pressEl) dbg.pressEl.textContent = `${dbgPress}`;
     if (dbg.firedEl) dbg.firedEl.textContent = `${dbgFired}`;
   }
+
+  window.__testHooks.runUpdate = (dt) => update(dt);
 
   function beginGame(){
     triggerStartEffect();
