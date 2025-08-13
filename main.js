@@ -65,7 +65,6 @@ const IMPACT_COOLDOWN_MS = 120;
     }
     function onUp(e) {
       e.preventDefault();
-      selected = null;
     }
     function moveSelected(obj, x, y) {
       const oldKey = `${obj.x},${obj.y}`;
@@ -111,7 +110,10 @@ const IMPACT_COOLDOWN_MS = 120;
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 0);
     }
-    return { enable, isEnabled, toggleTransparent, save };
+    function getSelected() {
+      return selected;
+    }
+    return { enable, isEnabled, toggleTransparent, save, getSelected };
   })();
   const ui = initUI(canvas, {
     resumeAudio,
@@ -197,6 +199,7 @@ const IMPACT_COOLDOWN_MS = 120;
     designToggleTransparent: design.toggleTransparent,
     designSave: design.save,
     designIsEnabled: design.isEnabled,
+    designGetSelected: design.getSelected,
     getObjects: () => designObjects,
   };
 
@@ -204,7 +207,7 @@ const IMPACT_COOLDOWN_MS = 120;
   function loop(t){
     const dt = Math.min(32, t-last); last=t;
     update(dt/16.6667);
-    render(ctx, state);
+    render(ctx, state, design);
     updFps(t);
     requestAnimationFrame(loop);
   }
@@ -313,6 +316,7 @@ const IMPACT_COOLDOWN_MS = 120;
   }
 
   window.__testHooks.runUpdate = (dt) => update(dt);
+  window.__testHooks.runRender = () => render(ctx, state, design);
 
   function beginGame(){
     triggerStartEffect();

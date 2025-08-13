@@ -2,7 +2,11 @@ import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 
 export const Y_OFFSET = 80;
 
-export function render(ctx, state) {
+function getHighlightColor() {
+  return getComputedStyle(document.documentElement).getPropertyValue('--designHighlight') || '#ff0';
+}
+
+export function render(ctx, state, design) {
   const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, transparent } = state;
   if (ctx.canvas && ctx.canvas.style) {
     ctx.canvas.style.backgroundPosition = `${-Math.floor(camera.x)}px 0px`;
@@ -18,6 +22,14 @@ export function render(ctx, state) {
         if (t === 2) drawBrick(ctx, px, py, isTransparent);
         if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2, isTransparent);
         if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[key]?.state, state.trafficLightSprites, isTransparent);
+      }
+    }
+    if (design?.isEnabled?.()) {
+      const sel = design.getSelected?.();
+      if (sel) {
+        ctx.strokeStyle = getHighlightColor();
+        ctx.lineWidth = 2;
+        ctx.strokeRect(sel.x * TILE, sel.y * TILE, TILE, TILE);
       }
     }
     ctx.fillStyle = 'rgba(0,0,0,.15)';

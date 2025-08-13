@@ -1,7 +1,8 @@
-/* Version: 1.5.52 */
+/* Version: 1.5.53 */
 :root{
   --bg:#9fd4ea; --panel:#2d3b42; --panelText:#e8f1f5;
   --pill:#eeeeee; --pillText:#222; --accent:#2a7cff;
+  --designHighlight:#ff0;
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;}
