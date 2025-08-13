@@ -31,23 +31,30 @@ const IMPACT_COOLDOWN_MS = 120;
         canvas.addEventListener('pointerdown', onDown);
         canvas.addEventListener('pointermove', onMove);
         window.addEventListener('pointerup', onUp);
+        canvas.classList.add('design-active');
       } else {
         canvas.removeEventListener('pointerdown', onDown);
         canvas.removeEventListener('pointermove', onMove);
         window.removeEventListener('pointerup', onUp);
+        canvas.classList.remove('design-active');
         selected = null;
       }
+    }
+    function isEnabled() {
+      return enabled;
     }
     function findObj(x, y) {
       return designObjects.find(o => o.x === x && o.y === y);
     }
     function onDown(e) {
+      e.preventDefault();
       const rect = canvas.getBoundingClientRect();
       const tileX = Math.floor((e.clientX - rect.left + camera.x) / TILE);
       const tileY = Math.floor((e.clientY - rect.top) / TILE);
       selected = findObj(tileX, tileY) || null;
     }
     function onMove(e) {
+      e.preventDefault();
       if (!selected) return;
       const rect = canvas.getBoundingClientRect();
       const tileX = Math.floor((e.clientX - rect.left + camera.x) / TILE);
@@ -55,7 +62,10 @@ const IMPACT_COOLDOWN_MS = 120;
       if (tileX === selected.x && tileY === selected.y) return;
       moveSelected(selected, tileX, tileY);
     }
-    function onUp() { selected = null; }
+    function onUp(e) {
+      e.preventDefault();
+      selected = null;
+    }
     function moveSelected(obj, x, y) {
       const oldKey = `${obj.x},${obj.y}`;
       const newKey = `${x},${y}`;
@@ -104,7 +114,7 @@ const IMPACT_COOLDOWN_MS = 120;
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 0);
     }
-    return { enable, toggleTransparent, save };
+    return { enable, isEnabled, toggleTransparent, save };
   })();
   const ui = initUI(canvas, {
     resumeAudio,
@@ -189,6 +199,7 @@ const IMPACT_COOLDOWN_MS = 120;
     designEnable: design.enable,
     designToggleTransparent: design.toggleTransparent,
     designSave: design.save,
+    designIsEnabled: design.isEnabled,
     getObjects: () => designObjects,
   };
 
