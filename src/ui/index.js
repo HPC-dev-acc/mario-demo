@@ -47,7 +47,12 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     const enableBtn = document.getElementById('design-enable');
     const transBtn = document.getElementById('design-transparent');
     const saveBtn = document.getElementById('design-save');
-    enableBtn?.addEventListener('click', () => design.enable());
+    enableBtn?.addEventListener('click', () => {
+      const on = design.enable();
+      enableBtn.classList.toggle('active', on);
+      enableBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      enableBtn.textContent = on ? '停用' : '啟用';
+    });
     transBtn?.addEventListener('click', () => design.toggleTransparent());
     saveBtn?.addEventListener('click', () => design.save());
   }

@@ -5,7 +5,7 @@ async function loadGame() {
   jest.resetModules();
   document.body.innerHTML = `
     <canvas id="game"></canvas>
-    <div id="design-enable"></div>
+    <button id="design-enable" aria-pressed="false">啟用</button>
     <div id="design-transparent"></div>
     <div id="design-save"></div>
   `;
@@ -40,6 +40,9 @@ test('design mode enables and drags objects', async () => {
   const startX = obj.x;
   const startY = obj.y;
   enableBtn.click();
+  expect(enableBtn.classList.contains('active')).toBe(true);
+  expect(enableBtn.getAttribute('aria-pressed')).toBe('true');
+  expect(enableBtn.textContent).toBe('停用');
   expect(hooks.designIsEnabled()).toBe(true);
   canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: startX * TILE + 1, clientY: startY * TILE + 1 }));
   canvas.dispatchEvent(new window.MouseEvent('pointermove', { clientX: (startX + 1) * TILE + 1, clientY: startY * TILE + 1 }));
