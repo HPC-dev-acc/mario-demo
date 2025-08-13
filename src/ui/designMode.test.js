@@ -49,19 +49,37 @@ async function loadGame() {
 test('design mode enables and drags objects', async () => {
   const { hooks, canvas } = await loadGame();
   const enableBtn = document.getElementById('design-enable');
-  const obj = hooks.getObjects()[0];
-  const startX = obj.x;
-  const startY = obj.y;
   enableBtn.click();
   expect(enableBtn.classList.contains('active')).toBe(true);
   expect(enableBtn.getAttribute('aria-pressed')).toBe('true');
   expect(enableBtn.textContent).toBe('停用');
   expect(hooks.designIsEnabled()).toBe(true);
+  const state = hooks.getState();
+  const objs = hooks.getObjects();
+  const obj = objs.find(o => state.level[o.y][o.x + 1] === 0);
+  const startX = obj.x;
+  const startY = obj.y;
   canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: startX * TILE + 1, clientY: startY * TILE + 1 }));
   canvas.dispatchEvent(new window.MouseEvent('pointermove', { clientX: (startX + 1) * TILE + 1, clientY: startY * TILE + 1 }));
   window.dispatchEvent(new window.MouseEvent('pointerup'));
-  expect(hooks.getObjects()[0].x).toBe(startX + 1);
-  expect(hooks.getObjects()[0].y).toBe(startY);
+  expect(obj.x).toBe(startX + 1);
+  expect(obj.y).toBe(startY);
+});
+
+test('selected object moves with WASD keys', async () => {
+  const { hooks, canvas } = await loadGame();
+  const enableBtn = document.getElementById('design-enable');
+  enableBtn.click();
+  const state = hooks.getState();
+  const objs = hooks.getObjects();
+  const obj = objs.find(o => state.level[o.y][o.x + 1] === 0);
+  const startX = obj.x;
+  const startY = obj.y;
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: startX * TILE + 1, clientY: startY * TILE + 1 }));
+  window.dispatchEvent(new window.MouseEvent('pointerup'));
+  window.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'd' }));
+  expect(obj.x).toBe(startX + 1);
+  expect(obj.y).toBe(startY);
 });
 
 test('transparent toggle affects only the selected object', async () => {
