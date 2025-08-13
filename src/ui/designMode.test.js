@@ -4,13 +4,17 @@ import { TILE } from '../game/physics.js';
 async function loadGame() {
   jest.resetModules();
   document.body.innerHTML = `
-    <canvas id="game"></canvas>
+    <div id="hud-top-center"></div>
+    <canvas id="game" width="960" height="540"></canvas>
     <button id="design-enable" aria-pressed="false">啟用</button>
     <div id="design-transparent"></div>
     <div id="design-save"></div>
     <button id="design-add" hidden></button>
   `;
   const canvas = document.getElementById('game');
+  const hud = document.getElementById('hud-top-center');
+  canvas.getBoundingClientRect = () => ({ left: 0, top: 0, right: 960, bottom: 540, width: 960, height: 540 });
+  hud.getBoundingClientRect = () => ({ left: 0, top: 0, right: 960, bottom: 20, width: 960, height: 20 });
   const ctx = {
     canvas,
     fillRect: jest.fn(),
@@ -137,22 +141,57 @@ test('clicking selected object again cancels selection', async () => {
   expect(hooks.designGetSelected()).toBe(null);
 });
 
-test('add button inserts a 24px block at the top of the view', async () => {
-  const { hooks } = await loadGame();
+test('add button inserts a 24px block centered below the HUD', async () => {
+  const { hooks, ctx, canvas } = await loadGame();
   const enableBtn = document.getElementById('design-enable');
   const addBtn = document.getElementById('design-add');
-  const canvas = document.getElementById('game');
+  const hud = document.getElementById('hud-top-center');
   expect(addBtn.hidden).toBe(true);
   enableBtn.click();
   expect(addBtn.hidden).toBe(false);
   addBtn.click();
   const state = hooks.getState();
-  const cx = Math.floor((state.camera.x + canvas.width / 2) / (TILE / 2));
-  const cy = Math.floor(state.camera.y / (TILE / 2));
-  const key = `${Math.floor(cx / 2)},${Math.floor(cy / 2)}`;
+  const hudRect = hud.getBoundingClientRect();
+  const canvasRect = canvas.getBoundingClientRect();
+  const px = state.camera.x + canvas.width / 2;
+  const py = state.camera.y + (hudRect.bottom - canvasRect.top) + 4;
+  const cx = Math.floor(px / (TILE / 2));
+  const cy = Math.floor(py / (TILE / 2));
+  const tx = Math.floor(cx / 2);
+  const ty = Math.floor(cy / 2);
+  const key = `${tx},${ty}`;
   const q = (cy % 2) * 2 + (cx % 2);
   const expected = [0,0,0,0]; expected[q] = 1;
   expect(state.patterns[key]).toEqual(expected);
   expect(state.collisions[cy][cx]).toBe(1);
-  expect(hooks.getObjects().some(o => o.x === Math.floor(cx/2) && o.y === Math.floor(cy/2))).toBe(true);
+  hooks.runRender();
+  expect(ctx.fillRect.mock.calls.some(([x,y,w,h]) => x === tx * TILE && y === ty * TILE + TILE / 2 && w === TILE / 2 && h === TILE / 2)).toBe(true);
+});
+
+test('dragging an added 24px block preserves its pattern', async () => {
+  const { hooks, canvas } = await loadGame();
+  const enableBtn = document.getElementById('design-enable');
+  const addBtn = document.getElementById('design-add');
+  const hud = document.getElementById('hud-top-center');
+  enableBtn.click();
+  addBtn.click();
+  const state = hooks.getState();
+  const hudRect = hud.getBoundingClientRect();
+  const canvasRect = canvas.getBoundingClientRect();
+  const px = state.camera.x + canvas.width / 2;
+  const py = state.camera.y + (hudRect.bottom - canvasRect.top) + 4;
+  const cx = Math.floor(px / (TILE / 2));
+  const cy = Math.floor(py / (TILE / 2));
+  const tx = Math.floor(cx / 2);
+  const ty = Math.floor(cy / 2);
+  const key = `${tx},${ty}`;
+  const patt = state.patterns[key];
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: tx * TILE + 1, clientY: ty * TILE + 1 }));
+  canvas.dispatchEvent(new window.MouseEvent('pointermove', { clientX: tx * TILE + 1, clientY: (ty + 1) * TILE + 1 }));
+  window.dispatchEvent(new window.MouseEvent('pointerup'));
+  const newKey = `${tx},${ty + 1}`;
+  expect(state.patterns[newKey]).toEqual(patt);
+  expect(state.patterns[key]).toBeUndefined();
+  expect(state.collisions[cy][cx]).toBe(0);
+  expect(state.collisions[cy + 2][cx]).toBe(1);
 });
