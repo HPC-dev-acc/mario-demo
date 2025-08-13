@@ -6,7 +6,7 @@ import { createControls } from './src/controls.js';
 import { createGameState } from './src/game/state.js';
 import objects from './assets/objects.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
-import { render, Y_OFFSET } from './src/render.js';
+import { render } from './src/render.js';
 import { loadPlayerSprites, loadTrafficLightSprites } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
@@ -286,7 +286,7 @@ const IMPACT_COOLDOWN_MS = 120;
         enterSlide(player);
         triggerSlideEffect(
           player.x - camera.x,
-          player.y - camera.y + player.h / 2 + Y_OFFSET,
+          player.y - camera.y + player.h / 2,
           player.facing
         );
         play('slide');

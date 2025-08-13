@@ -1,11 +1,12 @@
 # Mario Demo
 
-**Version: 1.5.55**
+**Version: 1.5.56**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
 
+- Removed the downward camera offset so rendering uses unadjusted world coordinates.
 - Design mode enable button now reflects its on/off state with an `active` style, `aria-pressed` attribute, and text toggling between “啟用” and “停用”.
 - Clicking a selected object again cancels the selection.
 - While in design mode, selected objects can be nudged with the `W`, `A`, `S`, `D` keys.
@@ -19,7 +20,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Traffic lights now spawn at quarter points across the level for even distribution.
 - Sliding now keeps the player's full width to avoid layout issues on iPad Safari.
 - Traffic lights now render from PNG sprites and are scaled up 1.5× to roughly 3.75 tiles with aligned positions.
-- Slide dust effect now accounts for render offset and aligns with the player's feet during slides.
+- Slide dust effect aligns with the player's feet during slides.
 - Design mode retains selection after release and highlights the selected tile; `design.getSelected()` exposes the current object.
 - Removed the goal's white line indicator.
 - Added a "Let's Go!" start animation when beginning or restarting the game.
@@ -47,7 +48,6 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Player shadow is now anchored via `shadowY`, preventing it from rising when the player jumps.
 - Shadow now snaps to the top of nearby blocks even when the player is airborne.
 - Ground detection now searches downward from the player, so standing beneath a block anchors the shadow to the floor.
-- Applied a downward camera offset so the scene renders 80 pixels lower.
 - Run animation now activates when pressing against walls and plays at half speed while blocked.
 - Player shadow is now a horizontally flattened ellipse for a more natural appearance.
 - Enlarged base player width to 84px and height to 120px; updated tests accordingly.

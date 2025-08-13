@@ -1,4 +1,4 @@
-import { render, drawPlayer, drawTrafficLight, Y_OFFSET } from './render.js';
+import { render, drawPlayer, drawTrafficLight } from './render.js';
 import { createGameState } from './game/state.js';
 import { TILE, findGroundY } from './game/physics.js';
 
@@ -22,7 +22,7 @@ test('render runs without throwing', () => {
   expect(() => render(ctx, state)).not.toThrow();
 });
 
-test('render applies vertical offset', () => {
+test('render translates camera position', () => {
   const state = createGameState();
   state.camera.y = 10;
   const ctx = {
@@ -41,7 +41,7 @@ test('render applies vertical offset', () => {
     fillStyle: '',
   };
   render(ctx, state);
-  expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -state.camera.y + Y_OFFSET);
+  expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -state.camera.y);
 });
 
 test('render does not call drawCloud', () => {
