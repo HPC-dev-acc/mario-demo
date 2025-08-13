@@ -2,6 +2,7 @@ import pkg from '../../package.json' assert { type: 'json' };
 import { TILE } from '../game/physics.js';
 
 async function loadGame() {
+  jest.resetModules();
   document.body.innerHTML = `
     <canvas id="game"></canvas>
     <div id="design-enable"></div>
@@ -44,4 +45,19 @@ test('design mode enables and drags objects', async () => {
   window.dispatchEvent(new window.MouseEvent('pointerup'));
   expect(hooks.getObjects()[0].x).toBe(startX + 1);
   expect(hooks.getObjects()[0].y).toBe(startY);
+});
+
+test('transparent toggle affects only the selected object', async () => {
+  const { hooks, canvas } = await loadGame();
+  const enableBtn = document.getElementById('design-enable');
+  const transBtn = document.getElementById('design-transparent');
+  const [first, second] = hooks.getObjects();
+  enableBtn.click();
+  transBtn.click();
+  expect(first.transparent).toBe(false);
+  expect(second.transparent).toBe(false);
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: first.x * TILE + 1, clientY: first.y * TILE + 1 }));
+  transBtn.click();
+  expect(first.transparent).toBe(true);
+  expect(second.transparent).toBe(false);
 });
