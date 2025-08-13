@@ -39,6 +39,7 @@ const IMPACT_COOLDOWN_MS = 120;
         canvas.classList.remove('design-active');
         selected = null;
       }
+      return enabled;
     }
     function isEnabled() {
       return enabled;
