@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.68**
+**Version: 1.5.69**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
+- Shifted all stage object Y coordinates up by two tiles to align with new level layout.
 - Design mode export now saves logical Y coordinates and a regression test ensures re-imported levels keep their positions.
 - Added a fullscreen toggle button in the HUD to switch the canvas between fullscreen and windowed modes.
 - Design mode now tracks a 24px block selection (`state.selection`) and pressing the `Q` key rotates that block clockwise within its parent tile by updating `patterns[key].mask` (2×2) and rebuilding collisions.
