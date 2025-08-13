@@ -1,5 +1,4 @@
-[
-  export default [
+export default [
   {
     "type": "brick",
     "x": 45,
