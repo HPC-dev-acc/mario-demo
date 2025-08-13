@@ -1,4 +1,4 @@
-import { TILE, TRAFFIC_LIGHT } from './physics.js';
+import { TILE, TRAFFIC_LIGHT, Y_OFFSET } from './physics.js';
 import { BASE_W } from './width.js';
 import objects from '../../assets/objects.js';
 
@@ -41,7 +41,7 @@ export function createGameState(customObjects = objects) {
   };
   state.spawnLights();
 
-  state.player = { x: 3 * TILE, y: 3 * TILE - 20, w: BASE_W, h: 120, baseH: 120, baseW: BASE_W, vx: 0, vy: 0, onGround: false, facing: 1, sliding: 0 };
+  state.player = { x: 3 * TILE, y: 3 * TILE - 20 + Y_OFFSET, w: BASE_W, h: 120, baseH: 120, baseW: BASE_W, vx: 0, vy: 0, onGround: false, facing: 1, sliding: 0 };
   state.player.shadowY = state.player.y + state.player.h / 2;
   state.camera = { x: 0, y: 0 };
 

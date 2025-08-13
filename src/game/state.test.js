@@ -1,4 +1,4 @@
-import { TILE, TRAFFIC_LIGHT } from './physics.js';
+import { TILE, TRAFFIC_LIGHT, Y_OFFSET } from './physics.js';
 import { createGameState } from './state.js';
 import { BASE_W } from './width.js';
 
@@ -7,7 +7,7 @@ test('createGameState returns initial values', () => {
   expect(state.level.length).toBe(state.LEVEL_H);
   expect(state.level[0].length).toBe(state.LEVEL_W);
   expect(state.player.x).toBe(3 * TILE);
-  expect(state.player.y).toBe(3 * TILE - 20);
+  expect(state.player.y).toBe(3 * TILE - 20 + Y_OFFSET);
   expect(state.player.w).toBe(BASE_W);
   expect(state.player.h).toBe(120);
   expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);

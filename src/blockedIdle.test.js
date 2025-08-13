@@ -1,4 +1,4 @@
-import { resolveCollisions, TILE } from './game/physics.js';
+import { resolveCollisions, TILE, Y_OFFSET } from './game/physics.js';
 import { updatePlayerWidth, BASE_W } from './game/width.js';
 
 function makeLevel(w, h) {
@@ -11,7 +11,7 @@ test('player keeps base width when blocked while running', () => {
   level[3][2] = 1; // ground block below
   const player = {
     x: TILE * 2,
-    y: TILE * 3 - 40,
+    y: TILE * 3 - 40 + Y_OFFSET,
     w: BASE_W,
     h: 120,
     vx: 50,

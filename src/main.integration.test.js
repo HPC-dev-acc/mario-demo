@@ -1,5 +1,5 @@
 import pkg from '../package.json' assert { type: 'json' };
-import { TILE, resolveCollisions, findGroundY } from './game/physics.js';
+import { TILE, resolveCollisions, findGroundY, Y_OFFSET } from './game/physics.js';
 import { BASE_W } from './game/width.js';
 
 async function loadGame() {
@@ -88,7 +88,7 @@ describe('restartStage integration', () => {
     hooks.restartStage();
 
     expect(state.player.x).toBe(3 * TILE);
-    expect(state.player.y).toBe(3 * TILE - 20);
+    expect(state.player.y).toBe(3 * TILE - 20 + Y_OFFSET);
     expect(state.player.w).toBe(BASE_W);
     expect(state.player.h).toBe(120);
     expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
@@ -114,7 +114,7 @@ describe('restartStage integration', () => {
     hooks.restartStage();
 
     expect(state.player.x).toBe(3 * TILE);
-    expect(state.player.y).toBe(3 * TILE - 20);
+    expect(state.player.y).toBe(3 * TILE - 20 + Y_OFFSET);
     expect(state.player.w).toBe(BASE_W);
     expect(state.player.h).toBe(120);
     expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
@@ -142,19 +142,19 @@ describe('shadowY behavior', () => {
     for (let y = 5; y <= 8; y++) level[y][columnX] = 1;
 
     player.x = (columnX - 1) * TILE + TILE / 2;
-    player.y = (state.LEVEL_H - 5) * TILE - player.h / 2;
+    player.y = (state.LEVEL_H - 5) * TILE - player.h / 2 + Y_OFFSET;
     player.vx = 0;
     player.vy = 0;
     resolveCollisions(player, level, state.lights);
     player.shadowY = findGroundY(level, player.x, player.y + player.h / 2, state.lights);
-    const groundY = (state.LEVEL_H - 5) * TILE;
+    const groundY = (state.LEVEL_H - 5) * TILE + Y_OFFSET;
     expect(player.shadowY).toBe(groundY);
 
     player.x = columnX * TILE + TILE / 2;
-    player.y = 5 * TILE - player.h / 2 - 10;
+    player.y = 5 * TILE - player.h / 2 - 10 + Y_OFFSET;
     resolveCollisions(player, level, state.lights);
     player.shadowY = findGroundY(level, player.x, player.y + player.h / 2, state.lights);
-    expect(player.shadowY).toBe(5 * TILE);
+    expect(player.shadowY).toBe(5 * TILE + Y_OFFSET);
   });
 
   test('returns ground height when standing under a block', async () => {
@@ -165,10 +165,10 @@ describe('shadowY behavior', () => {
     level[5][columnX] = 1; // block above
 
     player.x = columnX * TILE + TILE / 2;
-    player.y = (state.LEVEL_H - 5) * TILE - player.h / 2;
+    player.y = (state.LEVEL_H - 5) * TILE - player.h / 2 + Y_OFFSET;
     resolveCollisions(player, level, state.lights);
     player.shadowY = findGroundY(level, player.x, player.y + player.h / 2, state.lights);
-    const groundY = (state.LEVEL_H - 5) * TILE;
+    const groundY = (state.LEVEL_H - 5) * TILE + Y_OFFSET;
     expect(player.shadowY).toBe(groundY);
   });
 });

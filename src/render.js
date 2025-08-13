@@ -1,4 +1,4 @@
-import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
+import { TILE, TRAFFIC_LIGHT, Y_OFFSET } from './game/physics.js';
 
 function getHighlightColor() {
   return getComputedStyle(document.documentElement).getPropertyValue('--designHighlight') || '#ff0';
@@ -14,7 +14,7 @@ export function render(ctx, state, design) {
   ctx.translate(-camera.x, -camera.y);
     for (let y = 0; y < LEVEL_H; y++) {
       for (let x = 0; x < LEVEL_W; x++) {
-        const t = level[y][x], px = x * TILE, py = y * TILE;
+        const t = level[y][x], px = x * TILE, py = y * TILE + Y_OFFSET;
         const key = `${x},${y}`;
         const isTransparent = transparent?.has(key);
         if (t === 2) drawBrick(ctx, px, py, isTransparent);
@@ -27,11 +27,11 @@ export function render(ctx, state, design) {
       if (sel) {
         ctx.strokeStyle = getHighlightColor();
         ctx.lineWidth = 2;
-        ctx.strokeRect(sel.x * TILE, sel.y * TILE, TILE, TILE);
+        ctx.strokeRect(sel.x * TILE, sel.y * TILE + Y_OFFSET, TILE, TILE);
       }
     }
     ctx.fillStyle = 'rgba(0,0,0,.15)';
-    ctx.fillRect(-TILE, -TILE, TILE, LEVEL_H * TILE + 2 * TILE);
+    ctx.fillRect(-TILE, Y_OFFSET - TILE, TILE, LEVEL_H * TILE + 2 * TILE);
     drawPlayer(ctx, player, playerSprites);
     ctx.restore();
 }

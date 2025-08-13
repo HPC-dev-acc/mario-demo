@@ -1,12 +1,13 @@
 # Mario Demo
 
-**Version: 1.5.56**
+**Version: 1.5.57**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through red (2s), yellow (1s), and green (2s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
 
 - Removed the downward camera offset so rendering uses unadjusted world coordinates.
+- Added a 90px downward offset to all world coordinates, moving characters, objects, and ground.
 - Design mode enable button now reflects its on/off state with an `active` style, `aria-pressed` attribute, and text toggling between “啟用” and “停用”.
 - Clicking a selected object again cancels the selection.
 - While in design mode, selected objects can be nudged with the `W`, `A`, `S`, `D` keys.

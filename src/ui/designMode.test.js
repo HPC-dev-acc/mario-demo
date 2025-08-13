@@ -1,5 +1,5 @@
 import pkg from '../../package.json' assert { type: 'json' };
-import { TILE } from '../game/physics.js';
+import { TILE, Y_OFFSET } from '../game/physics.js';
 
 async function loadGame() {
   jest.resetModules();
@@ -59,8 +59,8 @@ test('design mode enables and drags objects', async () => {
   const obj = objs.find(o => state.level[o.y][o.x + 1] === 0);
   const startX = obj.x;
   const startY = obj.y;
-  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: startX * TILE + 1, clientY: startY * TILE + 1 }));
-  canvas.dispatchEvent(new window.MouseEvent('pointermove', { clientX: (startX + 1) * TILE + 1, clientY: startY * TILE + 1 }));
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: startX * TILE + 1, clientY: startY * TILE + 1 + Y_OFFSET }));
+  canvas.dispatchEvent(new window.MouseEvent('pointermove', { clientX: (startX + 1) * TILE + 1, clientY: startY * TILE + 1 + Y_OFFSET }));
   window.dispatchEvent(new window.MouseEvent('pointerup'));
   expect(obj.x).toBe(startX + 1);
   expect(obj.y).toBe(startY);
@@ -75,7 +75,7 @@ test('selected object moves with WASD keys', async () => {
   const obj = objs.find(o => state.level[o.y][o.x + 1] === 0);
   const startX = obj.x;
   const startY = obj.y;
-  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: startX * TILE + 1, clientY: startY * TILE + 1 }));
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: startX * TILE + 1, clientY: startY * TILE + 1 + Y_OFFSET }));
   window.dispatchEvent(new window.MouseEvent('pointerup'));
   window.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'd' }));
   expect(obj.x).toBe(startX + 1);
@@ -91,7 +91,7 @@ test('transparent toggle affects only the selected object', async () => {
   transBtn.click();
   expect(first.transparent).toBe(false);
   expect(second.transparent).toBe(false);
-  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: first.x * TILE + 1, clientY: first.y * TILE + 1 }));
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: first.x * TILE + 1, clientY: first.y * TILE + 1 + Y_OFFSET }));
   transBtn.click();
   expect(first.transparent).toBe(true);
   expect(second.transparent).toBe(false);
@@ -113,12 +113,12 @@ test('getSelected returns object and render highlights it', async () => {
   const enableBtn = document.getElementById('design-enable');
   const obj = hooks.getObjects()[0];
   enableBtn.click();
-  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: obj.x * TILE + 1, clientY: obj.y * TILE + 1 }));
-  window.dispatchEvent(new window.MouseEvent('pointerup', { clientX: obj.x * TILE + 1, clientY: obj.y * TILE + 1 }));
+  canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: obj.x * TILE + 1, clientY: obj.y * TILE + 1 + Y_OFFSET }));
+  window.dispatchEvent(new window.MouseEvent('pointerup', { clientX: obj.x * TILE + 1, clientY: obj.y * TILE + 1 + Y_OFFSET }));
   const sel = hooks.designGetSelected();
   expect(sel).toBe(obj);
   hooks.runRender();
-  expect(ctx.strokeRect).toHaveBeenCalledWith(obj.x * TILE, obj.y * TILE, TILE, TILE);
+  expect(ctx.strokeRect).toHaveBeenCalledWith(obj.x * TILE, obj.y * TILE + Y_OFFSET, TILE, TILE);
 });
 
 test('clicking selected object again cancels selection', async () => {
@@ -127,7 +127,7 @@ test('clicking selected object again cancels selection', async () => {
   const obj = hooks.getObjects()[0];
   enableBtn.click();
   const clientX = obj.x * TILE + 1;
-  const clientY = obj.y * TILE + 1;
+  const clientY = obj.y * TILE + 1 + Y_OFFSET;
   canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX, clientY }));
   window.dispatchEvent(new window.MouseEvent('pointerup', { clientX, clientY }));
   expect(hooks.designGetSelected()).toBe(obj);

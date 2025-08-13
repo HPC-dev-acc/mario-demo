@@ -1,4 +1,4 @@
-import { TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked, findGroundY } from './src/game/physics.js';
+import { TILE, Y_OFFSET, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked, findGroundY } from './src/game/physics.js';
 import { BASE_W, updatePlayerWidth } from './src/game/width.js';
 import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
@@ -55,7 +55,7 @@ const IMPACT_COOLDOWN_MS = 120;
       e.preventDefault();
       const rect = canvas.getBoundingClientRect();
       const tileX = Math.floor((e.clientX - rect.left + camera.x) / TILE);
-      const tileY = Math.floor((e.clientY - rect.top) / TILE);
+      const tileY = Math.floor((e.clientY - rect.top - Y_OFFSET) / TILE);
       const obj = findObj(tileX, tileY) || null;
       if (obj === selected) {
         maybeDeselect = true;
@@ -71,7 +71,7 @@ const IMPACT_COOLDOWN_MS = 120;
       if (!selected) return;
       const rect = canvas.getBoundingClientRect();
       const tileX = Math.floor((e.clientX - rect.left + camera.x) / TILE);
-      const tileY = Math.floor((e.clientY - rect.top) / TILE);
+      const tileY = Math.floor((e.clientY - rect.top - Y_OFFSET) / TILE);
       if (tileX === selected.x && tileY === selected.y) return;
       maybeDeselect = false;
       moveSelected(selected, tileX, tileY);
@@ -209,7 +209,7 @@ const IMPACT_COOLDOWN_MS = 120;
   function restartStage(){
     resumeAudio();
     playMusic();
-    player.x = 3*TILE; player.y = 3*TILE - 20; player.shadowY = player.y + player.h/2; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0; player.h = player.baseH; player.w = player.baseW || BASE_W;
+    player.x = 3*TILE; player.y = 3*TILE - 20 + Y_OFFSET; player.shadowY = player.y + player.h/2; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0; player.h = player.baseH; player.w = player.baseW || BASE_W;
     camera.x=0; stageCleared=false; stageFailed=false;
     hideStageOverlays();
     score=0; if (scoreEl) scoreEl.textContent = score;
