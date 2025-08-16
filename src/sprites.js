@@ -34,5 +34,6 @@ export function loadTrafficLightSprites() {
 }
 
 export function loadNpcSprite() {
-  return loadImage(new URL('../assets/sprites/Character1.png', baseURL).href);
+  return loadImage(new URL('../assets/sprites/Character1.png', baseURL).href)
+    .then((img) => ({ img, sx: 0, sy: 0, sw: 128, sh: 128 }));
 }

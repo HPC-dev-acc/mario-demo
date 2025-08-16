@@ -35,7 +35,11 @@ test('loadTrafficLightSprites resolves with proper paths', async () => {
   expect(loaded[0]).toMatch(/\/assets\/sprites\/Infra\/redlight\.PNG$/);
 });
 
-test('loadNpcSprite resolves', async () => {
-  global.Image = class { set src(v) { if (this.onload) setTimeout(() => this.onload()); } };
-  await expect(loadNpcSprite()).resolves.toBeDefined();
+test('loadNpcSprite resolves with cropping data', async () => {
+  const loaded = [];
+  global.Image = class { set src(v) { loaded.push(v); if (this.onload) setTimeout(() => this.onload()); } };
+  const sprite = await loadNpcSprite();
+  expect(loaded[0]).toMatch(/\/assets\/sprites\/Character1.png$/);
+  expect(sprite).toMatchObject({ sx: 0, sy: 0, sw: 128, sh: 128 });
+  expect(sprite.img).toBeDefined();
 });
