@@ -3,6 +3,7 @@ import { TILE, COLL_TILE } from '../game/physics.js';
 
 async function loadGame() {
   jest.resetModules();
+  jest.doMock('../../assets/objects.custom.js', () => []);
   document.body.innerHTML = `
     <div id="hud-top-center"></div>
     <canvas id="game" width="960" height="540"></canvas>
@@ -52,6 +53,21 @@ async function loadGame() {
   return { hooks: window.__testHooks, canvas, audio, ctx };
 }
 
+function findFreeDir(state, obj) {
+  const dirs = [
+    { dx: 1, dy: 0, key: 'd' },
+    { dx: -1, dy: 0, key: 'a' },
+    { dx: 0, dy: 1, key: 's' },
+    { dx: 0, dy: -1, key: 'w' },
+  ];
+  return dirs.find(({ dx, dy }) => state.level[obj.y + dy] && state.level[obj.y + dy][obj.x + dx] === 0);
+}
+
+test('design mode starts without predefined objects', async () => {
+  const { hooks } = await loadGame();
+  expect(hooks.getObjects()).toHaveLength(0);
+});
+
 test('design mode enables and drags objects', async () => {
   const { hooks, canvas } = await loadGame();
   const enableBtn = document.getElementById('design-enable');
@@ -60,40 +76,47 @@ test('design mode enables and drags objects', async () => {
   expect(enableBtn.getAttribute('aria-pressed')).toBe('true');
   expect(enableBtn.textContent).toBe('停用');
   expect(hooks.designIsEnabled()).toBe(true);
+  hooks.designAddBlock();
+  const obj = hooks.getObjects()[0];
   const state = hooks.getState();
-  const objs = hooks.getObjects();
-  const obj = objs.find(o => state.level[o.y][o.x + 1] === 0);
+  const { dx, dy } = findFreeDir(state, obj);
   const startX = obj.x;
   const startY = obj.y;
   canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: startX * TILE + 1, clientY: startY * TILE + 1 }));
-  canvas.dispatchEvent(new window.MouseEvent('pointermove', { clientX: (startX + 1) * TILE + 1, clientY: startY * TILE + 1 }));
+  canvas.dispatchEvent(new window.MouseEvent('pointermove', { clientX: (startX + dx) * TILE + 1, clientY: (startY + dy) * TILE + 1 }));
   window.dispatchEvent(new window.MouseEvent('pointerup'));
-  expect(obj.x).toBe(startX + 1);
-  expect(obj.y).toBe(startY);
+  expect(obj.x).toBe(startX + dx);
+  expect(obj.y).toBe(startY + dy);
 });
 
 test('selected object moves with WASD keys', async () => {
   const { hooks, canvas } = await loadGame();
   const enableBtn = document.getElementById('design-enable');
   enableBtn.click();
+  hooks.designAddBlock();
+  const obj = hooks.getObjects()[0];
   const state = hooks.getState();
-  const objs = hooks.getObjects();
-  const obj = objs.find(o => state.level[o.y][o.x + 1] === 0);
+  const { dx, dy, key } = findFreeDir(state, obj);
   const startX = obj.x;
   const startY = obj.y;
   canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: startX * TILE + 1, clientY: startY * TILE + 1 }));
   window.dispatchEvent(new window.MouseEvent('pointerup'));
-  window.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'd' }));
-  expect(obj.x).toBe(startX + 1);
-  expect(obj.y).toBe(startY);
+  window.dispatchEvent(new window.KeyboardEvent('keydown', { key }));
+  expect(obj.x).toBe(startX + dx);
+  expect(obj.y).toBe(startY + dy);
 });
 
 test('transparent toggle affects only the selected object', async () => {
   const { hooks, canvas } = await loadGame();
   const enableBtn = document.getElementById('design-enable');
   const transBtn = document.getElementById('design-transparent');
-  const [first, second] = hooks.getObjects().filter(o => !o.transparent);
   enableBtn.click();
+  hooks.designAddBlock();
+  const state = hooks.getState();
+  state.camera.x += TILE * 2;
+  hooks.designAddBlock();
+  state.camera.x = 0;
+  const [first, second] = hooks.getObjects();
   transBtn.click();
   expect(first.transparent).toBe(false);
   expect(second.transparent).toBe(false);
@@ -107,8 +130,13 @@ test('destroyable toggle affects only the selected object', async () => {
   const { hooks, canvas } = await loadGame();
   const enableBtn = document.getElementById('design-enable');
   const destroyBtn = document.getElementById('design-destroyable');
-  const [first, second] = hooks.getObjects().filter(o => o.type === 'brick').slice(0,2);
   enableBtn.click();
+  hooks.designAddBlock();
+  const state = hooks.getState();
+  state.camera.x += TILE * 2;
+  hooks.designAddBlock();
+  state.camera.x = 0;
+  const [first, second] = hooks.getObjects();
   destroyBtn.click();
   expect(first.destroyable).not.toBe(false);
   expect(second.destroyable).not.toBe(false);
@@ -132,8 +160,9 @@ test('timer pauses while design mode is enabled', async () => {
 test('getSelected returns object and render highlights it', async () => {
   const { hooks, canvas, ctx } = await loadGame();
   const enableBtn = document.getElementById('design-enable');
-  const obj = hooks.getObjects()[0];
   enableBtn.click();
+  hooks.designAddBlock();
+  const obj = hooks.getObjects()[0];
   canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX: obj.x * TILE + 1, clientY: obj.y * TILE + 1 }));
   window.dispatchEvent(new window.MouseEvent('pointerup', { clientX: obj.x * TILE + 1, clientY: obj.y * TILE + 1 }));
   const sel = hooks.designGetSelected();
@@ -145,8 +174,9 @@ test('getSelected returns object and render highlights it', async () => {
 test('clicking selected object again cancels selection', async () => {
   const { hooks, canvas } = await loadGame();
   const enableBtn = document.getElementById('design-enable');
-  const obj = hooks.getObjects()[0];
   enableBtn.click();
+  hooks.designAddBlock();
+  const obj = hooks.getObjects()[0];
   const clientX = obj.x * TILE + 1;
   const clientY = obj.y * TILE + 1;
   canvas.dispatchEvent(new window.MouseEvent('pointerdown', { clientX, clientY }));
