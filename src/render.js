@@ -5,7 +5,7 @@ function getHighlightColor() {
 }
 
 export function render(ctx, state, design) {
-  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, transparent, patterns, indestructible } = state;
+  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, npcSprite, npcs, transparent, patterns, indestructible } = state;
   if (ctx.canvas && ctx.canvas.style) {
     ctx.canvas.style.backgroundPosition = `${-Math.floor(camera.x)}px 0px`;
   }
@@ -43,6 +43,11 @@ export function render(ctx, state, design) {
     }
     ctx.fillStyle = 'rgba(0,0,0,.15)';
     ctx.fillRect(-TILE, -TILE, TILE, LEVEL_H * TILE + 2 * TILE);
+    if (npcs) {
+      for (const n of npcs) {
+        drawNpc(ctx, n, npcSprite);
+      }
+    }
     drawPlayer(ctx, player, playerSprites);
     ctx.restore();
 }
@@ -110,4 +115,16 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
     ctx.drawImage(img, -w / 2, -h / 2, w, h);
   }
   ctx.restore();
+}
+
+export function drawNpc(ctx, p, sprite) {
+  const { w, h } = p;
+  ctx.save();
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.beginPath();
+  ctx.ellipse(p.x, p.shadowY || (p.y + h/2), w/2, h/8, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+  if (!sprite) return;
+  ctx.drawImage(sprite, p.x - w/2, p.y - h/2, w, h);
 }

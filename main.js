@@ -8,9 +8,10 @@ import { toLogical } from './src/game/serialize.js';
 import objects from './assets/objects.custom.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render } from './src/render.js';
-import { loadPlayerSprites, loadTrafficLightSprites } from './src/sprites.js';
+import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
+import { createNpc, updateNpc, isNpcOffScreen, MAX_NPCS } from './src/npc.js';
 const VERSION = window.__APP_VERSION__;
 
 let lastImpactAt = 0;
@@ -257,6 +258,7 @@ const IMPACT_COOLDOWN_MS = 120;
 
   let keys;
   let jumpBufferMs=0, coyoteMs=0;
+  let npcSpawnTimer = 0;
   const JUMP_BUFFER_MAX=120, COYOTE_MAX=100;
   let dbgPress=0, dbgFired=0;
   function pressJump(src){ jumpBufferMs=JUMP_BUFFER_MAX; keys.jump=true; dbgPress++; Logger.debug('jump_press',{src}); }
@@ -411,6 +413,19 @@ const IMPACT_COOLDOWN_MS = 120;
     player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
     updatePlayerWidth(player);
     const gained = collectCoins(player, level, coins);
+
+    npcSpawnTimer -= dtMs;
+    if (npcSpawnTimer <= 0 && state.npcs.length < MAX_NPCS) {
+      const spawnX = camera.x + canvas.width + player.w;
+      const npc = createNpc(spawnX, SPAWN_Y, player.w, player.h, state.npcSprite);
+      state.npcs.push(npc);
+      npcSpawnTimer = 2000 + Math.random() * 3000;
+    }
+
+    for (const npc of state.npcs) {
+      updateNpc(npc, dtMs, { level, collisions: state.collisions, lights: state.lights, gravity: GRAVITY }, player);
+    }
+    state.npcs = state.npcs.filter(n => !isNpcOffScreen(n, camera.x));
     if (collisionEvents.brickHit) {
       const now = performance.now();
       if (now - lastImpactAt >= IMPACT_COOLDOWN_MS) {
@@ -454,10 +469,12 @@ const IMPACT_COOLDOWN_MS = 120;
     withTimeout(Promise.all([
       loadPlayerSprites(),
       loadTrafficLightSprites(),
+      loadNpcSprite(),
     ]), 10000, 'Timed out loading sprites')
-      .then(([playerSprites, trafficLightSprites]) => {
+      .then(([playerSprites, trafficLightSprites, npcSprite]) => {
         state.playerSprites = playerSprites;
         state.trafficLightSprites = trafficLightSprites;
+        state.npcSprite = npcSprite;
         startScreen.showStart(() => beginGame());
       }).catch((err) => {
         console.error('Failed to load resources', err);

@@ -47,6 +47,7 @@ async function loadGame() {
   jest.doMock('../sprites.js', () => ({
     loadPlayerSprites: () => Promise.resolve(),
     loadTrafficLightSprites: () => Promise.resolve({}),
+    loadNpcSprite: () => Promise.resolve({}),
   }));
   await import('../../main.js');
   await Promise.resolve();

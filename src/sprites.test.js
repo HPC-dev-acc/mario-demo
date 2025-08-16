@@ -1,4 +1,4 @@
-import { loadPlayerSprites, loadTrafficLightSprites } from './sprites.js';
+import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite } from './sprites.js';
 
 describe('loadPlayerSprites', () => {
   const OriginalImage = global.Image;
@@ -33,4 +33,9 @@ test('loadTrafficLightSprites resolves with proper paths', async () => {
   await expect(loadTrafficLightSprites()).resolves.toBeDefined();
   expect(loaded).toHaveLength(3);
   expect(loaded[0]).toMatch(/\/assets\/sprites\/Infra\/redlight\.PNG$/);
+});
+
+test('loadNpcSprite resolves', async () => {
+  global.Image = class { set src(v) { if (this.onload) setTimeout(() => this.onload()); } };
+  await expect(loadNpcSprite()).resolves.toBeDefined();
 });
