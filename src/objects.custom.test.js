@@ -23,4 +23,13 @@ test('includes new collision bricks', () => {
     destroyable: false,
     collision: [1, 0, 0, 0]
   });
+  const bottom = objects.find(o => o.type === 'brick' && o.x === 41 && o.y === 3);
+  expect(bottom).toMatchObject({
+    transparent: false,
+    collision: [0, 0, 0, 1]
+  });
+  const floor = objects.find(o => o.type === 'brick' && o.x === 52 && o.y === 4 && o.transparent === false);
+  expect(floor).toMatchObject({
+    collision: [0, 0, 0, 1]
+  });
 });
