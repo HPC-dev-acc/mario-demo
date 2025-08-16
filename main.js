@@ -417,7 +417,9 @@ const IMPACT_COOLDOWN_MS = 120;
     npcSpawnTimer -= dtMs;
     if (npcSpawnTimer <= 0 && state.npcs.length < MAX_NPCS) {
       const spawnX = camera.x + canvas.width + player.w;
-      const npc = createNpc(spawnX, SPAWN_Y, player.w, player.h, state.npcSprite);
+      const scale = player.h / 44;
+      const npcW = 48 * scale;
+      const npc = createNpc(spawnX, SPAWN_Y, npcW, player.h, state.npcSprite);
       state.npcs.push(npc);
       npcSpawnTimer = 2000 + Math.random() * 3000;
     }

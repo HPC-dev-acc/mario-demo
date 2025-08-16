@@ -41,5 +41,9 @@ test('loadNpcSprite provides frame data', async () => {
   const sprite = await loadNpcSprite();
   expect(loaded[0]).toMatch(/\/assets\/sprites\/Character1.png$/);
   expect(sprite).toMatchObject({ frameWidth: 48, frameHeight: 44 });
-  expect(sprite.animations?.idle.frames.length).toBeGreaterThan(0);
+  expect(sprite.animations).toMatchObject({
+    idle: { frames: [304,305,307,308,309,311] },
+    walk: { frames: [240,241,243,244,245,247,248,249] },
+    run:  { frames: [256,257,259,260,261,263] },
+  });
 });

@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.78**
+**Version: 1.5.79**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
+- Synced NPC sprite scaling with the player's height using 48×44 frames and explicit animation indices.
 - Made objects.custom.test.js more flexible to accommodate stage redesigns.
 - Revised stage object layout and collisions in `assets/objects.custom.js`.
 - Corrected NPC spritesheet loading with frame-based animations to prevent tiny duplicate sprites.

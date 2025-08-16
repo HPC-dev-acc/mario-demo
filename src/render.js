@@ -129,7 +129,7 @@ export function drawNpc(ctx, p, sprite) {
   const { img, frameWidth: FW = 48, frameHeight: FH = 44, columns = 16, animations } = sprite;
   const anim = animations?.[p.state] || animations?.idle;
   if (!anim) return;
-  const scale = w / FW;
+  const scale = h / FH;
   const frameIdx = anim.frames[Math.floor((p.animTime || 0) * anim.fps) % anim.frames.length];
   const sx = (frameIdx % columns) * FW;
   const sy = Math.floor(frameIdx / columns) * FH;
