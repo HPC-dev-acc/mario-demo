@@ -28,23 +28,29 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random) {
     nextPause: randRange(NEXT_PAUSE_MIN, NEXT_PAUSE_MAX, rand),
     nextRun: randRange(NEXT_RUN_MIN, NEXT_RUN_MAX, rand),
     sprite,
-    rand
+    rand,
+    state: 'walk',
+    animTime: 0
   };
 }
 
 export function updateNpc(npc, dtMs, state, player) {
   const rand = npc.rand || Math.random;
+  npc.animTime += dtMs / 1000;
   if (npc.pauseTimer > 0) {
     npc.pauseTimer = Math.max(0, npc.pauseTimer - dtMs);
     npc.vx = 0;
+    npc.state = 'idle';
   } else {
     npc.nextPause -= dtMs;
     npc.nextRun -= dtMs;
     if (npc.runTimer > 0) {
       npc.vx = -RUN_SPEED;
       npc.runTimer = Math.max(0, npc.runTimer - dtMs);
+      npc.state = 'run';
     } else {
       npc.vx = -WALK_SPEED;
+      npc.state = 'walk';
       if (npc.nextRun <= 0) {
         npc.runTimer = randRange(RUN_MIN, RUN_MAX, rand);
         npc.nextRun = randRange(NEXT_RUN_MIN, NEXT_RUN_MAX, rand);
@@ -60,6 +66,7 @@ export function updateNpc(npc, dtMs, state, player) {
   npc.shadowY = findGroundY(state.collisions, npc.x, npc.y + npc.h / 2, state.lights);
   if (player && Math.abs(player.x - npc.x) < (player.w + npc.w)/2 && Math.abs(player.y - npc.y) < (player.h + npc.h)/2) {
     npc.pauseTimer = randRange(PAUSE_MIN, PAUSE_MAX, rand);
+    npc.state = 'idle';
   }
 }
 

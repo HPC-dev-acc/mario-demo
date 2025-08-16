@@ -126,8 +126,25 @@ export function drawNpc(ctx, p, sprite) {
   ctx.fill();
   ctx.restore();
   if (!sprite) return;
-  const { img, sx = 0, sy = 0, sw, sh } = sprite;
-  const srcW = sw ?? img.width;
-  const srcH = sh ?? img.height;
-  ctx.drawImage(img, sx, sy, srcW, srcH, p.x - w/2, p.y - h/2, w, h);
+  const { img, frameWidth: FW = 48, frameHeight: FH = 44, columns = 16, animations } = sprite;
+  const anim = animations?.[p.state] || animations?.idle;
+  if (!anim) return;
+  const scale = w / FW;
+  const frameIdx = anim.frames[Math.floor((p.animTime || 0) * anim.fps) % anim.frames.length];
+  const sx = (frameIdx % columns) * FW;
+  const sy = Math.floor(frameIdx / columns) * FH;
+  const dw = FW * scale;
+  const dh = FH * scale;
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(
+    img,
+    sx,
+    sy,
+    FW,
+    FH,
+    Math.round(p.x - dw/2),
+    Math.round(p.y + h/2 - dh + anim.offsetY * scale),
+    dw,
+    dh
+  );
 }
