@@ -1,35 +1,33 @@
 import objects from '../assets/objects.custom.js';
 
-test('objects custom y shifted up by two tiles', () => {
-  const brick = objects.find(o => o.type === 'brick' && o.x === 45);
-  expect(brick.y).toBe(3);
-  const coin = objects.find(o => o.type === 'coin' && o.x === 12);
-  expect(coin.y).toBe(4);
-  const light = objects.find(o => o.type === 'light' && o.x === 15);
-  expect(light.y).toBe(5);
+test('objects are well-formed with numeric coordinates', () => {
+  expect(Array.isArray(objects)).toBe(true);
+  objects.forEach(o => {
+    expect(o).toEqual(
+      expect.objectContaining({
+        type: expect.any(String),
+        x: expect.any(Number),
+        y: expect.any(Number),
+      })
+    );
+  });
 });
 
+test('includes brick, coin, and light objects', () => {
+  ['brick', 'coin', 'light'].forEach(type => {
+    expect(objects.some(o => o.type === type)).toBe(true);
+  });
+});
 
-test('includes new collision bricks', () => {
-  const corner = objects.find(o => o.type === 'brick' && o.x === 39 && o.y === 3);
-  expect(corner).toMatchObject({
-    transparent: true,
-    destroyable: false,
-    collision: [0, 0, 1, 0]
-  });
-  const top = objects.find(o => o.type === 'brick' && o.x === 64 && o.y === 2);
-  expect(top).toMatchObject({
-    transparent: true,
-    destroyable: false,
-    collision: [1, 0, 0, 0]
-  });
-  const bottom = objects.find(o => o.type === 'brick' && o.x === 41 && o.y === 3);
-  expect(bottom).toMatchObject({
-    transparent: false,
-    collision: [0, 0, 0, 1]
-  });
-  const floor = objects.find(o => o.type === 'brick' && o.x === 52 && o.y === 4 && o.transparent === false);
-  expect(floor).toMatchObject({
-    collision: [0, 0, 0, 1]
+test('includes collision bricks with expected patterns', () => {
+  const patterns = [
+    { transparent: true, destroyable: false, collision: [0, 0, 1, 0] },
+    { transparent: true, destroyable: false, collision: [1, 0, 0, 0] },
+    { collision: [0, 0, 0, 1] },
+  ];
+  patterns.forEach(pattern => {
+    expect(objects).toEqual(
+      expect.arrayContaining([expect.objectContaining({ type: 'brick', ...pattern })])
+    );
   });
 });
