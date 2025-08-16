@@ -32,3 +32,7 @@ export function loadTrafficLightSprites() {
     return { red: mk(red), yellow: mk(yellow), green: mk(green) };
   });
 }
+
+export function loadNpcSprite() {
+  return loadImage(new URL('../assets/sprites/Character1.png', baseURL).href);
+}
