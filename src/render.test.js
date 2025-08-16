@@ -286,3 +286,24 @@ test('drawNpc crops sprite sheet frame', () => {
   drawNpc(ctx, npc, sprite);
   expect(ctx.drawImage).toHaveBeenCalledWith(sprite.img, 48, 0, 48, 44, expect.any(Number), expect.any(Number), 48, 44);
 });
+
+test('drawNpc scales using height', () => {
+  const ctx = {
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(), drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true,
+  };
+  const npc = { x: 0, y: 0, shadowY: 0, w: 10, h: 88, state: 'idle', animTime: 0 };
+  const sprite = { img: {}, frameWidth: 48, frameHeight: 44, columns: 16, animations: { idle: { frames: [0], fps: 1, offsetY: 0 } } };
+  drawNpc(ctx, npc, sprite);
+  const scale = npc.h / sprite.frameHeight;
+  expect(ctx.drawImage).toHaveBeenCalledWith(
+    sprite.img,
+    0,
+    0,
+    48,
+    44,
+    expect.any(Number),
+    expect.any(Number),
+    48 * scale,
+    44 * scale
+  );
+});
