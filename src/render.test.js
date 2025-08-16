@@ -1,4 +1,4 @@
-import { render, drawPlayer, drawTrafficLight } from './render.js';
+import { render, drawPlayer, drawTrafficLight, drawNpc } from './render.js';
 import { createGameState, Y_OFFSET } from './game/state.js';
 import { TILE, findGroundY } from './game/physics.js';
 
@@ -275,4 +275,14 @@ test('findGroundY returns floor height when under a block', () => {
   const groundY = (state.LEVEL_H - 5) * TILE;
   const shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2);
   expect(shadowY).toBe(groundY);
+});
+
+test('drawNpc crops sprite sheet frame', () => {
+  const ctx = {
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(), drawImage: jest.fn(), fillStyle: '',
+  };
+  const npc = { x: 40, y: 50, shadowY: 60, w: 20, h: 30 };
+  const sprite = { img: {}, sx: 5, sy: 6, sw: 7, sh: 8 };
+  drawNpc(ctx, npc, sprite);
+  expect(ctx.drawImage).toHaveBeenCalledWith(sprite.img, sprite.sx, sprite.sy, sprite.sw, sprite.sh, npc.x - npc.w/2, npc.y - npc.h/2, npc.w, npc.h);
 });

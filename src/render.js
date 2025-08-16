@@ -126,5 +126,8 @@ export function drawNpc(ctx, p, sprite) {
   ctx.fill();
   ctx.restore();
   if (!sprite) return;
-  ctx.drawImage(sprite, p.x - w/2, p.y - h/2, w, h);
+  const { img, sx = 0, sy = 0, sw, sh } = sprite;
+  const srcW = sw ?? img.width;
+  const srcH = sh ?? img.height;
+  ctx.drawImage(img, sx, sy, srcW, srcH, p.x - w/2, p.y - h/2, w, h);
 }
