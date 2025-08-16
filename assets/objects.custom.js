@@ -42,13 +42,13 @@ export default [
   {
     "type": "brick",
     "x": 39,
-    "y": 4,
+    "y": 3,
     "transparent": true,
     "destroyable": false,
     "collision": [
+      0,
+      0,
       1,
-      0,
-      0,
       0
     ]
   },
@@ -66,7 +66,7 @@ export default [
   },
   {
     "type": "brick",
-    "x": 33,
+    "x": 32,
     "y": 3,
     "transparent": true
   },
@@ -249,7 +249,7 @@ export default [
   },
   {
     "type": "brick",
-    "x": 39,
+    "x": 41,
     "y": 3,
     "transparent": false,
     "collision": [
@@ -361,8 +361,8 @@ export default [
   },
   {
     "type": "brick",
-    "x": 64,
-    "y": 1,
+    "x": 66,
+    "y": 3,
     "transparent": true,
     "collision": [
       0,
@@ -606,8 +606,8 @@ export default [
   },
   {
     "type": "brick",
-    "x": 38,
-    "y": 4,
+    "x": 33,
+    "y": 3,
     "transparent": false,
     "destroyable": false,
     "collision": [
