@@ -34,6 +34,12 @@ export function loadTrafficLightSprites() {
 }
 
 export function loadNpcSprite() {
+  const FW = 48, FH = 44, COLS = 16;
+  const animations = {
+    idle: { frames: [304,305,307,308,309,311], fps: 7, offsetY: 0 },
+    walk: { frames: [240,241,243,244,245,247,248,249], fps: 10, offsetY: 16 },
+    run:  { frames: [256,257,259,260,261,263], fps: 14, offsetY: 0 },
+  };
   return loadImage(new URL('../assets/sprites/Character1.png', baseURL).href)
-    .then((img) => ({ img, sx: 0, sy: 0, sw: 128, sh: 128 }));
+    .then((img) => ({ img, frameWidth: FW, frameHeight: FH, columns: COLS, animations }));
 }

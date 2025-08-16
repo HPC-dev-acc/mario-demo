@@ -22,3 +22,15 @@ test('npc off-screen detection', () => {
   const npc = createNpc(10,0,10,10,null,()=>0.5);
   expect(isNpcOffScreen(npc, 30)).toBe(true);
 });
+
+test('npc state updates with movement', () => {
+  const npc = createNpc(0,0,10,10,null,()=>0.5);
+  const state = makeState();
+  expect(npc.state).toBe('walk');
+  npc.runTimer = 1000;
+  updateNpc(npc,16,state);
+  expect(npc.state).toBe('run');
+  npc.pauseTimer = 1000;
+  updateNpc(npc,16,state);
+  expect(npc.state).toBe('idle');
+});

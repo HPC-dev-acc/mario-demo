@@ -279,10 +279,10 @@ test('findGroundY returns floor height when under a block', () => {
 
 test('drawNpc crops sprite sheet frame', () => {
   const ctx = {
-    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(), drawImage: jest.fn(), fillStyle: '',
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(), drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true,
   };
-  const npc = { x: 40, y: 50, shadowY: 60, w: 20, h: 30 };
-  const sprite = { img: {}, sx: 5, sy: 6, sw: 7, sh: 8 };
+  const npc = { x: 40, y: 20, shadowY: 30, w: 48, h: 44, state: 'idle', animTime: 0 };
+  const sprite = { img: {}, frameWidth: 48, frameHeight: 44, columns: 16, animations: { idle: { frames: [1], fps: 1, offsetY: 0 } } };
   drawNpc(ctx, npc, sprite);
-  expect(ctx.drawImage).toHaveBeenCalledWith(sprite.img, sprite.sx, sprite.sy, sprite.sw, sprite.sh, npc.x - npc.w/2, npc.y - npc.h/2, npc.w, npc.h);
+  expect(ctx.drawImage).toHaveBeenCalledWith(sprite.img, 48, 0, 48, 44, expect.any(Number), expect.any(Number), 48, 44);
 });
