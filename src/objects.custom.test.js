@@ -9,3 +9,18 @@ test('objects custom y shifted up by two tiles', () => {
   expect(light.y).toBe(5);
 });
 
+
+test('includes new collision bricks', () => {
+  const corner = objects.find(o => o.type === 'brick' && o.x === 38 && o.y === 4);
+  expect(corner).toMatchObject({
+    transparent: false,
+    destroyable: false,
+    collision: [1, 0, 0, 0]
+  });
+  const top = objects.find(o => o.type === 'brick' && o.x === 64 && o.y === 2);
+  expect(top).toMatchObject({
+    transparent: true,
+    destroyable: false,
+    collision: [1, 0, 0, 0]
+  });
+});
