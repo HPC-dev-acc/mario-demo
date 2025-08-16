@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.71**
+**Version: 1.5.72**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
+- Expanded stage layout with new bricks, coins, and lights defined in `assets/objects.custom.js`.
 - Design mode tests now mock `objects.custom.js` so level redesigns don't break CI.
 - Shifted all stage object Y coordinates up by two tiles to align with new level layout.
 - Design mode export now saves logical Y coordinates and a regression test ensures re-imported levels keep their positions.
