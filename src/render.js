@@ -10,8 +10,7 @@ export function render(ctx, state, design) {
     const cssScale =
       Number(ctx.canvas.dataset?.cssScale) ||
       (ctx.canvas.clientWidth > 0 ? ctx.canvas.clientWidth / 960 : 1);
-    const bgX = -Math.round(camera.x * cssScale);
-    ctx.canvas.style.backgroundPosition = `${bgX}px 0px`;
+    ctx.canvas.style.backgroundPosition = `${-Math.round(camera.x * cssScale)}px 0px`;
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.save();

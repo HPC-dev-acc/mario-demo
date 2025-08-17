@@ -8,6 +8,7 @@ import { toLogical } from './src/game/serialize.js';
 import objects from './assets/objects.custom.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render } from './src/render.js';
+import { updateCamera } from './src/game/camera.js';
 import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
@@ -123,6 +124,14 @@ const IMPACT_COOLDOWN_MS = 120;
 
   //（保留給 UI 呼叫）
   window.__resizeGameCanvas = resizeCanvas;
+  function getLogicalViewSize() {
+    const dpr = window.devicePixelRatio || 1;
+    const cssScale = Number(canvas.dataset.cssScale) || 1;
+    const viewW = canvas.width / (dpr * cssScale);
+    const viewH = canvas.height / (dpr * cssScale);
+    return { viewW, viewH };
+  }
+  window.__getLogicalViewSize = getLogicalViewSize;
 
   const designObjects = objects.map(o => ({ ...o }));
   const state = createGameState(designObjects);
@@ -545,8 +554,7 @@ const IMPACT_COOLDOWN_MS = 120;
     }
     maybeClear();
 
-    camera.x = Math.max(0, Math.min(player.x - canvas.width/2, LEVEL_W*TILE - canvas.width));
-    camera.y = 0;
+    updateCamera(state);
 
     const round = (n)=>Math.round(n);
     if (dbg.posEl) dbg.posEl.textContent = `${round(player.x)}, ${round(player.y)}`;
