@@ -20,64 +20,107 @@ const IMPACT_COOLDOWN_MS = 120;
 (() => {
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
+  // 新增：外層全螢幕容器
+  const gameCol = document.getElementById('game-col');
 
-  // === Canvas 尺寸控制（處理全螢幕 + 高 DPI） ===
-  // 基準 CSS 尺寸（原本 style.css 既定的 960×540）
+  // 基準 CSS 尺寸（未全螢幕時）
   const BASE_CSS_W = 960;
   const BASE_CSS_H = 540;
 
-  // 填充模式：'contain' 等比含黑邊、'cover' 等比鋪滿可裁切、'stretch' 無等比
-  const FIT_MODE = 'contain'; // 'contain' | 'cover' | 'stretch'
+  // 顯示模式：'contain' | 'cover' | 'stretch'
+  const FIT_MODE = 'contain';
 
+  // ------- 修正這裡：正確判斷是否全螢幕 -------
   function isFullscreen() {
-    return document.fullscreenElement === canvas;
+    const fsEl = document.fullscreenElement;
+    // 全螢幕的是 #game-col（或其內含 canvas），都算全螢幕
+    return !!(fsEl && (fsEl === gameCol || fsEl === canvas || fsEl.contains(canvas)));
   }
 
-  function computeCssSize() {
+  // 取得目前應用的 CSS 尺寸（px；非 DPR）
+  function getTargetCssSize() {
     if (isFullscreen()) {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      const fsRect = document.fullscreenElement.getBoundingClientRect();
+      const vw = Math.floor(fsRect.width);
+      const vh = Math.floor(fsRect.height);
+
       if (FIT_MODE === 'stretch') return { cssW: vw, cssH: vh };
+
       const baseR = BASE_CSS_W / BASE_CSS_H;
       const viewR = vw / vh;
+
       if (FIT_MODE === 'contain') {
         if (viewR >= baseR) return { cssW: Math.round(vh * baseR), cssH: vh };
         return { cssW: vw, cssH: Math.round(vw / baseR) };
       }
+      // cover
       if (viewR >= baseR) return { cssW: vw, cssH: Math.round(vw / baseR) };
       return { cssW: Math.round(vh * baseR), cssH: vh };
     }
+    // 非全螢幕：維持基準
     return { cssW: BASE_CSS_W, cssH: BASE_CSS_H };
   }
 
+  // ------- 修正這裡：同時調整 #game-col 及 canvas 尺寸 -------
   function resizeCanvas() {
-    const { cssW, cssH } = computeCssSize();
-    canvas.style.width = cssW + 'px';
+    const { cssW, cssH } = getTargetCssSize();
+
+    // 讓外層欄位也配合全螢幕大小（scoreboard/debug 一起放大）
+    if (gameCol) {
+      gameCol.style.width  = cssW + 'px';
+      gameCol.style.height = cssH + 'px';
+    }
+
+    // canvas 的 CSS 尺寸
+    canvas.style.width  = cssW + 'px';
     canvas.style.height = cssH + 'px';
+
+    // 內部緩衝區（對應 DPR）
     const dpr = window.devicePixelRatio || 1;
     const targetW = Math.max(1, Math.round(cssW * dpr));
     const targetH = Math.max(1, Math.round(cssH * dpr));
-    if (canvas.width !== targetW) canvas.width = targetW;
+    if (canvas.width  !== targetW) canvas.width  = targetW;
     if (canvas.height !== targetH) canvas.height = targetH;
+
+    // 邏輯座標 = CSS 像素；縮放交給 transform
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.imageSmoothingEnabled = false;
-    if (FIT_MODE === 'contain' && isFullscreen()) {
-      const padX = Math.floor((window.innerWidth - cssW) / 2);
-      const padY = Math.floor((window.innerHeight - cssH) / 2);
-      canvas.style.position = 'absolute';
-      canvas.style.left = padX + 'px';
-      canvas.style.top = padY + 'px';
+
+    // 'contain' 置中（避免靠左上）
+    if (isFullscreen() && FIT_MODE === 'contain') {
+      const fsRect = document.fullscreenElement.getBoundingClientRect();
+      const padX = Math.floor((fsRect.width  - cssW) / 2);
+      const padY = Math.floor((fsRect.height - cssH) / 2);
+      if (gameCol) {
+        gameCol.style.position = 'absolute';
+        gameCol.style.left = padX + 'px';
+        gameCol.style.top  = padY + 'px';
+      } else {
+        canvas.style.position = 'absolute';
+        canvas.style.left = padX + 'px';
+        canvas.style.top  = padY + 'px';
+      }
     } else {
+      if (gameCol) {
+        gameCol.style.position = '';
+        gameCol.style.left = '';
+        gameCol.style.top  = '';
+      }
       canvas.style.position = '';
       canvas.style.left = '';
-      canvas.style.top = '';
+      canvas.style.top  = '';
     }
   }
 
+  // 綁定事件（若已存在，確保包含這三個）
   window.addEventListener('resize', resizeCanvas);
   window.addEventListener('orientationchange', resizeCanvas);
   document.addEventListener('fullscreenchange', resizeCanvas);
+
+  // 初始化一次
   resizeCanvas();
+
+  //（保留給 UI 呼叫）
   window.__resizeGameCanvas = resizeCanvas;
 
   const designObjects = objects.map(o => ({ ...o }));

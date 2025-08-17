@@ -1,4 +1,4 @@
-/* Version: 1.5.87 */
+/* Version: 1.5.88 */
 :root{
   --bg:#9fd4ea; --panel:#2d3b42; --panelText:#e8f1f5;
   --pill:#eeeeee; --pillText:#222; --accent:#2a7cff;
@@ -7,7 +7,7 @@
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;}
 #layout{max-width:1080px;margin:20px auto;padding:0 12px}
-#game-col{position:relative;width:960px;margin:0 auto}
+#game-col{position:relative;width:auto;height:auto;margin:0 auto}
 #game-wrap{position:relative;width:960px;height:540px;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.2)}
   #game{
   display:block;
