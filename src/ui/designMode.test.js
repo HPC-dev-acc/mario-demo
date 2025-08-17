@@ -5,8 +5,10 @@ async function loadGame() {
   jest.resetModules();
   jest.doMock('../../assets/objects.custom.js', () => []);
   document.body.innerHTML = `
-    <div id="hud-top-center"></div>
-    <canvas id="game" width="960" height="540"></canvas>
+    <div id="game-col">
+      <div id="hud-top-center"></div>
+      <div id="game-wrap"><canvas id="game" width="960" height="540"></canvas></div>
+    </div>
     <button id="design-enable" aria-pressed="false">啟用</button>
     <div id="design-transparent"></div>
     <div id="design-destroyable"></div>

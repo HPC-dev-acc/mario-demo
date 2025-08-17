@@ -19,10 +19,10 @@ let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
 
 (() => {
-  const canvas = document.getElementById('game');
-  const ctx = canvas.getContext('2d');
-  // 新增：外層全螢幕容器
-  const gameCol = document.getElementById('game-col');
+  const gameCol  = document.getElementById('game-col');
+  const gameWrap = document.getElementById('game-wrap');
+  const canvas   = document.getElementById('game');
+  const ctx      = canvas.getContext('2d');
 
   // 基準 CSS 尺寸（未全螢幕時）
   const BASE_CSS_W = 960;
@@ -35,7 +35,7 @@ const IMPACT_COOLDOWN_MS = 120;
   function isFullscreen() {
     const fsEl = document.fullscreenElement;
     // 全螢幕的是 #game-col（或其內含 canvas），都算全螢幕
-    return !!(fsEl && (fsEl === gameCol || fsEl === canvas || fsEl.contains(canvas)));
+    return !!(fsEl && (fsEl === gameCol || fsEl === gameWrap || fsEl === canvas || fsEl.contains(canvas)));
   }
 
   // 取得目前應用的 CSS 尺寸（px；非 DPR）
@@ -62,7 +62,7 @@ const IMPACT_COOLDOWN_MS = 120;
     return { cssW: BASE_CSS_W, cssH: BASE_CSS_H };
   }
 
-  // ------- 修正這裡：同時調整 #game-col 及 canvas 尺寸 -------
+  // ------- 修正這裡：同步調整外框與 canvas 尺寸 -------
   function resizeCanvas() {
     const { cssW, cssH } = getTargetCssSize();
     const renderScale = computeRenderScale(cssW, cssH, BASE_CSS_W, BASE_CSS_H);
@@ -74,10 +74,11 @@ const IMPACT_COOLDOWN_MS = 120;
       gameCol.style.height = cssH + 'px';
     }
 
-    // canvas 的 CSS 尺寸
-    canvas.style.width  = cssW + 'px';
-    canvas.style.height = cssH + 'px';
-
+    // 外框尺寸由 JS 控制
+    if (gameWrap) {
+      gameWrap.style.width  = cssW + 'px';
+      gameWrap.style.height = cssH + 'px';
+    }
     // 內部緩衝區（對應 DPR）
     const dpr = window.devicePixelRatio || 1;
     const targetW = Math.max(1, Math.round(cssW * dpr));
@@ -94,21 +95,13 @@ const IMPACT_COOLDOWN_MS = 120;
       const fsRect = document.fullscreenElement.getBoundingClientRect();
       const padX = Math.floor((fsRect.width  - cssW) / 2);
       const padY = Math.floor((fsRect.height - cssH) / 2);
-      if (gameCol) {
-        gameCol.style.position = 'absolute';
-        gameCol.style.left = padX + 'px';
-        gameCol.style.top  = padY + 'px';
-      } else {
-        canvas.style.position = 'absolute';
-        canvas.style.left = padX + 'px';
-        canvas.style.top  = padY + 'px';
-      }
+      const target = gameCol || gameWrap || canvas;
+      target.style.position = 'absolute';
+      target.style.left = padX + 'px';
+      target.style.top  = padY + 'px';
     } else {
-      if (gameCol) {
-        gameCol.style.position = '';
-        gameCol.style.left = '';
-        gameCol.style.top  = '';
-      }
+      if (gameCol)  { gameCol.style.position = gameCol.style.left = gameCol.style.top = ''; }
+      if (gameWrap) { gameWrap.style.position = gameWrap.style.left = gameWrap.style.top = ''; }
       canvas.style.position = '';
       canvas.style.left = '';
       canvas.style.top  = '';
