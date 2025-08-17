@@ -279,31 +279,44 @@ test('findGroundY returns floor height when under a block', () => {
 
 test('drawNpc crops sprite sheet frame', () => {
   const ctx = {
-    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(), drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true,
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
+    drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true, translate: jest.fn(), scale: jest.fn(),
   };
-  const npc = { x: 40, y: 20, shadowY: 30, w: 48, h: 44, state: 'idle', animTime: 0 };
-  const sprite = { img: {}, frameWidth: 48, frameHeight: 44, columns: 16, animations: { idle: { frames: [1], fps: 1, offsetY: 0 } } };
+  const npc = { x: 40, y: 20, shadowY: 30, w: 64, h: 64, state: 'idle', animTime: 0 };
+  const sprite = { img: {}, frameWidth: 64, frameHeight: 64, columns: 12, animations: { idle: { frames: [1], fps: 1, offsetY: 0 } } };
   drawNpc(ctx, npc, sprite);
-  expect(ctx.drawImage).toHaveBeenCalledWith(sprite.img, 48, 0, 48, 44, expect.any(Number), expect.any(Number), 48, 44);
+  expect(ctx.drawImage).toHaveBeenCalledWith(sprite.img, 64, 0, 64, 64, expect.any(Number), expect.any(Number), 64, 64);
 });
 
 test('drawNpc scales using height', () => {
   const ctx = {
-    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(), drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true,
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
+    drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true, translate: jest.fn(), scale: jest.fn(),
   };
-  const npc = { x: 0, y: 0, shadowY: 0, w: 10, h: 88, state: 'idle', animTime: 0 };
-  const sprite = { img: {}, frameWidth: 48, frameHeight: 44, columns: 16, animations: { idle: { frames: [0], fps: 1, offsetY: 0 } } };
+  const npc = { x: 0, y: 0, shadowY: 0, w: 10, h: 128, state: 'idle', animTime: 0 };
+  const sprite = { img: {}, frameWidth: 64, frameHeight: 64, columns: 12, animations: { idle: { frames: [0], fps: 1, offsetY: 0 } } };
   drawNpc(ctx, npc, sprite);
   const scale = npc.h / sprite.frameHeight;
   expect(ctx.drawImage).toHaveBeenCalledWith(
     sprite.img,
     0,
     0,
-    48,
-    44,
+    64,
+    64,
     expect.any(Number),
     expect.any(Number),
-    48 * scale,
-    44 * scale
+    64 * scale,
+    64 * scale
   );
+});
+
+test('drawNpc flips horizontally when facing left', () => {
+  const ctx = {
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
+    drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true, translate: jest.fn(), scale: jest.fn(),
+  };
+  const npc = { x: 0, y: 0, shadowY: 0, w: 64, h: 64, state: 'idle', animTime: 0, facing: -1 };
+  const sprite = { img: {}, frameWidth: 64, frameHeight: 64, columns: 12, animations: { idle: { frames: [0], fps: 1, offsetY: 0 } } };
+  drawNpc(ctx, npc, sprite);
+  expect(ctx.scale).toHaveBeenCalledWith(-1, 1);
 });
