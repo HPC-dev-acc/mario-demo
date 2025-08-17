@@ -16,9 +16,14 @@ function randRange(min, max, rand=Math.random) {
   return min + (max - min) * rand();
 }
 
+function boxesOverlap(a, b) {
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
 export function createNpc(x, y, w, h, sprite, rand=Math.random) {
   return {
     x, y, w, h,
+    box: { x: x - w / 2, y: y - h / 2, w, h },
     vx: -WALK_SPEED,
     vy: 0,
     onGround: false,
@@ -64,9 +69,16 @@ export function updateNpc(npc, dtMs, state, player) {
   npc.vy += state.gravity * dtMs / 16.6667;
   resolveCollisions(npc, state.level, state.collisions, state.lights);
   npc.shadowY = findGroundY(state.collisions, npc.x, npc.y + npc.h / 2, state.lights);
-  if (player && Math.abs(player.x - npc.x) < (player.w + npc.w)/2 && Math.abs(player.y - npc.y) < (player.h + npc.h)/2) {
-    npc.pauseTimer = randRange(PAUSE_MIN, PAUSE_MAX, rand);
-    npc.state = 'idle';
+  npc.box.x = npc.x - npc.w / 2;
+  npc.box.y = npc.y - npc.h / 2;
+  npc.box.w = npc.w;
+  npc.box.h = npc.h;
+  if (player) {
+    const pbox = { x: player.x - player.w / 2, y: player.y - player.h / 2, w: player.w, h: player.h };
+    if (boxesOverlap(npc.box, pbox)) {
+      npc.pauseTimer = randRange(PAUSE_MIN, PAUSE_MAX, rand);
+      npc.state = 'idle';
+    }
   }
 }
 
