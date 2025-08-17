@@ -4,11 +4,12 @@ import { BASE_W } from './game/width.js';
 import { SPAWN_X, SPAWN_Y, Y_OFFSET } from './game/state.js';
 
 async function loadGame() {
-  document.body.innerHTML = '<canvas id="game"></canvas>';
+  document.body.innerHTML = '<div id="game-col"><canvas id="game"></canvas></div>';
   const canvas = document.getElementById('game');
-    canvas.getContext = () => ({ setTransform: jest.fn() });
+  canvas.getContext = () => ({ setTransform: jest.fn() });
   window.__APP_VERSION__ = pkg.version;
   global.requestAnimationFrame = jest.fn();
+  Object.defineProperty(document, 'fullscreenElement', { writable: true, configurable: true, value: null });
 
   const scoreEl = {
     _text: '',
@@ -174,5 +175,40 @@ describe('shadowY behavior', () => {
     player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
     const groundY = (state.LEVEL_H - 5) * TILE;
     expect(player.shadowY).toBe(groundY);
+  });
+});
+
+describe('canvas resizing', () => {
+  afterEach(() => {
+    jest.resetModules();
+  });
+
+  test('resizes canvas and container on fullscreen change', async () => {
+    await loadGame();
+    const canvas = document.getElementById('game');
+    const root = document.getElementById('game-col');
+
+    // initial size in windowed mode
+    expect(canvas.style.width).toBe('960px');
+    expect(canvas.style.height).toBe('540px');
+    expect(root.style.width).toBe('960px');
+    expect(root.style.height).toBe('540px');
+
+    // simulate fullscreen with 1920x1080 viewport
+    root.getBoundingClientRect = () => ({ width: 1920, height: 1080 });
+    document.fullscreenElement = root;
+    window.__resizeGameCanvas();
+    expect(root.style.width).toBe('1920px');
+    expect(root.style.height).toBe('1080px');
+    expect(canvas.style.width).toBe('1920px');
+    expect(canvas.style.height).toBe('1080px');
+
+    // exit fullscreen
+    document.fullscreenElement = null;
+    window.__resizeGameCanvas();
+    expect(root.style.width).toBe('960px');
+    expect(root.style.height).toBe('540px');
+    expect(canvas.style.width).toBe('960px');
+    expect(canvas.style.height).toBe('540px');
   });
 });
