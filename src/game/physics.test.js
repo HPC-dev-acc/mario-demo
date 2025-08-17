@@ -96,49 +96,27 @@ test('jumping is blocked near red traffic light', () => {
   expect(isJumpBlocked(ent, lights)).toBe(false);
 });
 
-test('brick hit event triggers only on upward block collisions', () => {
+test('bricks remain intact when hit from below and no event is fired', () => {
   const world = makeWorld(3, 3);
-  // place brick above the entity
   setBlock(world, 1, 0, 2);
-  const ent = { x: TILE * 1 + TILE / 2, y: TILE * 1 + TILE / 2 + 20, w: BASE_W, h: 120, vx: 0, vy: -10, onGround: false };
-  const events = {};
-  resolveCollisions(ent, world.level, world.collisions, {}, events);
-  expect(events.brickHit).toBe(true);
-
-  // falling onto ground should not trigger brickHit
-  const world2 = makeWorld(3, 3);
-  setBlock(world2, 1, 2, 1);
-  const ent2 = {
+  const ent = {
     x: TILE * 1 + TILE / 2,
-    y: TILE * 2 - 41,
+    y: TILE * 1 + TILE / 2 + 20,
     w: BASE_W,
     h: 120,
     vx: 0,
-    vy: 5,
+    vy: -10,
     onGround: false,
   };
-  const events2 = {};
-  resolveCollisions(ent2, world2.level, world2.collisions, {}, events2);
-  expect(events2.brickHit).toBeUndefined();
-
-  // hitting a wall sideways should also stay silent
-  const world3 = makeWorld(3, 3);
-  setBlock(world3, 2, 1, 1);
-  const ent3 = { x: TILE * 1, y: TILE * 1, w: BASE_W, h: 120, vx: 50, vy: 0, onGround: false };
-  const events3 = {};
-  resolveCollisions(ent3, world3.level, world3.collisions, {}, events3);
-  expect(events3.brickHit).toBeUndefined();
-});
-
-test('non-destroyable bricks remain intact', () => {
-  const world = makeWorld(3, 3);
-  setBlock(world, 1, 0, 2);
-  const ent = { x: TILE * 1 + TILE / 2, y: TILE * 1 + TILE / 2 + 20, w: BASE_W, h: 120, vx: 0, vy: -10, onGround: false };
   const events = {};
-  const indestructible = new Set(['1,0']);
-  resolveCollisions(ent, world.level, world.collisions, {}, events, indestructible);
+  resolveCollisions(ent, world.level, world.collisions, {}, events);
   expect(events.brickHit).toBeUndefined();
   expect(world.level[0][1]).toBe(2);
+  const cy = 0, cx = 2;
+  expect(world.collisions[cy][cx]).toBe(1);
+  expect(world.collisions[cy][cx + 1]).toBe(1);
+  expect(world.collisions[cy + 1][cx]).toBe(1);
+  expect(world.collisions[cy + 1][cx + 1]).toBe(1);
 });
 
 test('supports half-tile collisions', () => {
