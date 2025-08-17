@@ -17,21 +17,22 @@ async function loadGame() {
   const hud = document.getElementById('hud-top-center');
   canvas.getBoundingClientRect = () => ({ left: 0, top: 0, right: 960, bottom: 540, width: 960, height: 540 });
   hud.getBoundingClientRect = () => ({ left: 0, top: 0, right: 960, bottom: 20, width: 960, height: 20 });
-  const ctx = {
-    canvas,
-    fillRect: jest.fn(),
-    strokeRect: jest.fn(),
-    save: jest.fn(),
-    restore: jest.fn(),
-    translate: jest.fn(),
-    clearRect: jest.fn(),
-    beginPath: jest.fn(),
-    arc: jest.fn(),
-    fill: jest.fn(),
-    drawImage: jest.fn(),
-    scale: jest.fn(),
-    ellipse: jest.fn(),
-  };
+    const ctx = {
+      canvas,
+      fillRect: jest.fn(),
+      strokeRect: jest.fn(),
+      save: jest.fn(),
+      restore: jest.fn(),
+      translate: jest.fn(),
+      clearRect: jest.fn(),
+      beginPath: jest.fn(),
+      arc: jest.fn(),
+      fill: jest.fn(),
+      drawImage: jest.fn(),
+      scale: jest.fn(),
+      ellipse: jest.fn(),
+      setTransform: jest.fn(),
+    };
   canvas.getContext = () => ctx;
   window.__APP_VERSION__ = pkg.version;
   global.requestAnimationFrame = jest.fn();
