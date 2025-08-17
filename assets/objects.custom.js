@@ -4,6 +4,7 @@ export default [
     "x": 45,
     "y": 3,
     "transparent": true
+    "destroyable": false
   },
   {
     "type": "brick",
@@ -17,6 +18,7 @@ export default [
     "x": 45,
     "y": 2,
     "transparent": true
+    "destroyable": false
   },
   {
     "type": "brick",
@@ -54,12 +56,6 @@ export default [
   },
   {
     "type": "brick",
-    "x": 35,
-    "y": 3,
-    "transparent": true
-  },
-  {
-    "type": "brick",
     "x": 38,
     "y": 3,
     "transparent": true,
@@ -70,24 +66,6 @@ export default [
       1,
       0
     ]
-  },
-  {
-    "type": "brick",
-    "x": 32,
-    "y": 3,
-    "transparent": true
-  },
-  {
-    "type": "brick",
-    "x": 44,
-    "y": 2,
-    "transparent": true
-  },
-  {
-    "type": "brick",
-    "x": 43,
-    "y": 2,
-    "transparent": true
   },
   {
     "type": "coin",
