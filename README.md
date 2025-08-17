@@ -1,6 +1,6 @@
 # Mario Demo
 
-**Version: 1.5.90**
+**Version: 1.5.91**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
@@ -12,7 +12,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Ensured crisp rendering in fullscreen and on high-DPI displays by resizing the canvas with `devicePixelRatio` and disabling image smoothing.
 - Fixed HUD elements disappearing in fullscreen by requesting fullscreen on the game container.
 - Improved player sprite clarity in fullscreen by disabling image smoothing.
-- Fixed background scroll speed mismatch in fullscreen by scaling with display size.
+- Synced CSS background scroll with renderScale so it stays aligned with the game world in fullscreen.
 - Removed upward collision resolution so entities moving upward are unaffected until gravity reverses.
 - Bricks are now indestructible; hitting them from below no longer breaks them or fires a `brickHit` event.
 - NPC sprites now use a 12×22 sheet with 64×64 cells and horizontal flipping for leftward movement.

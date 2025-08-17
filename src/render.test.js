@@ -44,6 +44,29 @@ test('render translates camera position', () => {
   expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -state.camera.y);
 });
 
+test('render scales background position by cssScale', () => {
+  const state = createGameState();
+  state.camera.x = 10;
+  const canvas = { width: 256, height: 240, style: {}, dataset: { cssScale: '2' }, clientWidth: 0 };
+  const ctx = {
+    canvas,
+    clearRect: jest.fn(),
+    save: jest.fn(),
+    translate: jest.fn(),
+    fillRect: jest.fn(),
+    beginPath: jest.fn(),
+    arc: jest.fn(),
+    ellipse: jest.fn(),
+    fill: jest.fn(),
+    strokeRect: jest.fn(),
+    restore: jest.fn(),
+    scale: jest.fn(),
+    fillStyle: '',
+  };
+  render(ctx, state);
+  expect(canvas.style.backgroundPosition).toBe('-20px 0px');
+});
+
 test('render does not call drawCloud', () => {
   const state = createGameState();
   const ctx = {

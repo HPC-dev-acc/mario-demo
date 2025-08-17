@@ -12,7 +12,6 @@ import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite } from './src
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
 import { createNpc, updateNpc, isNpcOffScreen, MAX_NPCS } from './src/npc.js';
-import { computeRenderScale } from './src/utils/renderScale.js';
 const VERSION = window.__APP_VERSION__;
 
 let lastImpactAt = 0;
@@ -65,8 +64,14 @@ const IMPACT_COOLDOWN_MS = 120;
   // ------- 修正這裡：同步調整外框與 canvas 尺寸 -------
   function resizeCanvas() {
     const { cssW, cssH } = getTargetCssSize();
-    const renderScale = computeRenderScale(cssW, cssH, BASE_CSS_W, BASE_CSS_H);
-    window.__renderScale = renderScale;
+    // 以 960x540 為基準計算 CSS 與邏輯座標的倍率
+    const widthRatio  = cssW / BASE_CSS_W;
+    const heightRatio = cssH / BASE_CSS_H;
+    // contain/cover 維持 16:9，兩者相等；若改用 stretch 可分開使用
+    const renderScale = widthRatio;
+    // 讓其他模組取得 CSS 與邏輯座標的倍率
+    if (canvas && canvas.dataset) canvas.dataset.cssScale = String(renderScale);
+    window.__cssScale = renderScale;
 
     // 讓外層欄位也配合全螢幕大小（scoreboard/debug 一起放大）
     if (gameCol) {
