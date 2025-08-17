@@ -17,7 +17,6 @@ export default [
     "x": 45,
     "y": 2,
     "transparent": true
-    "destroyable": false
   },
   {
     "type": "brick",
