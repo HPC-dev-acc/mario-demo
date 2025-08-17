@@ -119,6 +119,28 @@ test('bricks remain intact when hit from below and no event is fired', () => {
   expect(world.collisions[cy + 1][cx + 1]).toBe(1);
 });
 
+test('player moving upward through a block retains velocity and position until gravity reverses it', () => {
+  const world = makeWorld(3, 3);
+  setBlock(world, 1, 0, 1);
+  const ent = {
+    x: TILE * 1 + TILE / 2,
+    y: TILE * 2 + TILE / 2,
+    w: BASE_W,
+    h: 120,
+    vx: 0,
+    vy: -20,
+    onGround: false,
+  };
+  const startY = ent.y;
+  resolveCollisions(ent, world.level, world.collisions);
+  expect(ent.vy).toBe(-20);
+  expect(ent.y).toBe(startY - 20);
+  ent.vy = 10;
+  const midY = ent.y;
+  resolveCollisions(ent, world.level, world.collisions);
+  expect(ent.y).toBe(midY + 10);
+});
+
 test('supports half-tile collisions', () => {
   const world = makeWorld(1, 1);
   world.collisions[1][0] = 1;
