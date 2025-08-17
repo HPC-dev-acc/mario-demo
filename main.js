@@ -21,6 +21,31 @@ const IMPACT_COOLDOWN_MS = 120;
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
 
+  // === HiDPI / Fullscreen-safe canvas sizing ===
+  function resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+
+    const targetW = Math.max(1, Math.round(rect.width * dpr));
+    const targetH = Math.max(1, Math.round(rect.height * dpr));
+
+    if (canvas.width !== targetW || canvas.height !== targetH) {
+      canvas.width = targetW;
+      canvas.height = targetH;
+    }
+
+    if (typeof ctx.setTransform === 'function') {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    if ('imageSmoothingEnabled' in ctx) {
+      ctx.imageSmoothingEnabled = false;
+    }
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  document.addEventListener('fullscreenchange', resizeCanvas);
+  resizeCanvas();
+
   const designObjects = objects.map(o => ({ ...o }));
   const state = createGameState(designObjects);
   const { level, coins, initialLevel, spawnLights, player, camera, GOAL_X, LEVEL_W, LEVEL_H, lights, transparent, indestructible } = state;
