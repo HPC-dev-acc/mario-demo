@@ -146,3 +146,16 @@ test('info toggle shows and hides info panel', () => {
     expect(btn.textContent).toBe('⛶');
     document.fullscreenElement = null;
   });
+
+  test('fullscreen toggle schedules canvas resize', () => {
+    const canvas = setupDOM();
+    window.__resizeGameCanvas = jest.fn();
+    jest.useFakeTimers();
+    initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+    const btn = document.getElementById('fullscreen-toggle');
+    btn.click();
+    jest.runAllTimers();
+    expect(window.__resizeGameCanvas).toHaveBeenCalled();
+    jest.useRealTimers();
+    delete window.__resizeGameCanvas;
+  });

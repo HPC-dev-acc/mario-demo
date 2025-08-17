@@ -6,7 +6,7 @@ import { SPAWN_X, SPAWN_Y, Y_OFFSET } from './game/state.js';
 async function loadGame() {
   document.body.innerHTML = '<canvas id="game"></canvas>';
   const canvas = document.getElementById('game');
-  canvas.getContext = () => ({});
+    canvas.getContext = () => ({ setTransform: jest.fn() });
   window.__APP_VERSION__ = pkg.version;
   global.requestAnimationFrame = jest.fn();
 

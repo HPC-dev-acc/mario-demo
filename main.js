@@ -21,30 +21,64 @@ const IMPACT_COOLDOWN_MS = 120;
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
 
-  // === HiDPI / Fullscreen-safe canvas sizing ===
+  // === Canvas 尺寸控制（處理全螢幕 + 高 DPI） ===
+  // 基準 CSS 尺寸（原本 style.css 既定的 960×540）
+  const BASE_CSS_W = 960;
+  const BASE_CSS_H = 540;
+
+  // 填充模式：'contain' 等比含黑邊、'cover' 等比鋪滿可裁切、'stretch' 無等比
+  const FIT_MODE = 'contain'; // 'contain' | 'cover' | 'stretch'
+
+  function isFullscreen() {
+    return document.fullscreenElement === canvas;
+  }
+
+  function computeCssSize() {
+    if (isFullscreen()) {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      if (FIT_MODE === 'stretch') return { cssW: vw, cssH: vh };
+      const baseR = BASE_CSS_W / BASE_CSS_H;
+      const viewR = vw / vh;
+      if (FIT_MODE === 'contain') {
+        if (viewR >= baseR) return { cssW: Math.round(vh * baseR), cssH: vh };
+        return { cssW: vw, cssH: Math.round(vw / baseR) };
+      }
+      if (viewR >= baseR) return { cssW: vw, cssH: Math.round(vw / baseR) };
+      return { cssW: Math.round(vh * baseR), cssH: vh };
+    }
+    return { cssW: BASE_CSS_W, cssH: BASE_CSS_H };
+  }
+
   function resizeCanvas() {
+    const { cssW, cssH } = computeCssSize();
+    canvas.style.width = cssW + 'px';
+    canvas.style.height = cssH + 'px';
     const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-
-    const targetW = Math.max(1, Math.round(rect.width * dpr));
-    const targetH = Math.max(1, Math.round(rect.height * dpr));
-
-    if (canvas.width !== targetW || canvas.height !== targetH) {
-      canvas.width = targetW;
-      canvas.height = targetH;
-    }
-
-    if (typeof ctx.setTransform === 'function') {
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-    if ('imageSmoothingEnabled' in ctx) {
-      ctx.imageSmoothingEnabled = false;
+    const targetW = Math.max(1, Math.round(cssW * dpr));
+    const targetH = Math.max(1, Math.round(cssH * dpr));
+    if (canvas.width !== targetW) canvas.width = targetW;
+    if (canvas.height !== targetH) canvas.height = targetH;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+    if (FIT_MODE === 'contain' && isFullscreen()) {
+      const padX = Math.floor((window.innerWidth - cssW) / 2);
+      const padY = Math.floor((window.innerHeight - cssH) / 2);
+      canvas.style.position = 'absolute';
+      canvas.style.left = padX + 'px';
+      canvas.style.top = padY + 'px';
+    } else {
+      canvas.style.position = '';
+      canvas.style.left = '';
+      canvas.style.top = '';
     }
   }
 
   window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('orientationchange', resizeCanvas);
   document.addEventListener('fullscreenchange', resizeCanvas);
   resizeCanvas();
+  window.__resizeGameCanvas = resizeCanvas;
 
   const designObjects = objects.map(o => ({ ...o }));
   const state = createGameState(designObjects);
