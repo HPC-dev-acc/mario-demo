@@ -102,23 +102,7 @@ export function resolveCollisions(ent, level, collisions, lights = {}, events = 
         break;
       }
     }
-  } else if (ent.vy < 0) {
-    const top = ent.y - ent.h / 2;
-    const left = ent.x - ent.w / 2 + 6;
-    const right = ent.x + ent.w / 2 - 6;
-    for (let x = left; x <= right; x += COLL_TILE) {
-      const tx = worldToTile(x);
-      const ty = worldToTile(top);
-      if (solidAt(collisions, x, top, lights)) {
-        const tx = worldToCollTile(x);
-        let cy = worldToCollTile(top);
-        while (cy < collisions.length && collisions[cy][tx]) cy++;
-        ent.y = cy * COLL_TILE + ent.h / 2 + 0.01;
-        ent.vy = 0;
-        break;
-      }
-    }
-  } else {
+  } else if (ent.vy === 0) {
     const bottom = ent.y + ent.h / 2;
     const left = ent.x - ent.w / 2 + 6;
     const right = ent.x + ent.w / 2 - 6;
