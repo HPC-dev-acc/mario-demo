@@ -12,6 +12,7 @@ import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite } from './src
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
 import { createNpc, updateNpc, isNpcOffScreen, MAX_NPCS } from './src/npc.js';
+import { computeRenderScale } from './src/utils/renderScale.js';
 const VERSION = window.__APP_VERSION__;
 
 let lastImpactAt = 0;
@@ -64,6 +65,8 @@ const IMPACT_COOLDOWN_MS = 120;
   // ------- 修正這裡：同時調整 #game-col 及 canvas 尺寸 -------
   function resizeCanvas() {
     const { cssW, cssH } = getTargetCssSize();
+    const renderScale = computeRenderScale(cssW, cssH, BASE_CSS_W, BASE_CSS_H);
+    window.__renderScale = renderScale;
 
     // 讓外層欄位也配合全螢幕大小（scoreboard/debug 一起放大）
     if (gameCol) {
@@ -83,7 +86,7 @@ const IMPACT_COOLDOWN_MS = 120;
     if (canvas.height !== targetH) canvas.height = targetH;
 
     // 邏輯座標 = CSS 像素；縮放交給 transform
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.setTransform(dpr * renderScale, 0, 0, dpr * renderScale, 0, 0);
     ctx.imageSmoothingEnabled = false;
 
     // 'contain' 置中（避免靠左上）
