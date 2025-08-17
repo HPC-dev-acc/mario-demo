@@ -1,4 +1,4 @@
-/* Version: 1.5.85 */
+/* Version: 1.5.86 */
 :root{
   --bg:#9fd4ea; --panel:#2d3b42; --panelText:#e8f1f5;
   --pill:#eeeeee; --pillText:#222; --accent:#2a7cff;
@@ -9,7 +9,7 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
 #layout{max-width:1080px;margin:20px auto;padding:0 12px}
 #game-col{position:relative;width:960px;margin:0 auto}
 #game-wrap{position:relative;width:960px;height:540px;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.2)}
-#game{
+  #game{
   display:block;
   width:960px;
   height:540px;
@@ -17,7 +17,9 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
   background-repeat:repeat-x;
   background-size:auto 100%;
   background-position:0 0;
-}
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  }
 
 #game.design-active{
   cursor:move;
