@@ -34,3 +34,13 @@ test('npc state updates with movement', () => {
   updateNpc(npc,16,state);
   expect(npc.state).toBe('idle');
 });
+
+test('npc collision box tracks position', () => {
+  const npc = createNpc(50, 50, 10, 20, null, () => 0.5);
+  const state = makeState();
+  updateNpc(npc, 16, state);
+  expect(npc.box.x).toBeCloseTo(npc.x - npc.w / 2);
+  expect(npc.box.y).toBeCloseTo(npc.y - npc.h / 2);
+  expect(npc.box.w).toBe(npc.w);
+  expect(npc.box.h).toBe(npc.h);
+});
