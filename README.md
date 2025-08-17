@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.83**
+**Version: 1.5.84**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
+- Improved player sprite clarity in fullscreen by disabling image smoothing.
 - Fixed background scroll speed mismatch in fullscreen by scaling with display size.
 - Removed upward collision resolution so entities moving upward are unaffected until gravity reverses.
 - Bricks are now indestructible; hitting them from below no longer breaks them or fires a `brickHit` event.

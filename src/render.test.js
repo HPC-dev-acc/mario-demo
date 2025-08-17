@@ -245,6 +245,26 @@ test('drawPlayer draws a shadow beneath the player', () => {
   expect(ctx.fill).toHaveBeenCalled();
 });
 
+test('drawPlayer disables image smoothing', () => {
+  const img = {};
+  const sprites = { idle: [img] };
+  const ctx = {
+    save: jest.fn(),
+    translate: jest.fn(),
+    scale: jest.fn(),
+    beginPath: jest.fn(),
+    ellipse: jest.fn(),
+    fill: jest.fn(),
+    drawImage: jest.fn(),
+    restore: jest.fn(),
+    imageSmoothingEnabled: true,
+    fillStyle: '',
+  };
+  const p = { x: 0, y: 0, shadowY: 25, facing: 1, w: 40, h: 50, vx: 0, vy: 0, onGround: true, sliding: 0 };
+  drawPlayer(ctx, p, sprites, 0);
+  expect(ctx.imageSmoothingEnabled).toBe(false);
+});
+
 test('shadow position is unaffected by player y changes', () => {
   const img = {};
   const sprites = { idle: [img] };

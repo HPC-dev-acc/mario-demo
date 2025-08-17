@@ -105,6 +105,7 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   ctx.save();
   ctx.translate(p.x, p.y);
   ctx.scale(p.facing, 1);
+  ctx.imageSmoothingEnabled = false;
   let anim;
   if (p.sliding > 0) anim = sprites?.slide;
   else if (!p.onGround) anim = sprites?.jump;
