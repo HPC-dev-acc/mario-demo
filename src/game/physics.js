@@ -109,13 +109,6 @@ export function resolveCollisions(ent, level, collisions, lights = {}, events = 
     for (let x = left; x <= right; x += COLL_TILE) {
       const tx = worldToTile(x);
       const ty = worldToTile(top);
-      if (ty >= 0 && level[ty][tx] === 2 && !indestructible.has(`${tx},${ty}`)) {
-        level[ty][tx] = 0;
-        const cy = ty * 2, cx = tx * 2;
-        collisions[cy][cx] = collisions[cy][cx + 1] = collisions[cy + 1][cx] = collisions[cy + 1][cx + 1] = 0;
-        ent.vy = 2;
-        events.brickHit = true;
-      }
       if (solidAt(collisions, x, top, lights)) {
         const tx = worldToCollTile(x);
         let cy = worldToCollTile(top);

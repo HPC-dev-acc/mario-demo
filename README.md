@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.80**
+**Version: 1.5.81**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Traffic lights cycle through green (2s), yellow (1s), and red (3s) phases, and attempting to jump near a red light is prevented.
 
 ## Recent Changes
+- Bricks are now indestructible; hitting them from below no longer breaks them or fires a `brickHit` event.
 - NPC sprites now use a 12×22 sheet with 64×64 cells and horizontal flipping for leftward movement.
 - Made objects.custom.test.js more flexible to accommodate stage redesigns.
 - Revised stage object layout and collisions in `assets/objects.custom.js`.
@@ -81,7 +82,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 Sound effects in `assets/sounds` are sourced from [Kenney](https://kenney.nl/assets) and are used as follows:
 
 - `jump.wav` – played when the player jumps.
-- `impact.wav` – played when the player hits a brick from below.
+- `impact.wav` – previously played when hitting a brick from below.
 - `slide.wav` – played when initiating a slide.
 - `clear.wav` – played upon clearing the stage.
 - `coin.wav` – played when collecting a coin.
