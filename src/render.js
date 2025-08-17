@@ -7,7 +7,8 @@ function getHighlightColor() {
 export function render(ctx, state, design) {
   const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, npcSprite, npcs, transparent, patterns, indestructible } = state;
   if (ctx.canvas && ctx.canvas.style) {
-    ctx.canvas.style.backgroundPosition = `${-Math.floor(camera.x)}px 0px`;
+    const scale = (ctx.canvas.clientWidth / ctx.canvas.width) || 1;
+    ctx.canvas.style.backgroundPosition = `${-Math.floor(camera.x * scale)}px 0px`;
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.save();
