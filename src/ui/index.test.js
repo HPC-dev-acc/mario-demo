@@ -1,24 +1,26 @@
 import { initUI } from './index.js';
 
-function setupDOM() {
-  document.body.innerHTML = `
-    <div id="start-page">
-      <div id="start-status"></div>
-      <div id="start-version"></div>
-      <button id="btn-start" hidden>START</button>
-      <button id="btn-retry" hidden>Retry</button>
-    </div>
-    <div id="top-right">
-      <button id="info-toggle" class="pill">ℹ</button>
-      <div id="version-pill"></div>
-    </div>
-    <div id="hud-top-center">
-      <button id="fullscreen-toggle" class="pill">⛶</button>
-    </div>
-    <div id="info-panel" hidden></div>
-    <div id="game-wrap"><canvas id="game"></canvas></div>`;
-  return document.getElementById('game');
-}
+  function setupDOM() {
+    document.body.innerHTML = `
+      <div id="start-page">
+        <div id="start-status"></div>
+        <div id="start-version"></div>
+        <button id="btn-start" hidden>START</button>
+        <button id="btn-retry" hidden>Retry</button>
+      </div>
+      <div id="game-col">
+        <div id="top-right">
+          <button id="info-toggle" class="pill">ℹ</button>
+          <div id="version-pill"></div>
+        </div>
+        <div id="hud-top-center">
+          <button id="fullscreen-toggle" class="pill">⛶</button>
+        </div>
+        <div id="info-panel" hidden></div>
+        <div id="game-wrap"><canvas id="game"></canvas></div>
+      </div>`;
+    return document.getElementById('game');
+  }
 
 test('initUI exposes Logger', () => {
   const canvas = setupDOM();
@@ -128,18 +130,19 @@ test('info toggle shows and hides info panel', () => {
   expect(panel.hidden).toBe(true);
 });
 
-test('fullscreen toggle requests and exits fullscreen', () => {
-  const canvas = setupDOM();
-  canvas.requestFullscreen = jest.fn().mockResolvedValue();
-  document.exitFullscreen = jest.fn().mockResolvedValue();
-  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
-  const btn = document.getElementById('fullscreen-toggle');
-  btn.click();
-  expect(canvas.requestFullscreen).toHaveBeenCalled();
-  expect(btn.textContent).toBe('🞬');
-  document.fullscreenElement = canvas;
-  btn.click();
-  expect(document.exitFullscreen).toHaveBeenCalled();
-  expect(btn.textContent).toBe('⛶');
-  document.fullscreenElement = null;
-});
+  test('fullscreen toggle requests and exits fullscreen', () => {
+    const canvas = setupDOM();
+    const root = document.getElementById('game-col');
+    root.requestFullscreen = jest.fn().mockResolvedValue();
+    document.exitFullscreen = jest.fn().mockResolvedValue();
+    initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+    const btn = document.getElementById('fullscreen-toggle');
+    btn.click();
+    expect(root.requestFullscreen).toHaveBeenCalled();
+    expect(btn.textContent).toBe('🞬');
+    document.fullscreenElement = root;
+    btn.click();
+    expect(document.exitFullscreen).toHaveBeenCalled();
+    expect(btn.textContent).toBe('⛶');
+    document.fullscreenElement = null;
+  });

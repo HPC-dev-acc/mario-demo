@@ -1,5 +1,6 @@
 export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {}) {
   const gameWrap = document.getElementById('game-wrap');
+  const gameCol = document.getElementById('game-col');
   const startPage = document.getElementById('start-page');
   const startStatus = document.getElementById('start-status');
   const startVersion = document.getElementById('start-version');
@@ -54,8 +55,9 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const fullscreenToggle = document.getElementById('fullscreen-toggle');
   if (fullscreenToggle) {
     fullscreenToggle.addEventListener('click', () => {
+      const target = gameCol || canvas;
       if (!document.fullscreenElement) {
-        canvas.requestFullscreen?.().catch(() => {});
+        target.requestFullscreen?.().catch(() => {});
         fullscreenToggle.textContent = '🞬';
       } else {
         document.exitFullscreen?.().catch(() => {});
