@@ -44,7 +44,7 @@ test('background repeats and moves with camera', () => {
   state.camera.x = 50;
   render(ctx, state);
   expect(canvas.style.backgroundPosition).toBe('-50px 0px');
-    canvas.clientWidth = 1920;
-    render(ctx, state);
-    expect(canvas.style.backgroundPosition).toBe('-50px 0px');
-  });
+  canvas.clientWidth = 1920;
+  render(ctx, state);
+  expect(canvas.style.backgroundPosition).toBe('-100px 0px');
+});
