@@ -111,6 +111,7 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   let anim;
   if (p.sliding > 0) anim = sprites?.slide;
   else if (!p.onGround) anim = sprites?.jump;
+  else if (p.stunnedMs > 0) anim = sprites?.idle; // 地面硬直 → Idle
   else if (p.running && (Math.abs(p.vx) > 0.1 || p.blocked)) anim = sprites?.run;
   else anim = sprites?.idle;
   if (anim && anim.length) {

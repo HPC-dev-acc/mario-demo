@@ -16,7 +16,7 @@ function randRange(min, max, rand=Math.random) {
   return min + (max - min) * rand();
 }
 
-function boxesOverlap(a, b) {
+export function boxesOverlap(a, b) {
   return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
 
@@ -73,13 +73,6 @@ export function updateNpc(npc, dtMs, state, player) {
   npc.box.y = npc.y - npc.h / 2;
   npc.box.w = npc.w;
   npc.box.h = npc.h;
-  if (player) {
-    const pbox = { x: player.x - player.w / 2, y: player.y - player.h / 2, w: player.w, h: player.h };
-    if (boxesOverlap(npc.box, pbox)) {
-      npc.pauseTimer = randRange(PAUSE_MIN, PAUSE_MAX, rand);
-      npc.state = 'idle';
-    }
-  }
 }
 
 export function isNpcOffScreen(npc, cameraX) {

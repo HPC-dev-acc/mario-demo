@@ -12,6 +12,7 @@ test('createGameState returns initial values', () => {
   expect(state.player.w).toBe(BASE_W);
   expect(state.player.h).toBe(120);
   expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
+  expect(state.player.stunnedMs).toBe(0);
   expect(state.coins.size).toBeGreaterThan(0);
   expect(state.level[state.LEVEL_H - 5].every(v => v !== 0)).toBe(true);
   expect(state.level[state.LEVEL_H - 4].every(v => v !== 0)).toBe(true);

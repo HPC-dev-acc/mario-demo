@@ -12,7 +12,7 @@ import { updateCamera } from './src/game/camera.js';
 import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
-import { createNpc, updateNpc, isNpcOffScreen, MAX_NPCS } from './src/npc.js';
+import { createNpc, updateNpc, isNpcOffScreen, MAX_NPCS, boxesOverlap } from './src/npc.js';
 const VERSION = window.__APP_VERSION__;
 
 let lastImpactAt = 0;
@@ -367,6 +367,9 @@ const IMPACT_COOLDOWN_MS = 120;
   const JUMP_VEL = -17.8;
   const SLIDE_SPEED = 9;
   const SLIDE_TIME = 200; // ms
+  const STUN_TIME = 450;      // 玩家硬直（不可操作）時長（毫秒）
+  const KNOCKBACK = 4.0;      // 側撞時初速
+  const STOMP_BOUNCE = JUMP_VEL * 0.5; // 踩到時的回彈
 
   let keys;
   let jumpBufferMs=0, coyoteMs=0;
@@ -403,7 +406,9 @@ const IMPACT_COOLDOWN_MS = 120;
   function restartStage(){
     resumeAudio();
     playMusic();
-    player.x = SPAWN_X; player.y = SPAWN_Y; player.shadowY = player.y + player.h/2; player.vx=0; player.vy=0; player.onGround=false; player.sliding=0; player.h = player.baseH; player.w = player.baseW || BASE_W;
+    player.x = SPAWN_X; player.y = SPAWN_Y; player.shadowY = player.y + player.h/2;
+    player.vx=0; player.vy=0; player.onGround=false; player.sliding=0; player.stunnedMs=0;
+    player.h = player.baseH; player.w = player.baseW || BASE_W;
     camera.x=0; stageCleared=false; stageFailed=false;
     hideStageOverlays();
     score=0; if (scoreEl) scoreEl.textContent = score;
@@ -467,14 +472,19 @@ const IMPACT_COOLDOWN_MS = 120;
 
     if (stageCleared || stageFailed) return;
 
+    // 硬直計時（不可操作）
+    if (player.stunnedMs > 0) {
+      player.stunnedMs = Math.max(0, player.stunnedMs - dtMs);
+    }
+
     if (player.sliding > 0) {
       player.sliding = Math.max(0, player.sliding - dtMs);
       player.vx = player.facing * SLIDE_SPEED;
       if (player.sliding === 0) exitSlide(player);
-    } else {
+    } else if (player.stunnedMs <= 0) {
       if (player.h !== player.baseH) exitSlide(player);
-      if (keys.left) player.vx -= MOVE_SPEED*dt;
-      if (keys.right) player.vx += MOVE_SPEED*dt;
+      if (keys.left)  player.vx -= MOVE_SPEED * dt;
+      if (keys.right) player.vx += MOVE_SPEED * dt;
       player.vx = Math.max(Math.min(player.vx, MAX_RUN), -MAX_RUN);
       if (keys.action && player.onGround) {
         player.sliding = SLIDE_TIME;
@@ -488,13 +498,17 @@ const IMPACT_COOLDOWN_MS = 120;
         play('slide');
         keys.action = false;
       }
+    } else {
+      // 硬直中：逐步停下，鎖操作
+      player.vx *= 0.85;
+      if (Math.abs(player.vx) < 0.05) player.vx = 0;
     }
-    player.running = keys.left || keys.right;
+    player.running = player.stunnedMs <= 0 && (keys.left || keys.right);
 
     if (player.onGround) coyoteMs = COYOTE_MAX; else coyoteMs = Math.max(0, coyoteMs - dtMs);
     jumpBufferMs = Math.max(0, jumpBufferMs - dtMs);
 
-    if (jumpBufferMs>0 && (player.onGround || coyoteMs>0)){
+    if (player.stunnedMs <= 0 && jumpBufferMs>0 && (player.onGround || coyoteMs>0)){
       if (!isJumpBlocked(player, state.lights)) {
         player.vy = JUMP_VEL;
         player.onGround = false; jumpBufferMs=0; coyoteMs=0;
@@ -509,7 +523,7 @@ const IMPACT_COOLDOWN_MS = 120;
     player.vy += GRAVITY * dt;
     if (player.vy>24) player.vy=24;
 
-    if (player.onGround && player.sliding <= 0 && !keys.left && !keys.right){
+    if (player.stunnedMs <= 0 && player.onGround && player.sliding <= 0 && !keys.left && !keys.right){
       player.vx *= FRICTION;
       if (Math.abs(player.vx) < .05) player.vx = 0;
     }
@@ -538,6 +552,27 @@ const IMPACT_COOLDOWN_MS = 120;
 
     for (const npc of state.npcs) {
       updateNpc(npc, dtMs, { level, collisions: state.collisions, lights: state.lights, gravity: GRAVITY }, player);
+    }
+    // 玩家 vs NPC 碰撞處理
+    const pbox = { x: player.x - player.w/2, y: player.y - player.h/2, w: player.w, h: player.h };
+    for (const npc of state.npcs) {
+      if (!boxesOverlap(npc.box, pbox)) continue;
+      // 是否為「從上踩到」
+      const fromAbove = player.vy > 0 && (player.y - npc.y) < -npc.h * 0.15;
+      if (fromAbove) {
+        // 玩家彈起、NPC idle 一下
+        player.vy = STOMP_BOUNCE;
+        npc.pauseTimer = Math.max(npc.pauseTimer, 400); // 0.4s
+        npc.state = 'idle';
+      } else {
+        // 側撞／下方：一次性擊退並硬直（不可操作）
+        if (player.stunnedMs <= 0) {
+          player.vx = -player.facing * KNOCKBACK;
+          player.stunnedMs = STUN_TIME;
+          // 取消跳躍緩衝與土狼時間，避免立刻跳脫硬直
+          jumpBufferMs = 0; coyoteMs = 0;
+        }
+      }
     }
     state.npcs = state.npcs.filter(n => !isNpcOffScreen(n, camera.x));
     if (collisionEvents.brickHit) {
