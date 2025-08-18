@@ -84,6 +84,7 @@ describe('restartStage integration', () => {
     const state = hooks.getState();
     state.player.x = 500;
     state.player.y = 200;
+    state.player.stunnedMs = 123;
     hooks.setScore(50);
     hooks.setTimeLeft(2000);
     hooks.setStageCleared(true);
@@ -95,6 +96,7 @@ describe('restartStage integration', () => {
     expect(state.player.w).toBe(BASE_W);
     expect(state.player.h).toBe(120);
     expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
+    expect(state.player.stunnedMs).toBe(0);
     expect(state.level[state.LEVEL_H - 5][0]).toBe(1);
     expect(state.level[state.LEVEL_H - 4][0]).toBe(1);
     expect(hooks.getScore()).toBe(0);
@@ -110,6 +112,7 @@ describe('restartStage integration', () => {
     const state = hooks.getState();
     state.player.x = 400;
     state.player.y = 100;
+    state.player.stunnedMs = 123;
     hooks.setScore(30);
     hooks.setTimeLeft(1000);
     hooks.setStageFailed(true);
@@ -121,6 +124,7 @@ describe('restartStage integration', () => {
     expect(state.player.w).toBe(BASE_W);
     expect(state.player.h).toBe(120);
     expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
+    expect(state.player.stunnedMs).toBe(0);
     expect(state.level[state.LEVEL_H - 5][0]).toBe(1);
     expect(state.level[state.LEVEL_H - 4][0]).toBe(1);
     expect(hooks.getScore()).toBe(0);
