@@ -2,6 +2,7 @@ import pkg from '../package.json' assert { type: 'json' };
 import { TILE, resolveCollisions, findGroundY } from './game/physics.js';
 import { BASE_W } from './game/width.js';
 import { SPAWN_X, SPAWN_Y, Y_OFFSET } from './game/state.js';
+import { createNpc } from './npc.js';
 
 async function loadGame() {
   document.body.innerHTML = '<div id="game-col"><div id="game-wrap"><canvas id="game"></canvas></div></div>';
@@ -221,5 +222,46 @@ describe('canvas resizing', () => {
     expect(wrap.style.height).toBe('540px');
     expect(canvas.width).toBe(960);
     expect(canvas.height).toBe(540);
+  });
+});
+
+describe('player and npc collision', () => {
+  afterEach(() => {
+    jest.resetModules();
+  });
+
+  test('side collision stuns player and pauses npc', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    const player = state.player;
+    player.x = 0; player.y = 0; player.vx = 0; player.vy = 0; player.facing = 1;
+    const npc = createNpc(0, 0, player.w, player.h, null);
+    state.npcs.push(npc);
+
+    hooks.runUpdate(16);
+
+    expect(player.stunnedMs).toBeGreaterThan(0);
+    expect(player.facing).toBe(1);
+    expect(npc.state).toBe('idle');
+    expect(npc.pauseTimer).toBeGreaterThanOrEqual(400);
+
+    hooks.runUpdate(16);
+    expect(player.facing).toBe(1);
+  });
+
+  test('stomping npc bounces player upward', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    const player = state.player;
+    player.x = 0; player.y = 0; player.vy = 10;
+    const npc = createNpc(0, 60, player.w, player.h, null);
+    state.npcs.push(npc);
+
+    hooks.runUpdate(16);
+
+    expect(player.vy).toBeLessThan(0);
+    expect(player.stunnedMs).toBe(0);
+    expect(npc.state).toBe('idle');
+    expect(npc.pauseTimer).toBeGreaterThanOrEqual(400);
   });
 });
