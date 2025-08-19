@@ -1,43 +1,55 @@
 export default [
   {
     "type": "brick",
-    "x": 45,
-    "y": 3,
-    "transparent": true
-  },
-  {
-    "type": "brick",
     "x": 23,
     "y": 1,
     "transparent": true,
-    "destroyable": false
-  },
-  {
-    "type": "brick",
-    "x": 45,
-    "y": 2,
-    "transparent": true
+    "destroyable": false,
+    "collision": [
+      1,
+      0,
+      0,
+      0
+    ]
   },
   {
     "type": "brick",
     "x": 22,
     "y": 1,
     "transparent": true,
-    "destroyable": false
+    "destroyable": false,
+    "collision": [
+      1,
+      0,
+      0,
+      0
+    ]
   },
   {
     "type": "brick",
     "x": 21,
     "y": 1,
     "transparent": true,
-    "destroyable": false
+    "destroyable": false,
+    "collision": [
+      1,
+      0,
+      0,
+      0
+    ]
   },
   {
     "type": "brick",
     "x": 20,
     "y": 1,
     "transparent": true,
-    "destroyable": false
+    "destroyable": false,
+    "collision": [
+      1,
+      0,
+      0,
+      0
+    ]
   },
   {
     "type": "brick",
