@@ -528,7 +528,7 @@ const IMPACT_COOLDOWN_MS = 120;
       if (Math.abs(player.vx) < .05) player.vx = 0;
     }
 
-    if (player.vx !== 0) player.facing = player.vx>0 ? 1 : -1;
+    if (player.stunnedMs <= 0 && player.vx !== 0) player.facing = player.vx > 0 ? 1 : -1;
 
     for (const key in state.lights) {
       advanceLight(state.lights[key], dtMs);
@@ -572,6 +572,8 @@ const IMPACT_COOLDOWN_MS = 120;
           // 取消跳躍緩衝與土狼時間，避免立刻跳脫硬直
           jumpBufferMs = 0; coyoteMs = 0;
         }
+        npc.pauseTimer = Math.max(npc.pauseTimer, 400);
+        npc.state = 'idle';
       }
     }
     state.npcs = state.npcs.filter(n => !isNpcOffScreen(n, camera.x));
