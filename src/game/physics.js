@@ -11,36 +11,28 @@ export function solidAt(collisions, x, y, lights = {}) {
   if (ty < 0 || ty >= collisions.length) return 0;
   if (tx < 0 || tx >= collisions[0].length) return 0;
   const t = collisions[ty][tx];
-  if (t === TRAFFIC_LIGHT) {
-    const state = lights[`${Math.floor(tx / 2)},${Math.floor(ty / 2)}`]?.state;
-    return state === 'red' ? TRAFFIC_LIGHT : 0;
-  }
+  if (t === TRAFFIC_LIGHT) return 0;
   return t;
 }
 
-export function findGroundY(collisions, x, fromY, lights = {}) {
+export function findGroundY(collisions, x, fromY) {
   const tx = worldToCollTile(x);
   let ty = Math.max(0, worldToCollTile(fromY));
   for (; ty < collisions.length; ty++) {
     const t = collisions[ty][tx];
-    if (t === 0) continue;
-    if (t === TRAFFIC_LIGHT) {
-      const state = lights[`${Math.floor(tx / 2)},${Math.floor(ty / 2)}`]?.state;
-      if (state !== 'red') continue;
-    }
-    if (t) {
-      return ty * COLL_TILE;
-    }
+    if (t === 0 || t === TRAFFIC_LIGHT) continue;
+    return ty * COLL_TILE;
   }
   return collisions.length * COLL_TILE;
 }
 
-export function isJumpBlocked(ent, lights = {}) {
-  const tx = worldToTile(ent.x);
-  const ty = worldToTile(ent.y);
+export function isNearRedLight(ent, lights = {}) {
+  const ex = worldToTile(ent.x);
+  const ey = worldToTile(ent.y);
   for (const key in lights) {
     const [lx, ly] = key.split(',').map(Number);
-    if (lights[key].state === 'red' && Math.abs(lx - tx) <= 1 && Math.abs(ly - ty) <= 1) {
+    const light = lights[key];
+    if (light.state === 'red' && Math.abs(lx - ex) <= 1 && Math.abs(ly - ey) <= 1) {
       return true;
     }
   }
@@ -48,6 +40,11 @@ export function isJumpBlocked(ent, lights = {}) {
 }
 
 export function resolveCollisions(ent, level, collisions, lights = {}, events = {}, indestructible = new Set()) {
+  ent.redLightPaused = isNearRedLight(ent, lights);
+  if (ent.redLightPaused) {
+    ent.vx *= 0.8;
+    if (Math.abs(ent.vx) < 0.05) ent.vx = 0;
+  }
   // Horizontal movement
   ent.x += ent.vx;
   ent.blocked = false;

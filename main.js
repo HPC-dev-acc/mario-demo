@@ -1,4 +1,4 @@
-import { TILE, COLL_TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, isJumpBlocked, findGroundY } from './src/game/physics.js';
+import { TILE, COLL_TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, findGroundY } from './src/game/physics.js';
 import { BASE_W, updatePlayerWidth } from './src/game/width.js';
 import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
@@ -278,7 +278,12 @@ const IMPACT_COOLDOWN_MS = 120;
         level[obj.y][obj.x] = 0;
         delete lights[oldKey];
         level[y][x] = TRAFFIC_LIGHT;
-        lights[newKey] = { state: 'red', timer: 0 };
+        lights[newKey] = {
+          phase: 'green',
+          state: 'green',
+          timer: 0,
+          blinkElapsed: 0,
+        };
       }
       const wasTrans = transparent.has(oldKey);
       if (wasTrans) {
@@ -477,7 +482,11 @@ const IMPACT_COOLDOWN_MS = 120;
       player.stunnedMs = Math.max(0, player.stunnedMs - dtMs);
     }
 
-    if (player.sliding > 0) {
+    if (player.redLightPaused) {
+      player.sliding = 0;
+      player.vx *= 0.8;
+      if (Math.abs(player.vx) < 0.05) player.vx = 0;
+    } else if (player.sliding > 0) {
       player.sliding = Math.max(0, player.sliding - dtMs);
       player.vx = player.facing * SLIDE_SPEED;
       if (player.sliding === 0) exitSlide(player);
@@ -503,21 +512,16 @@ const IMPACT_COOLDOWN_MS = 120;
       player.vx *= 0.85;
       if (Math.abs(player.vx) < 0.05) player.vx = 0;
     }
-    player.running = player.stunnedMs <= 0 && (keys.left || keys.right);
+    player.running = player.stunnedMs <= 0 && !player.redLightPaused && (keys.left || keys.right);
 
     if (player.onGround) coyoteMs = COYOTE_MAX; else coyoteMs = Math.max(0, coyoteMs - dtMs);
     jumpBufferMs = Math.max(0, jumpBufferMs - dtMs);
 
-    if (player.stunnedMs <= 0 && jumpBufferMs>0 && (player.onGround || coyoteMs>0)){
-      if (!isJumpBlocked(player, state.lights)) {
-        player.vy = JUMP_VEL;
-        player.onGround = false; jumpBufferMs=0; coyoteMs=0;
-        play('jump');
-        dbgFired++; Logger.info('jump_fired', {vy:player.vy});
-      } else {
-        jumpBufferMs = 0;
-        Logger.info('jump_blocked', { reason: 'red_light' });
-      }
+    if (player.stunnedMs <= 0 && !player.redLightPaused && jumpBufferMs>0 && (player.onGround || coyoteMs>0)){
+      player.vy = JUMP_VEL;
+      player.onGround = false; jumpBufferMs=0; coyoteMs=0;
+      play('jump');
+      dbgFired++; Logger.info('jump_fired', {vy:player.vy});
     }
 
     player.vy += GRAVITY * dt;
@@ -536,7 +540,7 @@ const IMPACT_COOLDOWN_MS = 120;
 
     const collisionEvents = {};
     resolveCollisions(player, level, state.collisions, state.lights, collisionEvents, state.indestructible);
-    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
+    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2);
     updatePlayerWidth(player);
     const gained = collectCoins(player, level, coins);
 

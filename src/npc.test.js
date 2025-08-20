@@ -35,6 +35,15 @@ test('npc state updates with movement', () => {
   expect(npc.state).toBe('idle');
 });
 
+test('npc idles near red light', () => {
+  const npc = createNpc(0,0,10,10,null,()=>0.5);
+  npc.redLightPaused = true;
+  const state = makeState();
+  updateNpc(npc,16,state);
+  expect(npc.vx).toBe(0);
+  expect(npc.state).toBe('idle');
+});
+
 test('boxesOverlap detects overlap correctly', () => {
   const a = { x: 0, y: 0, w: 10, h: 10 };
   const b = { x: 5, y: 5, w: 10, h: 10 };

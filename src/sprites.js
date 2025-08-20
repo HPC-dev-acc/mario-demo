@@ -24,13 +24,17 @@ export function loadPlayerSprites() {
 }
 
 export function loadTrafficLightSprites() {
-  const colors = ['red', 'yellow', 'green'];
+  const files = {
+    dark:  'darksign.png',
+    green: 'greensign.png',
+    red:   'redsign.png',
+  };
   return Promise.all(
-    colors.map((c) => loadImage(new URL(`../assets/sprites/Infra/${c}light.PNG`, baseURL).href))
-  ).then(([red, yellow, green]) => {
-    const mk = (img) => ({ img, sx: 0, sy: 3, sw: 1024, sh: 1532 });
-    return { red: mk(red), yellow: mk(yellow), green: mk(green) };
-  });
+    Object.entries(files).map(([k, name]) =>
+      loadImage(new URL(`../assets/sprites/Infra/${name}`, baseURL).href)
+        .then(img => [k, { img, sx: 0, sy: 0, sw: 1024, sh: 1536 }])
+    )
+  ).then(entries => Object.fromEntries(entries));
 }
 
 export function loadNpcSprite() {

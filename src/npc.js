@@ -42,7 +42,10 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random) {
 export function updateNpc(npc, dtMs, state, player) {
   const rand = npc.rand || Math.random;
   npc.animTime += dtMs / 1000;
-  if (npc.pauseTimer > 0) {
+  if (npc.redLightPaused) {
+    npc.vx = 0;
+    npc.state = 'idle';
+  } else if (npc.pauseTimer > 0) {
     npc.pauseTimer = Math.max(0, npc.pauseTimer - dtMs);
     npc.vx = 0;
     npc.state = 'idle';
@@ -68,7 +71,7 @@ export function updateNpc(npc, dtMs, state, player) {
   }
   npc.vy += state.gravity * dtMs / 16.6667;
   resolveCollisions(npc, state.level, state.collisions, state.lights);
-  npc.shadowY = findGroundY(state.collisions, npc.x, npc.y + npc.h / 2, state.lights);
+  npc.shadowY = findGroundY(state.collisions, npc.x, npc.y + npc.h / 2);
   npc.box.x = npc.x - npc.w / 2;
   npc.box.y = npc.y - npc.h / 2;
   npc.box.w = npc.w;

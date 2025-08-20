@@ -1,4 +1,4 @@
-import { resolveCollisions, collectCoins, TILE, TRAFFIC_LIGHT, isJumpBlocked, COLL_TILE } from './physics.js';
+import { resolveCollisions, collectCoins, TILE, TRAFFIC_LIGHT, COLL_TILE, isNearRedLight } from './physics.js';
 import { BASE_W } from './width.js';
 
 function makeWorld(w, h) {
@@ -34,25 +34,16 @@ test('horizontal collisions toggle blocked flag', () => {
   expect(ent.blocked).toBe(false);
 });
 
-test('traffic lights block only when red', () => {
+test('traffic lights are always pass-through', () => {
   const world = makeWorld(5, 5);
   setBlock(world, 3, 2, TRAFFIC_LIGHT);
   const lights = { '3,2': { state: 'red' } };
   const ent = { x: TILE * 2, y: TILE * 2, w: BASE_W, h: 120, vx: 50, vy: 0, onGround: false };
   resolveCollisions(ent, world.level, world.collisions, lights);
-  expect(ent.vx).toBe(0);
-
-  // try again with green light
+  expect(ent.vx).not.toBe(0);
   ent.x = TILE * 2;
   ent.vx = 60;
   lights['3,2'].state = 'green';
-  resolveCollisions(ent, world.level, world.collisions, lights);
-  expect(ent.vx).not.toBe(0);
-
-  // yellow light should also not block
-  ent.x = TILE * 2;
-  ent.vx = 60;
-  lights['3,2'].state = 'yellow';
   resolveCollisions(ent, world.level, world.collisions, lights);
   expect(ent.vx).not.toBe(0);
 });
@@ -88,12 +79,24 @@ test('coin collection uses entity dimensions for detection', () => {
   }
 });
 
-test('jumping is blocked near red traffic light', () => {
+test('isNearRedLight detects proximity', () => {
   const lights = { '3,2': { state: 'red' } };
   const ent = { x: TILE * 3 + TILE / 2, y: TILE * 2 + TILE / 2 };
-  expect(isJumpBlocked(ent, lights)).toBe(true);
+  expect(isNearRedLight(ent, lights)).toBe(true);
   lights['3,2'].state = 'green';
-  expect(isJumpBlocked(ent, lights)).toBe(false);
+  expect(isNearRedLight(ent, lights)).toBe(false);
+});
+
+test('resolveCollisions flags redLightPaused near red light', () => {
+  const world = makeWorld(5,5);
+  setBlock(world,3,2,TRAFFIC_LIGHT);
+  const lights = { '3,2': { state: 'red' } };
+  const ent = { x: TILE * 3 + TILE / 2, y: TILE * 2 + TILE / 2, w: BASE_W, h: 120, vx: 0, vy: 0 };
+  resolveCollisions(ent, world.level, world.collisions, lights);
+  expect(ent.redLightPaused).toBe(true);
+  lights['3,2'].state = 'green';
+  resolveCollisions(ent, world.level, world.collisions, lights);
+  expect(ent.redLightPaused).toBe(false);
 });
 
 test('bricks remain intact when hit from below and no event is fired', () => {

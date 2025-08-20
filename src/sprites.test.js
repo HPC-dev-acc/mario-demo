@@ -32,7 +32,7 @@ test('loadTrafficLightSprites resolves with proper paths', async () => {
   };
   await expect(loadTrafficLightSprites()).resolves.toBeDefined();
   expect(loaded).toHaveLength(3);
-  expect(loaded[0]).toMatch(/\/assets\/sprites\/Infra\/redlight\.PNG$/);
+  expect(loaded[0]).toMatch(/\/assets\/sprites\/Infra\/darksign\.png$/);
 });
 
 test('loadNpcSprite provides frame data', async () => {
