@@ -155,14 +155,14 @@ describe('shadowY behavior', () => {
     player.vx = 0;
     player.vy = 0;
     resolveCollisions(player, level, state.collisions, state.lights);
-    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
+    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2);
     const groundY = (state.LEVEL_H - 5) * TILE;
     expect(player.shadowY).toBe(groundY);
 
     player.x = columnX * TILE + TILE / 2;
     player.y = (5 + Y_OFFSET) * TILE - player.h / 2 - 10;
     resolveCollisions(player, level, state.collisions, state.lights);
-    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
+    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2);
     expect(player.shadowY).toBe((5 + Y_OFFSET) * TILE);
   });
 
@@ -177,7 +177,7 @@ describe('shadowY behavior', () => {
     player.x = columnX * TILE + TILE / 2;
     player.y = (state.LEVEL_H - 5) * TILE - player.h / 2;
     resolveCollisions(player, level, state.collisions, state.lights);
-    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2, state.lights);
+    player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2);
     const groundY = (state.LEVEL_H - 5) * TILE;
     expect(player.shadowY).toBe(groundY);
   });

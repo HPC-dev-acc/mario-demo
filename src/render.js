@@ -111,7 +111,7 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   let anim;
   if (p.sliding > 0) anim = sprites?.slide;
   else if (!p.onGround) anim = sprites?.jump;
-  else if (p.stunnedMs > 0) anim = sprites?.idle; // 地面硬直 → Idle
+  else if (p.redLightPaused || p.stunnedMs > 0) anim = sprites?.idle;
   else if (p.running && (Math.abs(p.vx) > 0.1 || p.blocked)) anim = sprites?.run;
   else anim = sprites?.idle;
   if (anim && anim.length) {
@@ -120,6 +120,7 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
     ctx.drawImage(img, -w / 2, -h / 2, w, h);
   }
   ctx.restore();
+  if (p.redLightPaused) drawSweat(ctx, p.x, p.y - h / 2 - 5, t);
 }
 
 export function drawNpc(ctx, p, sprite) {
@@ -145,5 +146,20 @@ export function drawNpc(ctx, p, sprite) {
   ctx.translate(p.x, p.y + h/2 - dh + anim.offsetY * scale);
   ctx.scale(p.facing || 1, 1);
   ctx.drawImage(img, sx, sy, FW, FH, -dw/2, 0, dw, dh);
+  ctx.restore();
+  if (p.redLightPaused) drawSweat(ctx, p.x, p.y - h / 2 - 5);
+}
+
+function drawSweat(ctx, x, y, t = performance.now()) {
+  ctx.save();
+  ctx.fillStyle = '#8cf';
+  for (let i = 0; i < 3; i++) {
+    const phase = (t / 250 + i / 3) % 1;
+    const dx = Math.sin(phase * Math.PI * 2) * 3;
+    const dy = -i * 6 - phase * 4;
+    ctx.beginPath();
+    ctx.arc(x + dx, y + dy, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
   ctx.restore();
 }
