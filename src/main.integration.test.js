@@ -4,6 +4,8 @@ import { BASE_W } from './game/width.js';
 import { SPAWN_X, SPAWN_Y, Y_OFFSET } from './game/state.js';
 import { createNpc } from './npc.js';
 
+const JUMP_VEL = -17.8; // mirror JUMP_VEL in main.js
+
 async function loadGame() {
   document.body.innerHTML = '<div id="game-col"><div id="game-wrap"><canvas id="game"></canvas></div></div>';
   const canvas = document.getElementById('game');
@@ -249,7 +251,7 @@ describe('player and npc collision', () => {
     expect(player.facing).toBe(1);
   });
 
-  test('stomping npc bounces player upward', async () => {
+  test('stomping npc bounces player with normal jump height', async () => {
     const { hooks } = await loadGame();
     const state = hooks.getState();
     const player = state.player;
@@ -259,9 +261,33 @@ describe('player and npc collision', () => {
 
     hooks.runUpdate(16);
 
-    expect(player.vy).toBeLessThan(0);
+    expect(player.vy).toBe(JUMP_VEL);
     expect(player.stunnedMs).toBe(0);
     expect(npc.state).toBe('idle');
     expect(npc.pauseTimer).toBeGreaterThanOrEqual(400);
+  });
+
+  test('player passes through npc after three stomps', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    const player = state.player;
+    player.x = 0; player.y = 0;
+    const npc = createNpc(0, 60, player.w, player.h, null);
+    state.npcs.push(npc);
+
+    for (let i = 0; i < 3; i++) {
+      player.vy = 10;
+      hooks.runUpdate(16);
+      expect(player.vy).toBe(JUMP_VEL);
+      player.y = 0;
+      npc.y = 60;
+      npc.vy = 0;
+    }
+
+    player.vy = 10;
+    hooks.runUpdate(16);
+
+    expect(npc.passThrough).toBe(true);
+    expect(player.vy).toBeGreaterThan(0);
   });
 });

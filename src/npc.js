@@ -35,7 +35,9 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random) {
     sprite,
     rand,
     state: 'walk',
-    animTime: 0
+    animTime: 0,
+    bounceCount: 0,
+    passThrough: false
   };
 }
 

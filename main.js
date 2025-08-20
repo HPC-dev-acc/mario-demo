@@ -374,7 +374,7 @@ const IMPACT_COOLDOWN_MS = 120;
   const SLIDE_TIME = 200; // ms
   const STUN_TIME = 450;      // 玩家硬直（不可操作）時長（毫秒）
   const KNOCKBACK = 4.0;      // 側撞時初速
-  const STOMP_BOUNCE = JUMP_VEL * 0.5; // 踩到時的回彈
+  const STOMP_BOUNCE = JUMP_VEL; // 踩到時的回彈高度與一般跳躍一致
 
   let keys;
   let jumpBufferMs=0, coyoteMs=0;
@@ -560,10 +560,17 @@ const IMPACT_COOLDOWN_MS = 120;
     // 玩家 vs NPC 碰撞處理
     const pbox = { x: player.x - player.w/2, y: player.y - player.h/2, w: player.w, h: player.h };
     for (const npc of state.npcs) {
+      if (npc.passThrough) continue;
       if (!boxesOverlap(npc.box, pbox)) continue;
       // 是否為「從上踩到」
       const fromAbove = player.vy > 0 && (player.y - npc.y) < -npc.h * 0.15;
       if (fromAbove) {
+        const count = npc.bounceCount ?? 0;
+        if (count >= 3) {
+          npc.passThrough = true;
+          continue;
+        }
+        npc.bounceCount = count + 1;
         // 玩家彈起、NPC idle 一下
         player.vy = STOMP_BOUNCE;
         npc.pauseTimer = Math.max(npc.pauseTimer, 400); // 0.4s

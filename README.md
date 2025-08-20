@@ -1,12 +1,13 @@
 # Mario Demo
 
-**Version: 1.5.97**
+**Version: 1.5.98**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
 - Pedestrian traffic lights now use dark/green/red sprites with a 3s green → 2s blink → 4s red cycle; red lights pause nearby characters with a sweat effect and no longer block movement.
-- Side collisions now knock the player back without flipping facing and pause the NPC briefly; stomping bounces the player to half a jump height.
+ - Side collisions now knock the player back without flipping facing and pause the NPC briefly.
+- Stomping an NPC now bounces the player to full jump height and after three stomps the player falls through to avoid getting stuck.
 - Replaced stage object definitions in `assets/objects.custom.js`.
 - Player now bounces off NPCs when stomping and is briefly stunned on side collisions.
 - Added collision boxes to NPCs for more reliable interactions.
