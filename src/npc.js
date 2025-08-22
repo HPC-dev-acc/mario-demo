@@ -29,6 +29,7 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random) {
     onGround: false,
     facing: -1,
     pauseTimer: 0,
+    knockbackTimer: 0,
     runTimer: 0,
     nextPause: randRange(NEXT_PAUSE_MIN, NEXT_PAUSE_MAX, rand),
     nextRun: randRange(NEXT_RUN_MIN, NEXT_RUN_MAX, rand),
@@ -46,6 +47,11 @@ export function updateNpc(npc, dtMs, state, player) {
   npc.animTime += dtMs / 1000;
   if (npc.redLightPaused) {
     npc.vx = 0;
+    npc.state = 'idle';
+  } else if (npc.knockbackTimer > 0) {
+    npc.knockbackTimer = Math.max(0, npc.knockbackTimer - dtMs);
+    npc.vx *= 0.9;
+    if (npc.knockbackTimer === 0) npc.vx = 0;
     npc.state = 'idle';
   } else if (npc.pauseTimer > 0) {
     npc.pauseTimer = Math.max(0, npc.pauseTimer - dtMs);
