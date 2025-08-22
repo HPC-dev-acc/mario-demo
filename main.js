@@ -583,6 +583,8 @@ const IMPACT_COOLDOWN_MS = 120;
           // 取消跳躍緩衝與土狼時間，避免立刻跳脫硬直
           jumpBufferMs = 0; coyoteMs = 0;
         }
+        npc.vx = player.facing * KNOCKBACK;
+        npc.knockbackTimer = Math.max(npc.knockbackTimer || 0, 200);
         npc.pauseTimer = Math.max(npc.pauseTimer, 400);
         npc.state = 'idle';
       }

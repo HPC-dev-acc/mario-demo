@@ -232,12 +232,12 @@ describe('player and npc collision', () => {
     jest.resetModules();
   });
 
-  test('side collision stuns player and pauses npc', async () => {
+  test('side collision stuns player and knocks back npc', async () => {
     const { hooks } = await loadGame();
     const state = hooks.getState();
     const player = state.player;
-    player.x = 0; player.y = 0; player.vx = 0; player.vy = 0; player.facing = 1;
-    const npc = createNpc(0, 0, player.w, player.h, null);
+    player.x = 100; player.y = 0; player.vx = 0; player.vy = 0; player.facing = 1;
+    const npc = createNpc(100, 0, player.w, player.h, null);
     state.npcs.push(npc);
 
     hooks.runUpdate(16);
@@ -246,8 +246,13 @@ describe('player and npc collision', () => {
     expect(player.facing).toBe(1);
     expect(npc.state).toBe('idle');
     expect(npc.pauseTimer).toBeGreaterThanOrEqual(400);
+    expect(npc.knockbackTimer).toBeGreaterThan(0);
+    expect(npc.vx).toBeGreaterThan(0);
 
     hooks.runUpdate(16);
+    expect(npc.knockbackTimer).toBeGreaterThan(0);
+    expect(npc.vx).toBeGreaterThan(0);
+    
     expect(player.facing).toBe(1);
   });
 
