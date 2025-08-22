@@ -13,30 +13,30 @@ function setBlock(world, x, y, val) {
   world.collisions[cy][cx] = world.collisions[cy][cx + 1] = world.collisions[cy + 1][cx] = world.collisions[cy + 1][cx + 1] = base;
 }
 
-test('entity does not pass through a wall', () => {
+test('entity passes through a wall', () => {
   const world = makeWorld(5, 5);
   setBlock(world, 3, 2, 1); // wall block to the right
   const ent = { x: TILE * 2, y: TILE * 2, w: BASE_W, h: 120, vx: 50, vy: 0, onGround: false };
   resolveCollisions(ent, world.level, world.collisions);
-  expect(ent.vx).toBe(0);
-  expect(ent.x).toBeLessThan(TILE * 3 - ent.w / 2);
+  expect(ent.vx).toBe(50);
+  expect(ent.x).toBeGreaterThan(TILE * 3 - ent.w / 2);
 });
 
-test('misaligned side collisions still stop the entity', () => {
+test('misaligned side collisions do not stop the entity', () => {
   const world = makeWorld(5, 5);
   setBlock(world, 3, 2, 1);
   const ent = { x: TILE * 2, y: TILE * 2 + COLL_TILE / 2, w: BASE_W, h: 120, vx: 50, vy: 0, onGround: false };
   resolveCollisions(ent, world.level, world.collisions);
-  expect(ent.vx).toBe(0);
-  expect(ent.x).toBeLessThan(TILE * 3 - ent.w / 2);
+  expect(ent.vx).toBe(50);
+  expect(ent.x).toBeGreaterThan(TILE * 3 - ent.w / 2);
 });
 
-test('horizontal collisions toggle blocked flag', () => {
+test('horizontal collisions no longer toggle blocked flag', () => {
   const world = makeWorld(5, 5);
   setBlock(world, 3, 2, 1); // wall block to the right
   const ent = { x: TILE * 2, y: TILE * 2, w: BASE_W, h: 120, vx: 50, vy: 0, onGround: false };
   resolveCollisions(ent, world.level, world.collisions);
-  expect(ent.blocked).toBe(true);
+  expect(ent.blocked).toBe(false);
   ent.x = TILE * 1;
   ent.vx = 0;
   resolveCollisions(ent, world.level, world.collisions);

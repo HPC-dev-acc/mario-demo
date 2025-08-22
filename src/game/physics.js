@@ -45,44 +45,9 @@ export function resolveCollisions(ent, level, collisions, lights = {}, events = 
     ent.vx *= 0.8;
     if (Math.abs(ent.vx) < 0.05) ent.vx = 0;
   }
-  // Horizontal movement
+  // Horizontal movement (side collisions pass through)
   ent.x += ent.vx;
   ent.blocked = false;
-  if (ent.vx < 0) {
-    const left = ent.x - ent.w / 2;
-    const top = ent.y - ent.h / 2 + 4;
-    const bottom = ent.y + ent.h / 2 - 1;
-    const startTy = worldToCollTile(top);
-    const endTy = worldToCollTile(bottom);
-    for (let ty = startTy; ty <= endTy; ty++) {
-      const y = ty * COLL_TILE + 1;
-      if (solidAt(collisions, left, y, lights)) {
-        let cx = worldToCollTile(left);
-        while (cx < collisions[0].length && collisions[ty][cx]) cx++;
-        ent.x = cx * COLL_TILE + ent.w / 2 + 0.01;
-        ent.vx = 0;
-        ent.blocked = true;
-        break;
-      }
-    }
-  } else if (ent.vx > 0) {
-    const right = ent.x + ent.w / 2;
-    const top = ent.y - ent.h / 2 + 4;
-    const bottom = ent.y + ent.h / 2 - 1;
-    const startTy = worldToCollTile(top);
-    const endTy = worldToCollTile(bottom);
-    for (let ty = startTy; ty <= endTy; ty++) {
-      const y = ty * COLL_TILE + 1;
-      if (solidAt(collisions, right, y, lights)) {
-        let cx = worldToCollTile(right);
-        while (cx >= 0 && collisions[ty][cx]) cx--;
-        ent.x = (cx + 1) * COLL_TILE - ent.w / 2 - 0.01;
-        ent.vx = 0;
-        ent.blocked = true;
-        break;
-      }
-    }
-  }
 
   // Vertical movement
   ent.y += ent.vy;

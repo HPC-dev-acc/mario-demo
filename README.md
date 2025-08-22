@@ -1,13 +1,13 @@
 # Mario Demo
 
-**Version: 1.5.102**
+**Version: 1.5.103**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
 - NPC bounce counter now resets when the player lands, so spaced stomps no longer cause pass-through.
 - NPC shadows have been narrowed for a subtler look.
-- Fixed side collisions allowing the player to slip through blocks.
+- Side collisions with blocks are now ignored, letting the player pass through.
 - Restarting now fully resets NPCs and their spawn timer.
 - Red lights display a white speech bubble with “紅色的小人” above characters in addition to the sweat effect.
 - Stomping an NPC now plays the jump sound when the player bounces off.
