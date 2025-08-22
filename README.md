@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.106**
+**Version: 1.5.107**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
+- Restored the red pedestrian icon in speech bubbles when characters wait at red lights.
 - Updated the red pedestrian icon to a Japanese-style standing figure.
 - NPC bounce counter now resets when the player lands, so spaced stomps no longer cause pass-through.
 - NPC shadows have been narrowed for a subtler look.
