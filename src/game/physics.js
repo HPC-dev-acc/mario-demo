@@ -52,9 +52,11 @@ export function resolveCollisions(ent, level, collisions, lights = {}, events = 
     const left = ent.x - ent.w / 2;
     const top = ent.y - ent.h / 2 + 4;
     const bottom = ent.y + ent.h / 2 - 1;
-    for (let y = top; y <= bottom; y += COLL_TILE) {
+    const startTy = worldToCollTile(top);
+    const endTy = worldToCollTile(bottom);
+    for (let ty = startTy; ty <= endTy; ty++) {
+      const y = ty * COLL_TILE + 1;
       if (solidAt(collisions, left, y, lights)) {
-        const ty = worldToCollTile(y);
         let cx = worldToCollTile(left);
         while (cx < collisions[0].length && collisions[ty][cx]) cx++;
         ent.x = cx * COLL_TILE + ent.w / 2 + 0.01;
@@ -67,9 +69,11 @@ export function resolveCollisions(ent, level, collisions, lights = {}, events = 
     const right = ent.x + ent.w / 2;
     const top = ent.y - ent.h / 2 + 4;
     const bottom = ent.y + ent.h / 2 - 1;
-    for (let y = top; y <= bottom; y += COLL_TILE) {
+    const startTy = worldToCollTile(top);
+    const endTy = worldToCollTile(bottom);
+    for (let ty = startTy; ty <= endTy; ty++) {
+      const y = ty * COLL_TILE + 1;
       if (solidAt(collisions, right, y, lights)) {
-        const ty = worldToCollTile(y);
         let cx = worldToCollTile(right);
         while (cx >= 0 && collisions[ty][cx]) cx--;
         ent.x = (cx + 1) * COLL_TILE - ent.w / 2 - 0.01;

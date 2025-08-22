@@ -331,6 +331,56 @@ test('drawNpc crops sprite sheet frame', () => {
   expect(ctx.drawImage).toHaveBeenCalledWith(sprite.img, 64, 0, 64, 64, expect.any(Number), expect.any(Number), 64, 64);
 });
 
+test('drawPlayer shows speech bubble when paused at red light', () => {
+  const ctx = {
+    save: jest.fn(),
+    beginPath: jest.fn(),
+    ellipse: jest.fn(),
+    arc: jest.fn(),
+    fill: jest.fn(),
+    restore: jest.fn(),
+    translate: jest.fn(),
+    scale: jest.fn(),
+    drawImage: jest.fn(),
+    imageSmoothingEnabled: true,
+    fillStyle: '',
+    font: '',
+    measureText: jest.fn(() => ({ width: 50 })),
+    rect: jest.fn(),
+    stroke: jest.fn(),
+    fillText: jest.fn(),
+  };
+  const sprites = { idle: [{}] };
+  const p = { x: 0, y: 0, shadowY: 0, facing: 1, w: 40, h: 50, vx: 0, vy: 0, onGround: true, sliding: 0, redLightPaused: true };
+  drawPlayer(ctx, p, sprites, 0);
+  expect(ctx.fillText).toHaveBeenCalledWith('紅色的小人', expect.any(Number), expect.any(Number));
+});
+
+test('drawNpc shows speech bubble when paused at red light', () => {
+  const ctx = {
+    save: jest.fn(),
+    beginPath: jest.fn(),
+    ellipse: jest.fn(),
+    arc: jest.fn(),
+    fill: jest.fn(),
+    restore: jest.fn(),
+    translate: jest.fn(),
+    scale: jest.fn(),
+    drawImage: jest.fn(),
+    imageSmoothingEnabled: true,
+    fillStyle: '',
+    font: '',
+    measureText: jest.fn(() => ({ width: 50 })),
+    rect: jest.fn(),
+    stroke: jest.fn(),
+    fillText: jest.fn(),
+  };
+  const npc = { x: 0, y: 0, shadowY: 0, w: 40, h: 50, state: 'idle', animTime: 0, redLightPaused: true };
+  const sprite = { img: {}, frameWidth: 64, frameHeight: 64, columns: 12, animations: { idle: { frames: [0], fps: 1, offsetY: 0 } } };
+  drawNpc(ctx, npc, sprite);
+  expect(ctx.fillText).toHaveBeenCalledWith('紅色的小人', expect.any(Number), expect.any(Number));
+});
+
 test('drawNpc scales using height', () => {
   const ctx = {
     save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),

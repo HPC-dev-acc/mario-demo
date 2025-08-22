@@ -120,7 +120,10 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
     ctx.drawImage(img, -w / 2, -h / 2, w, h);
   }
   ctx.restore();
-  if (p.redLightPaused) drawSweat(ctx, p.x, p.y - h / 2 - 5, t);
+  if (p.redLightPaused) {
+    drawSweat(ctx, p.x, p.y - h / 2 - 5, t);
+    drawRedLightBubble(ctx, p.x, p.y - h / 2 - 5, w);
+  }
 }
 
 export function drawNpc(ctx, p, sprite) {
@@ -147,7 +150,10 @@ export function drawNpc(ctx, p, sprite) {
   ctx.scale(p.facing || 1, 1);
   ctx.drawImage(img, sx, sy, FW, FH, -dw/2, 0, dw, dh);
   ctx.restore();
-  if (p.redLightPaused) drawSweat(ctx, p.x, p.y - h / 2 - 5);
+  if (p.redLightPaused) {
+    drawSweat(ctx, p.x, p.y - h / 2 - 5);
+    drawRedLightBubble(ctx, p.x, p.y - h / 2 - 5, w);
+  }
 }
 
 function drawSweat(ctx, x, y, t = performance.now()) {
@@ -161,5 +167,27 @@ function drawSweat(ctx, x, y, t = performance.now()) {
     ctx.arc(x + dx, y + dy, 2, 0, Math.PI * 2);
     ctx.fill();
   }
+  ctx.restore();
+}
+
+function drawRedLightBubble(ctx, x, y, w) {
+  const text = '紅色的小人';
+  const padding = 4;
+  ctx.save();
+  ctx.font = '14px sans-serif';
+  const textW = ctx.measureText(text).width;
+  const bw = textW + padding * 2;
+  const bh = 20;
+  const bx = x + w / 2 + 10;
+  const by = y - bh - 10;
+  ctx.fillStyle = '#fff';
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.rect(bx, by, bw, bh);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#000';
+  ctx.fillText(text, bx + padding, by + bh - padding);
   ctx.restore();
 }

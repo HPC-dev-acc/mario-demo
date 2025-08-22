@@ -22,6 +22,15 @@ test('entity does not pass through a wall', () => {
   expect(ent.x).toBeLessThan(TILE * 3 - ent.w / 2);
 });
 
+test('misaligned side collisions still stop the entity', () => {
+  const world = makeWorld(5, 5);
+  setBlock(world, 3, 2, 1);
+  const ent = { x: TILE * 2, y: TILE * 2 + COLL_TILE / 2, w: BASE_W, h: 120, vx: 50, vy: 0, onGround: false };
+  resolveCollisions(ent, world.level, world.collisions);
+  expect(ent.vx).toBe(0);
+  expect(ent.x).toBeLessThan(TILE * 3 - ent.w / 2);
+});
+
 test('horizontal collisions toggle blocked flag', () => {
   const world = makeWorld(5, 5);
   setBlock(world, 3, 2, 1); // wall block to the right
