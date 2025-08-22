@@ -283,6 +283,33 @@ describe('player and npc collision', () => {
     expect(audio.play).toHaveBeenCalledWith('jump');
   });
 
+  test('npc bounce count resets when player lands', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    const player = state.player;
+    player.x = 0; player.y = 0;
+    const npc = createNpc(0, 60, player.w, player.h, null);
+    state.npcs.push(npc);
+
+    // First stomp
+    player.vy = 10;
+    hooks.runUpdate(16);
+    expect(npc.bounceCount).toBe(1);
+
+    // Simulate landing on ground
+    player.y = SPAWN_Y - 20;
+    player.vy = 10;
+    player.onGround = false;
+    for (let i = 0; i < 60 && !player.onGround; i++) hooks.runUpdate(16);
+    expect(player.onGround).toBe(true);
+    expect(npc.bounceCount).toBe(0);
+
+    // Stomp again after landing
+    player.y = 0; player.vy = 10; npc.y = 60; npc.vy = 0;
+    hooks.runUpdate(16);
+    expect(npc.bounceCount).toBe(1);
+  });
+
   test('player passes through npc after three stomps', async () => {
     const { hooks } = await loadGame();
     const state = hooks.getState();

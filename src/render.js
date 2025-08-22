@@ -131,7 +131,7 @@ export function drawNpc(ctx, p, sprite) {
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.3)';
   ctx.beginPath();
-  ctx.ellipse(p.x, p.shadowY || (p.y + h/2), w/2, h/8, 0, 0, Math.PI*2);
+  ctx.ellipse(p.x, p.shadowY || (p.y + h/2), w/4, h/8, 0, 0, Math.PI*2);
   ctx.fill();
   ctx.restore();
   if (!sprite) return;
