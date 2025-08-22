@@ -257,7 +257,7 @@ describe('player and npc collision', () => {
   });
 
   test('stomping npc bounces player with normal jump height', async () => {
-    const { hooks } = await loadGame();
+    const { hooks, audio } = await loadGame();
     const state = hooks.getState();
     const player = state.player;
     player.x = 0; player.y = 0; player.vy = 10;
@@ -270,6 +270,7 @@ describe('player and npc collision', () => {
     expect(player.stunnedMs).toBe(0);
     expect(npc.state).toBe('idle');
     expect(npc.pauseTimer).toBeGreaterThanOrEqual(400);
+    expect(audio.play).toHaveBeenCalledWith('jump');
   });
 
   test('player passes through npc after three stomps', async () => {
