@@ -17,7 +17,7 @@ import { initUI } from './index.js';
           <button id="fullscreen-toggle" class="pill">⛶</button>
         </div>
         <div id="info-panel" hidden></div>
-        <div id="game-wrap"><canvas id="game"></canvas></div>
+      <div id="game-wrap"><canvas id="game"></canvas><div id="ped-dialog" class="ped-dialog hidden"><div class="ped-dialog__content"></div></div></div>
       </div>`;
     return document.getElementById('game');
   }
@@ -177,3 +177,18 @@ test('info toggle shows and hides info panel', () => {
     jest.useRealTimers();
     delete window.__resizeGameCanvas;
   });
+
+test('showPedDialog toggles visibility and syncs to player', () => {
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  ui.showPedDialog('wait');
+  const dialog = document.getElementById('ped-dialog');
+  expect(dialog.classList.contains('hidden')).toBe(false);
+  const player = { x: 100, y: 200, h: 50 };
+  const camera = { x: 0, y: 0 };
+  ui.syncDialogToPlayer(player, camera);
+  expect(dialog.style.left).toBe('100px');
+  expect(dialog.style.top).toBe(`${200 - 25 - 28}px`);
+  ui.hidePedDialog();
+  expect(dialog.classList.contains('hidden')).toBe(true);
+});

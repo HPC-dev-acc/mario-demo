@@ -362,7 +362,7 @@ const IMPACT_COOLDOWN_MS = 120;
     version: VERSION,
     design,
   });
-  const { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen } = ui;
+  const { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen, showPedDialog, hidePedDialog, syncDialogToPlayer } = ui;
   Logger.info('app_start', { version: VERSION });
 
   const GRAVITY = 0.88;
@@ -392,6 +392,7 @@ const IMPACT_COOLDOWN_MS = 120;
   let timeLeftMs = 60000;
   let stageCleared=false;
   let stageFailed=false;
+  let pedDialogVisible = false;
 
   const btnRestart = document.getElementById('btn-restart');
   if (btnRestart) btnRestart.addEventListener('click', ()=> restartStage());
@@ -461,6 +462,7 @@ const IMPACT_COOLDOWN_MS = 120;
     const dt = Math.min(32, t-last); last=t;
     update(dt/16.6667);
     render(ctx, state, design);
+    syncDialogToPlayer(player, camera);
     updFps(t);
     requestAnimationFrame(loop);
   }
@@ -545,6 +547,14 @@ const IMPACT_COOLDOWN_MS = 120;
     const collisionEvents = {};
     const wasOnGround = player.onGround;
     resolveCollisions(player, level, state.collisions, state.lights, collisionEvents, state.indestructible);
+    if (player.redLightPaused && !pedDialogVisible) {
+      showPedDialog('請等待紅燈變綠燈後再通行');
+      pedDialogVisible = true;
+      syncDialogToPlayer(player, camera);
+    } else if (!player.redLightPaused && pedDialogVisible) {
+      hidePedDialog();
+      pedDialogVisible = false;
+    }
     if (player.onGround && !wasOnGround) {
       for (const npc of state.npcs) {
         npc.bounceCount = 0;

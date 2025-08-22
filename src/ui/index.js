@@ -6,6 +6,38 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const startVersion = document.getElementById('start-version');
   const btnStart = document.getElementById('btn-start');
   const btnRetry = document.getElementById('btn-retry');
+  const pedDialogEl = document.getElementById('ped-dialog');
+  const pedDialogContent = pedDialogEl?.querySelector('.ped-dialog__content');
+  let lastPlayer = null;
+  let lastCamera = null;
+
+  function showPedDialog(text) {
+    if (!pedDialogEl) return;
+    if (pedDialogContent) pedDialogContent.textContent = text;
+    pedDialogEl.classList.remove('hidden');
+  }
+
+  function hidePedDialog() {
+    pedDialogEl?.classList.add('hidden');
+  }
+
+  function worldToScreen(x, y, camera) {
+    const scale = window.__cssScale || 1;
+    return { x: (x - camera.x) * scale, y: (y - camera.y) * scale, scale };
+  }
+
+  function syncDialogToPlayer(player, camera) {
+    if (!pedDialogEl || pedDialogEl.classList.contains('hidden')) return;
+    if (!player || !camera) return;
+    lastPlayer = player;
+    lastCamera = camera;
+    const { x, y, scale } = worldToScreen(player.x, player.y - player.h / 2, camera);
+    pedDialogEl.style.left = `${x}px`;
+    pedDialogEl.style.top = `${y - 28 * scale}px`;
+  }
+
+  window.addEventListener('resize', () => syncDialogToPlayer(lastPlayer, lastCamera));
+  window.addEventListener('orientationchange', () => syncDialogToPlayer(lastPlayer, lastCamera));
 
   const Logger = (() => {
     const BUF_MAX = 400;
@@ -195,5 +227,5 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   function showStageFail() { if (stageFailEl) stageFailEl.hidden = false; }
   function hideStageOverlays() { if (stageClearEl) stageClearEl.hidden = true; if (stageFailEl) stageFailEl.hidden = true; }
 
-  return { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen };
+  return { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen, showPedDialog, hidePedDialog, syncDialogToPlayer };
 }

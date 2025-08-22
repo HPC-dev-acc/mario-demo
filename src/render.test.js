@@ -341,7 +341,7 @@ test('drawNpc draws shadow with half width', () => {
   expect(ctx.ellipse).toHaveBeenCalledWith(npc.x, npc.shadowY, npc.w / 4, npc.h / 8, 0, 0, Math.PI * 2);
 });
 
-test('drawPlayer shows speech bubble when paused at red light', () => {
+test('drawPlayer no longer draws speech bubble when paused at red light', () => {
   const ctx = {
     save: jest.fn(),
     beginPath: jest.fn(),
@@ -368,10 +368,10 @@ test('drawPlayer shows speech bubble when paused at red light', () => {
   const p = { x: 0, y: 0, shadowY: 0, facing: 1, w: 40, h: 50, vx: 0, vy: 0, onGround: true, sliding: 0, redLightPaused: true };
   drawPlayer(ctx, p, sprites, 0);
   const iconDrawn = ctx.drawImage.mock.calls.some(args => args[0]?.src?.includes('red-person.svg'));
-  expect(iconDrawn).toBe(true);
+  expect(iconDrawn).toBe(false);
 });
 
-test('drawNpc shows speech bubble when paused at red light', () => {
+test('drawNpc no longer draws speech bubble when paused at red light', () => {
   const ctx = {
     save: jest.fn(),
     beginPath: jest.fn(),
@@ -398,7 +398,7 @@ test('drawNpc shows speech bubble when paused at red light', () => {
   const sprite = { img: {}, frameWidth: 64, frameHeight: 64, columns: 12, animations: { idle: { frames: [0], fps: 1, offsetY: 0 } } };
   drawNpc(ctx, npc, sprite);
   const bubbleDrawn = ctx.drawImage.mock.calls.some(args => args[0]?.src?.includes('red-person.svg'));
-  expect(bubbleDrawn).toBe(true);
+  expect(bubbleDrawn).toBe(false);
 });
 
 test('drawNpc scales using height', () => {
