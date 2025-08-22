@@ -1,5 +1,8 @@
 import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 
+const redPersonImg = new Image();
+redPersonImg.src = new URL('../assets/red-person.svg', import.meta.url).href;
+
 function getHighlightColor() {
   return getComputedStyle(document.documentElement).getPropertyValue('--designHighlight') || '#ff0';
 }
@@ -121,6 +124,7 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   }
   ctx.restore();
   if (p.redLightPaused) {
+    drawRedLightBubble(ctx, p.x, p.y - h / 2 - 5);
     drawSweat(ctx, p.x, p.y - h / 2 - 5, t);
   }
 }
@@ -150,8 +154,26 @@ export function drawNpc(ctx, p, sprite) {
   ctx.drawImage(img, sx, sy, FW, FH, -dw/2, 0, dw, dh);
   ctx.restore();
   if (p.redLightPaused) {
+    drawRedLightBubble(ctx, p.x, p.y - h / 2 - 5);
     drawSweat(ctx, p.x, p.y - h / 2 - 5);
   }
+}
+
+function drawRedLightBubble(ctx, x, y) {
+  const size = 20;
+  const pad = 4;
+  const bx = x - size / 2 - pad;
+  const by = y - size - pad;
+  ctx.save();
+  ctx.fillStyle = '#fff';
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.rect(bx, by, size + pad * 2, size + pad * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.drawImage(redPersonImg, x - size / 2, y - size, size, size);
+  ctx.restore();
 }
 
 function drawSweat(ctx, x, y, t = performance.now()) {
