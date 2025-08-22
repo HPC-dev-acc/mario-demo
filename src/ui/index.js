@@ -167,8 +167,11 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     fx.className = 'slide-effect';
     const H_OFF = 12;
     const V_OFF = 12;
-    fx.style.left = `${x - facing * H_OFF}px`;
-    fx.style.top = `${y - V_OFF}px`;
+    const scale = window.__cssScale || 1;
+    fx.style.left = `${(x - facing * H_OFF) * scale}px`;
+    fx.style.top = `${(y - V_OFF) * scale}px`;
+    fx.style.width = `${48 * scale}px`;
+    fx.style.height = `${24 * scale}px`;
     fx.style.setProperty('--sx', facing);
     gameWrap.appendChild(fx);
     setTimeout(() => fx.remove(), 500);

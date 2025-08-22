@@ -1,5 +1,10 @@
 import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 
+const redLightIcon = new Image();
+redLightIcon.src = 'assets/red-person.svg';
+const RED_ICON_W = 12;
+const RED_ICON_H = 16;
+
 function getHighlightColor() {
   return getComputedStyle(document.documentElement).getPropertyValue('--designHighlight') || '#ff0';
 }
@@ -171,23 +176,32 @@ function drawSweat(ctx, x, y, t = performance.now()) {
 }
 
 function drawRedLightBubble(ctx, x, y, w) {
-  const text = '紅色的小人';
   const padding = 4;
-  ctx.save();
-  ctx.font = '14px sans-serif';
-  const textW = ctx.measureText(text).width;
-  const bw = textW + padding * 2;
-  const bh = 20;
+  const bw = RED_ICON_W + padding * 2;
+  const bh = RED_ICON_H + padding * 2;
   const bx = x + w / 2 + 10;
   const by = y - bh - 10;
+  ctx.save();
   ctx.fillStyle = '#fff';
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 1;
+  const r = 4;
   ctx.beginPath();
-  ctx.rect(bx, by, bw, bh);
+  ctx.moveTo(bx + r, by);
+  ctx.lineTo(bx + bw - r, by);
+  ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + r);
+  ctx.lineTo(bx + bw, by + bh - r);
+  ctx.quadraticCurveTo(bx + bw, by + bh, bx + bw - r, by + bh);
+  ctx.lineTo(bx + bw / 2 + 5, by + bh);
+  ctx.lineTo(bx + bw / 2, by + bh + 5);
+  ctx.lineTo(bx + bw / 2 - 5, by + bh);
+  ctx.lineTo(bx + r, by + bh);
+  ctx.quadraticCurveTo(bx, by + bh, bx, by + bh - r);
+  ctx.lineTo(bx, by + r);
+  ctx.quadraticCurveTo(bx, by, bx + r, by);
+  ctx.closePath();
   ctx.fill();
   ctx.stroke();
-  ctx.fillStyle = '#000';
-  ctx.fillText(text, bx + padding, by + bh - padding);
+  ctx.drawImage(redLightIcon, bx + padding, by + padding, RED_ICON_W, RED_ICON_H);
   ctx.restore();
 }

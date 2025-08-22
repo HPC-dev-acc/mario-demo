@@ -1,6 +1,6 @@
 # Mario Demo
 
-**Version: 1.5.103**
+**Version: 1.5.104**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
@@ -9,7 +9,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - NPC shadows have been narrowed for a subtler look.
 - Side collisions with blocks are now ignored, letting the player pass through.
 - Restarting now fully resets NPCs and their spawn timer.
-- Red lights display a white speech bubble with “紅色的小人” above characters in addition to the sweat effect.
+- Red lights now show a decorated speech bubble with a red pedestrian icon instead of text.
 - Stomping an NPC now plays the jump sound when the player bounces off.
 - Pedestrian traffic lights now use dark/green/red sprites with a 3s green → 2s blink → 4s red cycle; red lights pause nearby characters with a sweat effect and no longer block movement.
  - Side collisions now knock the player back without flipping facing and also knock back the NPC before it pauses briefly.
@@ -63,7 +63,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Traffic lights now spawn at quarter points across the level for even distribution.
 - Sliding now keeps the player's full width to avoid layout issues on iPad Safari.
 - Traffic lights now render from PNG sprites and are scaled up 1.5× to roughly 3.75 tiles with aligned positions.
-- Slide dust effect aligns with the player's feet during slides.
+- Slide dust effect aligns with the player's feet during slides and scales correctly in fullscreen.
 - Design mode retains selection after release and highlights the selected tile; `design.getSelected()` exposes the current object.
 - Removed the goal's white line indicator.
 - Added a "Let's Go!" start animation when beginning or restarting the game.
