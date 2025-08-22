@@ -17,7 +17,7 @@ import { initUI } from './index.js';
           <button id="fullscreen-toggle" class="pill">⛶</button>
         </div>
         <div id="info-panel" hidden></div>
-      <div id="game-wrap"><canvas id="game"></canvas><div id="ped-dialog" class="ped-dialog hidden"><div class="ped-dialog__content"></div></div></div>
+      <div id="game-wrap"><canvas id="game"></canvas><div id="ped-dialog" class="ped-dialog hidden"><div class="ped-dialog__content"><img src="assets/red-person.svg" class="ped-dialog__icon" alt=""><span class="ped-dialog__text"></span></div></div></div>
       </div>`;
     return document.getElementById('game');
   }
@@ -184,6 +184,10 @@ test('showPedDialog toggles visibility and syncs to player', () => {
   ui.showPedDialog('wait');
   const dialog = document.getElementById('ped-dialog');
   expect(dialog.classList.contains('hidden')).toBe(false);
+  const icon = dialog.querySelector('.ped-dialog__icon');
+  expect(icon).not.toBeNull();
+  expect(icon.getAttribute('src')).toContain('red-person.svg');
+  expect(dialog.querySelector('.ped-dialog__text').textContent).toBe('wait');
   const player = { x: 100, y: 200, h: 50 };
   const camera = { x: 0, y: 0 };
   ui.syncDialogToPlayer(player, camera);

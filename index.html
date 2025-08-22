@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>像素跑跳示範（類瑪莉風格）</title>
     <link rel="preload" as="image" href="assets/Background/background1.jpeg" />
-      <link rel="stylesheet" href="style.css?v=1.5.107" />
+      <link rel="stylesheet" href="style.css?v=1.5.108" />
 </head>
 <body>
   <main id="layout">
     <div id="start-page">
       <div class="title">PARKOUR NINJA</div>
       <div id="start-status">Loading...</div>
-        <div id="start-version" class="pill" title="Semantic Versioning">v1.5.107</div>
+        <div id="start-version" class="pill" title="Semantic Versioning">v1.5.108</div>
       <button id="btn-start" class="primary" hidden>START</button>
       <button id="btn-retry" class="primary" hidden>Retry</button>
     </div>
@@ -28,7 +28,10 @@
       <div id="game-wrap">
         <canvas id="game" width="960" height="540" tabindex="0" aria-label="平台動作遊戲"></canvas>
         <div id="ped-dialog" class="ped-dialog hidden" role="dialog" aria-live="polite">
-          <div class="ped-dialog__content">請等待紅燈變綠燈後再通行</div>
+          <div class="ped-dialog__content">
+            <img src="assets/red-person.svg" alt="" class="ped-dialog__icon" />
+            <span class="ped-dialog__text">請等待紅燈變綠燈後再通行</span>
+          </div>
         </div>
       </div>
 
@@ -48,7 +51,7 @@
       <!-- 右上：版本膠囊 + 設定 -->
       <div id="top-right">
         <button id="info-toggle" class="pill">ℹ</button>
-            <div id="version-pill" class="pill" title="Semantic Versioning">v1.5.107</div>
+            <div id="version-pill" class="pill" title="Semantic Versioning">v1.5.108</div>
         <button id="settings-toggle" class="pill" aria-label="設定">⚙</button>
         <div id="settings-menu">
           <div id="log-controls" class="pill">
@@ -104,7 +107,7 @@
     </div>
   </main>
 
-  <script src="version.js?v=1.5.107"></script>
-  <script type="module" src="main.js?v=1.5.107"></script>
+  <script src="version.js?v=1.5.108"></script>
+  <script type="module" src="main.js?v=1.5.108"></script>
   </body>
   </html>
