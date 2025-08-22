@@ -573,6 +573,7 @@ const IMPACT_COOLDOWN_MS = 120;
         npc.bounceCount = count + 1;
         // 玩家彈起、NPC idle 一下
         player.vy = STOMP_BOUNCE;
+        play('jump');
         npc.pauseTimer = Math.max(npc.pauseTimer, 400); // 0.4s
         npc.state = 'idle';
       } else {
