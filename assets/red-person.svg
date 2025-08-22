@@ -1,20 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="64" viewBox="0 0 40 64" aria-hidden="true">
   <title>Pedestrian Red Icon</title>
   <g fill="#ff5c4d" stroke="none">
-    <!-- 頭（下移，緊貼身體上方） -->
+    <!-- legs：先畫，讓上緣被身體覆蓋約 1px（避免白縫） -->
+    <rect x="13" y="39" width="6" height="21" rx="3"/>
+    <rect x="21" y="39" width="6" height="21" rx="3"/>
+
+    <!-- torso：加寬，與手臂相鄰但不重疊 -->
+    <rect x="12" y="16" width="16" height="28" rx="6"/>
+
+    <!-- arms：保持原本細長圓角矩形，斜向下；僅貼近、不與身體重疊 -->
+    <!-- 左臂（與身體左緣保持約 0.8~1px 的可視間隙） -->
+    <rect x="10" y="18" width="6" height="22" rx="3" transform="rotate(16 9 20)"/>
+    <!-- 右臂（對稱） -->
+    <rect x="24" y="18" width="6" height="22" rx="3" transform="rotate(-16 31 20)"/>
+
+    <!-- head -->
     <circle cx="20" cy="10" r="7"/>
-    
-    <!-- 軀幹（加寬，讓肩膀更接近手臂） -->
-    <rect x="12" y="16" width="16" height="24" rx="5"/>
-    
-    <!-- 手臂（外張，角度保持斜下） -->
-    <!-- 左臂 -->
-    <rect x="4" y="18" width="7" height="22" rx="3" transform="rotate(18 8 20)"/>
-    <!-- 右臂 -->
-    <rect x="29" y="18" width="7" height="22" rx="3" transform="rotate(-18 33 20)"/>
-    
-    <!-- 腿（保持直立，稍微分開） -->
-    <rect x="13" y="40" width="6" height="20" rx="3"/>
-    <rect x="21" y="40" width="6" height="20" rx="3"/>
   </g>
 </svg>
