@@ -426,6 +426,8 @@ const IMPACT_COOLDOWN_MS = 120;
       }
     }
     spawnLights();
+    state.npcs = [];
+    npcSpawnTimer = 0;
     triggerStartEffect();
   }
 
@@ -450,6 +452,8 @@ const IMPACT_COOLDOWN_MS = 120;
     designIsEnabled: design.isEnabled,
     designGetSelected: design.getSelected,
     getObjects: () => designObjects,
+    getNpcSpawnTimer: () => npcSpawnTimer,
+    setNpcSpawnTimer: (v) => { npcSpawnTimer = v; },
   };
 
   let last=0;

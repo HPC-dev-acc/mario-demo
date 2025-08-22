@@ -137,6 +137,16 @@ describe('restartStage integration', () => {
     expect(hooks.getStageCleared()).toBe(false);
     expect(hooks.getStageFailed()).toBe(false);
   });
+
+  test('clears npcs and spawn timer on restart', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    state.npcs.push(createNpc(100, 0, 10, 10, null));
+    hooks.setNpcSpawnTimer(5000);
+    hooks.restartStage();
+    expect(state.npcs.length).toBe(0);
+    expect(hooks.getNpcSpawnTimer()).toBe(0);
+  });
 });
 
 describe('shadowY behavior', () => {
