@@ -1,15 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="64" viewBox="0 0 40 64" aria-hidden="true">
   <title>Pedestrian Red Icon</title>
   <g fill="#ff5c4d" stroke="none">
-    <!-- 頭 -->
-    <circle cx="20" cy="9" r="7"/>
-    <!-- 軀幹 -->
-    <rect x="15" y="18" width="10" height="22" rx="4"/>
-    <!-- 手臂（自然下垂，稍微外張） -->
-    <path d="M12 20 c-2 8 -1 14 0 20 h4 c-1-6 -2-12 0-20 z" />
-    <path d="M28 20 c2 8 1 14 0 20 h-4 c1-6 2-12 0-20 z" />
-    <!-- 腿（微微分開） -->
-    <rect x="14" y="40" width="6" height="20" rx="3"/>
-    <rect x="20" y="40" width="6" height="20" rx="3"/>
+    <!-- 頭（稍微下移，靠近軀幹） -->
+    <circle cx="20" cy="10" r="7"/>
+    
+    <!-- 軀幹（上端再往上，與頭銜接） -->
+    <rect x="15" y="16" width="10" height="24" rx="4"/>
+    
+    <!-- 手臂（角度更開、自然下垂） -->
+    <!-- 左臂：往外張，斜角更大 -->
+    <rect x="6" y="18" width="6" height="22" rx="3" transform="rotate(20 9 20)"/>
+    <!-- 右臂：對稱 -->
+    <rect x="28" y="18" width="6" height="22" rx="3" transform="rotate(-20 31 20)"/>
+    
+    <!-- 腿（稍微分開一點，避免太併攏） -->
+    <rect x="13" y="40" width="6" height="20" rx="3"/>
+    <rect x="21" y="40" width="6" height="20" rx="3"/>
   </g>
 </svg>
