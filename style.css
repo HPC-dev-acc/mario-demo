@@ -1,4 +1,4 @@
-/* Version: 1.5.107 */
+/* Version: 1.5.108 */
 :root{
   --bg:#9fd4ea; --panel:#2d3b42; --panelText:#e8f1f5;
   --pill:#eeeeee; --pillText:#222; --accent:#2a7cff;
@@ -164,9 +164,19 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
   filter: drop-shadow(0 2px 0 rgba(0,0,0,.2));
 }
 
+
 .ped-dialog__content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font: 600 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
   color: #222;
-  text-align: center;
+  text-align: left;
+}
+
+.ped-dialog__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 

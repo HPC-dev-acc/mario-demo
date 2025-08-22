@@ -7,13 +7,13 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const btnStart = document.getElementById('btn-start');
   const btnRetry = document.getElementById('btn-retry');
   const pedDialogEl = document.getElementById('ped-dialog');
-  const pedDialogContent = pedDialogEl?.querySelector('.ped-dialog__content');
+  const pedDialogText = pedDialogEl?.querySelector('.ped-dialog__text');
   let lastPlayer = null;
   let lastCamera = null;
 
   function showPedDialog(text) {
     if (!pedDialogEl) return;
-    if (pedDialogContent) pedDialogContent.textContent = text;
+    if (pedDialogText) pedDialogText.textContent = text;
     pedDialogEl.classList.remove('hidden');
   }
 
