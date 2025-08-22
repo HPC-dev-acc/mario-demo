@@ -543,7 +543,14 @@ const IMPACT_COOLDOWN_MS = 120;
     }
 
     const collisionEvents = {};
+    const wasOnGround = player.onGround;
     resolveCollisions(player, level, state.collisions, state.lights, collisionEvents, state.indestructible);
+    if (player.onGround && !wasOnGround) {
+      for (const npc of state.npcs) {
+        npc.bounceCount = 0;
+        npc.passThrough = false;
+      }
+    }
     player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2);
     updatePlayerWidth(player);
     const gained = collectCoins(player, level, coins);
