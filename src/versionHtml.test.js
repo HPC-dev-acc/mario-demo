@@ -20,4 +20,6 @@ test('index.html uses package.json version in query params and badges', () => {
   expect(doc.querySelector('script[src^="version.js"]').getAttribute('src')).toBe(`version.js?v=${pkg.version}`);
   expect(doc.querySelector('script[type="module"]').getAttribute('src')).toBe(`main.js?v=${pkg.version}`);
   expect(doc.querySelector('link[rel="manifest"]').getAttribute('href')).toBe(`manifest.json?v=${pkg.version}`);
+  expect(doc.querySelector('#stage')).not.toBeNull();
+  expect(doc.querySelector('#hud')).not.toBeNull();
 });

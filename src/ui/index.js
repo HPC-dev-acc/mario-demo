@@ -1,6 +1,5 @@
 export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {}) {
-  const gameWrap = document.getElementById('game-wrap');
-  const gameCol = document.getElementById('game-col');
+  const stage = document.getElementById('stage');
   const startPage = document.getElementById('start-page');
   const startStatus = document.getElementById('start-status');
   const startVersion = document.getElementById('start-version');
@@ -190,7 +189,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const fullscreenToggle = document.getElementById('fullscreen-toggle');
     if (fullscreenToggle) {
       fullscreenToggle.addEventListener('click', () => {
-        const target = gameCol || canvas;
+        const target = stage || canvas;
         if (!document.fullscreenElement) {
           target.requestFullscreen?.().catch(() => {});
           fullscreenToggle.textContent = '🞬';
@@ -291,7 +290,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     setTimeout(() => fx.remove(), 1500);
   }
   function triggerSlideEffect(x, y, facing) {
-    if (!gameWrap) return;
+    if (!stage) return;
     const fx = document.createElement('img');
     fx.src = 'assets/slide-dust.svg';
     fx.alt = '';
@@ -304,22 +303,22 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     fx.style.width = `${48 * scale}px`;
     fx.style.height = `${24 * scale}px`;
     fx.style.setProperty('--sx', facing);
-    gameWrap.appendChild(fx);
+    stage.appendChild(fx);
     setTimeout(() => fx.remove(), 500);
   }
   function triggerFailEffect() {
-    if (!gameWrap) return;
+    if (!stage) return;
     const fx = document.createElement('div');
     fx.className = 'fail-effect';
-    gameWrap.appendChild(fx);
+    stage.appendChild(fx);
     setTimeout(() => fx.remove(), 1000);
   }
   function triggerStartEffect() {
-    if (!gameWrap) return;
+    if (!stage) return;
     const fx = document.createElement('div');
     fx.className = 'start-effect';
     fx.textContent = "Let's Go!";
-    gameWrap.appendChild(fx);
+    stage.appendChild(fx);
     setTimeout(() => fx.remove(), 1000);
   }
   function showStageClear() { if (stageClearEl) stageClearEl.hidden = false; }

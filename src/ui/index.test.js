@@ -2,13 +2,15 @@ import { initUI } from './index.js';
 
   function setupDOM() {
     document.body.innerHTML = `
-      <div id="start-page">
-        <div id="start-status"></div>
-        <div id="start-version"></div>
-        <button id="btn-start" hidden>START</button>
-        <button id="btn-retry" hidden>Retry</button>
-      </div>
-        <div id="game-col">
+      <div id="stage">
+        <canvas id="game"></canvas>
+        <div id="hud">
+          <div id="start-page">
+            <div id="start-status"></div>
+            <div id="start-version"></div>
+            <button id="btn-start" hidden>START</button>
+            <button id="btn-retry" hidden>Retry</button>
+          </div>
           <div id="top-right">
             <button id="info-toggle" class="pill">ℹ</button>
             <div id="version-pill"></div>
@@ -35,7 +37,8 @@ import { initUI } from './index.js';
             <h1 id="doc-title"></h1>
             <p class="doc"></p>
           </div>
-      <div id="game-wrap"><canvas id="game"></canvas><div id="ped-dialog" class="ped-dialog hidden"><div class="ped-dialog__content"><img src="assets/red-person.svg" class="ped-dialog__icon" alt=""><span class="ped-dialog__text"></span></div></div></div>
+          <div id="ped-dialog" class="ped-dialog hidden"><div class="ped-dialog__content"><img src="assets/red-person.svg" class="ped-dialog__icon" alt=""><span class="ped-dialog__text"></span></div></div>
+        </div>
       </div>`;
     return document.getElementById('game');
   }
@@ -168,7 +171,7 @@ test('info toggle shows and hides info panel', () => {
 
   test('fullscreen toggle requests and exits fullscreen', () => {
     const canvas = setupDOM();
-    const root = document.getElementById('game-col');
+    const root = document.getElementById('stage');
     root.requestFullscreen = jest.fn().mockResolvedValue();
     document.exitFullscreen = jest.fn().mockResolvedValue();
     initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
