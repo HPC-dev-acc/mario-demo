@@ -23,4 +23,13 @@ describe('style.css', () => {
     const media = css.match(/@media\s*\(hover: hover\) and \(pointer: fine\)\s*{[\s\S]*?#touch-left,[\s\S]*?#touch-right[\s\S]*?{\s*display:\s*none\s*!important;\s*}[\s\S]*?}/);
     expect(media).toBeTruthy();
   });
+
+  test('#stage-clear and #stage-fail permit pointer events', () => {
+    const stageClear = css.match(/#stage-clear\s*{[^}]*}/);
+    const stageFail = css.match(/#stage-fail\s*{[^}]*}/);
+    expect(stageClear).toBeTruthy();
+    expect(stageFail).toBeTruthy();
+    expect(stageClear[0]).toMatch(/pointer-events:\s*auto/);
+    expect(stageFail[0]).toMatch(/pointer-events:\s*auto/);
+  });
 });
