@@ -1,0 +1,16 @@
+{
+  "name": "Mario Demo",
+  "short_name": "MarioDemo",
+  "start_url": "./",
+  "display": "fullscreen",
+  "background_color": "#9fd4ea",
+  "theme_color": "#9fd4ea",
+  "version": "1.5.109",
+  "icons": [
+    {
+      "src": "assets/clear-star.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
