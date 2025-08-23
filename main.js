@@ -55,6 +55,7 @@ const IMPACT_COOLDOWN_MS = 120;
   const gameCol  = document.getElementById('game-col');
   const gameWrap = document.getElementById('game-wrap');
   const canvas   = document.getElementById('game');
+  import('./landscape-fit-height.js');
   const ctx      = canvas.getContext('2d');
 
   // 基準 CSS 尺寸（未全螢幕時）
