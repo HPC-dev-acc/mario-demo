@@ -8,7 +8,7 @@ import { initUI } from './index.js';
           <div id="start-page">
             <div id="start-status"></div>
             <div id="start-version"></div>
-            <button id="btn-start" hidden>START</button>
+            <button id="btn-start">START</button>
             <button id="btn-retry" hidden>Retry</button>
           </div>
           <div id="top-right" hidden>
