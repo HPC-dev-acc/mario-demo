@@ -7,7 +7,7 @@ import { createNpc } from './npc.js';
 const JUMP_VEL = -17.8; // mirror JUMP_VEL in main.js
 
 async function loadGame() {
-  document.body.innerHTML = '<div id="stage"><canvas id="game"></canvas><div id="hud"></div></div>';
+  document.body.innerHTML = '<div id="stage"><canvas id="game"></canvas><div id="hud"><div id="stage-clear"><button id="btn-restart"></button></div><div id="stage-fail"><button id="btn-restart-fail"></button></div></div></div>';
   const canvas = document.getElementById('game');
   canvas.getContext = () => ({ setTransform: jest.fn() });
   canvas.getBoundingClientRect = () => ({ width: 960, height: 540, left: 0, top: 0 });
@@ -147,6 +147,22 @@ describe('restartStage integration', () => {
     hooks.restartStage();
     expect(state.npcs.length).toBe(0);
     expect(hooks.getNpcSpawnTimer()).toBe(0);
+  });
+
+  test('btn-restart triggers restartStage', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    state.player.x = 123;
+    document.getElementById('btn-restart').click();
+    expect(state.player.x).toBe(SPAWN_X);
+  });
+
+  test('btn-restart-fail triggers restartStage', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    state.player.x = 456;
+    document.getElementById('btn-restart-fail').click();
+    expect(state.player.x).toBe(SPAWN_X);
   });
 });
 
