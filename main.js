@@ -18,6 +18,31 @@ const VERSION = window.__APP_VERSION__;
 
 registerSW();
 
+// 控制背景音樂的靜音狀態，供方向鎖使用
+window.__BGM__ = {
+  muted: false,
+  mutedByGuard: false,
+  mute(m) {
+    const wantMuted = !!m;
+    if (wantMuted) {
+      if (!this.muted) {
+        toggleMusic();
+        this.muted = true;
+      }
+      this.mutedByGuard = true;
+    } else {
+      if (this.muted && this.mutedByGuard) {
+        toggleMusic();
+        this.muted = false;
+      }
+      this.mutedByGuard = false;
+    }
+  },
+};
+
+// 動態載入方向守門員，避免改動 HTML
+import('./orientation-guard.js');
+
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
 
@@ -462,6 +487,10 @@ const IMPACT_COOLDOWN_MS = 120;
 
   let last=0;
   function loop(t){
+    if (window.__ORIENT_PAUSED__) {
+      requestAnimationFrame(loop);
+      return;
+    }
     const dt = Math.min(32, t-last); last=t;
     update(dt/16.6667);
     render(ctx, state, design);

@@ -91,3 +91,19 @@ test('jump without pressJump does not throw', () => {
   expect(() => jump.dispatchEvent(new Event('pointerdown'))).not.toThrow();
   expect(keys.jump).toBe(true);
 });
+
+test('input ignored when orientation blocked', () => {
+  document.body.innerHTML = '<div id="left"></div><div id="jump"></div>';
+  const pressJump = jest.fn();
+  const keys = createControls(pressJump);
+  const left = document.getElementById('left');
+  const jump = document.getElementById('jump');
+  window.__ORIENT_BLOCK_INPUT__ = true;
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'ArrowLeft' }));
+  left.dispatchEvent(new Event('pointerdown'));
+  jump.dispatchEvent(new Event('pointerdown'));
+  expect(keys.left).toBe(false);
+  expect(keys.jump).toBe(false);
+  expect(pressJump).not.toHaveBeenCalled();
+  window.__ORIENT_BLOCK_INPUT__ = false;
+});
