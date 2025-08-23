@@ -16,6 +16,6 @@ describe('style.css', () => {
     expect(pill).toBeTruthy();
     const rule = pill[0];
     expect(rule).toMatch(/border:\s*1px solid/);
-    expect(rule).toMatch(/background:\s*rgba\(255,255,255,\.75\)/);
+    expect(rule).toMatch(/background:\s*#fff/);
   });
 });
