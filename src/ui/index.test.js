@@ -8,15 +8,27 @@ import { initUI } from './index.js';
         <button id="btn-start" hidden>START</button>
         <button id="btn-retry" hidden>Retry</button>
       </div>
-      <div id="game-col">
-        <div id="top-right">
-          <button id="info-toggle" class="pill">ℹ</button>
-          <div id="version-pill"></div>
-        </div>
-        <div id="hud-top-center">
-          <button id="fullscreen-toggle" class="pill">⛶</button>
-        </div>
-        <div id="info-panel" hidden></div>
+        <div id="game-col">
+          <div id="top-right">
+            <button id="info-toggle" class="pill">ℹ</button>
+            <div id="version-pill"></div>
+            <button id="settings-toggle" class="pill">⚙</button>
+            <div id="settings-menu">
+              <div id="lang-controls" class="pill">
+                <strong>LANG</strong>
+                <select id="lang-select">
+                  <option value="en" selected>English</option>
+                  <option value="ja">日本語</option>
+                  <option value="zh-Hant">繁體中文</option>
+                  <option value="zh-Hans">简体中文</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div id="hud-top-center">
+            <button id="fullscreen-toggle" class="pill">⛶</button>
+          </div>
+          <div id="info-panel" hidden></div>
       <div id="game-wrap"><canvas id="game"></canvas><div id="ped-dialog" class="ped-dialog hidden"><div class="ped-dialog__content"><img src="assets/red-person.svg" class="ped-dialog__icon" alt=""><span class="ped-dialog__text"></span></div></div></div>
       </div>`;
     return document.getElementById('game');
@@ -187,7 +199,7 @@ test('showPedDialog toggles visibility and syncs to player', () => {
   const icon = dialog.querySelector('.ped-dialog__icon');
   expect(icon).not.toBeNull();
   expect(icon.getAttribute('src')).toContain('red-person.svg');
-  expect(dialog.querySelector('.ped-dialog__text').textContent).toBe('wait');
+  expect(dialog.querySelector('.ped-dialog__text').textContent).toBe('Wait for the light to turn green before crossing');
   const player = { x: 100, y: 200, h: 50 };
   const camera = { x: 0, y: 0 };
   ui.syncDialogToPlayer(player, camera);
@@ -195,4 +207,14 @@ test('showPedDialog toggles visibility and syncs to player', () => {
   expect(dialog.style.top).toBe(`${200 - 25 - 28}px`);
   ui.hidePedDialog();
   expect(dialog.classList.contains('hidden')).toBe(true);
+});
+
+test('language selection changes ped dialog text', () => {
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const select = document.getElementById('lang-select');
+  select.value = 'ja';
+  select.dispatchEvent(new Event('change'));
+  ui.showPedDialog('wait');
+  expect(document.querySelector('.ped-dialog__text').textContent).toBe('青に変わるまでお待ちください');
 });

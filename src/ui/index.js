@@ -8,12 +8,33 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const btnRetry = document.getElementById('btn-retry');
   const pedDialogEl = document.getElementById('ped-dialog');
   const pedDialogText = pedDialogEl?.querySelector('.ped-dialog__text');
+  const langSelect = document.getElementById('lang-select');
+  let currentLang = langSelect?.value || 'en';
+  const pedDialogMap = {
+    wait: {
+      en: 'Wait for the light to turn green before crossing',
+      ja: '青に変わるまでお待ちください',
+      'zh-Hant': '請等待紅燈變綠燈後再通行',
+      'zh-Hans': '请等待红灯变绿灯后再通行',
+    },
+  };
+  let currentDialogKey = null;
+  langSelect?.addEventListener('change', () => {
+    currentLang = langSelect.value;
+    document.documentElement.lang = currentLang;
+    if (currentDialogKey && pedDialogText) {
+      pedDialogText.textContent = pedDialogMap[currentDialogKey]?.[currentLang] || currentDialogKey;
+    }
+  });
+  document.documentElement.lang = currentLang;
   let lastPlayer = null;
   let lastCamera = null;
 
-  function showPedDialog(text) {
+  function showPedDialog(key) {
     if (!pedDialogEl) return;
+    const text = pedDialogMap[key]?.[currentLang] || key;
     if (pedDialogText) pedDialogText.textContent = text;
+    currentDialogKey = key;
     pedDialogEl.classList.remove('hidden');
   }
 
