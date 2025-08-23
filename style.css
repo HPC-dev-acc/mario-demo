@@ -1,9 +1,10 @@
-/* Version: 1.5.128 */
+/* Version: 1.5.129 */
 :root {
   --game-w: 960;
   --game-h: 540;
   --bg: #9fd4ea;
   --ui-scale: 1;
+  --touch-btn-size: max(64px, 10vw);
 }
 
 html, body {
@@ -102,22 +103,28 @@ html, body {
 
 #touch-left {
   position: absolute;
-  left: 20px;
-  bottom: 70px;
+  left: calc(var(--touch-btn-size) / 3);
+  bottom: calc(var(--touch-btn-size) * 1.1);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: calc(var(--touch-btn-size) / 6);
   pointer-events: auto;
 }
 
 #touch-right {
   position: absolute;
-  right: 20px;
-  bottom: 70px;
+  right: calc(var(--touch-btn-size) / 3);
+  bottom: calc(var(--touch-btn-size) * 1.1);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: calc(var(--touch-btn-size) / 6);
   pointer-events: auto;
+}
+
+.touch-btn {
+  width: calc(var(--touch-btn-size) * var(--ui-scale));
+  height: calc(var(--touch-btn-size) * var(--ui-scale));
+  font-size: calc(var(--touch-btn-size) / 2 * var(--ui-scale));
 }
 
 .start-effect,
