@@ -40,8 +40,13 @@ window.__BGM__ = {
   },
 };
 
-// 動態載入方向守門員，避免改動 HTML
-import('./orientation-guard.js');
+let orientationGuardLoaded = false;
+function loadOrientationGuard() {
+  if (!orientationGuardLoaded) {
+    orientationGuardLoaded = true;
+    import('./orientation-guard.js');
+  }
+}
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
@@ -676,6 +681,7 @@ const IMPACT_COOLDOWN_MS = 120;
   window.__testHooks.runRender = () => render(ctx, state, design);
 
   function beginGame(){
+    loadOrientationGuard();
     triggerStartEffect();
     resumeAudio();
     loadSounds().then(() => playMusic());
