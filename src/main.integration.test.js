@@ -10,6 +10,7 @@ async function loadGame() {
   document.body.innerHTML = '<div id="stage"><canvas id="game"></canvas><div id="hud"></div></div>';
   const canvas = document.getElementById('game');
   canvas.getContext = () => ({ setTransform: jest.fn() });
+  canvas.getBoundingClientRect = () => ({ width: 960, height: 540, left: 0, top: 0 });
   window.__APP_VERSION__ = pkg.version;
   global.requestAnimationFrame = jest.fn();
   Object.defineProperty(document, 'fullscreenElement', { writable: true, configurable: true, value: null });
@@ -215,14 +216,14 @@ describe('canvas resizing', () => {
     expect(canvas.height).toBe(540);
   });
 
-  test('fullscreenchange triggers canvas resize', async () => {
+  test('fullscreenchange recalculates canvas size from bounding rect', async () => {
     await loadGame();
     const canvas = document.getElementById('game');
-    window.devicePixelRatio = 2;
+    canvas.getBoundingClientRect = () => ({ width: 1920, height: 1080, left: 0, top: 0 });
     document.dispatchEvent(new Event('fullscreenchange'));
     expect(canvas.width).toBe(1920);
     expect(canvas.height).toBe(1080);
-    window.devicePixelRatio = 1;
+    canvas.getBoundingClientRect = () => ({ width: 960, height: 540, left: 0, top: 0 });
     document.dispatchEvent(new Event('fullscreenchange'));
     expect(canvas.width).toBe(960);
     expect(canvas.height).toBe(540);

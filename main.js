@@ -58,16 +58,18 @@ const IMPACT_COOLDOWN_MS = 120;
   const LOGICAL_W = 960;
   const LOGICAL_H = 540;
 
-  function applyDPR() {
-    const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 4));
-    canvas.width  = Math.round(LOGICAL_W * dpr);
-    canvas.height = Math.round(LOGICAL_H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    canvas.style.imageRendering = 'pixelated';
-    const rect = canvas.getBoundingClientRect();
-    window.__cssScale = rect.width / LOGICAL_W;
-    canvas.dataset.cssScale = window.__cssScale;
-  }
+    function applyDPR() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 4));
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+      const scaleX = canvas.width / LOGICAL_W;
+      const scaleY = canvas.height / LOGICAL_H;
+      ctx.setTransform(scaleX, 0, 0, scaleY, 0, 0);
+      canvas.style.imageRendering = 'pixelated';
+      window.__cssScale = rect.width / LOGICAL_W;
+      canvas.dataset.cssScale = window.__cssScale;
+    }
 
   window.addEventListener('resize', applyDPR);
   document.addEventListener('fullscreenchange', applyDPR);
@@ -287,7 +289,7 @@ const IMPACT_COOLDOWN_MS = 120;
       const hud = document.getElementById('hud-top-center');
       const hudRect = hud.getBoundingClientRect();
       const canvasRect = canvas.getBoundingClientRect();
-      const px = camera.x + canvas.width / 2;
+      const px = camera.x + LOGICAL_W / 2;
       const py = camera.y + (hudRect.bottom - canvasRect.top) + 4;
       const cx = Math.floor(px / COLL_TILE);
       const cy = Math.floor(py / COLL_TILE);
@@ -529,7 +531,7 @@ const IMPACT_COOLDOWN_MS = 120;
 
     npcSpawnTimer -= dtMs;
     if (npcSpawnTimer <= 0 && state.npcs.length < MAX_NPCS) {
-      const spawnX = camera.x + canvas.width + player.w;
+        const spawnX = camera.x + LOGICAL_W + player.w;
       const scale = player.h / 44;
       const npcW = 48 * scale;
       const npc = createNpc(spawnX, SPAWN_Y, npcW, player.h, state.npcSprite);
