@@ -78,7 +78,7 @@ test('design mode enables and drags objects', async () => {
   enableBtn.click();
   expect(enableBtn.classList.contains('active')).toBe(true);
   expect(enableBtn.getAttribute('aria-pressed')).toBe('true');
-  expect(enableBtn.textContent).toBe('停用');
+  expect(enableBtn.textContent).toBe('Disable');
   expect(hooks.designIsEnabled()).toBe(true);
   hooks.designAddBlock();
   const obj = hooks.getObjects()[0];
