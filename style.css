@@ -1,4 +1,4 @@
-/* Version: 1.5.124 */
+/* Version: 1.5.125 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -27,6 +27,11 @@ html, body {
   /* lock max size at original resolution */
   max-width: calc(var(--game-w) * 1px);
   max-height: calc(var(--game-h) * 1px);
+  background-image: url("assets/Background/background1.jpeg");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: 0 0;
+  image-rendering: smooth;
 }
 
 #stage > canvas,
@@ -40,10 +45,6 @@ html, body {
   height: 100%;
   display: block;
   image-rendering: pixelated;
-  background-image: url("assets/Background/background1.jpeg");
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  background-position: 0 0;
 }
 
 #hud {

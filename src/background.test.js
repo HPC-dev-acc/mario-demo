@@ -10,7 +10,8 @@ test('background repeats and moves with camera', () => {
   expect(css).toContain('background-image: url("assets/Background/background1.jpeg");');
   expect(css).toContain('background-repeat: repeat-x;');
 
-  const canvas = { style: {}, width: 960, height: 540 };
+  const stage = { style: {} };
+  const canvas = { style: {}, width: 960, height: 540, parentElement: stage };
   const ctx = {
     canvas,
     clearRect: () => {},
@@ -41,11 +42,11 @@ test('background repeats and moves with camera', () => {
   };
 
   render(ctx, state);
-  expect(canvas.style.backgroundPosition).toBe('0px 0px');
+  expect(stage.style.backgroundPosition).toBe('0px 0px');
   state.camera.x = 50;
   render(ctx, state);
-  expect(canvas.style.backgroundPosition).toBe('-50px 0px');
+  expect(stage.style.backgroundPosition).toBe('-50px 0px');
   canvas.clientWidth = 1920;
   render(ctx, state);
-  expect(canvas.style.backgroundPosition).toBe('-100px 0px');
+  expect(stage.style.backgroundPosition).toBe('-100px 0px');
 });

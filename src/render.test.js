@@ -47,7 +47,8 @@ test('render translates camera position', () => {
 test('render scales background position by cssScale', () => {
   const state = createGameState();
   state.camera.x = 10;
-  const canvas = { width: 256, height: 240, style: {}, dataset: { cssScale: '2' }, clientWidth: 0 };
+  const stage = { style: {} };
+  const canvas = { width: 256, height: 240, style: {}, dataset: { cssScale: '2' }, clientWidth: 0, parentElement: stage };
   const ctx = {
     canvas,
     clearRect: jest.fn(),
@@ -64,7 +65,7 @@ test('render scales background position by cssScale', () => {
     fillStyle: '',
   };
   render(ctx, state);
-  expect(canvas.style.backgroundPosition).toBe('-20px 0px');
+  expect(stage.style.backgroundPosition).toBe('-20px 0px');
 });
 
 test('render does not call drawCloud', () => {
