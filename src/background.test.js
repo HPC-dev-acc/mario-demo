@@ -7,7 +7,8 @@ global.TextDecoder = TextDecoder;
 
 test('background repeats and moves with camera', () => {
   const css = fs.readFileSync('style.css', 'utf8');
-  expect(css).toMatch(/#game\{[^}]*background-image:url\("assets\/Background\/background1\.jpeg"\)[^}]*background-repeat:repeat-x[^}]*}/);
+  expect(css).toContain('background-image: url("assets/Background/background1.jpeg");');
+  expect(css).toContain('background-repeat: repeat-x;');
 
   const canvas = { style: {}, width: 960, height: 540 };
   const ctx = {

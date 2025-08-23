@@ -10,120 +10,115 @@
   <meta name="mobile-web-app-capable" content="yes" />
     <title>像素跑跳示範（類瑪莉風格）</title>
     <link rel="preload" as="image" href="assets/Background/background1.jpeg" />
-      <link rel="stylesheet" href="style.css?v=1.5.117" />
-      <link rel="manifest" href="manifest.json?v=1.5.117" />
+      <link rel="stylesheet" href="style.css?v=1.5.118" />
+      <link rel="manifest" href="manifest.json?v=1.5.118" />
       <link rel="apple-touch-icon" href="assets/clear-star.svg" />
 </head>
 <body>
-  <main id="layout">
-    <div id="start-page">
-      <div class="title">PARKOUR NINJA</div>
-      <div id="start-status">Loading...</div>
-        <div id="start-version" class="pill" title="Semantic Versioning">v1.5.117</div>
-      <button id="btn-start" class="primary" hidden>START</button>
-      <button id="btn-retry" class="primary" hidden>Retry</button>
-    </div>
-    <!-- 置中：遊戲與 HUD -->
-    <section id="game-col">
-      <div id="hud-top-center" aria-live="polite">
-        <button id="fullscreen-toggle" class="pill">⛶</button>
-        <div id="score-pill" class="pill"><span id="score-label">分數</span> <span id="score">0</span></div>
-        <div id="stage-pill" class="pill">關卡 1-1</div>
-        <div id="time-pill" class="pill"><span id="time-label">時間</span> <span id="timer">60</span></div>
-      </div>
+  <main id="game-root">
+    <div id="stage">
+      <canvas id="game" width="960" height="540" tabindex="0" aria-label="平台動作遊戲"></canvas>
+      <div id="hud">
+        <div id="start-page">
+          <div class="title">PARKOUR NINJA</div>
+          <div id="start-status">Loading...</div>
+          <div id="start-version" class="pill" title="Semantic Versioning">v1.5.118</div>
+          <button id="btn-start" class="primary" hidden>START</button>
+          <button id="btn-retry" class="primary" hidden>Retry</button>
+        </div>
 
-      <div id="game-wrap">
-        <canvas id="game" width="960" height="540" tabindex="0" aria-label="平台動作遊戲"></canvas>
+        <div id="hud-top-center" aria-live="polite">
+          <button id="fullscreen-toggle" class="pill">⛶</button>
+          <div id="score-pill" class="pill"><span id="score-label">分數</span> <span id="score">0</span></div>
+          <div id="stage-pill" class="pill">關卡 1-1</div>
+          <div id="time-pill" class="pill"><span id="time-label">時間</span> <span id="timer">60</span></div>
+        </div>
+
         <div id="ped-dialog" class="ped-dialog hidden" role="dialog" aria-live="polite">
           <div class="ped-dialog__content">
             <img src="assets/red-person.svg" alt="" class="ped-dialog__icon" />
             <span class="ped-dialog__text">Wait for the light to turn green before crossing</span>
           </div>
         </div>
-      </div>
 
-      <!-- 左上：偵錯面板 -->
-      <aside id="debug-panel" aria-label="偵錯資訊 (FPS/狀態)">
-        <div class="dbg-row"><span>FPS</span><span id="dbg-fps"></span></div>
-        <div class="dbg-row"><span>x,y</span><span id="dbg-pos"></span></div>
-        <div class="dbg-row"><span>vx,vy</span><span id="dbg-vel"></span></div>
-        <div class="dbg-row"><span>ground</span><span id="dbg-ground">—</span></div>
-        <div class="dbg-row"><span>coyote</span><span id="dbg-coyote">—</span></div>
-        <div class="dbg-row"><span>buffer</span><span id="dbg-buffer">—</span></div>
-        <div class="dbg-row"><span>keys</span><span id="dbg-keys">—</span></div>
-        <div class="dbg-row"><span>press</span><span id="dbg-press">0</span></div>
-        <div class="dbg-row"><span>fired</span><span id="dbg-fired">0</span></div>
-      </aside>
+        <aside id="debug-panel" aria-label="偵錯資訊 (FPS/狀態)">
+          <div class="dbg-row"><span>FPS</span><span id="dbg-fps"></span></div>
+          <div class="dbg-row"><span>x,y</span><span id="dbg-pos"></span></div>
+          <div class="dbg-row"><span>vx,vy</span><span id="dbg-vel"></span></div>
+          <div class="dbg-row"><span>ground</span><span id="dbg-ground">—</span></div>
+          <div class="dbg-row"><span>coyote</span><span id="dbg-coyote">—</span></div>
+          <div class="dbg-row"><span>buffer</span><span id="dbg-buffer">—</span></div>
+          <div class="dbg-row"><span>keys</span><span id="dbg-keys">—</span></div>
+          <div class="dbg-row"><span>press</span><span id="dbg-press">0</span></div>
+          <div class="dbg-row"><span>fired</span><span id="dbg-fired">0</span></div>
+        </aside>
 
-      <!-- 右上：版本膠囊 + 設定 -->
-      <div id="top-right">
-        <button id="info-toggle" class="pill">ℹ</button>
-            <div id="version-pill" class="pill" title="Semantic Versioning">v1.5.117</div>
-        <button id="settings-toggle" class="pill" aria-label="設定">⚙</button>
-        <div id="settings-menu">
-          <div id="lang-controls" class="pill">
-            <strong>LANG</strong>
-            <select id="lang-select">
-              <option value="en" selected>English</option>
-              <option value="ja">日本語</option>
-              <option value="zh-Hant">繁體中文</option>
-              <option value="zh-Hans">简体中文</option>
-            </select>
-          </div>
-          <div id="log-controls" class="pill">
-            <strong>LOG</strong>
-            <button id="log-copy" class="mini">Copy</button>
-            <button id="log-clear" class="mini">Clear</button>
-          </div>
-          <div id="audio-controls" class="pill">
-            <strong>BGM</strong>
-            <button id="bgm-toggle" class="mini">Mute</button>
-          </div>
-          <div id="design-controls" class="pill">
-            <strong>LEVEL</strong>
-            <button id="design-enable" class="mini" aria-pressed="false">啟用</button>
-            <button id="design-transparent" class="mini">透明化</button>
-            <button id="design-destroyable" class="mini">破壞</button>
-            <button id="design-save" class="mini">儲存</button>
-            <button id="design-add" class="mini" hidden>新增</button>
+        <div id="top-right">
+          <button id="info-toggle" class="pill">ℹ</button>
+          <div id="version-pill" class="pill" title="Semantic Versioning">v1.5.118</div>
+          <button id="settings-toggle" class="pill" aria-label="設定">⚙</button>
+          <div id="settings-menu">
+            <div id="lang-controls" class="pill">
+              <strong>LANG</strong>
+              <select id="lang-select">
+                <option value="en" selected>English</option>
+                <option value="ja">日本語</option>
+                <option value="zh-Hant">繁體中文</option>
+                <option value="zh-Hans">简体中文</option>
+              </select>
+            </div>
+            <div id="log-controls" class="pill">
+              <strong>LOG</strong>
+              <button id="log-copy" class="mini">Copy</button>
+              <button id="log-clear" class="mini">Clear</button>
+            </div>
+            <div id="audio-controls" class="pill">
+              <strong>BGM</strong>
+              <button id="bgm-toggle" class="mini">Mute</button>
+            </div>
+            <div id="design-controls" class="pill">
+              <strong>LEVEL</strong>
+              <button id="design-enable" class="mini" aria-pressed="false">啟用</button>
+              <button id="design-transparent" class="mini">透明化</button>
+              <button id="design-destroyable" class="mini">破壞</button>
+              <button id="design-save" class="mini">儲存</button>
+              <button id="design-add" class="mini" hidden>新增</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- 觸控：左下衝刺/跳，右下右/左 -->
-      <div id="touch-left" class="touch-stack" aria-label="左側按鈕" role="group">
-        <button id="action" class="touch-btn" aria-label="衝刺">⚡</button>
-        <button id="jump" class="touch-btn" aria-label="跳躍">⇧</button>
-      </div>
-      <div id="touch-right" class="touch-stack" aria-label="右側按鈕" role="group">
-        <button id="right" class="touch-btn" aria-label="向右">▶</button>
-        <button id="left" class="touch-btn" aria-label="向左">◀</button>
-      </div>
+        <div id="touch-left" class="touch-stack" aria-label="左側按鈕" role="group">
+          <button id="action" class="touch-btn" aria-label="衝刺">⚡</button>
+          <button id="jump" class="touch-btn" aria-label="跳躍">⇧</button>
+        </div>
+        <div id="touch-right" class="touch-stack" aria-label="右側按鈕" role="group">
+          <button id="right" class="touch-btn" aria-label="向右">▶</button>
+          <button id="left" class="touch-btn" aria-label="向左">◀</button>
+        </div>
 
-      <!-- 完關畫面（預設隱藏） -->
-      <div id="stage-clear" aria-live="assertive" hidden>
-        <div class="title">STAGE CLEAR!</div>
-        <button id="btn-restart" class="primary">重新開始</button>
-      </div>
-      <!-- 失敗畫面（預設隱藏） -->
-      <div id="stage-fail" aria-live="assertive" hidden>
-        <div class="title">TIME UP!</div>
-        <button id="btn-restart-fail" class="primary">重新開始</button>
-      </div>
-    </section>
+        <div id="stage-clear" aria-live="assertive" hidden>
+          <div class="title">STAGE CLEAR!</div>
+          <button id="btn-restart" class="primary">重新開始</button>
+        </div>
+        <div id="stage-fail" aria-live="assertive" hidden>
+          <div class="title">TIME UP!</div>
+          <button id="btn-restart-fail" class="primary">重新開始</button>
+        </div>
 
-    <div id="info-panel" hidden>
-      <h1 id="doc-title">像素跑跳示範（類瑪莉風格）</h1>
-      <p class="doc">
-        電腦：方向鍵左右移動，Z 跳躍，X 動作。<br/>
-        手機 / 平板：直接點選畫面上的虛擬按鈕。<br/>
-        此為教學用開源範例，無使用任何任天堂素材。<br/>
-        右上角可開關背景音樂。
-      </p>
+        <div id="info-panel" hidden>
+          <h1 id="doc-title">像素跑跳示範（類瑪莉風格）</h1>
+          <p class="doc">
+            電腦：方向鍵左右移動，Z 跳躍，X 動作。<br/>
+            手機 / 平板：直接點選畫面上的虛擬按鈕。<br/>
+            此為教學用開源範例，無使用任何任天堂素材。<br/>
+            右上角可開關背景音樂。
+          </p>
+        </div>
+      </div>
     </div>
   </main>
 
-  <script src="version.js?v=1.5.117"></script>
-  <script type="module" src="main.js?v=1.5.117"></script>
+  <script src="version.js?v=1.5.118"></script>
+  <script type="module" src="main.js?v=1.5.118"></script>
   </body>
   </html>

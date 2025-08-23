@@ -7,7 +7,7 @@ import { createNpc } from './npc.js';
 const JUMP_VEL = -17.8; // mirror JUMP_VEL in main.js
 
 async function loadGame() {
-  document.body.innerHTML = '<div id="game-col"><div id="game-wrap"><canvas id="game"></canvas></div></div>';
+  document.body.innerHTML = '<div id="stage"><canvas id="game"></canvas><div id="hud"></div></div>';
   const canvas = document.getElementById('game');
   canvas.getContext = () => ({ setTransform: jest.fn() });
   window.__APP_VERSION__ = pkg.version;
@@ -200,38 +200,17 @@ describe('canvas resizing', () => {
     jest.resetModules();
   });
 
-  test('resizes canvas and container on fullscreen change', async () => {
+  test('resizes canvas based on devicePixelRatio', async () => {
     await loadGame();
     const canvas = document.getElementById('game');
-    const root = document.getElementById('game-col');
-    const wrap = document.getElementById('game-wrap');
-
-    // initial size in windowed mode
-    expect(root.style.width).toBe('960px');
-    expect(root.style.height).toBe('540px');
-    expect(wrap.style.width).toBe('960px');
-    expect(wrap.style.height).toBe('540px');
     expect(canvas.width).toBe(960);
     expect(canvas.height).toBe(540);
-
-    // simulate fullscreen with 1920x1080 viewport
-    root.getBoundingClientRect = () => ({ width: 1920, height: 1080 });
-    document.fullscreenElement = root;
+    window.devicePixelRatio = 2;
     window.__resizeGameCanvas();
-    expect(root.style.width).toBe('1920px');
-    expect(root.style.height).toBe('1080px');
-    expect(wrap.style.width).toBe('1920px');
-    expect(wrap.style.height).toBe('1080px');
     expect(canvas.width).toBe(1920);
     expect(canvas.height).toBe(1080);
-
-    // exit fullscreen
-    document.fullscreenElement = null;
+    window.devicePixelRatio = 1;
     window.__resizeGameCanvas();
-    expect(root.style.width).toBe('960px');
-    expect(root.style.height).toBe('540px');
-    expect(wrap.style.width).toBe('960px');
-    expect(wrap.style.height).toBe('540px');
     expect(canvas.width).toBe(960);
     expect(canvas.height).toBe(540);
   });

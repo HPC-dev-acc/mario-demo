@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.117**
+**Version: 1.5.118**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
+- Introduced a `#stage` container that maintains a fixed aspect ratio, scaling both the canvas and HUD to prevent stretching and misalignment on desktop and mobile.
 - UI elements now scale dynamically for iPhone, iPad mini, and iPad to improve touch controls and HUD readability.
 - Canvas now fits the visible viewport height and stays centered in mobile landscape, tracking browser UI changes.
 - HUD elements including debug panel, capsules, dialog windows, and touch controls now scale and shift with the canvas in mobile landscape.
@@ -30,9 +31,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Player now bounces off NPCs when stomping and is briefly stunned on side collisions.
 - Added collision boxes to NPCs for more reliable interactions.
 - Camera now scrolls when the player crosses 60% of the view width using logical coordinates, keeping movement consistent across fullscreen and high-DPI displays.
-- Removed fixed 960×540 bounds so `#game-wrap` expands with the viewport and the canvas fills it, enabling fullscreen without cropping and keeping HUD elements aligned.
 - Introduced `renderScale` so game objects and maps enlarge when the canvas exceeds the base resolution.
-- Corrected fullscreen scaling to resize both `#game-col` and the canvas, centering the game view and keeping HUD elements visible on high-DPI displays.
 - Unified canvas sizing for fullscreen and high-DPI displays with configurable fit modes (`contain`, `cover`, `stretch`), automatic recalculation on resize, orientation changes, and fullscreen transitions.
 - Ensured crisp rendering in fullscreen and on high-DPI displays by resizing the canvas with `devicePixelRatio` and disabling image smoothing.
 - Fixed HUD elements disappearing in fullscreen by requesting fullscreen on the game container.

@@ -1,7 +1,7 @@
 import { initUI } from './ui/index.js';
 
 function setupDOM() {
-  document.body.innerHTML = '<div id="game-wrap"><canvas id="game"></canvas></div>';
+  document.body.innerHTML = '<div id="stage"><canvas id="game"></canvas><div id="hud"></div></div>';
   return document.getElementById('game');
 }
 
