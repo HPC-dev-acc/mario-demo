@@ -15,7 +15,7 @@ import { initUI } from './index.js';
             <button id="info-toggle" class="pill">ℹ</button>
             <div id="version-pill"></div>
             <button id="settings-toggle" class="pill">⚙</button>
-            <div id="settings-menu">
+            <div id="settings-menu" hidden>
               <div id="lang-controls" class="pill">
                 <strong>LANG</strong>
                 <select id="lang-select">
@@ -167,6 +167,21 @@ test('info toggle shows and hides info panel', () => {
   expect(panel.hidden).toBe(false);
   toggle.click();
   expect(panel.hidden).toBe(true);
+});
+
+test('settings menu toggles and closes on outside click', () => {
+  const canvas = setupDOM();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const toggle = document.getElementById('settings-toggle');
+  const menu = document.getElementById('settings-menu');
+  expect(menu.hidden).toBe(true);
+  toggle.click();
+  expect(menu.hidden).toBe(false);
+  toggle.click();
+  expect(menu.hidden).toBe(true);
+  toggle.click();
+  document.body.click();
+  expect(menu.hidden).toBe(true);
 });
 
   test('fullscreen toggle requests and exits fullscreen', () => {

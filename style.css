@@ -1,4 +1,4 @@
-/* Version: 1.5.121 */
+/* Version: 1.5.122 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -90,6 +90,16 @@ html, body {
   display: flex;
   gap: 8px;
   pointer-events: auto;
+}
+
+#settings-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 #debug-panel {

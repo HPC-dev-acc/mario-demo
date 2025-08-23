@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.121**
+**Version: 1.5.122**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
+- Collapsed HUD controls into a gear dropdown with ℹ, version, and ⚙ pills only.
 - Stage caps its size at 960×540 on large screens while still scaling down on smaller viewports.
 - Restored HUD pill styling with a bordered, semi-transparent capsule for better readability.
 - Fixed unresponsive START button by enabling pointer events on the start page and showing the button by default.
