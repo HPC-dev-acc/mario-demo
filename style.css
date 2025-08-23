@@ -1,4 +1,4 @@
-/* Version: 1.5.119 */
+/* Version: 1.5.120 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -130,6 +130,7 @@ html, body {
   align-items: center;
   gap: 1rem;
   background: var(--bg);
+  pointer-events: auto;
 }
 
 .ped-dialog {
