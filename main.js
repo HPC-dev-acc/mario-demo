@@ -551,7 +551,7 @@ const IMPACT_COOLDOWN_MS = 120;
     const wasOnGround = player.onGround;
     resolveCollisions(player, level, state.collisions, state.lights, collisionEvents, state.indestructible);
     if (player.redLightPaused && !pedDialogVisible) {
-      showPedDialog('請等待紅燈變綠燈後再通行');
+      showPedDialog('wait');
       pedDialogVisible = true;
       syncDialogToPlayer(player, camera);
     } else if (!player.redLightPaused && pedDialogVisible) {

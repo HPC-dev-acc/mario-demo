@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -10,8 +10,8 @@
   <meta name="mobile-web-app-capable" content="yes" />
     <title>像素跑跳示範（類瑪莉風格）</title>
     <link rel="preload" as="image" href="assets/Background/background1.jpeg" />
-      <link rel="stylesheet" href="style.css?v=1.5.109" />
-      <link rel="manifest" href="manifest.json?v=1.5.109" />
+      <link rel="stylesheet" href="style.css?v=1.5.110" />
+      <link rel="manifest" href="manifest.json?v=1.5.110" />
       <link rel="apple-touch-icon" href="assets/clear-star.svg" />
 </head>
 <body>
@@ -19,7 +19,7 @@
     <div id="start-page">
       <div class="title">PARKOUR NINJA</div>
       <div id="start-status">Loading...</div>
-        <div id="start-version" class="pill" title="Semantic Versioning">v1.5.109</div>
+        <div id="start-version" class="pill" title="Semantic Versioning">v1.5.110</div>
       <button id="btn-start" class="primary" hidden>START</button>
       <button id="btn-retry" class="primary" hidden>Retry</button>
     </div>
@@ -37,7 +37,7 @@
         <div id="ped-dialog" class="ped-dialog hidden" role="dialog" aria-live="polite">
           <div class="ped-dialog__content">
             <img src="assets/red-person.svg" alt="" class="ped-dialog__icon" />
-            <span class="ped-dialog__text">請等待紅燈變綠燈後再通行</span>
+            <span class="ped-dialog__text">Wait for the light to turn green before crossing</span>
           </div>
         </div>
       </div>
@@ -58,9 +58,18 @@
       <!-- 右上：版本膠囊 + 設定 -->
       <div id="top-right">
         <button id="info-toggle" class="pill">ℹ</button>
-            <div id="version-pill" class="pill" title="Semantic Versioning">v1.5.109</div>
+            <div id="version-pill" class="pill" title="Semantic Versioning">v1.5.110</div>
         <button id="settings-toggle" class="pill" aria-label="設定">⚙</button>
         <div id="settings-menu">
+          <div id="lang-controls" class="pill">
+            <strong>LANG</strong>
+            <select id="lang-select">
+              <option value="en" selected>English</option>
+              <option value="ja">日本語</option>
+              <option value="zh-Hant">繁體中文</option>
+              <option value="zh-Hans">简体中文</option>
+            </select>
+          </div>
           <div id="log-controls" class="pill">
             <strong>LOG</strong>
             <button id="log-copy" class="mini">Copy</button>
@@ -114,7 +123,7 @@
     </div>
   </main>
 
-  <script src="version.js?v=1.5.109"></script>
-  <script type="module" src="main.js?v=1.5.109"></script>
+  <script src="version.js?v=1.5.110"></script>
+  <script type="module" src="main.js?v=1.5.110"></script>
   </body>
   </html>

@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.109**
+**Version: 1.5.110**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
+- Added a settings menu language selector for English, Japanese, Traditional Chinese, and Simplified Chinese; pedestrian dialogs follow the chosen language.
 - Added Progressive Web App support with full-screen mode on iOS and Android.
 - Moved the red pedestrian icon into the text dialog bubble so image and text share one box.
 - Restored the red pedestrian icon in speech bubbles when characters wait at red lights.
