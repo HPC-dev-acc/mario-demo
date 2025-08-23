@@ -24,6 +24,19 @@ describe('style.css', () => {
     expect(media).toBeTruthy();
   });
 
+  test('.touch-btn has responsive size', () => {
+    const root = css.match(/:root\s*{[^}]*}/);
+    expect(root).toBeTruthy();
+    expect(root[0]).toMatch(/--touch-btn-size:\s*max\([^;]*px,[^;]*vw\)/);
+
+    const btn = css.match(/\.touch-btn\s*{[^}]*}/);
+    expect(btn).toBeTruthy();
+    const rule = btn[0];
+    expect(rule).toMatch(/width:\s*calc\(var\(--touch-btn-size\)\s*\*\s*var\(--ui-scale\)\)/);
+    expect(rule).toMatch(/height:\s*calc\(var\(--touch-btn-size\)\s*\*\s*var\(--ui-scale\)\)/);
+    expect(rule).toMatch(/font-size:\s*calc\(var\(--touch-btn-size\)\s*\/\s*2\s*\*\s*var\(--ui-scale\)\)/);
+  });
+
   test('#stage-clear and #stage-fail permit pointer events', () => {
     const stageClear = css.match(/#stage-clear\s*{[^}]*}/);
     const stageFail = css.match(/#stage-fail\s*{[^}]*}/);

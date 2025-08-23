@@ -1,6 +1,6 @@
 # Mario Demo
 
-**Version: 1.5.128**
+**Version: 1.5.129**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
@@ -8,6 +8,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Enabled pointer events on stage clear and fail overlays so restart buttons are clickable.
 - Canvas now sizes itself using its bounding box and `devicePixelRatio` for sharper fullscreen rendering while keeping game coordinates consistent.
 - Fixed touch controls disappearing on large touchscreens by hiding them only on hover-capable devices.
+- Touch buttons are now larger and scale with the viewport for better mobile usability.
 - Smoothed background rendering while keeping sprites and objects pixel-crisp.
 - Collapsed HUD controls into a gear dropdown with ℹ, version, and ⚙ pills only.
 - Fixed blurry sprites in desktop fullscreen by forcing pixelated canvas rendering.
