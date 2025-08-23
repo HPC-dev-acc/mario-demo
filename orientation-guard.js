@@ -52,6 +52,7 @@
     if (isLandscape()) {
       overlay.classList.remove('active');
       resumeGame();
+      try { window.__resizeGameCanvas && window.__resizeGameCanvas(); } catch (e) {}
     } else {
       overlay.classList.add('active');
       pauseGame();
