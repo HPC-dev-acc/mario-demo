@@ -1,8 +1,9 @@
-/* Version: 1.5.116 */
+/* Version: 1.5.117 */
 :root{
   --bg:#9fd4ea; --panel:#2d3b42; --panelText:#e8f1f5;
   --pill:#eeeeee; --pillText:#222; --accent:#2a7cff;
   --designHighlight:#ff0;
+  --ui-scale:clamp(1, min(100vw, 100vh) / 480, 2);
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Noto Sans TC", Arial, sans-serif;}
@@ -26,25 +27,25 @@ html,body{height:100%;margin:0;background:var(--bg);font-family: system-ui, -app
   outline:2px dashed rgba(0,0,0,.5);
 }
 
-.pill{display:inline-flex;align-items:center;gap:.5rem;background:#eef2f3;color:var(--pillText);
-  border-radius:999px;padding:.25rem .6rem;font-weight:600;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
-#hud-top-center{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:5}
-#top-right{position:absolute;top:10px;right:10px;display:flex;align-items:flex-start;gap:.5rem;z-index:6}
+#hud-top-center{position:absolute;top:calc(10px * var(--ui-scale));left:50%;transform:translateX(-50%);display:flex;gap:calc(.5rem * var(--ui-scale));z-index:5}
+#top-right{position:absolute;top:calc(10px * var(--ui-scale));right:calc(10px * var(--ui-scale));display:flex;align-items:flex-start;gap:calc(.5rem * var(--ui-scale));z-index:6}
+.pill{display:inline-flex;align-items:center;gap:calc(.5rem * var(--ui-scale));background:#eef2f3;color:var(--pillText);
+  border-radius:999px;padding:calc(.25rem * var(--ui-scale)) calc(.6rem * var(--ui-scale));font-weight:600;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);font-size:calc(1rem * var(--ui-scale))}
 #settings-toggle{cursor:pointer;border:0}
-#settings-menu{position:absolute;top:100%;right:0;margin-top:.25rem;display:flex;flex-direction:column;gap:.25rem;opacity:0;transform:translateY(-5px);pointer-events:none;transition:opacity .2s ease,transform .2s ease;z-index:7}
+#settings-menu{position:absolute;top:100%;right:0;margin-top:calc(.25rem * var(--ui-scale));display:flex;flex-direction:column;gap:calc(.25rem * var(--ui-scale));opacity:0;transform:translateY(-5px);pointer-events:none;transition:opacity .2s ease,transform .2s ease;z-index:7}
 #settings-menu.open{opacity:1;transform:translateY(0);pointer-events:auto}
-#settings-menu .mini{margin-left:.25rem;font-size:.8rem;padding:.15rem .45rem;border-radius:10px;border:1px solid rgba(0,0,0,.1);background:white}
+#settings-menu .mini{margin-left:calc(.25rem * var(--ui-scale));font-size:calc(.8rem * var(--ui-scale));padding:calc(.15rem * var(--ui-scale)) calc(.45rem * var(--ui-scale));border-radius:calc(10px * var(--ui-scale));border:1px solid rgba(0,0,0,.1);background:white}
 
 #design-enable.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-#debug-panel{position:absolute;left:12px;top:12px;z-index:6;width:130px;background:rgba(45,59,66,.9);color:var(--panelText);border-radius:10px;padding:6px 8px;font-size:12px}
-.dbg-row{display:flex;justify-content:space-between;gap:.5rem}
+#debug-panel{position:absolute;left:calc(12px * var(--ui-scale));top:calc(12px * var(--ui-scale));z-index:6;width:calc(130px * var(--ui-scale));background:rgba(45,59,66,.9);color:var(--panelText);border-radius:calc(10px * var(--ui-scale));padding:calc(6px * var(--ui-scale)) calc(8px * var(--ui-scale));font-size:calc(12px * var(--ui-scale))}
+.dbg-row{display:flex;justify-content:space-between;gap:calc(.5rem * var(--ui-scale))}
 .dbg-row>span:first-child{opacity:.8}
 
-.touch-stack{position:absolute;z-index:7;display:flex;flex-direction:column;gap:10px}
-#touch-left{left:20px;bottom:70px}
-#touch-right{right:20px;bottom:70px}
-.touch-btn{width:86px;height:64px;border:0;border-radius:14px;background:rgba(255,255,255,.8);box-shadow:0 6px 14px rgba(0,0,0,.18);font-size:22px}
+.touch-stack{position:absolute;z-index:7;display:flex;flex-direction:column;gap:calc(10px * var(--ui-scale))}
+#touch-left{left:calc(20px * var(--ui-scale));bottom:calc(70px * var(--ui-scale))}
+#touch-right{right:calc(20px * var(--ui-scale));bottom:calc(70px * var(--ui-scale))}
+.touch-btn{width:calc(86px * var(--ui-scale));height:calc(64px * var(--ui-scale));border:0;border-radius:calc(14px * var(--ui-scale));background:rgba(255,255,255,.8);box-shadow:0 calc(6px * var(--ui-scale)) calc(14px * var(--ui-scale)) rgba(0,0,0,.18);font-size:calc(22px * var(--ui-scale))}
 .touch-btn.hold{transform:translateY(1px);opacity:.9}
 
 #stage-clear{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.25);z-index:8}
