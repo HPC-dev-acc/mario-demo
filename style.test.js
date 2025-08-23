@@ -18,4 +18,9 @@ describe('style.css', () => {
     expect(rule).toMatch(/border:\s*1px solid/);
     expect(rule).toMatch(/background:\s*#fff/);
   });
+
+  test('touch controls hidden only on hover-capable devices', () => {
+    const media = css.match(/@media\s*\(hover: hover\) and \(pointer: fine\)\s*{[\s\S]*?#touch-left,[\s\S]*?#touch-right[\s\S]*?{\s*display:\s*none\s*!important;\s*}[\s\S]*?}/);
+    expect(media).toBeTruthy();
+  });
 });
