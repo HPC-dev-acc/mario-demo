@@ -214,6 +214,19 @@ describe('canvas resizing', () => {
     expect(canvas.width).toBe(960);
     expect(canvas.height).toBe(540);
   });
+
+  test('fullscreenchange triggers canvas resize', async () => {
+    await loadGame();
+    const canvas = document.getElementById('game');
+    window.devicePixelRatio = 2;
+    document.dispatchEvent(new Event('fullscreenchange'));
+    expect(canvas.width).toBe(1920);
+    expect(canvas.height).toBe(1080);
+    window.devicePixelRatio = 1;
+    document.dispatchEvent(new Event('fullscreenchange'));
+    expect(canvas.width).toBe(960);
+    expect(canvas.height).toBe(540);
+  });
 });
 
 describe('player and npc collision', () => {

@@ -59,7 +59,7 @@ const IMPACT_COOLDOWN_MS = 120;
   const LOGICAL_H = 540;
 
   function applyDPR() {
-    const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 3));
+    const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 4));
     canvas.width  = Math.round(LOGICAL_W * dpr);
     canvas.height = Math.round(LOGICAL_H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -68,6 +68,7 @@ const IMPACT_COOLDOWN_MS = 120;
   }
 
   window.addEventListener('resize', applyDPR);
+  document.addEventListener('fullscreenchange', applyDPR);
   applyDPR();
   window.__resizeGameCanvas = applyDPR;
   function getLogicalViewSize() {

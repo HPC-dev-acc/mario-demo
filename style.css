@@ -1,4 +1,4 @@
-/* Version: 1.5.122 */
+/* Version: 1.5.123 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -58,19 +58,9 @@ html, body {
   gap: .4rem;
   padding: .25rem .5rem;
   border-radius: 999px;
-  border: 1px solid rgba(0,0,0,.35);
-  background: rgba(255,255,255,.75);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset;
-}
-
-@media (prefers-color-scheme: dark){
-  .pill {
-    border-color: rgba(255,255,255,.35);
-    background: rgba(0,0,0,.35);
-    box-shadow: 0 1px 0 rgba(0,0,0,.35) inset;
-  }
+  border: 1px solid rgba(0,0,0,.25);
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0,0,0,.05) inset;
 }
 
 #hud-top-center {
