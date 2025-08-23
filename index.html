@@ -3,16 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#9fd4ea" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="PARKOUR NINJA" />
+  <meta name="mobile-web-app-capable" content="yes" />
     <title>像素跑跳示範（類瑪莉風格）</title>
     <link rel="preload" as="image" href="assets/Background/background1.jpeg" />
-      <link rel="stylesheet" href="style.css?v=1.5.108" />
+      <link rel="stylesheet" href="style.css?v=1.5.109" />
+      <link rel="manifest" href="manifest.json?v=1.5.109" />
+      <link rel="apple-touch-icon" href="assets/clear-star.svg" />
 </head>
 <body>
   <main id="layout">
     <div id="start-page">
       <div class="title">PARKOUR NINJA</div>
       <div id="start-status">Loading...</div>
-        <div id="start-version" class="pill" title="Semantic Versioning">v1.5.108</div>
+        <div id="start-version" class="pill" title="Semantic Versioning">v1.5.109</div>
       <button id="btn-start" class="primary" hidden>START</button>
       <button id="btn-retry" class="primary" hidden>Retry</button>
     </div>
@@ -51,7 +58,7 @@
       <!-- 右上：版本膠囊 + 設定 -->
       <div id="top-right">
         <button id="info-toggle" class="pill">ℹ</button>
-            <div id="version-pill" class="pill" title="Semantic Versioning">v1.5.108</div>
+            <div id="version-pill" class="pill" title="Semantic Versioning">v1.5.109</div>
         <button id="settings-toggle" class="pill" aria-label="設定">⚙</button>
         <div id="settings-menu">
           <div id="log-controls" class="pill">
@@ -107,7 +114,7 @@
     </div>
   </main>
 
-  <script src="version.js?v=1.5.108"></script>
-  <script type="module" src="main.js?v=1.5.108"></script>
+  <script src="version.js?v=1.5.109"></script>
+  <script type="module" src="main.js?v=1.5.109"></script>
   </body>
   </html>

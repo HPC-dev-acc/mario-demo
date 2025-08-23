@@ -27,6 +27,15 @@ const updated = html
   .replace(/(style\.css\?v=)[0-9.]+/, `$1${version}`)
   .replace(/(version.js\?v=)[0-9.]+/, `$1${version}`)
   .replace(/(main.js\?v=)[0-9.]+/, `$1${version}`)
+  .replace(/(manifest.json\?v=)[0-9.]+/, `$1${version}`)
   .replace(/(id="start-version"[^>]*>v)[0-9.]+/, `$1${version}`)
   .replace(/(id="version-pill"[^>]*>v)[0-9.]+/, `$1${version}`);
 writeIfChanged(htmlPath, updated);
+
+// Update manifest.json version
+const manifestPath = path.join(__dirname, '..', 'manifest.json');
+if (existsSync(manifestPath)) {
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+  manifest.version = version;
+  writeIfChanged(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+}

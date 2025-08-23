@@ -13,7 +13,10 @@ import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite } from './src
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
 import { createNpc, updateNpc, isNpcOffScreen, MAX_NPCS, boxesOverlap } from './src/npc.js';
+import { registerSW } from './src/registerSw.js';
 const VERSION = window.__APP_VERSION__;
+
+registerSW();
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
