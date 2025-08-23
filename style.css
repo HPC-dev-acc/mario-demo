@@ -1,4 +1,4 @@
-/* Version: 1.5.118 */
+/* Version: 1.5.119 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -10,6 +10,8 @@ html, body {
   height: 100%;
   margin: 0;
 }
+
+[hidden] { display: none !important; }
 
 #game-root {
   min-height: 100dvh;
@@ -109,8 +111,6 @@ html, body {
   background: rgba(0,0,0,.25);
 }
 
-#stage-clear[hidden] { display: none; }
-
 #stage-fail {
   position: absolute;
   inset: 0;
@@ -121,10 +121,8 @@ html, body {
   background: rgba(0,0,0,.25);
 }
 
-#stage-fail[hidden] { display: none; }
-
 #start-page {
-  position: fixed;
+  position: absolute;  /* 依附 #stage */
   inset: 0;
   display: flex;
   flex-direction: column;
@@ -133,8 +131,6 @@ html, body {
   gap: 1rem;
   background: var(--bg);
 }
-
-#start-page[hidden] { display: none; }
 
 .ped-dialog {
   position: absolute;
@@ -217,6 +213,11 @@ html, body {
 @keyframes fail-flash {
   from { opacity: 1; }
   to { opacity: 0; }
+}
+
+@media (min-width: 768px) {
+  #touch-left,
+  #touch-right { display: none !important; }
 }
 
 @media (max-width: 768px) {

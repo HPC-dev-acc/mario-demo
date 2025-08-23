@@ -11,7 +11,7 @@ import { initUI } from './index.js';
             <button id="btn-start" hidden>START</button>
             <button id="btn-retry" hidden>Retry</button>
           </div>
-          <div id="top-right">
+          <div id="top-right" hidden>
             <button id="info-toggle" class="pill">ℹ</button>
             <div id="version-pill"></div>
             <button id="settings-toggle" class="pill">⚙</button>
@@ -27,7 +27,7 @@ import { initUI } from './index.js';
               </div>
             </div>
           </div>
-          <div id="hud-top-center">
+          <div id="hud-top-center" hidden>
             <button id="fullscreen-toggle" class="pill">⛶</button>
             <div id="score-pill" class="pill"><span id="score-label"></span> <span id="score">0</span></div>
             <div id="stage-pill" class="pill"></div>

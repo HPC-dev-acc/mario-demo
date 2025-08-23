@@ -10,8 +10,8 @@
   <meta name="mobile-web-app-capable" content="yes" />
     <title>像素跑跳示範（類瑪莉風格）</title>
     <link rel="preload" as="image" href="assets/Background/background1.jpeg" />
-      <link rel="stylesheet" href="style.css?v=1.5.118" />
-      <link rel="manifest" href="manifest.json?v=1.5.118" />
+      <link rel="stylesheet" href="style.css?v=1.5.119" />
+      <link rel="manifest" href="manifest.json?v=1.5.119" />
       <link rel="apple-touch-icon" href="assets/clear-star.svg" />
 </head>
 <body>
@@ -22,12 +22,12 @@
         <div id="start-page">
           <div class="title">PARKOUR NINJA</div>
           <div id="start-status">Loading...</div>
-          <div id="start-version" class="pill" title="Semantic Versioning">v1.5.118</div>
+          <div id="start-version" class="pill" title="Semantic Versioning">v1.5.119</div>
           <button id="btn-start" class="primary" hidden>START</button>
           <button id="btn-retry" class="primary" hidden>Retry</button>
         </div>
 
-        <div id="hud-top-center" aria-live="polite">
+        <div id="hud-top-center" hidden aria-live="polite">
           <button id="fullscreen-toggle" class="pill">⛶</button>
           <div id="score-pill" class="pill"><span id="score-label">分數</span> <span id="score">0</span></div>
           <div id="stage-pill" class="pill">關卡 1-1</div>
@@ -41,7 +41,7 @@
           </div>
         </div>
 
-        <aside id="debug-panel" aria-label="偵錯資訊 (FPS/狀態)">
+        <aside id="debug-panel" hidden aria-label="偵錯資訊 (FPS/狀態)">
           <div class="dbg-row"><span>FPS</span><span id="dbg-fps"></span></div>
           <div class="dbg-row"><span>x,y</span><span id="dbg-pos"></span></div>
           <div class="dbg-row"><span>vx,vy</span><span id="dbg-vel"></span></div>
@@ -53,9 +53,9 @@
           <div class="dbg-row"><span>fired</span><span id="dbg-fired">0</span></div>
         </aside>
 
-        <div id="top-right">
+        <div id="top-right" hidden>
           <button id="info-toggle" class="pill">ℹ</button>
-          <div id="version-pill" class="pill" title="Semantic Versioning">v1.5.118</div>
+          <div id="version-pill" class="pill" title="Semantic Versioning">v1.5.119</div>
           <button id="settings-toggle" class="pill" aria-label="設定">⚙</button>
           <div id="settings-menu">
             <div id="lang-controls" class="pill">
@@ -87,16 +87,16 @@
           </div>
         </div>
 
-        <div id="touch-left" class="touch-stack" aria-label="左側按鈕" role="group">
+        <div id="touch-left" hidden class="touch-stack" aria-label="左側按鈕" role="group">
           <button id="action" class="touch-btn" aria-label="衝刺">⚡</button>
           <button id="jump" class="touch-btn" aria-label="跳躍">⇧</button>
         </div>
-        <div id="touch-right" class="touch-stack" aria-label="右側按鈕" role="group">
+        <div id="touch-right" hidden class="touch-stack" aria-label="右側按鈕" role="group">
           <button id="right" class="touch-btn" aria-label="向右">▶</button>
           <button id="left" class="touch-btn" aria-label="向左">◀</button>
         </div>
 
-        <div id="stage-clear" aria-live="assertive" hidden>
+        <div id="stage-clear" hidden aria-live="assertive">
           <div class="title">STAGE CLEAR!</div>
           <button id="btn-restart" class="primary">重新開始</button>
         </div>
@@ -118,7 +118,7 @@
     </div>
   </main>
 
-  <script src="version.js?v=1.5.118"></script>
-  <script type="module" src="main.js?v=1.5.118"></script>
+  <script src="version.js?v=1.5.119"></script>
+  <script type="module" src="main.js?v=1.5.119"></script>
   </body>
   </html>
