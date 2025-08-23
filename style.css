@@ -1,4 +1,4 @@
-/* Version: 1.5.125 */
+/* Version: 1.5.126 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -242,7 +242,7 @@ html, body {
   to { opacity: 0; }
 }
 
-@media (min-width: 768px) {
+@media (hover: hover) and (pointer: fine) {
   #touch-left,
   #touch-right { display: none !important; }
 }
