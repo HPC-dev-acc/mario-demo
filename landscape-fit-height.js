@@ -3,6 +3,33 @@
   const canvas = document.querySelector('canvas');
   if (!canvas) return;
 
+  // 1.1) 建立 UI 容器，將相關介面元素搬移進去以便統一縮放與位移
+  const uiIds = [
+    'hud-top-center',
+    'debug-panel',
+    'top-right',
+    'touch-left',
+    'touch-right',
+    'stage-clear',
+    'stage-fail',
+    'ped-dialog',
+  ];
+  let uiLayer = document.getElementById('ui-layer');
+  if (!uiLayer) {
+    uiLayer = document.createElement('div');
+    uiLayer.id = 'ui-layer';
+    uiLayer.style.position = 'fixed';
+    uiLayer.style.top = '0';
+    uiLayer.style.left = '0';
+    uiLayer.style.transformOrigin = 'top left';
+    uiLayer.style.zIndex = '5';
+    document.body.appendChild(uiLayer);
+    uiIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) uiLayer.appendChild(el);
+    });
+  }
+
   // 2) 建立置中容器，將 canvas 包裝進去（只做一次）
   let stage = document.getElementById('canvas-stage');
   if (!stage) {
@@ -60,37 +87,58 @@
   function applyFit() {
     const { w: vw, h: vh } = getViewportSize();
 
-    if (!(isMobile() && isLandscape())) {
+    // 內部比例（以實際 internal resolution 優先，退回 offset 以避免 NaN）
+    const iw = Math.max(1, canvas.width || canvas.offsetWidth || 1);
+    const ih = Math.max(1, canvas.height || canvas.offsetHeight || 1);
+    const aspect = iw / ih;
+
+    let targetW = iw;
+    let targetH = ih;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    if (isMobile() && isLandscape()) {
+      // 以高度貼齊（vh 為可視高度），計算對應寬度
+      targetH = vh;
+      targetW = Math.round(targetH * aspect);
+
+      // 若寬超過可視寬，回退為「貼齊寬」
+      if (targetW > vw) {
+        targetW = vw;
+        targetH = Math.round(targetW / aspect);
+      }
+
+      // 僅改 CSS 尺寸（不動 internal resolution → 不改手感）
+      canvas.style.width = `${targetW}px`;
+      canvas.style.height = `${targetH}px`;
+      canvas.style.maxWidth = '100vw';
+      canvas.style.maxHeight = '100vh';
+      canvas.style.imageRendering = 'pixelated'; // 像素風建議；非像素風可移除
+
+      offsetX = Math.floor((vw - targetW) / 2);
+      offsetY = Math.floor((vh - targetH) / 2);
+    } else {
       // 還原 CSS
       canvas.style.width = initialStyle.width || '';
       canvas.style.height = initialStyle.height || '';
       canvas.style.maxWidth = initialStyle.maxWidth || '';
       canvas.style.maxHeight = initialStyle.maxHeight || '';
       canvas.style.imageRendering = initialStyle.imageRendering || '';
-      return;
+
+      const rect = canvas.getBoundingClientRect();
+      targetW = rect.width || iw;
+      targetH = rect.height || ih;
+      offsetX = rect.left || 0;
+      offsetY = rect.top || 0;
     }
 
-    // 內部比例（以實際 internal resolution 優先，退回 offset 以避免 NaN）
-    const iw = Math.max(1, canvas.width || canvas.offsetWidth || 1);
-    const ih = Math.max(1, canvas.height || canvas.offsetHeight || 1);
-    const aspect = iw / ih;
-
-    // 以高度貼齊（vh 為可視高度），計算對應寬度
-    let targetH = vh;
-    let targetW = Math.round(targetH * aspect);
-
-    // 若寬超過可視寬，回退為「貼齊寬」
-    if (targetW > vw) {
-      targetW = vw;
-      targetH = Math.round(targetW / aspect);
+    // 調整 UI 容器的縮放與位移，使其貼齊 canvas
+    if (uiLayer) {
+      uiLayer.style.width = `${iw}px`;
+      uiLayer.style.height = `${ih}px`;
+      const scale = targetW / iw;
+      uiLayer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
     }
-
-    // 僅改 CSS 尺寸（不動 internal resolution → 不改手感）
-    canvas.style.width = `${targetW}px`;
-    canvas.style.height = `${targetH}px`;
-    canvas.style.maxWidth = '100vw';
-    canvas.style.maxHeight = '100vh';
-    canvas.style.imageRendering = 'pixelated'; // 像素風建議；非像素風可移除
   }
 
   // 8) 去抖觸發
