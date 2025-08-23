@@ -170,8 +170,16 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
 
   const settingsMenu = document.getElementById('settings-menu');
   if (settingsToggle && settingsMenu) {
-    settingsToggle.addEventListener('click', () => {
-      settingsMenu.classList.toggle('open');
+    function closeMenu() { settingsMenu.hidden = true; }
+    settingsToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      settingsMenu.hidden = !settingsMenu.hidden;
+    });
+    document.addEventListener('click', (e) => {
+      if (settingsMenu.hidden) return;
+      if (e.target instanceof Node && !settingsMenu.contains(e.target) && e.target !== settingsToggle) {
+        closeMenu();
+      }
     });
   }
   if (bgmToggle) {
