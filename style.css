@@ -1,4 +1,4 @@
-/* Version: 1.5.120 */
+/* Version: 1.5.121 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -24,6 +24,9 @@ html, body {
   position: relative;
   width: min(100vw, calc(100dvh * (var(--game-w) / var(--game-h))));
   aspect-ratio: calc(var(--game-w) / var(--game-h));
+  /* lock max size at original resolution */
+  max-width: calc(var(--game-w) * 1px);
+  max-height: calc(var(--game-h) * 1px);
 }
 
 #stage > canvas,
@@ -46,6 +49,28 @@ html, body {
 #hud {
   pointer-events: none;
   font-family: system-ui, "Noto Sans TC", Arial, sans-serif;
+}
+
+/* Base pill style */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .25rem .5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.35);
+  background: rgba(255,255,255,.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset;
+}
+
+@media (prefers-color-scheme: dark){
+  .pill {
+    border-color: rgba(255,255,255,.35);
+    background: rgba(0,0,0,.35);
+    box-shadow: 0 1px 0 rgba(0,0,0,.35) inset;
+  }
 }
 
 #hud-top-center {
