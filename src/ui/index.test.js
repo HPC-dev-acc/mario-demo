@@ -27,8 +27,14 @@ import { initUI } from './index.js';
           </div>
           <div id="hud-top-center">
             <button id="fullscreen-toggle" class="pill">⛶</button>
+            <div id="score-pill" class="pill"><span id="score-label"></span> <span id="score">0</span></div>
+            <div id="stage-pill" class="pill"></div>
+            <div id="time-pill" class="pill"><span id="time-label"></span> <span id="timer">60</span></div>
           </div>
-          <div id="info-panel" hidden></div>
+          <div id="info-panel" hidden>
+            <h1 id="doc-title"></h1>
+            <p class="doc"></p>
+          </div>
       <div id="game-wrap"><canvas id="game"></canvas><div id="ped-dialog" class="ped-dialog hidden"><div class="ped-dialog__content"><img src="assets/red-person.svg" class="ped-dialog__icon" alt=""><span class="ped-dialog__text"></span></div></div></div>
       </div>`;
     return document.getElementById('game');
@@ -217,4 +223,14 @@ test('language selection changes ped dialog text', () => {
   select.dispatchEvent(new Event('change'));
   ui.showPedDialog('wait');
   expect(document.querySelector('.ped-dialog__text').textContent).toBe('青に変わるまでお待ちください');
+});
+
+test('language selection updates score and info text', () => {
+  const canvas = setupDOM();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const select = document.getElementById('lang-select');
+  select.value = 'ja';
+  select.dispatchEvent(new Event('change'));
+  expect(document.getElementById('score-label').textContent).toBe('スコア');
+  expect(document.getElementById('doc-title').textContent).toBe('ピクセルランデモ（マリオ風）');
 });
