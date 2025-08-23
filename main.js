@@ -63,8 +63,10 @@ const IMPACT_COOLDOWN_MS = 120;
     canvas.width  = Math.round(LOGICAL_W * dpr);
     canvas.height = Math.round(LOGICAL_H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    canvas.style.imageRendering = 'pixelated';
     const rect = canvas.getBoundingClientRect();
     window.__cssScale = rect.width / LOGICAL_W;
+    canvas.dataset.cssScale = window.__cssScale;
   }
 
   window.addEventListener('resize', applyDPR);

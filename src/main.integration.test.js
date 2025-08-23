@@ -227,6 +227,14 @@ describe('canvas resizing', () => {
     expect(canvas.width).toBe(960);
     expect(canvas.height).toBe(540);
   });
+
+  test('resize sets canvas imageRendering to pixelated', async () => {
+    await loadGame();
+    const canvas = document.getElementById('game');
+    canvas.style.imageRendering = 'auto';
+    window.__resizeGameCanvas();
+    expect(canvas.style.imageRendering).toBe('pixelated');
+  });
 });
 
 describe('player and npc collision', () => {
