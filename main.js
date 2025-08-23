@@ -1,4 +1,5 @@
 import { TILE, COLL_TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, findGroundY } from './src/game/physics.js';
+import { showHUD } from './hud.js';
 import { BASE_W, updatePlayerWidth } from './src/game/width.js';
 import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
@@ -343,10 +344,15 @@ const IMPACT_COOLDOWN_MS = 120;
   let stageFailed=false;
   let pedDialogVisible = false;
 
+  ['btn-start', 'btn-retry'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.addEventListener('click', showHUD);
+  });
+
   const btnRestart = document.getElementById('btn-restart');
-  if (btnRestart) btnRestart.addEventListener('click', ()=> restartStage());
+  if (btnRestart) btnRestart.addEventListener('click', () => { showHUD(); restartStage(); });
   const btnRestartFail = document.getElementById('btn-restart-fail');
-  if (btnRestartFail) btnRestartFail.addEventListener('click', ()=> restartStage());
+  if (btnRestartFail) btnRestartFail.addEventListener('click', () => { showHUD(); restartStage(); });
 
   function maybeClear(){
     if (!stageCleared && !stageFailed && player.x >= GOAL_X){
