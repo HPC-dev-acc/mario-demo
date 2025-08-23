@@ -1,11 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.114**
+**Version: 1.5.115**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
-- Canvas now automatically fills the screen when switching to landscape on mobile devices.
+- Canvas now fits the visible viewport height and stays centered in mobile landscape, tracking browser UI changes.
 - Added an orientation guard that overlays a rotate prompt on mobile portrait, pausing gameplay, blocking input, and muting background music until landscape.
 - Orientation monitoring now begins only after leaving the start page, avoiding unnecessary checks on the home screen.
 - UI pills, settings menu, and info panel now follow the selected language.
