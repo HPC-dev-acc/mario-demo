@@ -179,6 +179,10 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     bgmToggle.addEventListener('click', () => {
       const on = toggleMusic();
       bgmOn = on;
+      if (window.__BGM__) {
+        window.__BGM__.muted = !on;
+        window.__BGM__.mutedByGuard = false;
+      }
       bgmToggle.textContent = uiText[on ? 'mute' : 'unmute'][currentLang];
     });
   }

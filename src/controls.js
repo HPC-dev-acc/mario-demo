@@ -1,6 +1,7 @@
 export function createControls(pressJump, releaseJump) {
   const keys = { left: false, right: false, jump: false, action: false };
   window.addEventListener('keydown', (e) => {
+    if (window.__ORIENT_BLOCK_INPUT__) return;
     const c = e.code;
     const k = e.key?.toLowerCase();
     if (c === 'ArrowLeft' || k === 'a') { e.preventDefault(); keys.left = true; }
@@ -12,6 +13,7 @@ export function createControls(pressJump, releaseJump) {
     if (c === 'KeyX' || k === 'x' || k === 'k' || k === 'j') { e.preventDefault(); keys.action = true; }
   });
   window.addEventListener('keyup', (e) => {
+    if (window.__ORIENT_BLOCK_INPUT__) return;
     const c = e.code;
     const k = e.key?.toLowerCase();
     if (c === 'ArrowLeft' || k === 'a') keys.left = false;
@@ -26,7 +28,8 @@ export function createControls(pressJump, releaseJump) {
     const el = document.getElementById(id); if (!el) return;
     const on = () => { keys[prop] = true; el.classList.add('hold'); if (prop === 'jump' && typeof pressJump === 'function') pressJump('touch'); };
     const off = () => { if (prop === 'jump' && releaseJump) releaseJump(); keys[prop] = false; el.classList.remove('hold'); };
-    const start = e => { e.preventDefault(); on(); }, end = e => { e.preventDefault(); off(); };
+    const start = e => { if (window.__ORIENT_BLOCK_INPUT__) { e.preventDefault(); return; } e.preventDefault(); on(); },
+          end = e => { if (window.__ORIENT_BLOCK_INPUT__) { e.preventDefault(); return; } e.preventDefault(); off(); };
     el.addEventListener('pointerdown', start, { passive: false });
     el.addEventListener('pointerup', end, { passive: false });
     el.addEventListener('pointerleave', end, { passive: false });
