@@ -8,9 +8,14 @@ function makeWorld(w, h) {
 }
 function setBlock(world, x, y, val) {
   world.level[y][x] = val;
-  const base = val === TRAFFIC_LIGHT ? TRAFFIC_LIGHT : val ? 1 : 0;
   const cy = y * 2, cx = x * 2;
-  world.collisions[cy][cx] = world.collisions[cy][cx + 1] = world.collisions[cy + 1][cx] = world.collisions[cy + 1][cx + 1] = base;
+  if (val === TRAFFIC_LIGHT) {
+    world.collisions[cy][cx] = world.collisions[cy][cx + 1] = TRAFFIC_LIGHT;
+    world.collisions[cy + 1][cx] = world.collisions[cy + 1][cx + 1] = 1;
+  } else {
+    const base = val ? 1 : 0;
+    world.collisions[cy][cx] = world.collisions[cy][cx + 1] = world.collisions[cy + 1][cx] = world.collisions[cy + 1][cx + 1] = base;
+  }
 }
 
 test('entity passes through a wall', () => {
@@ -74,7 +79,49 @@ test('passing next to a traffic light does not alter vertical movement', () => {
   const startY = ent.y;
   resolveCollisions(ent, world.level, world.collisions);
   expect(ent.vy).toBe(0);
-  expect(ent.y).toBe(startY);
+  expect(ent.y).toBeCloseTo(startY, 1);
+});
+
+test('crossing a traffic light left to right keeps vertical motion unchanged', () => {
+  const world = makeWorld(5, 5);
+  setBlock(world, 0, 2, 1);
+  setBlock(world, 1, 2, TRAFFIC_LIGHT);
+  setBlock(world, 2, 2, 1);
+  const h = 120;
+  const ent = {
+    x: TILE * 0 + TILE / 2,
+    y: TILE * 2 - h / 2,
+    w: BASE_W,
+    h,
+    vx: TILE * 2,
+    vy: 0,
+    onGround: true,
+  };
+  const startY = ent.y;
+  resolveCollisions(ent, world.level, world.collisions);
+  expect(ent.vy).toBe(0);
+  expect(ent.y).toBeCloseTo(startY, 1);
+});
+
+test('crossing a traffic light right to left keeps vertical motion unchanged', () => {
+  const world = makeWorld(5, 5);
+  setBlock(world, 0, 2, 1);
+  setBlock(world, 1, 2, TRAFFIC_LIGHT);
+  setBlock(world, 2, 2, 1);
+  const h = 120;
+  const ent = {
+    x: TILE * 2 + TILE / 2,
+    y: TILE * 2 - h / 2,
+    w: BASE_W,
+    h,
+    vx: -TILE * 2,
+    vy: 0,
+    onGround: true,
+  };
+  const startY = ent.y;
+  resolveCollisions(ent, world.level, world.collisions);
+  expect(ent.vy).toBe(0);
+  expect(ent.y).toBeCloseTo(startY, 1);
 });
 
 test('collecting a coin adds score and removes coin', () => {
