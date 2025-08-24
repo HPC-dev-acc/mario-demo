@@ -580,13 +580,14 @@ const NPC_SPAWN_MAX_MS = 8000;
         npc.bumped = true;
       } else {
         // 側撞／下方：一次性擊退並硬直（不可操作）
+        const dir = player.x < npc.x ? -1 : 1; // 依相對位置決定擊退方向
         if (player.stunnedMs <= 0) {
-          player.vx = -player.facing * KNOCKBACK;
+          player.vx = dir * KNOCKBACK;
           player.stunnedMs = STUN_TIME;
           // 取消跳躍緩衝與土狼時間，避免立刻跳脫硬直
           jumpBufferMs = 0; coyoteMs = 0;
         }
-        npc.vx = player.facing * KNOCKBACK;
+        npc.vx = -dir * KNOCKBACK;
         npc.knockbackTimer = Math.max(npc.knockbackTimer || 0, 200);
         npc.pauseTimer = Math.max(npc.pauseTimer, 400);
         npc.state = 'bump';

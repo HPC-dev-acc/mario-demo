@@ -1,10 +1,11 @@
 # Mario Demo
 
-**Version: 1.5.143**
+**Version: 1.5.144**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
+- Side collisions now determine knockback based on player and NPC positions.
 - Fixed bottom collisions near traffic lights so passing beside them doesn't alter vertical movement.
 - Countdown timer flashes during the final 10 seconds.
 - Updated pedestrian wait dialog text to “Want to dash through, but can’t…”.

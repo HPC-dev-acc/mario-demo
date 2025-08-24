@@ -326,28 +326,32 @@ describe('player and npc collision', () => {
     jest.resetModules();
   });
 
-  test('side collision stuns player and knocks back npc', async () => {
+  test.each([
+    ['player left of npc', 90, 100, -1, -1, 1],
+    ['player right of npc', 110, 100, 1, 1, -1],
+  ])('side collision stuns player and knocks entities apart when %s', async (_s, px, nx, facing, pSign, nSign) => {
     const { hooks } = await loadGame();
     const state = hooks.getState();
     const player = state.player;
-    player.x = 100; player.y = 0; player.vx = 0; player.vy = 0; player.facing = 1;
-    const npc = createNpc(100, 0, player.w, player.h, null);
+    player.x = px; player.y = 0; player.vx = 0; player.vy = 0; player.facing = facing;
+    const npc = createNpc(nx, 0, player.w, player.h, null);
     state.npcs.push(npc);
 
     hooks.runUpdate(16);
 
     expect(player.stunnedMs).toBeGreaterThan(0);
-    expect(player.facing).toBe(1);
+    expect(Math.sign(player.vx)).toBe(pSign);
+    expect(player.facing).toBe(facing);
     expect(npc.state).toBe('bump');
     expect(npc.pauseTimer).toBeGreaterThanOrEqual(400);
     expect(npc.knockbackTimer).toBeGreaterThan(0);
-    expect(npc.vx).toBeGreaterThan(0);
+    expect(Math.sign(npc.vx)).toBe(nSign);
 
     hooks.runUpdate(16);
     expect(npc.knockbackTimer).toBeGreaterThan(0);
-    expect(npc.vx).toBeGreaterThan(0);
-    
-    expect(player.facing).toBe(1);
+    expect(Math.sign(npc.vx)).toBe(nSign);
+
+    expect(player.facing).toBe(facing);
   });
 
   test('stomping npc bounces player with normal jump height', async () => {
