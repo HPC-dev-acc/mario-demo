@@ -9,7 +9,9 @@ const JUMP_VEL = -17.8; // mirror JUMP_VEL in main.js
 async function loadGame() {
   document.body.innerHTML = '<div id="stage"><canvas id="game"></canvas><div id="hud"><div id="stage-clear"><button id="btn-restart"></button></div><div id="stage-fail"><button id="btn-restart-fail"></button></div></div></div>';
   const canvas = document.getElementById('game');
-  canvas.getContext = () => ({ setTransform: jest.fn() });
+  const ctx = { setTransform: jest.fn() };
+  canvas.getContext = () => ctx;
+  Object.defineProperty(window, 'devicePixelRatio', { configurable: true, value: 1 });
   canvas.getBoundingClientRect = () => ({ width: 960, height: 540, left: 0, top: 0 });
   Object.defineProperty(window, 'innerWidth', { configurable: true, value: 960 });
   Object.defineProperty(window, 'innerHeight', { configurable: true, value: 540 });
@@ -62,8 +64,27 @@ async function loadGame() {
 
   await import('../main.js');
   await new Promise((r) => setTimeout(r, 0));
-  return { hooks: window.__testHooks, scoreEl, timerEl, audio, startCallback };
+  return { hooks: window.__testHooks, scoreEl, timerEl, audio, startCallback, canvas, ctx };
 }
+
+describe('canvas scaling', () => {
+  afterEach(() => {
+    jest.resetModules();
+  });
+
+  test('resizeGameCanvas uses devicePixelRatio and client size', async () => {
+    const { canvas, ctx } = await loadGame();
+    Object.defineProperty(window, 'devicePixelRatio', { configurable: true, value: 2 });
+    Object.defineProperty(canvas, 'clientWidth', { configurable: true, value: 960 });
+    Object.defineProperty(canvas, 'clientHeight', { configurable: true, value: 540 });
+    window.__resizeGameCanvas();
+    expect(canvas.width).toBe(1920);
+    expect(canvas.height).toBe(1080);
+    expect(canvas.dataset.cssScaleX).toBe('1');
+    expect(canvas.dataset.cssScaleY).toBe('1');
+    expect(ctx.setTransform).toHaveBeenLastCalledWith(2, 0, 0, 2, 0, 0);
+  });
+});
 
 describe('audio loading', () => {
   afterEach(() => {
@@ -349,14 +370,19 @@ describe('canvas resizing', () => {
     expect(canvas.height).toBe(540);
   });
 
-  test('fullscreenchange recalculates canvas size from window width', async () => {
-    await loadGame();
-    const canvas = document.getElementById('game');
-    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1920 });
+  test('fullscreenchange recalculates canvas size from element size', async () => {
+    const { canvas } = await loadGame();
+    Object.defineProperty(canvas, 'clientWidth', { configurable: true, value: 1920 });
+    Object.defineProperty(canvas, 'clientHeight', { configurable: true, value: 1080 });
+    const rect = { width: 1920, height: 1080, left: 0, top: 0 };
+    canvas.getBoundingClientRect = () => rect;
     document.dispatchEvent(new Event('fullscreenchange'));
     expect(canvas.width).toBe(1920);
     expect(canvas.height).toBe(1080);
-    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 960 });
+    rect.width = 960;
+    rect.height = 540;
+    Object.defineProperty(canvas, 'clientWidth', { configurable: true, value: 960 });
+    Object.defineProperty(canvas, 'clientHeight', { configurable: true, value: 540 });
     document.dispatchEvent(new Event('fullscreenchange'));
     expect(canvas.width).toBe(960);
     expect(canvas.height).toBe(540);
