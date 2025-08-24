@@ -13,9 +13,12 @@ export function render(ctx, state, design) {
       const y = Math.round(camera.y * bgScaleX) || 0;
       const bgOffsetY = (window.innerHeight - ctx.canvas.clientHeight) / 2;
       const posY = `calc(${bgOffsetY}px - ${y}px)`;
+      const bgHeight = `${ctx.canvas.clientHeight}px`;
       stage.style.backgroundPosition = `${x}px ${posY}`;
+      stage.style.backgroundSize = `auto ${bgHeight}`;
       if (document.body && document.body.style) {
         document.body.style.backgroundPosition = `${x}px ${posY}`;
+        document.body.style.backgroundSize = `auto ${bgHeight}`;
       }
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
