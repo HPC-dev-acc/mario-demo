@@ -45,6 +45,8 @@ test('background repeats, centers vertically, and moves with camera', () => {
 
   render(ctx, state);
   expect(stage.style.backgroundPosition).toBe('0px calc(0px - 0px)');
+  expect(stage.style.backgroundSize).toBe(`auto ${canvas.clientHeight}px`);
+  expect(document.body.style.backgroundSize).toBe(`auto ${canvas.clientHeight}px`);
   state.camera.x = 50;
   render(ctx, state);
   expect(stage.style.backgroundPosition).toBe('-50px calc(0px - 0px)');
@@ -145,6 +147,7 @@ test('16:10 viewport keeps 16:9 canvas and aligns background', () => {
   });
   render(ctx, state);
   expect(canvas.clientWidth / canvas.clientHeight).toBeCloseTo(16 / 9, 5);
+  expect(stage.style.backgroundSize).toBe(`auto ${canvas.clientHeight}px`);
   ui.syncDialogToPlayer(state.player, state.camera);
   expect(stage.style.backgroundPosition).toBe('-75px calc(45px - 0px)');
   expect(parseFloat(dialog.style.left)).toBeCloseTo(-75, 1);
