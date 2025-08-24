@@ -44,7 +44,7 @@ test('render translates camera position', () => {
   expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -state.camera.y);
 });
 
-test('render scales background position by cssScaleX', () => {
+test('render scales background position by bgScaleX', () => {
   const state = createGameState();
   state.camera.x = 10;
   const stage = { style: {} };
@@ -52,7 +52,7 @@ test('render scales background position by cssScaleX', () => {
     width: 256,
     height: 240,
     style: {},
-    dataset: { cssScaleX: '2', cssScaleY: '3' },
+    dataset: { cssScaleX: '2', cssScaleY: '3', bgScaleX: '2' },
     clientWidth: 0,
     clientHeight: 0,
     parentElement: stage,
