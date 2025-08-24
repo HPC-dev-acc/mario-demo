@@ -454,6 +454,7 @@ const IMPACT_COOLDOWN_MS = 120;
 
     if (player.redLightPaused) {
       player.sliding = 0;
+      exitSlide(player);
       player.vx *= 0.8;
       if (Math.abs(player.vx) < 0.05) player.vx = 0;
     } else if (player.sliding > 0) {
