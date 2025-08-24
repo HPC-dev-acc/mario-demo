@@ -1,4 +1,4 @@
-import { render, drawPlayer, drawTrafficLight, drawNpc, CAMERA_OFFSET_Y } from './render.js';
+import { render, drawPlayer, drawTrafficLight, drawNpc, CAMERA_OFFSET_Y, getVisibleRange } from './render.js';
 import { createGameState, Y_OFFSET } from './game/state.js';
 import { TILE, findGroundY } from './game/physics.js';
 
@@ -44,7 +44,7 @@ test('render translates camera position', () => {
   expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -(state.camera.y + CAMERA_OFFSET_Y));
 });
 
-test('render scales background position by cssScaleX', () => {
+test('render scales background transform by cssScaleX', () => {
   const state = createGameState();
   state.camera.x = 10;
   const stage = { style: {} };
@@ -54,8 +54,6 @@ test('render scales background position by cssScaleX', () => {
     height: 240,
     style: {},
     dataset: { cssScaleX: '2', cssScaleY: '3' },
-    clientWidth: 0,
-    clientHeight: 240,
     parentElement: stage,
   };
   const ctx = {
@@ -74,7 +72,17 @@ test('render scales background position by cssScaleX', () => {
     fillStyle: '',
   };
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe(`-20px calc(0px - ${CAMERA_OFFSET_Y * 2}px)`);
+  expect(stage.style.transform).toBe(`translate(-20px, 0px)`);
+});
+
+test('getVisibleRange limits tiles to viewport', () => {
+  const camera = { x: 96, y: 48 };
+  const canvas = { width: 256, height: 240, dataset: { cssScaleX: '1', cssScaleY: '1' } };
+  const range = getVisibleRange(camera, canvas, 20, 20, camera.y + CAMERA_OFFSET_Y);
+  expect(range.startX).toBe(2);
+  expect(range.endX).toBe(8);
+  expect(range.startY).toBe(1);
+  expect(range.endY).toBe(6);
 });
 
 test('render does not call drawCloud', () => {

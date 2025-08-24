@@ -44,18 +44,19 @@ test('background repeats, centers vertically, and moves with camera', () => {
   };
 
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe(`0px calc(0px - ${CAMERA_OFFSET_Y}px)`);
-  expect(stage.style.backgroundSize).toBe(`auto ${canvas.clientHeight}px`);
-  expect(document.body.style.backgroundSize).toBe(`auto ${canvas.clientHeight}px`);
+  expect(stage.style.transform).toBe('translate(0px, 0px)');
+  expect(stage.style.backgroundSize).toBe(`auto ${canvas.height}px`);
+  expect(document.body.style.backgroundSize).toBe(`auto ${canvas.height}px`);
   state.camera.x = 50;
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe(`-50px calc(0px - ${CAMERA_OFFSET_Y}px)`);
+  expect(stage.style.transform).toBe(`translate(-50px, 0px)`);
   state.camera.y = 25;
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe(`-50px calc(0px - ${25 + CAMERA_OFFSET_Y}px)`);
+  expect(stage.style.transform).toBe(`translate(-50px, -25px)`);
   canvas.dataset.cssScaleX = '2';
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe(`-100px calc(0px - ${(25 + CAMERA_OFFSET_Y) * 2}px)`);
+  expect(stage.style.transform).toBe(`translate(-100px, -50px)`);
+  expect(stage.style.backgroundSize).toBe(`auto ${canvas.height * 2}px`);
 });
 
 test('uses cssScaleX from dataset when provided', () => {
@@ -91,7 +92,7 @@ test('uses cssScaleX from dataset when provided', () => {
     playerSprites: {},
   };
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe(`-100px calc(0px - ${CAMERA_OFFSET_Y * 2}px)`);
+  expect(stage.style.transform).toBe(`translate(-100px, 0px)`);
 });
 
 test('16:10 viewport keeps 16:9 canvas and aligns background', () => {
@@ -147,10 +148,10 @@ test('16:10 viewport keeps 16:9 canvas and aligns background', () => {
   });
   render(ctx, state);
   expect(canvas.clientWidth / canvas.clientHeight).toBeCloseTo(16 / 9, 5);
-  expect(stage.style.backgroundSize).toBe(`auto ${canvas.clientHeight}px`);
+  expect(stage.style.backgroundSize).toBe(`auto ${canvas.height * scale}px`);
   ui.syncDialogToPlayer(state.player, state.camera);
   const expectedY = CAMERA_OFFSET_Y * scale;
-  expect(stage.style.backgroundPosition).toBe(`-75px calc(0px - ${expectedY}px)`);
+  expect(stage.style.transform).toBe(`translate(-75px, ${-expectedY}px)`);
   expect(parseFloat(dialog.style.left)).toBeCloseTo(-75, 1);
   delete window.__cssScaleX;
   delete window.__cssScaleY;
