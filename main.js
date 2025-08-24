@@ -69,12 +69,10 @@ const NPC_SPAWN_MAX_MS = 8000;
       const scaleY = canvas.height / LOGICAL_H;
       ctx.setTransform(scaleX, 0, 0, scaleY, 0, 0);
       canvas.style.imageRendering = 'pixelated';
-      window.__cssScaleX = rect.width / LOGICAL_W;
-      window.__cssScaleY = rect.height / LOGICAL_H;
-      canvas.dataset.cssScaleX = window.__cssScaleX;
-      canvas.dataset.cssScaleY = window.__cssScaleY;
-      window.__bgScaleX = rect.height / LOGICAL_H;
-      canvas.dataset.bgScaleX = window.__bgScaleX.toString();
+        window.__cssScaleX = rect.width / LOGICAL_W;
+        window.__cssScaleY = rect.height / LOGICAL_H;
+        canvas.dataset.cssScaleX = window.__cssScaleX;
+        canvas.dataset.cssScaleY = window.__cssScaleY;
     }
 
   window.addEventListener('resize', applyDPR);

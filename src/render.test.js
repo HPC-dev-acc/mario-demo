@@ -44,7 +44,7 @@ test('render translates camera position', () => {
   expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -state.camera.y);
 });
 
-test('render scales background position by bgScaleX', () => {
+test('render scales background position by cssScaleX', () => {
   const state = createGameState();
   state.camera.x = 10;
   const stage = { style: {} };
@@ -52,7 +52,7 @@ test('render scales background position by bgScaleX', () => {
     width: 256,
     height: 240,
     style: {},
-    dataset: { cssScaleX: '2', cssScaleY: '3', bgScaleX: '2' },
+    dataset: { cssScaleX: '2', cssScaleY: '3' },
     clientWidth: 0,
     clientHeight: 0,
     parentElement: stage,
@@ -73,7 +73,7 @@ test('render scales background position by bgScaleX', () => {
     fillStyle: '',
   };
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-20px 0px');
+  expect(stage.style.backgroundPosition).toBe('-20px calc(50% - 0px)');
 });
 
 test('render does not call drawCloud', () => {
