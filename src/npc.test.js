@@ -63,11 +63,16 @@ test('npc collision box tracks position', () => {
 });
 
 test('fixed-speed npc maintains constant velocity', () => {
-  const npc = createNpc(50, 0, 10, 10, null, () => 0.5, { fixedSpeed: -2 });
+  const npc = createNpc(50, 0, 10, 10, null, () => 0.5, undefined, { fixedSpeed: -2 });
   const state = makeState();
   updateNpc(npc, 500, state);
   expect(npc.vx).toBe(-2);
   expect(npc.state).toBe('walk');
+});
+
+test('npc accepts initial facing direction', () => {
+  const npc = createNpc(0, 0, 10, 10, null, () => 0.5, 1);
+  expect(npc.facing).toBe(1);
 });
 
 test('npc shows bump state during pause', () => {
