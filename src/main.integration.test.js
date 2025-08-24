@@ -196,6 +196,20 @@ describe('npc spawn', () => {
     expect(npc.w).toBeCloseTo(48 * (state.player.h / 44) * 6 / 5);
   });
 
+  test('does not spawn npc of same type when one exists', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    Math.random = () => 0; // force OL type
+    hooks.runUpdate(1);
+    hooks.setNpcSpawnTimer(0);
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    expect(state.npcs.length).toBe(1);
+    expect(state.npcs[0].type).toBe('ol');
+  });
+
   test('npc spawn timer respects new minimum interval', async () => {
     const { hooks } = await loadGame();
     hooks.setNpcSpawnTimer(0);

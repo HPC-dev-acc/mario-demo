@@ -543,8 +543,11 @@ const NPC_SPAWN_MAX_MS = 8000;
       const sprite = useOl ? state.olNpcSprite : state.npcSprite;
       const opts = useOl ? { fixedSpeed: -1.5 } : undefined;
       const facing = useOl ? 1 : undefined;
-      const npc = createNpc(spawnX, SPAWN_Y, npcW, npcH, sprite, undefined, facing, opts);
-      state.npcs.push(npc);
+      const type = useOl ? 'ol' : 'default';
+      if (!state.npcs.some(n => n.type === type)) {
+        const npc = createNpc(spawnX, SPAWN_Y, npcW, npcH, sprite, undefined, facing, opts, type);
+        state.npcs.push(npc);
+      }
       npcSpawnTimer = NPC_SPAWN_MIN_MS + Math.random() * (NPC_SPAWN_MAX_MS - NPC_SPAWN_MIN_MS);
     }
 

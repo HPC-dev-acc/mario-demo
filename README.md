@@ -1,6 +1,6 @@
 # Mario Demo
 
-**Version: 1.5.137**
+**Version: 1.5.138**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
@@ -17,6 +17,7 @@ This project is a simple platformer demo inspired by classic 2D side-scrollers. 
 - Added a white background to the debug panel for better visibility.
 - Start, clear, and fail prompts are styled more clearly and restart buttons on clear/fail screens are larger.
 - `createNpc` now accepts an optional `facing` parameter and OL NPCs spawn facing right to avoid redundant flipping.
+- `createNpc` now tags each NPC with a type and the game prevents spawning duplicates of the same type.
 - NPCs now render using each character's own sprite so OL NPCs display their animations.
 - Renamed an OL walk animation frame to fix start screen resource loading errors.
 - Introduced a new OL NPC that enters from the right at a steady pace and swaps to a bump animation when hit.

@@ -11,6 +11,16 @@ test('npc walks left when not paused', () => {
   expect(npc.x).toBeLessThan(100);
 });
 
+test('createNpc assigns type', () => {
+  const npc = createNpc(0, 0, 10, 10, null, undefined, undefined, undefined, 'ol');
+  expect(npc.type).toBe('ol');
+});
+
+test('createNpc defaults type to "default"', () => {
+  const npc = createNpc(0, 0, 10, 10, null);
+  expect(npc.type).toBe('default');
+});
+
 test('npc no longer auto-pauses on player collision', () => {
   const npc = createNpc(0, 0, 10, 10, null, () => 0.5);
   const state = makeState();
