@@ -1,5 +1,6 @@
 import pkg from '../../package.json' assert { type: 'json' };
 import { TILE, COLL_TILE } from '../game/physics.js';
+import { CAMERA_OFFSET_Y } from '../render.js';
 
 const LOGICAL_W = 960;
 
@@ -209,7 +210,7 @@ test('add button inserts a 24px block centered below the HUD', async () => {
   const hudRect = hud.getBoundingClientRect();
   const canvasRect = canvas.getBoundingClientRect();
   const px = state.camera.x + LOGICAL_W / 2;
-  const py = state.camera.y + (hudRect.bottom - canvasRect.top) + 4;
+  const py = state.camera.y + CAMERA_OFFSET_Y + (hudRect.bottom - canvasRect.top) + 4;
   const cx = Math.floor(px / (TILE / 2));
   const cy = Math.floor(py / (TILE / 2));
   const tx = Math.floor(cx / 2);
@@ -234,7 +235,7 @@ test('dragging an added 24px block preserves its pattern', async () => {
   const hudRect = hud.getBoundingClientRect();
   const canvasRect = canvas.getBoundingClientRect();
   const px = state.camera.x + LOGICAL_W / 2;
-  const py = state.camera.y + (hudRect.bottom - canvasRect.top) + 4;
+  const py = state.camera.y + CAMERA_OFFSET_Y + (hudRect.bottom - canvasRect.top) + 4;
   const cx = Math.floor(px / (TILE / 2));
   const cy = Math.floor(py / (TILE / 2));
   const tx = Math.floor(cx / 2);
@@ -262,7 +263,7 @@ test('pressing Q rotates a selected 24px block clockwise', async () => {
   const hudRect = hud.getBoundingClientRect();
   const canvasRect = canvas.getBoundingClientRect();
   const px = state.camera.x + LOGICAL_W / 2;
-  const py = state.camera.y + (hudRect.bottom - canvasRect.top) + 4;
+  const py = state.camera.y + CAMERA_OFFSET_Y + (hudRect.bottom - canvasRect.top) + 4;
   const cx = Math.floor(px / COLL_TILE);
   const cy = Math.floor(py / COLL_TILE);
   const tx = Math.floor(cx / 2);
@@ -305,7 +306,7 @@ test('render highlights a selected 24px block', async () => {
   const hudRect = hud.getBoundingClientRect();
   const canvasRect = canvas.getBoundingClientRect();
   const px = state.camera.x + LOGICAL_W / 2;
-  const py = state.camera.y + (hudRect.bottom - canvasRect.top) + 4;
+  const py = state.camera.y + CAMERA_OFFSET_Y + (hudRect.bottom - canvasRect.top) + 4;
   const cx = Math.floor(px / COLL_TILE);
   const cy = Math.floor(py / COLL_TILE);
   const tx = Math.floor(cx / 2);

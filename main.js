@@ -8,7 +8,7 @@ import { createGameState, SPAWN_X, SPAWN_Y } from './src/game/state.js';
 import { toLogical } from './src/game/serialize.js';
 import objects from './assets/objects.custom.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
-import { render } from './src/render.js';
+import { render, CAMERA_OFFSET_Y } from './src/render.js';
 import { updateCamera } from './src/game/camera.js';
 import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
@@ -299,7 +299,7 @@ const NPC_SPAWN_MAX_MS = 8000;
       const hudRect = hud.getBoundingClientRect();
       const canvasRect = canvas.getBoundingClientRect();
       const px = camera.x + LOGICAL_W / 2;
-      const py = camera.y + (hudRect.bottom - canvasRect.top) + 4;
+      const py = camera.y + CAMERA_OFFSET_Y + (hudRect.bottom - canvasRect.top) + 4;
       const cx = Math.floor(px / COLL_TILE);
       const cy = Math.floor(py / COLL_TILE);
       const tx = Math.floor(cx / 2);
@@ -485,7 +485,7 @@ const NPC_SPAWN_MAX_MS = 8000;
         enterSlide(player);
         triggerSlideEffect(
           player.x - camera.x,
-          player.y - camera.y + player.h / 2,
+          player.y - (camera.y + CAMERA_OFFSET_Y) + player.h / 2,
           player.facing
         );
         play('slide');

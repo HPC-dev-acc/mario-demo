@@ -1,3 +1,5 @@
+import { CAMERA_OFFSET_Y } from '../render.js';
+
 export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {}) {
   const stage = document.getElementById('stage');
   const startPage = document.getElementById('start-page');
@@ -132,7 +134,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     const scaleY = window.__cssScaleY || 1;
     return {
       x: (x - camera.x) * scaleX,
-      y: (y - camera.y) * scaleY,
+      y: (y - camera.y - CAMERA_OFFSET_Y) * scaleY,
       scaleX,
       scaleY,
     };

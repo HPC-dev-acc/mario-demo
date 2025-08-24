@@ -1,16 +1,19 @@
 import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 
+export const CAMERA_OFFSET_Y = 0;
+
 function getHighlightColor() {
   return getComputedStyle(document.documentElement).getPropertyValue('--designHighlight') || '#ff0';
 }
 
 export function render(ctx, state, design) {
   const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, npcs, transparent, patterns, indestructible } = state;
+  const camY = camera.y + CAMERA_OFFSET_Y;
   const stage = ctx.canvas?.parentElement;
   if (stage && stage.style) {
       const bgScaleX = Number(ctx.canvas.dataset?.cssScaleX);
       const x = -Math.round(camera.x * bgScaleX) || 0;
-      const y = Math.round(camera.y * bgScaleX) || 0;
+      const y = Math.round(camY * bgScaleX) || 0;
       const bgOffsetY = (window.innerHeight - ctx.canvas.clientHeight) / 2;
       const posY = `calc(${bgOffsetY}px - ${y}px)`;
       const bgHeight = `${ctx.canvas.clientHeight}px`;
@@ -23,7 +26,7 @@ export function render(ctx, state, design) {
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.save();
-  ctx.translate(-camera.x, -camera.y);
+  ctx.translate(-camera.x, -camY);
     for (let y = 0; y < LEVEL_H; y++) {
       for (let x = 0; x < LEVEL_W; x++) {
         const t = level[y][x], px = x * TILE, py = y * TILE;
