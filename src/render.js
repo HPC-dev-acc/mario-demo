@@ -11,7 +11,12 @@ export function render(ctx, state, design) {
       const bgScaleX = Number(ctx.canvas.dataset?.cssScaleX);
       const x = -Math.round(camera.x * bgScaleX) || 0;
       const y = Math.round(camera.y * bgScaleX) || 0;
-      stage.style.backgroundPosition = `${x}px calc(50% - ${y}px)`;
+      const bgOffsetY = (window.innerHeight - ctx.canvas.clientHeight) / 2;
+      const posY = `calc(${bgOffsetY}px - ${y}px)`;
+      stage.style.backgroundPosition = `${x}px ${posY}`;
+      if (document.body && document.body.style) {
+        document.body.style.backgroundPosition = `${x}px ${posY}`;
+      }
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.save();

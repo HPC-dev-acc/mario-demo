@@ -1,11 +1,12 @@
 # Mario Demo
 
-**Version: 1.5.152**
+**Version: 1.5.153**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
 - Fullscreen background now scales from width, centers vertically, and uses `data-css-scale-x` for both sprites and scrolling so 16:10 displays stay in sync.
+- Fullscreen mode now locks the game to a 16:9 aspect ratio with black bars and offsets the background to match.
 - NPCs now spawn at the lowest terrain height using `findGroundY`.
 - Vertical collision handling now skips traffic lights, keeping position and vertical velocity unchanged when passing over them.
 - Traffic light collisions now preserve ground support while allowing pass-through movement.

@@ -1,15 +1,23 @@
-/* Version: 1.5.152 */
+/* Version: 1.5.153 */
 :root {
   --game-w: 960;
   --game-h: 540;
   --bg: #9fd4ea;
   --ui-scale: 1;
   --touch-btn-size: max(64px, 10vw);
+  --canvas-h: calc(var(--game-h) * 1px);
 }
 
 html, body {
   height: 100%;
   margin: 0;
+}
+
+body {
+  background-image: url("assets/Background/background1.jpeg");
+  background-repeat: repeat-x;
+  background-size: cover;
+  background-position-y: calc((100vh - var(--canvas-h)) / 2);
 }
 
 [hidden] { display: none !important; }

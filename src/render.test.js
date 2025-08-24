@@ -48,13 +48,14 @@ test('render scales background position by cssScaleX', () => {
   const state = createGameState();
   state.camera.x = 10;
   const stage = { style: {} };
+  Object.defineProperty(window, 'innerHeight', { configurable: true, value: 240 });
   const canvas = {
     width: 256,
     height: 240,
     style: {},
     dataset: { cssScaleX: '2', cssScaleY: '3' },
     clientWidth: 0,
-    clientHeight: 0,
+    clientHeight: 240,
     parentElement: stage,
   };
   const ctx = {
@@ -73,7 +74,7 @@ test('render scales background position by cssScaleX', () => {
     fillStyle: '',
   };
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-20px calc(50% - 0px)');
+  expect(stage.style.backgroundPosition).toBe('-20px calc(0px - 0px)');
 });
 
 test('render does not call drawCloud', () => {

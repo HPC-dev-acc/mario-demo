@@ -11,6 +11,10 @@ async function loadGame() {
   const canvas = document.getElementById('game');
   canvas.getContext = () => ({ setTransform: jest.fn() });
   canvas.getBoundingClientRect = () => ({ width: 960, height: 540, left: 0, top: 0 });
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: 960 });
+  Object.defineProperty(window, 'innerHeight', { configurable: true, value: 540 });
+  Object.defineProperty(canvas, 'clientWidth', { configurable: true, value: 960 });
+  Object.defineProperty(canvas, 'clientHeight', { configurable: true, value: 540 });
   window.__APP_VERSION__ = pkg.version;
   global.requestAnimationFrame = jest.fn();
   Object.defineProperty(document, 'fullscreenElement', { writable: true, configurable: true, value: null });
@@ -345,14 +349,14 @@ describe('canvas resizing', () => {
     expect(canvas.height).toBe(540);
   });
 
-  test('fullscreenchange recalculates canvas size from bounding rect', async () => {
+  test('fullscreenchange recalculates canvas size from window width', async () => {
     await loadGame();
     const canvas = document.getElementById('game');
-    canvas.getBoundingClientRect = () => ({ width: 1920, height: 1080, left: 0, top: 0 });
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1920 });
     document.dispatchEvent(new Event('fullscreenchange'));
     expect(canvas.width).toBe(1920);
     expect(canvas.height).toBe(1080);
-    canvas.getBoundingClientRect = () => ({ width: 960, height: 540, left: 0, top: 0 });
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 960 });
     document.dispatchEvent(new Event('fullscreenchange'));
     expect(canvas.width).toBe(960);
     expect(canvas.height).toBe(540);
