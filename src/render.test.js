@@ -44,11 +44,19 @@ test('render translates camera position', () => {
   expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -state.camera.y);
 });
 
-test('render scales background position by cssScale', () => {
+test('render scales background position by cssScaleX', () => {
   const state = createGameState();
   state.camera.x = 10;
   const stage = { style: {} };
-  const canvas = { width: 256, height: 240, style: {}, dataset: { cssScale: '2' }, clientWidth: 0, parentElement: stage };
+  const canvas = {
+    width: 256,
+    height: 240,
+    style: {},
+    dataset: { cssScaleX: '2', cssScaleY: '3' },
+    clientWidth: 0,
+    clientHeight: 0,
+    parentElement: stage,
+  };
   const ctx = {
     canvas,
     clearRect: jest.fn(),
