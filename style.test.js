@@ -35,6 +35,7 @@ describe('style.css', () => {
     expect(rule).toMatch(/width:\s*calc\(var\(--touch-btn-size\)\s*\*\s*var\(--ui-scale\)\)/);
     expect(rule).toMatch(/height:\s*calc\(var\(--touch-btn-size\)\s*\*\s*var\(--ui-scale\)\)/);
     expect(rule).toMatch(/font-size:\s*calc\(var\(--touch-btn-size\)\s*\/\s*2\s*\*\s*var\(--ui-scale\)\)/);
+    expect(rule).toMatch(/opacity:\s*0?\.5/);
   });
 
   test('#stage-clear and #stage-fail permit pointer events', () => {
@@ -59,5 +60,11 @@ describe('style.css', () => {
     const btnRule = css.match(/#stage-clear button,\s*#stage-fail button\s*{[^}]*}/);
     expect(btnRule).toBeTruthy();
     expect(btnRule[0]).toMatch(/font-size:/);
+  });
+
+  test('ped dialog icon scales with text height', () => {
+    const icon = css.match(/\.ped-dialog__icon\s*{[^}]*}/);
+    expect(icon).toBeTruthy();
+    expect(icon[0]).toMatch(/height:\s*1em/);
   });
 });

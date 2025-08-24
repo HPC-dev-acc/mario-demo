@@ -1,10 +1,14 @@
 # Mario Demo
 
-**Version: 1.5.134**
+**Version: 1.5.135**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
+- Touch buttons are now semi-transparent for better visibility.
+- OL NPCs are slightly shorter while remaining taller than the player.
+- Red pedestrian dialog icon now matches text height.
+- Restart buttons on clear and fail screens now follow the selected language.
 - Stage 1-1 now spawns OL NPCs much more frequently than the original character.
 - OL NPCs are approximately one-third larger with matching collision boxes.
 - The page title now reads "HPC Demo Game".
