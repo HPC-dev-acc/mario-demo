@@ -192,8 +192,8 @@ describe('npc spawn', () => {
     hooks.runUpdate(1);
     Math.random = origRandom;
     const npc = state.npcs[0];
-    expect(npc.h).toBeCloseTo(state.player.h * 4 / 3);
-    expect(npc.w).toBeCloseTo(48 * (state.player.h / 44) * 4 / 3);
+    expect(npc.h).toBeCloseTo(state.player.h * 6 / 5);
+    expect(npc.w).toBeCloseTo(48 * (state.player.h / 44) * 6 / 5);
   });
 });
 

@@ -1,4 +1,4 @@
-/* Version: 1.5.134 */
+/* Version: 1.5.135 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -126,6 +126,7 @@ html, body {
   width: calc(var(--touch-btn-size) * var(--ui-scale));
   height: calc(var(--touch-btn-size) * var(--ui-scale));
   font-size: calc(var(--touch-btn-size) / 2 * var(--ui-scale));
+  opacity: .5;
 }
 
 .start-effect,
@@ -205,6 +206,16 @@ html, body {
   transform: translateX(-50%);
   border: 12px solid transparent;
   border-top-color: #fff;
+}
+
+.ped-dialog__content {
+  display: flex;
+  align-items: center;
+  gap: .5em;
+}
+
+.ped-dialog__icon {
+  height: 1em;
 }
 
 .slide-effect {

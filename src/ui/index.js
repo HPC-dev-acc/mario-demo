@@ -5,6 +5,8 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const startVersion = document.getElementById('start-version');
   const btnStart = document.getElementById('btn-start');
   const btnRetry = document.getElementById('btn-retry');
+  const btnRestart = document.getElementById('btn-restart');
+  const btnRestartFail = document.getElementById('btn-restart-fail');
   const pedDialogEl = document.getElementById('ped-dialog');
   const pedDialogText = pedDialogEl?.querySelector('.ped-dialog__text');
   const langSelect = document.getElementById('lang-select');
@@ -62,6 +64,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     destroy: { en: 'Break', ja: '破壊', 'zh-Hant': '破壞', 'zh-Hans': '破坏' },
     save: { en: 'Save', ja: '保存', 'zh-Hant': '儲存', 'zh-Hans': '保存' },
     add: { en: 'Add', ja: '追加', 'zh-Hant': '新增', 'zh-Hans': '新增' },
+    restart: { en: 'Restart', ja: '再スタート', 'zh-Hant': '重新開始', 'zh-Hans': '重新开始' },
     infoTitle: {
       en: 'Pixel Run Demo (Mario-style)',
       ja: 'ピクセルランデモ（マリオ風）',
@@ -95,6 +98,8 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     if (addBtn) addBtn.textContent = uiText.add[currentLang];
     if (docTitle) docTitle.textContent = uiText.infoTitle[currentLang];
     if (docText) docText.innerHTML = uiText.infoText[currentLang];
+    if (btnRestart) btnRestart.textContent = uiText.restart[currentLang];
+    if (btnRestartFail) btnRestartFail.textContent = uiText.restart[currentLang];
   }
 
   langSelect?.addEventListener('change', () => {

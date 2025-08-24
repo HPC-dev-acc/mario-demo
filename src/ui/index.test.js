@@ -38,6 +38,8 @@ import { initUI } from './index.js';
             <p class="doc"></p>
           </div>
           <div id="ped-dialog" class="ped-dialog hidden"><div class="ped-dialog__content"><img src="assets/red-person.svg" class="ped-dialog__icon" alt=""><span class="ped-dialog__text"></span></div></div>
+          <div id="stage-clear" hidden><div class="title"></div><button id="btn-restart">Restart</button></div>
+          <div id="stage-fail" hidden><div class="title"></div><button id="btn-restart-fail">Restart</button></div>
         </div>
       </div>`;
     return document.getElementById('game');
@@ -251,4 +253,18 @@ test('language selection updates score and info text', () => {
   select.dispatchEvent(new Event('change'));
   expect(document.getElementById('score-label').textContent).toBe('スコア');
   expect(document.getElementById('doc-title').textContent).toBe('ピクセルランデモ（マリオ風）');
+});
+
+test('language selection updates restart buttons', () => {
+  const canvas = setupDOM();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const btn = document.getElementById('btn-restart');
+  const btnFail = document.getElementById('btn-restart-fail');
+  expect(btn.textContent).toBe('Restart');
+  expect(btnFail.textContent).toBe('Restart');
+  const select = document.getElementById('lang-select');
+  select.value = 'ja';
+  select.dispatchEvent(new Event('change'));
+  expect(btn.textContent).toBe('再スタート');
+  expect(btnFail.textContent).toBe('再スタート');
 });
