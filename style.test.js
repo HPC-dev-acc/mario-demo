@@ -67,4 +67,12 @@ describe('style.css', () => {
     expect(icon).toBeTruthy();
     expect(icon[0]).toMatch(/height:\s*1em/);
   });
+
+  test('timer low-time animation is defined', () => {
+    const rule = css.match(/#timer\.low-time\s*{[^}]*}/);
+    expect(rule).toBeTruthy();
+    expect(rule[0]).toMatch(/animation:\s*[^;]*timer-pulse/);
+    const keyframes = css.match(/@keyframes\s*timer-pulse\s*{[\s\S]*?}/);
+    expect(keyframes).toBeTruthy();
+  });
 });
