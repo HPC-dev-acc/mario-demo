@@ -45,9 +45,13 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
       for (let x = 0; x < LEVEL_W; x++) {
         const t = level[y][x];
         if (t === 1 || t === 2 || t === TRAFFIC_LIGHT) {
-          const base = t === TRAFFIC_LIGHT ? TRAFFIC_LIGHT : 1;
           const cy = y * 2, cx = x * 2;
-          grid[cy][cx] = grid[cy][cx + 1] = grid[cy + 1][cx] = grid[cy + 1][cx + 1] = base;
+          if (t === TRAFFIC_LIGHT) {
+            grid[cy][cx] = grid[cy][cx + 1] = TRAFFIC_LIGHT;
+            grid[cy + 1][cx] = grid[cy + 1][cx + 1] = 1;
+          } else {
+            grid[cy][cx] = grid[cy][cx + 1] = grid[cy + 1][cx] = grid[cy + 1][cx + 1] = 1;
+          }
         }
       }
     }
