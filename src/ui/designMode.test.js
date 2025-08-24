@@ -55,6 +55,7 @@ async function loadGame() {
     loadPlayerSprites: () => Promise.resolve(),
     loadTrafficLightSprites: () => Promise.resolve({}),
     loadNpcSprite: () => Promise.resolve({}),
+    loadOlNpcSprite: () => Promise.resolve({}),
   }));
   await import('../../main.js');
   await Promise.resolve();

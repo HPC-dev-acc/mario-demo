@@ -20,8 +20,8 @@ export function boxesOverlap(a, b) {
   return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
 
-export function createNpc(x, y, w, h, sprite, rand=Math.random) {
-  return {
+export function createNpc(x, y, w, h, sprite, rand=Math.random, opts={}) {
+  const npc = {
     x, y, w, h,
     box: { x: x - w / 2, y: y - h / 2, w, h },
     vx: -WALK_SPEED,
@@ -38,8 +38,16 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random) {
     state: 'walk',
     animTime: 0,
     bounceCount: 0,
-    passThrough: false
+    passThrough: false,
+    bumped: false
   };
+  if (opts.fixedSpeed !== undefined) {
+    npc.fixedSpeed = opts.fixedSpeed;
+    npc.nextPause = Infinity;
+    npc.nextRun = Infinity;
+    npc.runTimer = 0;
+  }
+  return npc;
 }
 
 export function updateNpc(npc, dtMs, state, player) {
@@ -47,34 +55,40 @@ export function updateNpc(npc, dtMs, state, player) {
   npc.animTime += dtMs / 1000;
   if (npc.redLightPaused) {
     npc.vx = 0;
-    npc.state = 'idle';
+    npc.state = npc.bumped ? 'bump' : 'idle';
   } else if (npc.knockbackTimer > 0) {
     npc.knockbackTimer = Math.max(0, npc.knockbackTimer - dtMs);
     npc.vx *= 0.9;
     if (npc.knockbackTimer === 0) npc.vx = 0;
-    npc.state = 'idle';
+    npc.state = npc.bumped ? 'bump' : 'idle';
   } else if (npc.pauseTimer > 0) {
     npc.pauseTimer = Math.max(0, npc.pauseTimer - dtMs);
     npc.vx = 0;
-    npc.state = 'idle';
+    npc.state = npc.bumped ? 'bump' : 'idle';
   } else {
+    npc.bumped = false;
     npc.nextPause -= dtMs;
     npc.nextRun -= dtMs;
-    if (npc.runTimer > 0) {
-      npc.vx = -RUN_SPEED;
-      npc.runTimer = Math.max(0, npc.runTimer - dtMs);
-      npc.state = 'run';
-    } else {
-      npc.vx = -WALK_SPEED;
+    if (npc.fixedSpeed !== undefined) {
+      npc.vx = npc.fixedSpeed;
       npc.state = 'walk';
-      if (npc.nextRun <= 0) {
-        npc.runTimer = randRange(RUN_MIN, RUN_MAX, rand);
-        npc.nextRun = randRange(NEXT_RUN_MIN, NEXT_RUN_MAX, rand);
+    } else {
+      if (npc.runTimer > 0) {
+        npc.vx = -RUN_SPEED;
+        npc.runTimer = Math.max(0, npc.runTimer - dtMs);
+        npc.state = 'run';
+      } else {
+        npc.vx = -WALK_SPEED;
+        npc.state = 'walk';
+        if (npc.nextRun <= 0) {
+          npc.runTimer = randRange(RUN_MIN, RUN_MAX, rand);
+          npc.nextRun = randRange(NEXT_RUN_MIN, NEXT_RUN_MAX, rand);
+        }
       }
-    }
-    if (npc.nextPause <= 0) {
-      npc.pauseTimer = randRange(PAUSE_MIN, PAUSE_MAX, rand);
-      npc.nextPause = randRange(NEXT_PAUSE_MIN, NEXT_PAUSE_MAX, rand);
+      if (npc.nextPause <= 0) {
+        npc.pauseTimer = randRange(PAUSE_MIN, PAUSE_MAX, rand);
+        npc.nextPause = randRange(NEXT_PAUSE_MIN, NEXT_PAUSE_MAX, rand);
+      }
     }
   }
   npc.vy += state.gravity * dtMs / 16.6667;
