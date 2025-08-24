@@ -61,18 +61,24 @@ const NPC_SPAWN_MAX_MS = 8000;
   const LOGICAL_H = 540;
 
     function applyDPR() {
-      const rect = canvas.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = vw * LOGICAL_H / LOGICAL_W;
+      canvas.style.width = vw + 'px';
+      canvas.style.height = vh + 'px';
       const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 4));
-      canvas.width = Math.round(rect.width * dpr);
-      canvas.height = Math.round(rect.height * dpr);
+      canvas.width = Math.round(vw * dpr);
+      canvas.height = Math.round(vh * dpr);
       const scaleX = canvas.width / LOGICAL_W;
       const scaleY = canvas.height / LOGICAL_H;
       ctx.setTransform(scaleX, 0, 0, scaleY, 0, 0);
       canvas.style.imageRendering = 'pixelated';
-        window.__cssScaleX = rect.width / LOGICAL_W;
-        window.__cssScaleY = rect.height / LOGICAL_H;
-        canvas.dataset.cssScaleX = window.__cssScaleX;
-        canvas.dataset.cssScaleY = window.__cssScaleY;
+      const cssScaleX = canvas.clientWidth / LOGICAL_W;
+      const cssScaleY = canvas.clientHeight / LOGICAL_H;
+      window.__cssScaleX = cssScaleX;
+      window.__cssScaleY = cssScaleY;
+      canvas.dataset.cssScaleX = cssScaleX;
+      canvas.dataset.cssScaleY = cssScaleY;
+      document.body?.style.setProperty('--canvas-h', canvas.clientHeight + 'px');
     }
 
   window.addEventListener('resize', applyDPR);

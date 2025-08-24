@@ -11,8 +11,9 @@ test('background repeats, centers vertically, and moves with camera', () => {
   expect(css).toContain('background-image: url("assets/Background/background1.jpeg");');
   expect(css).toContain('background-repeat: repeat-x;');
 
+  Object.defineProperty(window, 'innerHeight', { configurable: true, value: 540 });
   const stage = { style: {} };
-  const canvas = { style: {}, width: 960, height: 540, parentElement: stage, dataset: { cssScaleX: '1' } };
+  const canvas = { style: {}, width: 960, height: 540, clientHeight: 540, parentElement: stage, dataset: { cssScaleX: '1' } };
   const ctx = {
     canvas,
     clearRect: () => {},
@@ -43,21 +44,22 @@ test('background repeats, centers vertically, and moves with camera', () => {
   };
 
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('0px calc(50% - 0px)');
+  expect(stage.style.backgroundPosition).toBe('0px calc(0px - 0px)');
   state.camera.x = 50;
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-50px calc(50% - 0px)');
+  expect(stage.style.backgroundPosition).toBe('-50px calc(0px - 0px)');
   state.camera.y = 25;
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-50px calc(50% - 25px)');
+  expect(stage.style.backgroundPosition).toBe('-50px calc(0px - 25px)');
   canvas.dataset.cssScaleX = '2';
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-100px calc(50% - 50px)');
+  expect(stage.style.backgroundPosition).toBe('-100px calc(0px - 50px)');
 });
 
 test('uses cssScaleX from dataset when provided', () => {
+  Object.defineProperty(window, 'innerHeight', { configurable: true, value: 540 });
   const stage = { style: {} };
-  const canvas = { style: {}, width: 960, height: 540, parentElement: stage, dataset: { cssScaleX: '2' } };
+  const canvas = { style: {}, width: 960, height: 540, clientHeight: 540, parentElement: stage, dataset: { cssScaleX: '2' } };
   const ctx = {
     canvas,
     clearRect: () => {},
@@ -87,25 +89,27 @@ test('uses cssScaleX from dataset when provided', () => {
     playerSprites: {},
   };
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-100px calc(50% - 0px)');
+  expect(stage.style.backgroundPosition).toBe('-100px calc(0px - 0px)');
 });
 
-test('16:10 fullscreen keeps objects aligned with background', () => {
+test('16:10 viewport keeps 16:9 canvas and aligns background', () => {
+  Object.defineProperty(window, 'innerHeight', { configurable: true, value: 900 });
   document.body.innerHTML = '<div id="stage"></div><div id="ped-dialog"></div>';
   const dialog = document.getElementById('ped-dialog');
   dialog.classList.remove('hidden');
   const stage = { style: {} };
-  const scaleX = 1440 / 960;
-  const scaleY = 900 / 540;
+  const scale = 1440 / 960;
   const canvas = {
     style: {},
     width: 960,
     height: 540,
+    clientWidth: 1440,
+    clientHeight: 810,
     parentElement: stage,
-    dataset: { cssScaleX: scaleX.toString(), cssScaleY: scaleY.toString() },
+    dataset: { cssScaleX: scale.toString(), cssScaleY: scale.toString() },
   };
-  window.__cssScaleX = scaleX;
-  window.__cssScaleY = scaleY;
+  window.__cssScaleX = scale;
+  window.__cssScaleY = scale;
   const ctx = {
     canvas,
     clearRect: () => {},
@@ -140,8 +144,9 @@ test('16:10 fullscreen keeps objects aligned with background', () => {
     version: '0',
   });
   render(ctx, state);
+  expect(canvas.clientWidth / canvas.clientHeight).toBeCloseTo(16 / 9, 5);
   ui.syncDialogToPlayer(state.player, state.camera);
-  expect(stage.style.backgroundPosition).toBe('-75px calc(50% - 0px)');
+  expect(stage.style.backgroundPosition).toBe('-75px calc(45px - 0px)');
   expect(parseFloat(dialog.style.left)).toBeCloseTo(-75, 1);
   delete window.__cssScaleX;
   delete window.__cssScaleY;
