@@ -7,7 +7,7 @@ export default [
     "destroyable": false,
     "collision": [
       1,
-      0,
+      1,
       0,
       0
     ]
@@ -20,7 +20,7 @@ export default [
     "destroyable": false,
     "collision": [
       1,
-      0,
+      1,
       0,
       0
     ]
@@ -33,7 +33,7 @@ export default [
     "destroyable": false,
     "collision": [
       1,
-      0,
+      1,
       0,
       0
     ]
@@ -46,7 +46,7 @@ export default [
     "destroyable": false,
     "collision": [
       1,
-      0,
+      1,
       0,
       0
     ]
