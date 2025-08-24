@@ -150,7 +150,7 @@ test('16:10 viewport keeps 16:9 canvas and aligns background', () => {
   expect(stage.style.backgroundSize).toBe(`auto ${canvas.clientHeight}px`);
   ui.syncDialogToPlayer(state.player, state.camera);
   const expectedY = CAMERA_OFFSET_Y * scale;
-  expect(stage.style.backgroundPosition).toBe(`-75px calc(45px - ${expectedY}px)`);
+  expect(stage.style.backgroundPosition).toBe(`-75px calc(0px - ${expectedY}px)`);
   expect(parseFloat(dialog.style.left)).toBeCloseTo(-75, 1);
   delete window.__cssScaleX;
   delete window.__cssScaleY;

@@ -14,8 +14,7 @@ export function render(ctx, state, design) {
       const bgScaleX = Number(ctx.canvas.dataset?.cssScaleX);
       const x = -Math.round(camera.x * bgScaleX) || 0;
       const y = Math.round(camY * bgScaleX) || 0;
-      const bgOffsetY = (window.innerHeight - ctx.canvas.clientHeight) / 2;
-      const posY = `calc(${bgOffsetY}px - ${y}px)`;
+      const posY = `calc(0px - ${y}px)`;
       const bgHeight = `${ctx.canvas.clientHeight}px`;
       stage.style.backgroundPosition = `${x}px ${posY}`;
       stage.style.backgroundSize = `auto ${bgHeight}`;
