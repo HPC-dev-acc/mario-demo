@@ -1,4 +1,4 @@
-/* Version: 1.5.155 */
+/* Version: 1.5.156 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -17,7 +17,7 @@ body {
   background-image: url("assets/Background/background1.jpeg");
   background-repeat: repeat-x;
   background-size: auto var(--canvas-h);
-  background-position-y: calc((100vh - var(--canvas-h)) / 2);
+  background-position-y: calc((100dvh - var(--canvas-h)) / 2);
 }
 
 [hidden] { display: none !important; }
@@ -38,8 +38,8 @@ body {
   max-height: calc(var(--game-h) * 1px);
   background-image: url("assets/Background/background1.jpeg");
   background-repeat: repeat-x;
-    background-size: auto 100%;
-    background-position: 0 calc((100% - var(--game-h)/var(--game-w)*100%) / 2);
+  background-size: auto 100%;
+  background-position: 0 0;
   image-rendering: smooth;
 }
 

@@ -68,6 +68,16 @@ describe('style.css', () => {
     expect(icon[0]).toMatch(/height:\s*1em/);
   });
 
+  test('background aligns with canvas top', () => {
+    const body = css.match(/\nbody\s*{[^}]*}/);
+    expect(body).toBeTruthy();
+    expect(body[0]).toMatch(/background-position-y:\s*calc\(\(100dvh - var\(--canvas-h\)\) \/ 2\)/);
+
+    const stage = css.match(/#stage\s*{[^}]*}/);
+    expect(stage).toBeTruthy();
+    expect(stage[0]).toMatch(/background-position:\s*0\s+0/);
+  });
+
   test('timer low-time animation is defined', () => {
     const rule = css.match(/#timer\.low-time\s*{[^}]*}/);
     expect(rule).toBeTruthy();
