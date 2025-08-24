@@ -549,7 +549,12 @@ const NPC_SPAWN_MAX_MS = 8000;
       const facing = useOl ? 1 : undefined;
       const type = useOl ? 'ol' : 'default';
       if (!state.npcs.some(n => n.type === type)) {
-        const groundY = findGroundY(state.collisions, spawnX, 0);
+        const groundY = findGroundY(
+          state.collisions,
+          spawnX,
+          state.collisions.length * COLL_TILE - 1,
+          true,
+        );
         const npc = createNpc(spawnX, groundY - npcH / 2, npcW, npcH, sprite, undefined, facing, opts, type);
         state.npcs.push(npc);
       }
