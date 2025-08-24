@@ -182,6 +182,19 @@ describe('npc spawn', () => {
     Math.random = origRandom;
     expect(state.npcs[0].facing).toBe(1);
   });
+
+  test('OL npc spawns larger than player', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    Math.random = () => 0;
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    const npc = state.npcs[0];
+    expect(npc.h).toBeCloseTo(state.player.h * 4 / 3);
+    expect(npc.w).toBeCloseTo(48 * (state.player.h / 44) * 4 / 3);
+  });
 });
 
 describe('shadowY behavior', () => {

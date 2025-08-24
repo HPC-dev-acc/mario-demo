@@ -532,13 +532,15 @@ const IMPACT_COOLDOWN_MS = 120;
     npcSpawnTimer -= dtMs;
     if (npcSpawnTimer <= 0 && state.npcs.length < MAX_NPCS) {
         const spawnX = camera.x + LOGICAL_W + player.w;
-      const scale = player.h / 44;
-      const npcW = 48 * scale;
-      const useOl = state.olNpcSprite && Math.random() < 0.5;
+      const baseScale = player.h / 44;
+      const useOl = state.olNpcSprite && Math.random() < 0.8;
+      const sizeScale = useOl ? 4 / 3 : 1;
+      const npcW = 48 * baseScale * sizeScale;
+      const npcH = player.h * sizeScale;
       const sprite = useOl ? state.olNpcSprite : state.npcSprite;
       const opts = useOl ? { fixedSpeed: -1.5 } : undefined;
       const facing = useOl ? 1 : undefined;
-      const npc = createNpc(spawnX, SPAWN_Y, npcW, player.h, sprite, undefined, facing, opts);
+      const npc = createNpc(spawnX, SPAWN_Y, npcW, npcH, sprite, undefined, facing, opts);
       state.npcs.push(npc);
       npcSpawnTimer = 2000 + Math.random() * 3000;
     }

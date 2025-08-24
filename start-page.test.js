@@ -25,3 +25,9 @@ test('style.css enables pointer events on start page', () => {
   const css = fs.readFileSync('style.css', 'utf8');
   expect(css).toMatch(/#start-page\s*{[^}]*pointer-events:\s*auto;/m);
 });
+
+test('index.html sets correct page title', () => {
+  const html = fs.readFileSync('index.html', 'utf8');
+  const dom = new JSDOM(html);
+  expect(dom.window.document.title).toBe('HPC Demo Game');
+});
