@@ -11,36 +11,36 @@ import { initUI } from './index.js';
             <button id="btn-start">START</button>
             <button id="btn-retry" hidden>Retry</button>
           </div>
-          <div id="debug-panel" hidden></div>
-          <div id="top-right" hidden>
-            <button id="info-toggle" class="pill">ℹ</button>
-            <div id="version-pill"></div>
-            <button id="settings-toggle" class="pill">⚙</button>
-            <div id="settings-menu" hidden>
-              <div id="lang-controls" class="pill">
-                <strong>LANG</strong>
-                <select id="lang-select">
-                  <option value="en" selected>English</option>
-                  <option value="ja">日本語</option>
-                  <option value="zh-Hant">繁體中文</option>
-                  <option value="zh-Hans">简体中文</option>
-                </select>
-              </div>
-            </div>
+      <div id="debug-panel" hidden></div>
+      <div id="top-right" hidden>
+        <button id="info-toggle" class="pill">ℹ</button>
+        <div id="version-pill"></div>
+        <button id="settings-toggle" class="pill">⚙</button>
+        <div id="settings-menu" hidden>
+          <div id="lang-controls" class="pill">
+            <strong>LANG</strong>
+            <select id="lang-select">
+              <option value="en" selected>English</option>
+              <option value="ja">日本語</option>
+              <option value="zh-Hant">繁體中文</option>
+              <option value="zh-Hans">简体中文</option>
+            </select>
           </div>
-          <div id="hud-top-center" hidden>
-            <button id="fullscreen-toggle" class="pill">⛶</button>
-            <div id="score-pill" class="pill"><span id="score-label"></span> <span id="score">0</span></div>
-            <div id="stage-pill" class="pill"></div>
-            <div id="time-pill" class="pill"><span id="time-label"></span> <span id="timer">60</span></div>
-          </div>
-          <div id="info-panel" hidden>
-            <h1 id="doc-title"></h1>
-            <p class="doc"></p>
-          </div>
-          <div id="ped-dialog" class="ped-dialog hidden"><div class="ped-dialog__content"><img src="assets/red-person.svg" class="ped-dialog__icon" alt=""><span class="ped-dialog__text"></span></div></div>
-          <div id="stage-clear" hidden><div class="title"></div><button id="btn-restart">Restart</button></div>
-          <div id="stage-fail" hidden><div class="title"></div><button id="btn-restart-fail">Restart</button></div>
+        </div>
+        <div id="info-panel" hidden>
+          <h1 id="doc-title"></h1>
+          <p class="doc"></p>
+        </div>
+      </div>
+      <div id="hud-top-center" hidden>
+        <button id="fullscreen-toggle" class="pill">⛶</button>
+        <div id="score-pill" class="pill"><span id="score-label"></span> <span id="score">0</span></div>
+        <div id="stage-pill" class="pill"></div>
+        <div id="time-pill" class="pill"><span id="time-label"></span> <span id="timer">60</span></div>
+      </div>
+      <div id="ped-dialog" class="ped-dialog hidden"><div class="ped-dialog__content"><img src="assets/red-person.svg" class="ped-dialog__icon" alt=""><span class="ped-dialog__text"></span></div></div>
+      <div id="stage-clear" hidden><div class="title"></div><button id="btn-restart">Restart</button></div>
+      <div id="stage-fail" hidden><div class="title"></div><button id="btn-restart-fail">Restart</button></div>
         </div>
       </div>`;
     return document.getElementById('game');
@@ -177,10 +177,11 @@ test('debug panel toggles with info button', () => {
   initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
   const debug = document.getElementById('debug-panel');
   const toggle = document.getElementById('info-toggle');
+  const versionPill = document.getElementById('version-pill');
   expect(debug.hidden).toBe(true);
   toggle.click();
   expect(debug.hidden).toBe(false);
-  document.body.click();
+  versionPill.click();
   expect(debug.hidden).toBe(true);
 });
 
@@ -197,6 +198,18 @@ test('settings menu toggles and closes on outside click', () => {
   toggle.click();
   document.body.click();
   expect(menu.hidden).toBe(true);
+});
+
+test('info panel closes on outside click', () => {
+  const canvas = setupDOM();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const panel = document.getElementById('info-panel');
+  const toggle = document.getElementById('info-toggle');
+  const versionPill = document.getElementById('version-pill');
+  toggle.click();
+  expect(panel.hidden).toBe(false);
+  versionPill.click();
+  expect(panel.hidden).toBe(true);
 });
 
   test('fullscreen toggle requests and exits fullscreen', () => {
