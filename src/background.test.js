@@ -6,13 +6,13 @@ import { TextEncoder, TextDecoder } from 'util';
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
-test('background repeats and moves with camera', () => {
+test('background repeats, centers vertically, and moves with camera', () => {
   const css = fs.readFileSync('style.css', 'utf8');
   expect(css).toContain('background-image: url("assets/Background/background1.jpeg");');
   expect(css).toContain('background-repeat: repeat-x;');
 
   const stage = { style: {} };
-  const canvas = { style: {}, width: 960, height: 540, parentElement: stage };
+  const canvas = { style: {}, width: 960, height: 540, parentElement: stage, dataset: { cssScaleX: '1' } };
   const ctx = {
     canvas,
     clearRect: () => {},
@@ -43,19 +43,21 @@ test('background repeats and moves with camera', () => {
   };
 
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('0px 0px');
+  expect(stage.style.backgroundPosition).toBe('0px calc(50% - 0px)');
   state.camera.x = 50;
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-50px 0px');
-  canvas.clientWidth = 1920;
-  canvas.clientHeight = 1080;
+  expect(stage.style.backgroundPosition).toBe('-50px calc(50% - 0px)');
+  state.camera.y = 25;
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-100px 0px');
+  expect(stage.style.backgroundPosition).toBe('-50px calc(50% - 25px)');
+  canvas.dataset.cssScaleX = '2';
+  render(ctx, state);
+  expect(stage.style.backgroundPosition).toBe('-100px calc(50% - 50px)');
 });
 
-test('uses bgScaleX from dataset when provided', () => {
+test('uses cssScaleX from dataset when provided', () => {
   const stage = { style: {} };
-  const canvas = { style: {}, width: 960, height: 540, parentElement: stage, dataset: { bgScaleX: '2' } };
+  const canvas = { style: {}, width: 960, height: 540, parentElement: stage, dataset: { cssScaleX: '2' } };
   const ctx = {
     canvas,
     clearRect: () => {},
@@ -85,23 +87,25 @@ test('uses bgScaleX from dataset when provided', () => {
     playerSprites: {},
   };
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-100px 0px');
+  expect(stage.style.backgroundPosition).toBe('-100px calc(50% - 0px)');
 });
 
 test('16:10 fullscreen keeps objects aligned with background', () => {
-  document.body.innerHTML =
-    '<div id="stage"><canvas id="game"></canvas><div id="ped-dialog"></div></div>';
-  const stage = document.getElementById('stage');
-  const canvas = document.getElementById('game');
+  document.body.innerHTML = '<div id="stage"></div><div id="ped-dialog"></div>';
   const dialog = document.getElementById('ped-dialog');
   dialog.classList.remove('hidden');
-  const scale = 900 / 540;
-  canvas.dataset.cssScaleX = scale.toString();
-  canvas.dataset.cssScaleY = scale.toString();
-  canvas.dataset.bgScaleX = scale.toString();
-  window.__cssScaleX = scale;
-  window.__cssScaleY = scale;
-  window.__bgScaleX = scale;
+  const stage = { style: {} };
+  const scaleX = 1440 / 960;
+  const scaleY = 900 / 540;
+  const canvas = {
+    style: {},
+    width: 960,
+    height: 540,
+    parentElement: stage,
+    dataset: { cssScaleX: scaleX.toString(), cssScaleY: scaleY.toString() },
+  };
+  window.__cssScaleX = scaleX;
+  window.__cssScaleY = scaleY;
   const ctx = {
     canvas,
     clearRect: () => {},
@@ -130,12 +134,15 @@ test('16:10 fullscreen keeps objects aligned with background', () => {
     LEVEL_H: 0,
     playerSprites: {},
   };
-  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const ui = initUI(document.createElement('canvas'), {
+    resumeAudio: () => {},
+    toggleMusic: () => true,
+    version: '0',
+  });
   render(ctx, state);
   ui.syncDialogToPlayer(state.player, state.camera);
-  expect(stage.style.backgroundPosition).toBe('-83px 0px');
-  expect(parseFloat(dialog.style.left)).toBeCloseTo(-83.33, 1);
+  expect(stage.style.backgroundPosition).toBe('-75px calc(50% - 0px)');
+  expect(parseFloat(dialog.style.left)).toBeCloseTo(-75, 1);
   delete window.__cssScaleX;
   delete window.__cssScaleY;
-  delete window.__bgScaleX;
 });

@@ -1,4 +1,4 @@
-/* Version: 1.5.149 */
+/* Version: 1.5.152 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -30,8 +30,8 @@ html, body {
   max-height: calc(var(--game-h) * 1px);
   background-image: url("assets/Background/background1.jpeg");
   background-repeat: repeat-x;
-  background-size: auto 100%;
-  background-position: 0 0;
+    background-size: 100% auto;
+    background-position: 0 calc((100% - var(--game-h)/var(--game-w)*100%) / 2);
   image-rendering: smooth;
 }
 

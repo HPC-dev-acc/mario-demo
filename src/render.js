@@ -8,13 +8,10 @@ export function render(ctx, state, design) {
   const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, npcs, transparent, patterns, indestructible } = state;
   const stage = ctx.canvas?.parentElement;
   if (stage && stage.style) {
-    const cssScaleY =
-      Number(ctx.canvas.dataset?.cssScaleY) ||
-      (ctx.canvas.clientHeight > 0 ? ctx.canvas.clientHeight / 540 : 1);
-    const bgScaleX = Number(ctx.canvas.dataset?.bgScaleX ?? cssScaleY);
-    stage.style.backgroundPosition = `${-Math.round(
-      camera.x * bgScaleX
-    )}px ${-Math.round(camera.y * cssScaleY)}px`;
+      const bgScaleX = Number(ctx.canvas.dataset?.cssScaleX);
+      const x = -Math.round(camera.x * bgScaleX) || 0;
+      const y = Math.round(camera.y * bgScaleX) || 0;
+      stage.style.backgroundPosition = `${x}px calc(50% - ${y}px)`;
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.save();
