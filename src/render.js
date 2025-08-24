@@ -11,8 +11,9 @@ export function render(ctx, state, design) {
     const cssScaleY =
       Number(ctx.canvas.dataset?.cssScaleY) ||
       (ctx.canvas.clientHeight > 0 ? ctx.canvas.clientHeight / 540 : 1);
+    const bgScaleX = Number(ctx.canvas.dataset?.bgScaleX ?? cssScaleY);
     stage.style.backgroundPosition = `${-Math.round(
-      camera.x * Number(ctx.canvas.dataset?.bgScaleX || cssScaleY)
+      camera.x * bgScaleX
     )}px ${-Math.round(camera.y * cssScaleY)}px`;
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
