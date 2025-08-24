@@ -45,4 +45,19 @@ describe('style.css', () => {
     expect(stageClear[0]).toMatch(/pointer-events:\s*auto/);
     expect(stageFail[0]).toMatch(/pointer-events:\s*auto/);
   });
+
+  test('#debug-panel has white background', () => {
+    const rule = css.match(/#debug-panel\s*{[^}]*}/);
+    expect(rule).toBeTruthy();
+    expect(rule[0]).toMatch(/background:\s*rgba\(255,\s*255,\s*255/);
+  });
+
+  test('titles and restart buttons styled for clarity', () => {
+    const titleRule = css.match(/#stage-clear\s*\.title,\s*#stage-fail\s*\.title\s*{[^}]*}/);
+    expect(titleRule).toBeTruthy();
+    expect(titleRule[0]).toMatch(/color:\s*#fff/);
+    const btnRule = css.match(/#stage-clear button,\s*#stage-fail button\s*{[^}]*}/);
+    expect(btnRule).toBeTruthy();
+    expect(btnRule[0]).toMatch(/font-size:/);
+  });
 });
