@@ -74,7 +74,7 @@ const NPC_SPAWN_MAX_MS = 8000;
       canvas.dataset.cssScaleX = window.__cssScaleX;
       canvas.dataset.cssScaleY = window.__cssScaleY;
       window.__bgScaleX = rect.height / LOGICAL_H;
-      canvas.dataset.bgScaleX = window.__bgScaleX;
+      canvas.dataset.bgScaleX = window.__bgScaleX.toString();
     }
 
   window.addEventListener('resize', applyDPR);
