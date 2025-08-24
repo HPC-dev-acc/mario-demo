@@ -128,8 +128,14 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   }
 
   function worldToScreen(x, y, camera) {
-    const scale = window.__cssScale || 1;
-    return { x: (x - camera.x) * scale, y: (y - camera.y) * scale, scale };
+    const scaleX = window.__cssScaleX || 1;
+    const scaleY = window.__cssScaleY || 1;
+    return {
+      x: (x - camera.x) * scaleX,
+      y: (y - camera.y) * scaleY,
+      scaleX,
+      scaleY,
+    };
   }
 
   function syncDialogToPlayer(player, camera) {
@@ -137,9 +143,9 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     if (!player || !camera) return;
     lastPlayer = player;
     lastCamera = camera;
-    const { x, y, scale } = worldToScreen(player.x, player.y - player.h / 2, camera);
+    const { x, y, scaleY } = worldToScreen(player.x, player.y - player.h / 2, camera);
     pedDialogEl.style.left = `${x}px`;
-    pedDialogEl.style.top = `${y - 28 * scale}px`;
+    pedDialogEl.style.top = `${y - 28 * scaleY}px`;
   }
 
   window.addEventListener('resize', () => syncDialogToPlayer(lastPlayer, lastCamera));
@@ -329,11 +335,12 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     fx.className = 'slide-effect';
     const H_OFF = 12;
     const V_OFF = 12;
-    const scale = window.__cssScale || 1;
-    fx.style.left = `${(x - facing * H_OFF) * scale}px`;
-    fx.style.top = `${(y - V_OFF) * scale}px`;
-    fx.style.width = `${48 * scale}px`;
-    fx.style.height = `${24 * scale}px`;
+    const scaleX = window.__cssScaleX || 1;
+    const scaleY = window.__cssScaleY || 1;
+    fx.style.left = `${(x - facing * H_OFF) * scaleX}px`;
+    fx.style.top = `${(y - V_OFF) * scaleY}px`;
+    fx.style.width = `${48 * scaleX}px`;
+    fx.style.height = `${24 * scaleY}px`;
     fx.style.setProperty('--sx', facing);
     stage.appendChild(fx);
     setTimeout(() => fx.remove(), 500);

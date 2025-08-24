@@ -142,21 +142,23 @@ test('triggerSlideEffect positions dust at player feet and removes it', () => {
   jest.useRealTimers();
 });
 
-test('triggerSlideEffect scales position and size with cssScale', () => {
+test('triggerSlideEffect scales position and size with cssScaleX/Y', () => {
   jest.useFakeTimers();
-  window.__cssScale = 2;
+  window.__cssScaleX = 2;
+  window.__cssScaleY = 3;
   const canvas = setupDOM();
   const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
   ui.triggerSlideEffect(100, 200, -1);
   const fx = document.querySelector('.slide-effect');
   expect(fx).not.toBeNull();
   expect(fx.style.left).toBe('224px');
-  expect(fx.style.top).toBe('376px');
+  expect(fx.style.top).toBe('564px');
   expect(fx.style.width).toBe('96px');
-  expect(fx.style.height).toBe('48px');
+  expect(fx.style.height).toBe('72px');
   jest.advanceTimersByTime(500);
   expect(document.querySelector('.slide-effect')).toBeNull();
-  delete window.__cssScale;
+  delete window.__cssScaleX;
+  delete window.__cssScaleY;
   jest.useRealTimers();
 });
 

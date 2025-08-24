@@ -1,11 +1,14 @@
 import { computeRenderScale } from './utils/renderScale.js';
 
 describe('computeRenderScale', () => {
-  test('returns 1 for base size', () => {
-    expect(computeRenderScale(960, 540, 960, 540)).toBe(1);
+  test('returns scaleX and scaleY', () => {
+    expect(computeRenderScale(1440, 900, 960, 540)).toEqual({
+      scaleX: 1.5,
+      scaleY: 900 / 540,
+    });
   });
 
-  test('scales proportionally with width', () => {
-    expect(computeRenderScale(1920, 1080, 960, 540)).toBe(2);
+  test('returns uniform scale when requested', () => {
+    expect(computeRenderScale(1440, 900, 960, 540, true)).toBe(1.5);
   });
 });
