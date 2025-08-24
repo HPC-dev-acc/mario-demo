@@ -167,9 +167,28 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   logClear?.addEventListener('click', () => Logger.clear());
 
   const infoToggle = document.getElementById('info-toggle');
+  const debugPanel = document.getElementById('debug-panel');
   if (infoToggle && infoPanel) {
-    infoToggle.addEventListener('click', () => {
-      infoPanel.hidden = !infoPanel.hidden;
+    function closeInfo() {
+      infoPanel.hidden = true;
+      if (debugPanel) debugPanel.hidden = true;
+    }
+    infoToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const hidden = infoPanel.hidden;
+      infoPanel.hidden = !hidden;
+      if (debugPanel) debugPanel.hidden = !hidden;
+    });
+    document.addEventListener('click', (e) => {
+      if (infoPanel.hidden) return;
+      if (
+        e.target instanceof Node &&
+        !infoPanel.contains(e.target) &&
+        e.target !== infoToggle &&
+        (!debugPanel || !debugPanel.contains(e.target))
+      ) {
+        closeInfo();
+      }
     });
   }
 
