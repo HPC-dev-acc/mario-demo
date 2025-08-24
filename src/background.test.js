@@ -48,21 +48,25 @@ test('background repeats and moves with camera', () => {
   render(ctx, state);
   expect(stage.style.backgroundPosition).toBe('-50px 0px');
   canvas.clientWidth = 1920;
+  canvas.clientHeight = 1080;
   render(ctx, state);
   expect(stage.style.backgroundPosition).toBe('-100px 0px');
 });
 
-test('16:10 window keeps objects aligned with background', () => {
+test('16:10 fullscreen keeps objects aligned with background', () => {
   document.body.innerHTML =
     '<div id="stage"><canvas id="game"></canvas><div id="ped-dialog"></div></div>';
   const stage = document.getElementById('stage');
   const canvas = document.getElementById('game');
   const dialog = document.getElementById('ped-dialog');
   dialog.classList.remove('hidden');
-  canvas.dataset.cssScaleX = '1.5';
-  canvas.dataset.cssScaleY = (900 / 540).toString();
-  window.__cssScaleX = 1.5;
-  window.__cssScaleY = 900 / 540;
+  const scale = 900 / 540;
+  canvas.dataset.cssScaleX = scale.toString();
+  canvas.dataset.cssScaleY = scale.toString();
+  canvas.dataset.bgScaleX = scale.toString();
+  window.__cssScaleX = scale;
+  window.__cssScaleY = scale;
+  window.__bgScaleX = scale;
   const ctx = {
     canvas,
     clearRect: () => {},
@@ -94,8 +98,9 @@ test('16:10 window keeps objects aligned with background', () => {
   const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
   render(ctx, state);
   ui.syncDialogToPlayer(state.player, state.camera);
-  expect(stage.style.backgroundPosition).toBe('-75px 0px');
-  expect(dialog.style.left).toBe('-75px');
+  expect(stage.style.backgroundPosition).toBe('-83px 0px');
+  expect(parseFloat(dialog.style.left)).toBeCloseTo(-83.33, 1);
   delete window.__cssScaleX;
   delete window.__cssScaleY;
+  delete window.__bgScaleX;
 });
