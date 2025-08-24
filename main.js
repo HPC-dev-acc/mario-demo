@@ -537,7 +537,8 @@ const IMPACT_COOLDOWN_MS = 120;
       const useOl = state.olNpcSprite && Math.random() < 0.5;
       const sprite = useOl ? state.olNpcSprite : state.npcSprite;
       const opts = useOl ? { fixedSpeed: -1.5 } : undefined;
-      const npc = createNpc(spawnX, SPAWN_Y, npcW, player.h, sprite, undefined, opts);
+      const facing = useOl ? 1 : undefined;
+      const npc = createNpc(spawnX, SPAWN_Y, npcW, player.h, sprite, undefined, facing, opts);
       state.npcs.push(npc);
       npcSpawnTimer = 2000 + Math.random() * 3000;
     }

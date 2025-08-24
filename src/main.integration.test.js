@@ -167,6 +167,23 @@ describe('restartStage integration', () => {
   });
 });
 
+describe('npc spawn', () => {
+  afterEach(() => {
+    jest.resetModules();
+  });
+
+  test('OL npc spawns facing right', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    Math.random = () => 0;
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    expect(state.npcs[0].facing).toBe(1);
+  });
+});
+
 describe('shadowY behavior', () => {
   afterEach(() => {
     jest.resetModules();
