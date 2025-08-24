@@ -1,6 +1,6 @@
 import { showHUD } from './hud.js';
 
-test('showHUD reveals UI elements', () => {
+test('showHUD reveals HUD but not debug panel', () => {
   document.body.innerHTML = `
     <div id="hud-top-center" hidden></div>
     <div id="top-right" hidden></div>
@@ -9,7 +9,8 @@ test('showHUD reveals UI elements', () => {
     <div id="touch-right" hidden></div>
   `;
   showHUD();
-  ['hud-top-center','top-right','debug-panel','touch-left','touch-right'].forEach(id => {
+  ['hud-top-center','top-right','touch-left','touch-right'].forEach(id => {
     expect(document.getElementById(id).hidden).toBe(false);
   });
+  expect(document.getElementById('debug-panel').hidden).toBe(true);
 });

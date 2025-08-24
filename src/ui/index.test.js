@@ -11,6 +11,7 @@ import { initUI } from './index.js';
             <button id="btn-start">START</button>
             <button id="btn-retry" hidden>Retry</button>
           </div>
+          <div id="debug-panel" hidden></div>
           <div id="top-right" hidden>
             <button id="info-toggle" class="pill">ℹ</button>
             <div id="version-pill"></div>
@@ -169,6 +170,18 @@ test('info toggle shows and hides info panel', () => {
   expect(panel.hidden).toBe(false);
   toggle.click();
   expect(panel.hidden).toBe(true);
+});
+
+test('debug panel toggles with info button', () => {
+  const canvas = setupDOM();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const debug = document.getElementById('debug-panel');
+  const toggle = document.getElementById('info-toggle');
+  expect(debug.hidden).toBe(true);
+  toggle.click();
+  expect(debug.hidden).toBe(false);
+  document.body.click();
+  expect(debug.hidden).toBe(true);
 });
 
 test('settings menu toggles and closes on outside click', () => {
