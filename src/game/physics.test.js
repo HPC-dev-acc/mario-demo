@@ -57,6 +57,26 @@ test('traffic lights are always pass-through', () => {
   expect(ent.vx).not.toBe(0);
 });
 
+test('passing next to a traffic light does not alter vertical movement', () => {
+  const world = makeWorld(5, 5);
+  setBlock(world, 1, 2, TRAFFIC_LIGHT);
+  setBlock(world, 2, 2, 1);
+  const h = 120;
+  const ent = {
+    x: TILE * 1 + TILE / 2,
+    y: TILE * 2 - h / 2,
+    w: BASE_W,
+    h,
+    vx: 10,
+    vy: 0,
+    onGround: true,
+  };
+  const startY = ent.y;
+  resolveCollisions(ent, world.level, world.collisions);
+  expect(ent.vy).toBe(0);
+  expect(ent.y).toBe(startY);
+});
+
 test('collecting a coin adds score and removes coin', () => {
   const world = makeWorld(3, 3);
   world.level[1][1] = 3; // coin tile
