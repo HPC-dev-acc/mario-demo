@@ -5,7 +5,7 @@ function getHighlightColor() {
 }
 
 export function render(ctx, state, design) {
-  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, npcSprite, npcs, transparent, patterns, indestructible } = state;
+  const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, npcs, transparent, patterns, indestructible } = state;
   const stage = ctx.canvas?.parentElement;
   if (stage && stage.style) {
     const cssScale =
@@ -49,7 +49,7 @@ export function render(ctx, state, design) {
     ctx.fillRect(-TILE, -TILE, TILE, LEVEL_H * TILE + 2 * TILE);
     if (npcs) {
       for (const n of npcs) {
-        drawNpc(ctx, n, npcSprite);
+        drawNpc(ctx, n, n.sprite);
       }
     }
     drawPlayer(ctx, player, playerSprites);
