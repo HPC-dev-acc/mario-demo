@@ -1,4 +1,4 @@
-import { render, drawPlayer, drawTrafficLight, drawNpc } from './render.js';
+import { render, drawPlayer, drawTrafficLight, drawNpc, CAMERA_OFFSET_Y } from './render.js';
 import { createGameState, Y_OFFSET } from './game/state.js';
 import { TILE, findGroundY } from './game/physics.js';
 
@@ -41,7 +41,7 @@ test('render translates camera position', () => {
     fillStyle: '',
   };
   render(ctx, state);
-  expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -state.camera.y);
+  expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -(state.camera.y + CAMERA_OFFSET_Y));
 });
 
 test('render scales background position by cssScaleX', () => {
@@ -74,7 +74,7 @@ test('render scales background position by cssScaleX', () => {
     fillStyle: '',
   };
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-20px calc(0px - 0px)');
+  expect(stage.style.backgroundPosition).toBe(`-20px calc(0px - ${CAMERA_OFFSET_Y * 2}px)`);
 });
 
 test('render does not call drawCloud', () => {

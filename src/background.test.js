@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { render } from './render.js';
+import { render, CAMERA_OFFSET_Y } from './render.js';
 import { initUI } from './ui/index.js';
 import { TextEncoder, TextDecoder } from 'util';
 
@@ -44,18 +44,18 @@ test('background repeats, centers vertically, and moves with camera', () => {
   };
 
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('0px calc(0px - 0px)');
+  expect(stage.style.backgroundPosition).toBe(`0px calc(0px - ${CAMERA_OFFSET_Y}px)`);
   expect(stage.style.backgroundSize).toBe(`auto ${canvas.clientHeight}px`);
   expect(document.body.style.backgroundSize).toBe(`auto ${canvas.clientHeight}px`);
   state.camera.x = 50;
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-50px calc(0px - 0px)');
+  expect(stage.style.backgroundPosition).toBe(`-50px calc(0px - ${CAMERA_OFFSET_Y}px)`);
   state.camera.y = 25;
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-50px calc(0px - 25px)');
+  expect(stage.style.backgroundPosition).toBe(`-50px calc(0px - ${25 + CAMERA_OFFSET_Y}px)`);
   canvas.dataset.cssScaleX = '2';
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-100px calc(0px - 50px)');
+  expect(stage.style.backgroundPosition).toBe(`-100px calc(0px - ${(25 + CAMERA_OFFSET_Y) * 2}px)`);
 });
 
 test('uses cssScaleX from dataset when provided', () => {
@@ -91,7 +91,7 @@ test('uses cssScaleX from dataset when provided', () => {
     playerSprites: {},
   };
   render(ctx, state);
-  expect(stage.style.backgroundPosition).toBe('-100px calc(0px - 0px)');
+  expect(stage.style.backgroundPosition).toBe(`-100px calc(0px - ${CAMERA_OFFSET_Y * 2}px)`);
 });
 
 test('16:10 viewport keeps 16:9 canvas and aligns background', () => {
@@ -149,7 +149,8 @@ test('16:10 viewport keeps 16:9 canvas and aligns background', () => {
   expect(canvas.clientWidth / canvas.clientHeight).toBeCloseTo(16 / 9, 5);
   expect(stage.style.backgroundSize).toBe(`auto ${canvas.clientHeight}px`);
   ui.syncDialogToPlayer(state.player, state.camera);
-  expect(stage.style.backgroundPosition).toBe('-75px calc(45px - 0px)');
+  const expectedY = CAMERA_OFFSET_Y * scale;
+  expect(stage.style.backgroundPosition).toBe(`-75px calc(45px - ${expectedY}px)`);
   expect(parseFloat(dialog.style.left)).toBeCloseTo(-75, 1);
   delete window.__cssScaleX;
   delete window.__cssScaleY;
