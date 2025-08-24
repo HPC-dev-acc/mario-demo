@@ -446,3 +446,30 @@ test('drawNpc renders from image arrays', () => {
   drawNpc(ctx, npc, sprite);
   expect(ctx.drawImage).toHaveBeenCalledWith(img1, -npc.w / 2, -npc.h / 2, npc.w, npc.h);
 });
+
+
+test('render uses npc sprite property', () => {
+  const state = createGameState();
+  state.npcSprite = null;
+  const npcSprite = { idle: [{}] };
+  const npc = { x: 0, y: 0, w: 10, h: 10, state: 'idle', sprite: npcSprite, shadowY: 0 };
+  state.npcs = [npc];
+  const ctx = {
+    canvas: { width: 256, height: 240 },
+    clearRect: jest.fn(),
+    save: jest.fn(),
+    translate: jest.fn(),
+    fillRect: jest.fn(),
+    beginPath: jest.fn(),
+    arc: jest.fn(),
+    ellipse: jest.fn(),
+    fill: jest.fn(),
+    strokeRect: jest.fn(),
+    restore: jest.fn(),
+    scale: jest.fn(),
+    drawImage: jest.fn(),
+    fillStyle: '',
+  };
+  render(ctx, state);
+  expect(ctx.drawImage).toHaveBeenCalled();
+});
