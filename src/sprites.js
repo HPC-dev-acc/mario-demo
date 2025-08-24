@@ -51,3 +51,16 @@ export function loadNpcSprite() {
   return loadImage(new URL('../assets/sprites/Character1.png', baseURL).href)
     .then((img) => ({ img, frameWidth: FW, frameHeight: FH, columns: COLS, animations }));
 }
+
+export function loadOlNpcSprite() {
+  const loadSeq = (prefix, count) => Promise.all(
+    Array.from({ length: count }, (_, i) => {
+      const num = i.toString().padStart(3, '0');
+      return loadImage(new URL(`../assets/sprites/OL/${prefix}_${num}.png`, baseURL).href);
+    })
+  );
+  return Promise.all([
+    loadSeq('walk', 12),
+    loadSeq('bump', 9),
+  ]).then(([walk, bump]) => ({ walk, bump, idle: [walk[0]] }));
+}

@@ -61,3 +61,24 @@ test('npc collision box tracks position', () => {
   expect(npc.box.w).toBe(npc.w);
   expect(npc.box.h).toBe(npc.h);
 });
+
+test('fixed-speed npc maintains constant velocity', () => {
+  const npc = createNpc(50, 0, 10, 10, null, () => 0.5, { fixedSpeed: -2 });
+  const state = makeState();
+  updateNpc(npc, 500, state);
+  expect(npc.vx).toBe(-2);
+  expect(npc.state).toBe('walk');
+});
+
+test('npc shows bump state during pause', () => {
+  const npc = createNpc(0,0,10,10,null,()=>0.5);
+  npc.pauseTimer = 100;
+  npc.bumped = true;
+  const state = makeState();
+  updateNpc(npc,16,state);
+  expect(npc.state).toBe('bump');
+  npc.pauseTimer = 0;
+  updateNpc(npc,16,state);
+  expect(npc.state).toBe('walk');
+  expect(npc.bumped).toBe(false);
+});

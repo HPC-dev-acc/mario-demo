@@ -10,7 +10,7 @@ import objects from './assets/objects.custom.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render } from './src/render.js';
 import { updateCamera } from './src/game/camera.js';
-import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite } from './src/sprites.js';
+import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite } from './src/sprites.js';
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
 import { createNpc, updateNpc, isNpcOffScreen, MAX_NPCS, boxesOverlap } from './src/npc.js';
@@ -534,7 +534,10 @@ const IMPACT_COOLDOWN_MS = 120;
         const spawnX = camera.x + LOGICAL_W + player.w;
       const scale = player.h / 44;
       const npcW = 48 * scale;
-      const npc = createNpc(spawnX, SPAWN_Y, npcW, player.h, state.npcSprite);
+      const useOl = state.olNpcSprite && Math.random() < 0.5;
+      const sprite = useOl ? state.olNpcSprite : state.npcSprite;
+      const opts = useOl ? { fixedSpeed: -1.5 } : undefined;
+      const npc = createNpc(spawnX, SPAWN_Y, npcW, player.h, sprite, undefined, opts);
       state.npcs.push(npc);
       npcSpawnTimer = 2000 + Math.random() * 3000;
     }
@@ -560,7 +563,8 @@ const IMPACT_COOLDOWN_MS = 120;
         player.vy = STOMP_BOUNCE;
         play('jump');
         npc.pauseTimer = Math.max(npc.pauseTimer, 400); // 0.4s
-        npc.state = 'idle';
+        npc.state = 'bump';
+        npc.bumped = true;
       } else {
         // 側撞／下方：一次性擊退並硬直（不可操作）
         if (player.stunnedMs <= 0) {
@@ -572,7 +576,8 @@ const IMPACT_COOLDOWN_MS = 120;
         npc.vx = player.facing * KNOCKBACK;
         npc.knockbackTimer = Math.max(npc.knockbackTimer || 0, 200);
         npc.pauseTimer = Math.max(npc.pauseTimer, 400);
-        npc.state = 'idle';
+        npc.state = 'bump';
+        npc.bumped = true;
       }
     }
     state.npcs = state.npcs.filter(n => !isNpcOffScreen(n, camera.x));
@@ -620,11 +625,13 @@ const IMPACT_COOLDOWN_MS = 120;
       loadPlayerSprites(),
       loadTrafficLightSprites(),
       loadNpcSprite(),
+      loadOlNpcSprite(),
     ]), 10000, 'Timed out loading sprites')
-      .then(([playerSprites, trafficLightSprites, npcSprite]) => {
+      .then(([playerSprites, trafficLightSprites, npcSprite, olNpcSprite]) => {
         state.playerSprites = playerSprites;
         state.trafficLightSprites = trafficLightSprites;
         state.npcSprite = npcSprite;
+        state.olNpcSprite = olNpcSprite;
         startScreen.showStart(() => beginGame());
       }).catch((err) => {
         console.error('Failed to load resources', err);

@@ -39,6 +39,7 @@ async function loadGame() {
       loadPlayerSprites: () => Promise.resolve(),
       loadTrafficLightSprites: () => Promise.resolve({}),
       loadNpcSprite: () => Promise.resolve({}),
+      loadOlNpcSprite: () => Promise.resolve({}),
     }));
 
   let startCallback;
@@ -271,7 +272,7 @@ describe('player and npc collision', () => {
 
     expect(player.stunnedMs).toBeGreaterThan(0);
     expect(player.facing).toBe(1);
-    expect(npc.state).toBe('idle');
+    expect(npc.state).toBe('bump');
     expect(npc.pauseTimer).toBeGreaterThanOrEqual(400);
     expect(npc.knockbackTimer).toBeGreaterThan(0);
     expect(npc.vx).toBeGreaterThan(0);
@@ -295,7 +296,7 @@ describe('player and npc collision', () => {
 
     expect(player.vy).toBe(JUMP_VEL);
     expect(player.stunnedMs).toBe(0);
-    expect(npc.state).toBe('idle');
+    expect(npc.state).toBe('bump');
     expect(npc.pauseTimer).toBeGreaterThanOrEqual(400);
     expect(audio.play).toHaveBeenCalledWith('jump');
   });

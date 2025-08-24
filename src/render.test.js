@@ -434,3 +434,15 @@ test('drawNpc flips horizontally when facing left', () => {
   drawNpc(ctx, npc, sprite);
   expect(ctx.scale).toHaveBeenCalledWith(-1, 1);
 });
+
+test('drawNpc renders from image arrays', () => {
+  const ctx = {
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
+    drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true, translate: jest.fn(), scale: jest.fn(),
+  };
+  const img1 = {}, img2 = {};
+  const npc = { x: 0, y: 0, shadowY: 0, w: 40, h: 80, state: 'walk', animTime: 0, facing: 1 };
+  const sprite = { walk: [img1, img2], bump: [img1], idle: [img1] };
+  drawNpc(ctx, npc, sprite);
+  expect(ctx.drawImage).toHaveBeenCalledWith(img1, -npc.w / 2, -npc.h / 2, npc.w, npc.h);
+});

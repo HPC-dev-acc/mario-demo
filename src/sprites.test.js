@@ -1,4 +1,4 @@
-import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite } from './sprites.js';
+import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite } from './sprites.js';
 
 describe('loadPlayerSprites', () => {
   const OriginalImage = global.Image;
@@ -46,4 +46,14 @@ test('loadNpcSprite provides frame data', async () => {
     walk: { frames: [0,1,2,3,4,5] },
     run:  { frames: [0,1,2,3,4,5] },
   });
+});
+
+test('loadOlNpcSprite loads walk and bump frames', async () => {
+  const OriginalImage = global.Image;
+  const loaded = [];
+  global.Image = class { set src(v) { loaded.push(v); if (this.onload) setTimeout(() => this.onload()); } };
+  const sprite = await loadOlNpcSprite();
+  expect(Object.keys(sprite)).toEqual(['walk','bump','idle']);
+  expect(loaded[0]).toMatch(/\/assets\/sprites\/OL\/walk_000\.png$/);
+  global.Image = OriginalImage;
 });
