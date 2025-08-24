@@ -38,10 +38,10 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   let designOn = false;
   const pedDialogMap = {
     wait: {
-      en: 'Wait for the light to turn green before crossing',
-      ja: '青に変わるまでお待ちください',
-      'zh-Hant': '請等待紅燈變綠燈後再通行',
-      'zh-Hans': '请等待红灯变绿灯后再通行',
+      en: 'Want to dash through, but can’t…',
+      ja: '走り抜けたいけど、できない…',
+      'zh-Hant': '想要衝過去，卻不能……',
+      'zh-Hans': '想要冲过去，却不能……',
     },
   };
   let currentDialogKey = null;

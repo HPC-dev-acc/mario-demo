@@ -251,7 +251,7 @@ test('showPedDialog toggles visibility and syncs to player', () => {
   const icon = dialog.querySelector('.ped-dialog__icon');
   expect(icon).not.toBeNull();
   expect(icon.getAttribute('src')).toContain('red-person.svg');
-  expect(dialog.querySelector('.ped-dialog__text').textContent).toBe('Wait for the light to turn green before crossing');
+  expect(dialog.querySelector('.ped-dialog__text').textContent).toBe('Want to dash through, but can’t…');
   const player = { x: 100, y: 200, h: 50 };
   const camera = { x: 0, y: 0 };
   ui.syncDialogToPlayer(player, camera);
@@ -265,10 +265,18 @@ test('language selection changes ped dialog text', () => {
   const canvas = setupDOM();
   const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
   const select = document.getElementById('lang-select');
-  select.value = 'ja';
-  select.dispatchEvent(new Event('change'));
-  ui.showPedDialog('wait');
-  expect(document.querySelector('.ped-dialog__text').textContent).toBe('青に変わるまでお待ちください');
+  const expected = {
+    en: 'Want to dash through, but can’t…',
+    ja: '走り抜けたいけど、できない…',
+    'zh-Hant': '想要衝過去，卻不能……',
+    'zh-Hans': '想要冲过去，却不能……',
+  };
+  Object.entries(expected).forEach(([lang, text]) => {
+    select.value = lang;
+    select.dispatchEvent(new Event('change'));
+    ui.showPedDialog('wait');
+    expect(document.querySelector('.ped-dialog__text').textContent).toBe(text);
+  });
 });
 
 test('language selection updates score and info text', () => {
