@@ -380,7 +380,7 @@ const NPC_SPAWN_MAX_MS = 8000;
     camera.x=0; stageCleared=false; stageFailed=false;
     hideStageOverlays();
     score=0; if (scoreEl) scoreEl.textContent = score;
-    timeLeftMs = 60000; if (timerEl) timerEl.textContent = 60;
+    timeLeftMs = 60000; if (timerEl) { timerEl.textContent = 60; timerEl.classList.remove('low-time'); }
     coins.clear();
     for(let y=0;y<LEVEL_H;y++){
       for(let x=0;x<LEVEL_W;x++){
@@ -400,7 +400,7 @@ const NPC_SPAWN_MAX_MS = 8000;
     getScore: () => score,
     getTimeLeft: () => timeLeftMs,
     setScore: (v) => { score = v; if (scoreEl) scoreEl.textContent = v; },
-    setTimeLeft: (v) => { timeLeftMs = v; if (timerEl) timerEl.textContent = Math.ceil(v/1000); },
+    setTimeLeft: (v) => { timeLeftMs = v; if (timerEl) { timerEl.textContent = Math.ceil(v/1000); if (v <= 10000) timerEl.classList.add('low-time'); else timerEl.classList.remove('low-time'); } },
     setStageCleared: (v) => { stageCleared = v; },
     setStageFailed: (v) => { stageFailed = v; },
     getStageCleared: () => stageCleared,
@@ -437,7 +437,11 @@ const NPC_SPAWN_MAX_MS = 8000;
     const dtMs = dt*16.6667;
     if (!design.isEnabled() && !stageCleared && !stageFailed) {
       timeLeftMs = Math.max(0, timeLeftMs - dtMs);
-      if (timerEl) timerEl.textContent = Math.ceil(timeLeftMs / 1000);
+      if (timerEl) {
+        timerEl.textContent = Math.ceil(timeLeftMs / 1000);
+        if (timeLeftMs <= 10000) timerEl.classList.add('low-time');
+        else timerEl.classList.remove('low-time');
+      }
       if (timeLeftMs <= 0) {
         stageFailed = true;
         showStageFail();

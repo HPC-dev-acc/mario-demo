@@ -1,4 +1,4 @@
-/* Version: 1.5.141 */
+/* Version: 1.5.142 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -274,6 +274,15 @@ html, body {
 @keyframes fail-flash {
   from { opacity: 1; }
   to { opacity: 0; }
+}
+
+#timer.low-time {
+  animation: timer-pulse 1s linear infinite;
+}
+
+@keyframes timer-pulse {
+  0%, 100% { color: inherit; }
+  50% { color: red; }
 }
 
 @media (hover: hover) and (pointer: fine) {

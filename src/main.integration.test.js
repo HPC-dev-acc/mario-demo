@@ -20,11 +20,7 @@ async function loadGame() {
     get textContent() { return this._text; },
     set textContent(v) { this._text = String(v); },
   };
-  const timerEl = {
-    _text: '',
-    get textContent() { return this._text; },
-    set textContent(v) { this._text = String(v); },
-  };
+  const timerEl = document.createElement('span');
 
   const audio = {
     loadSounds: jest.fn(() => Promise.resolve()),
@@ -164,6 +160,22 @@ describe('restartStage integration', () => {
     state.player.x = 456;
     document.getElementById('btn-restart-fail').click();
     expect(state.player.x).toBe(SPAWN_X);
+  });
+});
+
+describe('timer low-time class', () => {
+  afterEach(() => {
+    jest.resetModules();
+  });
+
+  test('adds low-time class at 10s threshold', async () => {
+    const { hooks, timerEl } = await loadGame();
+    hooks.setTimeLeft(11000);
+    expect(timerEl.classList.contains('low-time')).toBe(false);
+    hooks.setTimeLeft(10000);
+    expect(timerEl.classList.contains('low-time')).toBe(true);
+    hooks.setTimeLeft(12000);
+    expect(timerEl.classList.contains('low-time')).toBe(false);
   });
 });
 
