@@ -61,24 +61,23 @@ const NPC_SPAWN_MAX_MS = 8000;
   const LOGICAL_H = 540;
 
     function applyDPR() {
-      const vw = window.innerWidth;
-      const vh = vw * LOGICAL_H / LOGICAL_W;
-      canvas.style.width = vw + 'px';
-      canvas.style.height = vh + 'px';
+      const rect = canvas.getBoundingClientRect();
+      const cssW = rect.width;
+      const cssH = rect.height;
       const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 4));
-      canvas.width = Math.round(vw * dpr);
-      canvas.height = Math.round(vh * dpr);
+      canvas.width = Math.round(cssW * dpr);
+      canvas.height = Math.round(cssH * dpr);
       const scaleX = canvas.width / LOGICAL_W;
       const scaleY = canvas.height / LOGICAL_H;
       ctx.setTransform(scaleX, 0, 0, scaleY, 0, 0);
       canvas.style.imageRendering = 'pixelated';
-      const cssScaleX = canvas.clientWidth / LOGICAL_W;
-      const cssScaleY = canvas.clientHeight / LOGICAL_H;
+      const cssScaleX = cssW / LOGICAL_W;
+      const cssScaleY = cssH / LOGICAL_H;
       window.__cssScaleX = cssScaleX;
       window.__cssScaleY = cssScaleY;
       canvas.dataset.cssScaleX = cssScaleX;
       canvas.dataset.cssScaleY = cssScaleY;
-      document.body?.style.setProperty('--canvas-h', canvas.clientHeight + 'px');
+      document.body?.style.setProperty('--canvas-h', cssH + 'px');
     }
 
   window.addEventListener('resize', applyDPR);

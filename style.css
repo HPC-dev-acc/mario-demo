@@ -1,4 +1,4 @@
-/* Version: 1.5.153 */
+/* Version: 1.5.154 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -41,6 +41,12 @@ body {
     background-size: 100% auto;
     background-position: 0 calc((100% - var(--game-h)/var(--game-w)*100%) / 2);
   image-rendering: smooth;
+}
+
+#stage:fullscreen {
+  max-width: none;
+  max-height: none;
+  width: 100vw;
 }
 
 #stage > canvas,
