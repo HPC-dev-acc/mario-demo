@@ -222,6 +222,43 @@ describe('npc spawn', () => {
     expect(state.npcs[0].type).toBe('ol');
   });
 
+  test('npc spawns at ground height on default terrain', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    const { viewW } = window.__getLogicalViewSize();
+    const spawnX = state.camera.x + viewW + state.player.w;
+    const expectedY = findGroundY(state.collisions, spawnX, 0);
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    Math.random = () => 1;
+    hooks.runUpdate(0);
+    Math.random = origRandom;
+    const npc = state.npcs[0];
+    expect(npc.y).toBeCloseTo(expectedY - npc.h / 2, 1);
+  });
+
+  test('npc spawns at raised ground height', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    const { viewW } = window.__getLogicalViewSize();
+    const spawnX = state.camera.x + viewW + state.player.w;
+    const COLL_TILE = TILE / 2;
+    const tx = Math.floor(spawnX / COLL_TILE);
+    for (let dx = -2; dx <= 2; dx++) {
+      for (let y = 0; y < state.collisions.length; y++) state.collisions[y][tx + dx] = 0;
+      state.collisions[10][tx + dx] = 1;
+      state.collisions[11][tx + dx] = 1;
+    }
+    const expectedY = findGroundY(state.collisions, spawnX, 0);
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    Math.random = () => 1;
+    hooks.runUpdate(0);
+    Math.random = origRandom;
+    const npc = state.npcs[0];
+    expect(npc.y).toBeCloseTo(expectedY - npc.h / 2, 1);
+  });
+
   test('npc spawn timer respects new minimum interval', async () => {
     const { hooks } = await loadGame();
     hooks.setNpcSpawnTimer(0);
