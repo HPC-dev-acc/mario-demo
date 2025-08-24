@@ -15,13 +15,23 @@ export function solidAt(collisions, x, y, lights = {}) {
   return t;
 }
 
-export function findGroundY(collisions, x, fromY) {
+export function findGroundY(collisions, x, fromY, searchUp = false) {
   const tx = worldToCollTile(x);
-  let ty = Math.max(0, worldToCollTile(fromY));
-  for (; ty < collisions.length; ty++) {
-    const t = collisions[ty][tx];
-    if (t === 0 || t === TRAFFIC_LIGHT) continue;
-    return ty * COLL_TILE;
+  if (searchUp) {
+    let ty = Math.min(collisions.length - 1, worldToCollTile(fromY));
+    for (; ty >= 0; ty--) {
+      const t = collisions[ty][tx];
+      if (t === 0 || t === TRAFFIC_LIGHT) continue;
+      while (ty > 0 && collisions[ty - 1][tx] && collisions[ty - 1][tx] !== TRAFFIC_LIGHT) ty--;
+      return ty * COLL_TILE;
+    }
+  } else {
+    let ty = Math.max(0, worldToCollTile(fromY));
+    for (; ty < collisions.length; ty++) {
+      const t = collisions[ty][tx];
+      if (t === 0 || t === TRAFFIC_LIGHT) continue;
+      return ty * COLL_TILE;
+    }
   }
   return collisions.length * COLL_TILE;
 }

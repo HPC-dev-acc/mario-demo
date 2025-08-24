@@ -1,5 +1,5 @@
 import pkg from '../package.json' assert { type: 'json' };
-import { TILE, resolveCollisions, findGroundY } from './game/physics.js';
+import { TILE, COLL_TILE, resolveCollisions, findGroundY } from './game/physics.js';
 import { BASE_W } from './game/width.js';
 import { SPAWN_X, SPAWN_Y, Y_OFFSET } from './game/state.js';
 import { createNpc } from './npc.js';
@@ -227,7 +227,12 @@ describe('npc spawn', () => {
     const state = hooks.getState();
     const { viewW } = window.__getLogicalViewSize();
     const spawnX = state.camera.x + viewW + state.player.w;
-    const expectedY = findGroundY(state.collisions, spawnX, 0);
+    const expectedY = findGroundY(
+      state.collisions,
+      spawnX,
+      state.collisions.length * COLL_TILE - 1,
+      true,
+    );
     hooks.setNpcSpawnTimer(0);
     const origRandom = Math.random;
     Math.random = () => 1;
@@ -242,14 +247,18 @@ describe('npc spawn', () => {
     const state = hooks.getState();
     const { viewW } = window.__getLogicalViewSize();
     const spawnX = state.camera.x + viewW + state.player.w;
-    const COLL_TILE = TILE / 2;
     const tx = Math.floor(spawnX / COLL_TILE);
     for (let dx = -2; dx <= 2; dx++) {
       for (let y = 0; y < state.collisions.length; y++) state.collisions[y][tx + dx] = 0;
       state.collisions[10][tx + dx] = 1;
       state.collisions[11][tx + dx] = 1;
     }
-    const expectedY = findGroundY(state.collisions, spawnX, 0);
+    const expectedY = findGroundY(
+      state.collisions,
+      spawnX,
+      state.collisions.length * COLL_TILE - 1,
+      true,
+    );
     hooks.setNpcSpawnTimer(0);
     const origRandom = Math.random;
     Math.random = () => 1;
