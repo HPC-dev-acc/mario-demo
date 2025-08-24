@@ -124,6 +124,26 @@ test('crossing a traffic light right to left keeps vertical motion unchanged', (
   expect(ent.y).toBeCloseTo(startY, 1);
 });
 
+test('falling directly over a traffic light does not alter vertical motion', () => {
+  const world = makeWorld(5, 5);
+  setBlock(world, 2, 3, TRAFFIC_LIGHT);
+  const h = 120;
+  const ent = {
+    x: TILE * 2 + TILE / 2,
+    y: 80,
+    w: BASE_W,
+    h,
+    vx: 0,
+    vy: 10,
+    onGround: false,
+  };
+  const expectedY = ent.y + ent.vy;
+  const expectedVy = ent.vy;
+  resolveCollisions(ent, world.level, world.collisions);
+  expect(ent.vy).toBe(expectedVy);
+  expect(ent.y).toBeCloseTo(expectedY, 1);
+});
+
 test('collecting a coin adds score and removes coin', () => {
   const world = makeWorld(3, 3);
   world.level[1][1] = 3; // coin tile
