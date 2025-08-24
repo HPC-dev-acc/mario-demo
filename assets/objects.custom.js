@@ -287,19 +287,6 @@ export default [
   },
   {
     "type": "brick",
-    "x": 66,
-    "y": 3,
-    "transparent": true,
-    "destroyable": false,
-    "collision": [
-      0,
-      0,
-      1,
-      0
-    ]
-  },
-  {
-    "type": "brick",
     "x": 74,
     "y": 2,
     "transparent": true,
@@ -308,7 +295,7 @@ export default [
       0,
       0,
       1,
-      0
+      1
     ]
   },
   {
@@ -321,7 +308,7 @@ export default [
       0,
       0,
       1,
-      0
+      1
     ]
   },
   {
@@ -334,7 +321,7 @@ export default [
       0,
       0,
       1,
-      0
+      1
     ]
   },
   {
@@ -347,7 +334,7 @@ export default [
       0,
       0,
       1,
-      0
+      1
     ]
   },
   {
@@ -360,7 +347,7 @@ export default [
       0,
       0,
       1,
-      0
+      1
     ]
   },
   {
@@ -373,7 +360,7 @@ export default [
       0,
       0,
       1,
-      0
+      1
     ]
   },
   {
@@ -386,7 +373,7 @@ export default [
       0,
       0,
       1,
-      0
+      1
     ]
   },
   {
@@ -399,7 +386,7 @@ export default [
       0,
       0,
       1,
-      0
+      1
     ]
   },
   {
@@ -412,20 +399,7 @@ export default [
       0,
       0,
       1,
-      0
-    ]
-  },
-  {
-    "type": "brick",
-    "x": 83,
-    "y": 1,
-    "transparent": true,
-    "destroyable": false,
-    "collision": [
-      1,
-      0,
-      0,
-      0
+      1
     ]
   },
   {
