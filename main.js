@@ -51,6 +51,8 @@ function loadOrientationGuard() {
 
 let lastImpactAt = 0;
 const IMPACT_COOLDOWN_MS = 120;
+const NPC_SPAWN_MIN_MS = 4000;
+const NPC_SPAWN_MAX_MS = 8000;
 
 (() => {
   const canvas = document.getElementById('game');
@@ -543,7 +545,7 @@ const IMPACT_COOLDOWN_MS = 120;
       const facing = useOl ? 1 : undefined;
       const npc = createNpc(spawnX, SPAWN_Y, npcW, npcH, sprite, undefined, facing, opts);
       state.npcs.push(npc);
-      npcSpawnTimer = 2000 + Math.random() * 3000;
+      npcSpawnTimer = NPC_SPAWN_MIN_MS + Math.random() * (NPC_SPAWN_MAX_MS - NPC_SPAWN_MIN_MS);
     }
 
     for (const npc of state.npcs) {

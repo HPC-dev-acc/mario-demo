@@ -195,6 +195,16 @@ describe('npc spawn', () => {
     expect(npc.h).toBeCloseTo(state.player.h * 6 / 5);
     expect(npc.w).toBeCloseTo(48 * (state.player.h / 44) * 6 / 5);
   });
+
+  test('npc spawn timer respects new minimum interval', async () => {
+    const { hooks } = await loadGame();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    Math.random = () => 0;
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    expect(hooks.getNpcSpawnTimer()).toBeGreaterThanOrEqual(4000);
+  });
 });
 
 describe('shadowY behavior', () => {
