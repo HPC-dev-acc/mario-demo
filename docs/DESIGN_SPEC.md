@@ -32,3 +32,39 @@
 
 ## DS-7: OL NPC walk sprites
 - Sprite assets `assets/sprites/OL/walk_000.png` through `walk_011.png` must exist.
+
+## DS-8: Countdown timer
+- Stage uses a 60-second timer that decrements once gameplay begins.
+- The timer flashes during the final 10 seconds.
+- Expiration triggers a fail screen with a restart option.
+
+## DS-9: Pedestrian traffic lights
+- Lights cycle through green (3s), blink (2s), and red (4s) phases.
+- Nearby characters wait during red and slide attempts are cancelled.
+- Collisions with lights allow pass-through movement while preserving ground support.
+
+## DS-10: NPC behavior
+- NPCs spawn every 4–8 seconds with type tags preventing duplicate spawns.
+- OL NPCs face right on spawn and render using their own sprites.
+- Stomping bounces the player to full jump height; side collisions cause mutual knockback.
+
+## DS-11: Audio
+- Sound effects play for jump, slide, clear, coin, and fail events.
+- Background music loops during gameplay and can be muted or unmuted via the HUD control.
+
+## DS-12: Stage configuration
+- Level objects load from `assets/objects.custom.js`, falling back to `assets/objects.js`.
+- Each object defines `type`, `x`, and `y` tile coordinates with optional `transparent` and `collision` flags.
+
+## DS-13: Level design mode
+- Enabled via settings menu **LEVEL** controls with a dashed canvas outline.
+- Selecting, dragging, or nudging (WASD) moves objects; `Q` rotates 24px blocks.
+- An **新增** button places collision blocks and a transparency toggle affects only the selection.
+- Countdown timer pauses and layout can export as JSON.
+
+## DS-14: Progressive Web App support
+- Supports installation with full-screen mode on iOS and Android.
+
+## DS-15: Versioning build
+- `npm run build` reads `package.json` to generate `version.js` and versioned HTML query parameters.
+- Exposes the current version as `window.__APP_VERSION__` for display in the UI.

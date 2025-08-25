@@ -38,3 +38,43 @@ Each design specification point is validated by at least one automated test.
 - **Design Spec**: [DS-7]
 - **Test File**: `ol-walk-sprites.test.js`
 - **Description**: ensures sprite files for walk animation frames 0–11 exist.
+
+## T-8: Countdown timer
+- **Design Spec**: [DS-8]
+- **Test File**: Manual
+- **Description**: Start gameplay, observe timer flash during final 10 seconds, and verify fail screen appears when time expires.
+
+## T-9: Pedestrian traffic lights
+- **Design Spec**: [DS-9]
+- **Test File**: Manual
+- **Description**: Confirm lights cycle 3s green → 2s blink → 4s red and that characters wait during red with slide cancellation.
+
+## T-10: NPC behavior
+- **Design Spec**: [DS-10]
+- **Test File**: Manual
+- **Description**: Verify NPCs spawn every 4–8 seconds, avoid duplicate types, face right on spawn, bounce player on stomp, and knock back on side collisions.
+
+## T-11: Audio
+- **Design Spec**: [DS-11]
+- **Test File**: Manual
+- **Description**: Check that jump, slide, clear, coin, and fail sounds play and background music can be muted or unmuted.
+
+## T-12: Stage configuration
+- **Design Spec**: [DS-12]
+- **Test File**: Manual
+- **Description**: Edit `assets/objects.custom.js` and ensure defined objects load with correct transparency and collision patterns.
+
+## T-13: Level design mode
+- **Design Spec**: [DS-13]
+- **Test File**: Manual
+- **Description**: Enable design mode, drag objects, nudge with WASD, rotate with Q, add blocks, toggle transparency, export layout, and confirm timer pause.
+
+## T-14: Progressive Web App support
+- **Design Spec**: [DS-14]
+- **Test File**: Manual
+- **Description**: Install the app on a mobile device and verify it launches full screen.
+
+## T-15: Versioning build
+- **Design Spec**: [DS-15]
+- **Test File**: Manual (`npm run build`)
+- **Description**: Running `npm run build` generates `version.js` and updates HTML query parameters so `window.__APP_VERSION__` matches `package.json`.
