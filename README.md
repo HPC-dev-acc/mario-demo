@@ -204,3 +204,11 @@ The tests verify collision handling, coin collection logic, and traffic light st
 ## Versioning
 
 Run `npm run build` to read the version from `package.json` and generate `version.js` plus versioned HTML query parameters. `version.js` defines a global `window.__APP_VERSION__` loaded before `main.js`, and this value is used in the UI to display the current version.
+
+## Documentation
+
+Design specifications, test plans, and version history are maintained in the `docs/` directory:
+
+- `docs/DESIGN_SPEC.md`
+- `docs/TEST_PLAN.md`
+- `docs/CHANGELOG.md`
