@@ -68,14 +68,13 @@ describe('style.css', () => {
     expect(icon[0]).toMatch(/height:\s*1em/);
   });
 
-  test('background aligns with canvas top', () => {
+  test('body and stage omit background images', () => {
     const body = css.match(/\nbody\s*{[^}]*}/);
-    expect(body).toBeTruthy();
-    expect(body[0]).toMatch(/background-position-y:\s*calc\(\(100dvh - var\(--canvas-h\)\) \/ 2\)/);
+    if (body) expect(body[0]).not.toMatch(/background-image/);
 
     const stage = css.match(/#stage\s*{[^}]*}/);
     expect(stage).toBeTruthy();
-    expect(stage[0]).toMatch(/background-position:\s*0\s+0/);
+    expect(stage[0]).not.toMatch(/background-image/);
   });
 
   test('timer low-time animation is defined', () => {

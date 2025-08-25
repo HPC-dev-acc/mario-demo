@@ -1,11 +1,10 @@
-/* Version: 1.5.161 */
+/* Version: 1.5.162 */
 :root {
   --game-w: 960;
   --game-h: 540;
   --bg: #9fd4ea;
   --ui-scale: 1;
   --touch-btn-size: max(64px, 10vw);
-  --canvas-h: calc(var(--game-h) * 1px);
 }
 
 html, body {
@@ -14,10 +13,7 @@ html, body {
 }
 
 body {
-  background-image: url("assets/Background/background1.jpeg");
-  background-repeat: repeat-x;
-  background-size: auto var(--canvas-h);
-  background-position-y: calc((100dvh - var(--canvas-h)) / 2);
+  background: var(--bg);
 }
 
 [hidden] { display: none !important; }
@@ -36,10 +32,6 @@ body {
   /* lock max size at original resolution */
   max-width: calc(var(--game-w) * 1px);
   max-height: calc(var(--game-h) * 1px);
-  background-image: url("assets/Background/background1.jpeg");
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  background-position: 0 0;
   image-rendering: smooth;
 }
 

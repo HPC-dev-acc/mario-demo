@@ -11,6 +11,7 @@ import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render, CAMERA_OFFSET_Y } from './src/render.js';
 import { updateCamera } from './src/game/camera.js';
 import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite } from './src/sprites.js';
+import { loadBackground, makeScaledBg } from './src/bg.js';
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
 import { createNpc, updateNpc, isNpcOffScreen, MAX_NPCS, boxesOverlap } from './src/npc.js';
@@ -77,7 +78,7 @@ const NPC_SPAWN_MAX_MS = 8000;
       window.__cssScaleY = cssScaleY;
       canvas.dataset.cssScaleX = cssScaleX;
       canvas.dataset.cssScaleY = cssScaleY;
-      document.body?.style.setProperty('--canvas-h', cssH + 'px');
+      makeScaledBg(canvas.height);
     }
 
   window.addEventListener('resize', applyDPR);
@@ -649,12 +650,14 @@ const NPC_SPAWN_MAX_MS = 8000;
   function preload(){
     startScreen.setStatus('Loading sprites...');
     withTimeout(Promise.all([
+      loadBackground('assets/Background/background1.jpeg'),
       loadPlayerSprites(),
       loadTrafficLightSprites(),
       loadNpcSprite(),
       loadOlNpcSprite(),
     ]), 10000, 'Timed out loading sprites')
-      .then(([playerSprites, trafficLightSprites, npcSprite, olNpcSprite]) => {
+      .then(([_, playerSprites, trafficLightSprites, npcSprite, olNpcSprite]) => {
+        makeScaledBg(canvas.height);
         state.playerSprites = playerSprites;
         state.trafficLightSprites = trafficLightSprites;
         state.npcSprite = npcSprite;
