@@ -22,7 +22,7 @@ test('render runs without throwing', () => {
   expect(() => render(ctx, state)).not.toThrow();
 });
 
-test('render offsets stage without translating canvas', () => {
+test('render does not modify stage or canvas transforms', () => {
   const state = createGameState();
   state.camera.y = 10;
   const stage = { style: {} };
@@ -43,39 +43,8 @@ test('render offsets stage without translating canvas', () => {
     fillStyle: '',
   };
   render(ctx, state);
-  expect(stage.style.transform).toBe(`translate(0px, -${state.camera.y + CAMERA_OFFSET_Y}px)`);
-  expect(canvas.style.transform).toBe('');
-});
-
-test('render scales background transform by cssScaleX', () => {
-  const state = createGameState();
-  state.camera.x = 10;
-  const stage = { style: {} };
-  Object.defineProperty(window, 'innerHeight', { configurable: true, value: 240 });
-  const canvas = {
-    width: 256,
-    height: 240,
-    style: {},
-    dataset: { cssScaleX: '2', cssScaleY: '3' },
-    parentElement: stage,
-  };
-  const ctx = {
-    canvas,
-    clearRect: jest.fn(),
-    save: jest.fn(),
-    translate: jest.fn(),
-    fillRect: jest.fn(),
-    beginPath: jest.fn(),
-    arc: jest.fn(),
-    ellipse: jest.fn(),
-    fill: jest.fn(),
-    strokeRect: jest.fn(),
-    restore: jest.fn(),
-    scale: jest.fn(),
-    fillStyle: '',
-  };
-  render(ctx, state);
-  expect(stage.style.transform).toBe(`translate(-20px, 0px)`);
+  expect(stage.style.transform).toBeUndefined();
+  expect(canvas.style.transform).toBeUndefined();
 });
 
 test('getVisibleRange limits tiles to viewport', () => {

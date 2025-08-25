@@ -1,4 +1,5 @@
 import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
+import { drawTiledBg } from './bg.js';
 
 export const CAMERA_OFFSET_Y = 0;
 
@@ -21,26 +22,8 @@ function getHighlightColor() {
 export function render(ctx, state, design) {
   const { level, lights, player, camera, LEVEL_W, LEVEL_H, playerSprites, npcs, transparent, patterns, indestructible } = state;
   const camY = camera.y + CAMERA_OFFSET_Y;
-  const stage = ctx.canvas?.parentElement;
-  if (stage && stage.style) {
-    const bgScaleX = Number(ctx.canvas.dataset?.cssScaleX) || 1;
-    const bgScaleY = Number(ctx.canvas.dataset?.cssScaleY) || bgScaleX;
-    const x = -Math.round(camera.x * bgScaleX) || 0;
-    const y = Math.round(camY * bgScaleY) || 0;
-    const bgHeight = `${ctx.canvas.height * bgScaleY}px`;
-    stage.style.transform = `translate(${x}px, ${-y}px)`;
-    stage.style.backgroundSize = `auto ${bgHeight}`;
-    if (document.body && document.body.style) {
-      const posY = `${-y}px`;
-      document.body.style.backgroundPosition = `${x}px ${posY}`;
-      document.body.style.backgroundSize = `auto ${bgHeight}`;
-      document.body.style.transform = '';
-    }
-    if (ctx.canvas.style) {
-      ctx.canvas.style.transform = '';
-    }
-  }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  drawTiledBg(ctx, camera.x);
   ctx.save();
   ctx.translate(-camera.x, -camY);
   const { startX, endX, startY, endY } = getVisibleRange(camera, ctx.canvas, LEVEL_W, LEVEL_H, camY);
