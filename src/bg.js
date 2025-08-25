@@ -38,8 +38,10 @@ export function makeScaledBg(height, img = bgImage) {
 export function drawTiledBg(ctx, cameraX = 0) {
   if (!scaledBg) return;
   const tileW = scaledBg.width;
+  const scaleX = Number(ctx.canvas.dataset?.cssScaleX) || 1;
+  const viewW = ctx.canvas.width / scaleX;
   const offsetX = ((cameraX % tileW) + tileW) % tileW;
-  for (let x = -offsetX; x < ctx.canvas.width; x += tileW) {
+  for (let x = -offsetX; x < viewW; x += tileW) {
     ctx.drawImage(scaledBg, x, 0);
   }
 }

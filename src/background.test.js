@@ -13,6 +13,19 @@ test('drawTiledBg tiles image relative to camera.x', () => {
   expect(calls[0][1]).toBe(-30);
 });
 
+test('drawTiledBg uses logical width with cssScaleX', () => {
+  const img = document.createElement('canvas');
+  img.width = 50; img.height = 25;
+  HTMLCanvasElement.prototype.getContext = () => ({ drawImage: () => {} });
+  makeScaledBg(25, img);
+  const calls = [];
+  const ctx = { canvas: { width: 120, height: 25, dataset: { cssScaleX: '2' } }, drawImage: (...args) => calls.push(args) };
+  drawTiledBg(ctx, 30);
+  expect(calls.length).toBe(2);
+  expect(calls[0][1]).toBe(-30);
+  expect(calls[1][1]).toBe(20);
+});
+
 test('render leaves DOM backgrounds untouched', () => {
   const stage = { style: {} };
   const canvas = { width: 100, height: 100, parentElement: stage, dataset: { cssScaleX: '1', cssScaleY: '1' } };
