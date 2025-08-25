@@ -47,16 +47,21 @@ test('background repeats, centers vertically, and moves with camera', () => {
   expect(stage.style.transform).toBe('translate(0px, 0px)');
   expect(stage.style.backgroundSize).toBe(`auto ${canvas.height}px`);
   expect(document.body.style.backgroundSize).toBe(`auto ${canvas.height}px`);
+  expect(document.body.style.backgroundPosition).toBe('0px 0px');
+  expect(document.body.style.transform).toBe('');
   state.camera.x = 50;
   render(ctx, state);
   expect(stage.style.transform).toBe(`translate(-50px, 0px)`);
+  expect(document.body.style.backgroundPosition).toBe(`-50px 0px`);
   state.camera.y = 25;
   render(ctx, state);
   expect(stage.style.transform).toBe(`translate(-50px, -25px)`);
+  expect(document.body.style.backgroundPosition).toBe(`-50px -25px`);
   canvas.dataset.cssScaleX = '2';
   render(ctx, state);
   expect(stage.style.transform).toBe(`translate(-100px, -50px)`);
   expect(stage.style.backgroundSize).toBe(`auto ${canvas.height * 2}px`);
+  expect(document.body.style.backgroundPosition).toBe(`-100px -50px`);
 });
 
 test('uses cssScaleX from dataset when provided', () => {

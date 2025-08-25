@@ -31,8 +31,10 @@ export function render(ctx, state, design) {
     stage.style.transform = `translate(${x}px, ${-y}px)`;
     stage.style.backgroundSize = `auto ${bgHeight}`;
     if (document.body && document.body.style) {
-      document.body.style.transform = `translate(${x}px, ${-y}px)`;
+      const posY = `${-y}px`;
+      document.body.style.backgroundPosition = `${x}px ${posY}`;
       document.body.style.backgroundSize = `auto ${bgHeight}`;
+      document.body.style.transform = '';
     }
     if (ctx.canvas.style) {
       ctx.canvas.style.transform = `translate(${-x}px, ${y}px)`;
