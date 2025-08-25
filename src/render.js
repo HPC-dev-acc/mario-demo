@@ -2,6 +2,18 @@ import { TILE, TRAFFIC_LIGHT } from './game/physics.js';
 
 export const CAMERA_OFFSET_Y = 0;
 
+export function getVisibleRange(camera, canvas, LEVEL_W, LEVEL_H, camY = camera.y + CAMERA_OFFSET_Y) {
+  const scaleX = Number(canvas.dataset?.cssScaleX) || 1;
+  const scaleY = Number(canvas.dataset?.cssScaleY) || scaleX;
+  const viewW = canvas.width / scaleX;
+  const viewH = canvas.height / scaleY;
+  const startX = Math.max(0, Math.floor(camera.x / TILE));
+  const endX = Math.min(LEVEL_W, Math.ceil((camera.x + viewW) / TILE));
+  const startY = Math.max(0, Math.floor(camY / TILE));
+  const endY = Math.min(LEVEL_H, Math.ceil((camY + viewH) / TILE));
+  return { startX, endX, startY, endY };
+}
+
 function getHighlightColor() {
   return getComputedStyle(document.documentElement).getPropertyValue('--designHighlight') || '#ff0';
 }
@@ -11,59 +23,65 @@ export function render(ctx, state, design) {
   const camY = camera.y + CAMERA_OFFSET_Y;
   const stage = ctx.canvas?.parentElement;
   if (stage && stage.style) {
-      const bgScaleX = Number(ctx.canvas.dataset?.cssScaleX);
-      const x = -Math.round(camera.x * bgScaleX) || 0;
-      const y = Math.round(camY * bgScaleX) || 0;
-      const posY = `calc(0px - ${y}px)`;
-      const bgHeight = `${ctx.canvas.clientHeight}px`;
-      stage.style.backgroundPosition = `${x}px ${posY}`;
-      stage.style.backgroundSize = `auto ${bgHeight}`;
-      if (document.body && document.body.style) {
-        document.body.style.backgroundPosition = `${x}px ${posY}`;
-        document.body.style.backgroundSize = `auto ${bgHeight}`;
-      }
+    const bgScaleX = Number(ctx.canvas.dataset?.cssScaleX) || 1;
+    const bgScaleY = Number(ctx.canvas.dataset?.cssScaleY) || bgScaleX;
+    const x = -Math.round(camera.x * bgScaleX) || 0;
+    const y = Math.round(camY * bgScaleY) || 0;
+    const bgHeight = `${ctx.canvas.height * bgScaleY}px`;
+    stage.style.transform = `translate(${x}px, ${-y}px)`;
+    stage.style.backgroundSize = `auto ${bgHeight}`;
+    if (document.body && document.body.style) {
+      const posY = `${-y}px`;
+      document.body.style.backgroundPosition = `${x}px ${posY}`;
+      document.body.style.backgroundSize = `auto ${bgHeight}`;
+      document.body.style.transform = '';
+    }
+    if (ctx.canvas.style) {
+      ctx.canvas.style.transform = `translate(${-x}px, ${y}px)`;
+    }
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.save();
   ctx.translate(-camera.x, -camY);
-    for (let y = 0; y < LEVEL_H; y++) {
-      for (let x = 0; x < LEVEL_W; x++) {
-        const t = level[y][x], px = x * TILE, py = y * TILE;
-        const key = `${x},${y}`;
-        const isTransparent = transparent?.has(key);
-        const alpha = isTransparent ? (design?.isEnabled?.() ? 0.5 : 0) : 1;
-        const patt = patterns?.[key];
-        if (t === 2) {
-          const locked = design?.isEnabled?.() && indestructible?.has(key);
-          if (patt) drawBrickPattern(ctx, px, py, patt.mask, alpha, locked);
-          else drawBrick(ctx, px, py, alpha, locked);
-        }
-        if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2, alpha);
-        if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[key]?.state, state.trafficLightSprites, alpha);
+  const { startX, endX, startY, endY } = getVisibleRange(camera, ctx.canvas, LEVEL_W, LEVEL_H, camY);
+  for (let y = startY; y < endY; y++) {
+    for (let x = startX; x < endX; x++) {
+      const t = level[y][x], px = x * TILE, py = y * TILE;
+      const key = `${x},${y}`;
+      const isTransparent = transparent?.has(key);
+      const alpha = isTransparent ? (design?.isEnabled?.() ? 0.5 : 0) : 1;
+      const patt = patterns?.[key];
+      if (t === 2) {
+        const locked = design?.isEnabled?.() && indestructible?.has(key);
+        if (patt) drawBrickPattern(ctx, px, py, patt.mask, alpha, locked);
+        else drawBrick(ctx, px, py, alpha, locked);
       }
+      if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2, alpha);
+      if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[key]?.state, state.trafficLightSprites, alpha);
     }
-    if (design?.isEnabled?.()) {
-      ctx.strokeStyle = getHighlightColor();
-      ctx.lineWidth = 2;
-      const selObj = design.getSelected?.();
-      if (selObj) ctx.strokeRect(selObj.x * TILE, selObj.y * TILE, TILE, TILE);
-      const sel = state.selection;
-      if (sel) {
-        const h = TILE / 2;
-        const sx = sel.x * TILE + (sel.q % 2) * h;
-        const sy = sel.y * TILE + Math.floor(sel.q / 2) * h;
-        ctx.strokeRect(sx, sy, h, h);
-      }
+  }
+  if (design?.isEnabled?.()) {
+    ctx.strokeStyle = getHighlightColor();
+    ctx.lineWidth = 2;
+    const selObj = design.getSelected?.();
+    if (selObj) ctx.strokeRect(selObj.x * TILE, selObj.y * TILE, TILE, TILE);
+    const sel = state.selection;
+    if (sel) {
+      const h = TILE / 2;
+      const sx = sel.x * TILE + (sel.q % 2) * h;
+      const sy = sel.y * TILE + Math.floor(sel.q / 2) * h;
+      ctx.strokeRect(sx, sy, h, h);
     }
-    ctx.fillStyle = 'rgba(0,0,0,.15)';
-    ctx.fillRect(-TILE, -TILE, TILE, LEVEL_H * TILE + 2 * TILE);
-    if (npcs) {
-      for (const n of npcs) {
-        drawNpc(ctx, n, n.sprite);
-      }
+  }
+  ctx.fillStyle = 'rgba(0,0,0,.15)';
+  ctx.fillRect(-TILE, -TILE, TILE, LEVEL_H * TILE + 2 * TILE);
+  if (npcs) {
+    for (const n of npcs) {
+      drawNpc(ctx, n, n.sprite);
     }
-    drawPlayer(ctx, player, playerSprites);
-    ctx.restore();
+  }
+  drawPlayer(ctx, player, playerSprites);
+  ctx.restore();
 }
 
 function drawBrick(ctx, x, y, alpha = 1, locked = false) {
