@@ -37,7 +37,7 @@ export function render(ctx, state, design) {
       document.body.style.transform = '';
     }
     if (ctx.canvas.style) {
-      ctx.canvas.style.transform = `translate(${-x}px, ${y}px)`;
+      ctx.canvas.style.transform = '';
     }
   }
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);

@@ -22,11 +22,13 @@ test('render runs without throwing', () => {
   expect(() => render(ctx, state)).not.toThrow();
 });
 
-test('render translates camera position', () => {
+test('render offsets stage without translating canvas', () => {
   const state = createGameState();
   state.camera.y = 10;
+  const stage = { style: {} };
+  const canvas = { width: 256, height: 240, style: {}, parentElement: stage };
   const ctx = {
-    canvas: { width: 256, height: 240 },
+    canvas,
     clearRect: jest.fn(),
     save: jest.fn(),
     translate: jest.fn(),
@@ -41,7 +43,8 @@ test('render translates camera position', () => {
     fillStyle: '',
   };
   render(ctx, state);
-  expect(ctx.translate).toHaveBeenCalledWith(-state.camera.x, -(state.camera.y + CAMERA_OFFSET_Y));
+  expect(stage.style.transform).toBe(`translate(0px, -${state.camera.y + CAMERA_OFFSET_Y}px)`);
+  expect(canvas.style.transform).toBe('');
 });
 
 test('render scales background transform by cssScaleX', () => {
