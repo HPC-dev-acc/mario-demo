@@ -1,1 +1,1 @@
-window.__APP_VERSION__ = '1.5.163';
+window.__APP_VERSION__ = '2.0.0';

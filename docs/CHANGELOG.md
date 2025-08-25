@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented here.
 
+## v2.0.0 - 2025-08-25
+
+### Added
+- Initial public release with orientation guard, slide cancellation at red lights, landscape fit height, HUD visibility helpers, start page defaults, UI styling and responsiveness, and OL NPC walk sprites (DS-1–DS-7, T-1–T-7)
+
 ## v1.5.163 - 2025-08-25
 
 ### Added
