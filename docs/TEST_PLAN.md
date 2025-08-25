@@ -1,5 +1,7 @@
 # Test Plan
 
+**Version: 2.0.0**
+
 Each design specification point is validated by at least one automated test.
 
 ## T-1: Orientation guard overlay
