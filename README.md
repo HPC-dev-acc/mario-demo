@@ -208,8 +208,10 @@ Run `npm run build` to read the version from `package.json` and generate `versio
 
 ## Documentation
 
-Design specifications, test plans, and version history are maintained in the `docs/` directory:
+Project documentation is split between top-level overviews and in-depth specs:
 
+- `Requirements.md`
+- `Design.md`
 - `docs/DESIGN_SPEC.md`
 - `docs/TEST_PLAN.md`
 - `docs/CHANGELOG.md`

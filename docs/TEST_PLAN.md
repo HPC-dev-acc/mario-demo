@@ -4,6 +4,8 @@
 
 Each design specification point is validated by at least one automated test.
 
+See `../Requirements.md` and `../Design.md` for overall project context.
+
 ## T-1: Orientation guard overlay
 - **Design Spec**: [DS-1]
 - **Test File**: `orientation-guard.test.js`

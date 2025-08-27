@@ -2,6 +2,8 @@
 
 **Version: 2.0.0**
 
+Refer to `../Requirements.md` and `../Design.md` for high-level goals and architecture.
+
 ## DS-1: Orientation guard
 - Show overlay prompting landscape orientation on mobile portrait.
 - When device rotates to landscape, canvas resizes to fit and overlay hides.
