@@ -78,3 +78,8 @@ Each design specification point is validated by at least one automated test.
 - **Design Spec**: [DS-15]
 - **Test File**: Manual (`npm run build`)
 - **Description**: Running `npm run build` generates `version.js` and updates HTML query parameters so `window.__APP_VERSION__` matches `package.json`.
+
+## T-16: Semantic version handling
+- **Design Spec**: [DS-16]
+- **Test File**: `updateVersion.test.js`
+- **Description**: Setting a prerelease version in `package.json` updates HTML query parameters, `version.js`, and `manifest.json`.

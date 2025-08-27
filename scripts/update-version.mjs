@@ -24,12 +24,12 @@ writeIfChanged(
 const htmlPath = path.join(__dirname, '..', 'index.html');
 let html = readFileSync(htmlPath, 'utf8');
 const updated = html
-  .replace(/(style\.css\?v=)[0-9.]+/, `$1${version}`)
-  .replace(/(version.js\?v=)[0-9.]+/, `$1${version}`)
-  .replace(/(main.js\?v=)[0-9.]+/, `$1${version}`)
-  .replace(/(manifest.json\?v=)[0-9.]+/, `$1${version}`)
-  .replace(/(id="start-version"[^>]*>v)[0-9.]+/, `$1${version}`)
-  .replace(/(id="version-pill"[^>]*>v)[0-9.]+/, `$1${version}`);
+  .replace(/(style\.css\?v=)[A-Za-z0-9.-]+/, `$1${version}`)
+  .replace(/(version.js\?v=)[A-Za-z0-9.-]+/, `$1${version}`)
+  .replace(/(main.js\?v=)[A-Za-z0-9.-]+/, `$1${version}`)
+  .replace(/(manifest.json\?v=)[A-Za-z0-9.-]+/, `$1${version}`)
+  .replace(/(id="start-version"[^>]*>v)[A-Za-z0-9.-]+/, `$1${version}`)
+  .replace(/(id="version-pill"[^>]*>v)[A-Za-z0-9.-]+/, `$1${version}`);
 writeIfChanged(htmlPath, updated);
 
 // Update manifest.json version
