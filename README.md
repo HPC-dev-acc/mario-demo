@@ -6,6 +6,7 @@
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
+- Build script now supports full semantic versioning, updating query parameters for prerelease versions like `2.0.0-beta.1`.
 - Background scaling and tiling now use logical dimensions for consistent rendering across resolutions.
 - Background now renders directly on the canvas using tiled draw calls, removing DOM background updates.
 - Canvas now moves with the stage rather than applying a counter-transform.
@@ -203,7 +204,7 @@ The tests verify collision handling, coin collection logic, and traffic light st
 
 ## Versioning
 
-Run `npm run build` to read the version from `package.json` and generate `version.js` plus versioned HTML query parameters. `version.js` defines a global `window.__APP_VERSION__` loaded before `main.js`, and this value is used in the UI to display the current version.
+Run `npm run build` to read the version from `package.json` and generate `version.js` plus versioned HTML query parameters. The build now accepts full Semantic Versioning strings, including prerelease identifiers. `version.js` defines a global `window.__APP_VERSION__` loaded before `main.js`, and this value is used in the UI to display the current version.
 
 ## Documentation
 

@@ -68,3 +68,7 @@
 ## DS-15: Versioning build
 - `npm run build` reads `package.json` to generate `version.js` and versioned HTML query parameters.
 - Exposes the current version as `window.__APP_VERSION__` for display in the UI.
+
+## DS-16: Semantic version handling
+- Build script accepts full Semantic Versioning strings, including prerelease identifiers.
+- HTML query parameters and manifest version fields allow alphanumeric, dot, and hyphen segments.
