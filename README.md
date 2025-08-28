@@ -6,6 +6,7 @@
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red.
 
 ## Recent Changes
+- Translated Requirements and Design documents to English.
 - Build script now supports full semantic versioning, updating query parameters for prerelease versions like `2.0.0-beta.1`.
 - Background scaling and tiling now use logical dimensions for consistent rendering across resolutions.
 - Background now renders directly on the canvas using tiled draw calls, removing DOM background updates.
@@ -210,8 +211,8 @@ Run `npm run build` to read the version from `package.json` and generate `versio
 
 Project documentation is split between top-level overviews and in-depth specs:
 
-- `Requirements.md`
-- `Design.md`
+- `Requirements.md` – project scope and user stories (English)
+- `Design.md` – architecture overview (English)
 - `docs/DESIGN_SPEC.md`
 - `docs/TEST_PLAN.md`
 - `docs/CHANGELOG.md`

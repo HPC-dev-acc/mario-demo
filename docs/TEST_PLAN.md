@@ -4,7 +4,7 @@
 
 Each design specification point is validated by at least one automated test.
 
-See `../Requirements.md` and `../Design.md` for overall project context.
+See `../Requirements.md` and `../Design.md` for overall project context (now available in English).
 
 ## T-1: Orientation guard overlay
 - **Design Spec**: [DS-1]
