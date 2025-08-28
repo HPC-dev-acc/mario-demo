@@ -1,80 +1,80 @@
-# REQUIREMENTS.md 
-## 1. 專案目標與範疇
-- 以 HTML5 Canvas + 原生 JS 打造 2D 橫向卷軸平台遊戲 Demo，提供基本移動/跳躍/踩踏、NPC 互動、關卡通關/失敗流程。
-- 支援行動與桌面裝置、全螢幕、離線（PWA），並提供 HUD、語系切換與簡易除錯面板。
+## Requirements
+## 1. Project Goals and Scope
+- Build a 2D side-scrolling platformer demo using HTML5 Canvas and vanilla JS with basic movement, jumping, stomping, NPC interaction, and clear/fail flow.
+- Support mobile and desktop devices, fullscreen, and offline play (PWA) with HUD, language switching, and a simple debug panel.
 
-## 2. 主要利害關係人
-- **玩家/用戶**：體驗平台遊戲與行動裝置操作。
-- **產品/企劃**：定義遊戲規則、關卡與美術方向。
-- **開發/測試**：程式開發、效能與相容性驗證。
-- **營運/發行**：部署、版本與資產管理。
+## 2. Key Stakeholders
+- **Players**: experience the platformer and mobile controls.
+- **Product/Planning**: define game rules, levels, and art direction.
+- **Development/QA**: implement the code and verify performance and compatibility.
+- **Operations/Publishing**: handle deployment, versioning, and asset management.
 
-## 3. 用戶故事（Functional Requirements, FR）
-**導覽 / 啟動**
-- FR-001：進入首頁可看到 **START** 按鈕與語言設定；按 START 進入遊戲。
-- FR-002：可在設定選單切換語言（英文、日文、繁體中文、簡體中文）；HUD 與行人對話跟隨語系。
+## 3. User Stories (Functional Requirements, FR)
+**Navigation / Launch**
+- FR-001: The home page shows a **START** button and language settings; pressing START begins the game.
+- FR-002: Language can be switched in the settings menu (English, Japanese, Traditional Chinese, Simplified Chinese); the HUD and pedestrian dialogs follow the selection.
 
-**遊戲流程**
-- FR-010：每局有 **60 秒倒數計時**（最後 10 秒閃爍提示）。
-- FR-011：到達 Goal 顯示 **通關畫面**（含簡易星星動畫），並提供 **再玩一次**。
-- FR-012：逾時或失敗顯示 **失敗畫面**，並提供 **再玩一次**。
+**Game Flow**
+- FR-010: Each session has a **60-second countdown** that flashes during the final 10 seconds.
+- FR-011: Reaching the goal displays a **clear screen** with a simple star animation and a **restart** option.
+- FR-012: Timing out or failing shows a **fail screen** with a **restart** option.
 
-**角色 & 物理**
-- FR-020：玩家可左右移動、跳躍、滑行（滑行觸發短暫「灰塵」效果）。
-- FR-021：玩家可踩踏 NPC 反彈；連踩三次後穿過以避免卡住；側撞雙方皆會 **擊退**。
-- FR-022：相機在玩家跨越視窗寬度 **60%** 後開始水平卷動。
+**Characters & Physics**
+- FR-020: The player can move left/right, jump, and slide (sliding triggers a brief dust effect).
+- FR-021: The player can stomp NPCs to bounce; after three stomps the player passes through to avoid getting stuck; side collisions knock both back.
+- FR-022: The camera begins horizontal scrolling once the player crosses **60 %** of the viewport width.
 
-**NPC 與交通**
-- FR-030：關卡可生成不同 **NPC**（含 OL 角色），以一定間隔（約 **4–8 秒** 隨機）自右側入場，可能停止/奔跑/離場等行為。
-- FR-031：**行人號誌**依循 **綠 3s → 閃爍 2s → 紅 4s** 周期；紅燈時鄰近角色會停止並顯示對話框（含日式行人圖示）。
-- FR-032：紅燈不阻擋碰撞穿越，但需使鄰近角色暫停；貼近號誌側面與其下方經過不應改變垂直運動。
+**NPCs and Traffic**
+- FR-030: Levels spawn various **NPCs** (including OL characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit.
+- FR-031: **Pedestrian signals** cycle **green 3s → blink 2s → red 4s**; during red, nearby characters stop and display a dialog bubble with a Japanese-style figure.
+- FR-032: Red lights do not block collision pass-through but must pause nearby characters; brushing the side or passing underneath should not change vertical movement.
 
-**UI/HUD**
-- FR-040：HUD 具齒輪選單（ℹ、版本、⚙），可開關說明與 Debug 面板，行動裝置顯示虛擬按鍵。
-- FR-041：支援 **全螢幕** 切換；開始/通關/失敗畫面有可點擊的 **重來** 按鈕。
-- FR-042：提供 **方向提示覆蓋層**（Orientation Guard）：行動裝置直向時遮罩並暫停遊戲，提示轉橫向。
+**UI / HUD**
+- FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info and debug panels; mobile shows virtual buttons.
+- FR-041: Supports **fullscreen** toggle; start/clear/fail screens have clickable **restart** buttons.
+- FR-042: Provides an **orientation guard overlay**: mobile portrait shows a mask and pauses the game, prompting rotation to landscape.
 
-**平台/發佈**
-- FR-050：作為 **PWA**，可加入主畫面並在離線開啟，具資源快取策略與版本化。
+**Platform / Release**
+- FR-050: As a **PWA**, the game can be added to the home screen and launched offline with resource caching and versioning.
 
-## 4. 非功能性需求（NFR）
-- NFR-001（效能）：目標 **60 FPS**（低階裝置允許降級）；渲染僅處理鏡頭可視範圍之瓦片/物件。
-- NFR-002（畫質）：Canvas 解析度=CSS 尺寸×`devicePixelRatio`；**禁用 image smoothing** 以保像素銳利。
-- NFR-003（版面）：固定 **16:9** 畫面；全螢幕以黑邊信箱模式處理；行動橫向 **fit-height**（不被瀏覽器 UI 遮蔽）。
-- NFR-004（相容）：Chrome/Safari/Firefox/Edge 最新版；iOS/Android 常見尺寸可操作（虛擬按鈕大小隨視口縮放）。
-- NFR-005（i18n）：UI、對話泡泡、按鈕與提示全面跟隨語系設定。
-- NFR-006（可用性）：START/Restart 按鈕 **可點擊**、可見；觸控目標尺寸 ≥ 40px（建議）。
-- NFR-007（可維護）：資源與關卡以結構化檔案管理（例如 `assets/objects.custom.js`）；引入 **設計模式/輸出** 功能不破壞相容。
-- NFR-008（PWA）：`manifest.json` 定義圖示/啟動畫面；`sw.js` 快取核心資源並控管版本，更新時能提示或自動啟用。
+## 4. Non-functional Requirements (NFR)
+- NFR-001 (Performance): Target **60 FPS** (allow degradation on low-end devices); render only tiles/objects within the camera view.
+- NFR-002 (Visual Quality): Canvas resolution = CSS size × `devicePixelRatio`; **disable image smoothing** for crisp pixels.
+- NFR-003 (Layout): Fixed **16:9** aspect; fullscreen uses letterboxing; mobile landscape uses **fit-height** to avoid browser UI overlap.
+- NFR-004 (Compatibility): Latest Chrome/Safari/Firefox/Edge; common iOS/Android sizes must be operable (virtual buttons scale with viewport).
+- NFR-005 (i18n): UI, dialog bubbles, buttons, and prompts fully follow the selected language.
+- NFR-006 (Usability): START/Restart buttons must be **clickable** and visible; touch targets ≥ 40 px (recommended).
+- NFR-007 (Maintainability): Assets and levels managed via structured files (e.g., `assets/objects.custom.js`); introducing design mode/export must not break compatibility.
+- NFR-008 (PWA): `manifest.json` defines icons/splash screens; `sw.js` caches core assets and manages versions, prompting or activating updates.
 
-## 5. 內容與關卡
-- 預設關卡 **Stage 1-1**，提供基本地形（磚塊/平台/金幣/行人號誌），NPC 組合與生成頻率（OL NPC 更常見）。
-- 關卡資料以物件清單與碰撞 **24px 子格** 定義（2×2 遮罩），支援半格/自訂碰撞圖樣。
+## 5. Content and Levels
+- Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL NPCs appear more often).
+- Level data uses object lists and **24 px sub-grid** collision masks (2×2) to support half tiles and custom patterns.
 
-## 6. 資料/事件（摘要）
-- 角色：`{id,type,pos(x,y),vel(vx,vy),state,dir,hitbox,anim}`
-- 物件：`{id,kind,bounds,mask(2x2),solid?,trigger?}`
-- 交通號誌：`{phase: green|blink|red, tRemaining, area}`
-- 事件：`npcSpawned, npcBumped, stomp, slide, lightPhaseChanged, goalReached, timeUp, restart`
+## 6. Data / Events (Summary)
+- Character: `{id,type,pos(x,y),vel(vx,vy),state,dir,hitbox,anim}`
+- Object: `{id,kind,bounds,mask(2x2),solid?,trigger?}`
+- Traffic light: `{phase: green|blink|red, tRemaining, area}`
+- Events: `npcSpawned, npcBumped, stomp, slide, lightPhaseChanged, goalReached, timeUp, restart`
 
-## 7. 追溯矩陣（RTM 範例）
-- **R-FR-031 行人號誌 3/2/4** → 設計：`trafficLights` 狀態機、碰撞豁免 → 測試：`redLightSlide.test.js`
-- **R-FR-022 相機 60% 卷動** → 設計：`camera.scrollThreshold=0.6` → 測試：`render/scroll.test.js`（建議補）
-- **R-FR-020 滑行灰塵** → 設計：`effects.dust()` → 測試：`style.test.js`（外觀/狀態）
-- **R-NFR-002 像素銳利** → 設計：`ctx.imageSmoothingEnabled=false`、DPR Canvas → 測試：`style.test.js`（CSS/屬性）
-- **R-FR-050 PWA** → 設計：`sw.js`、`manifest.json` → 測試：`pwa.test.js`（建議補）
+## 7. Traceability Matrix (Examples)
+- **R-FR-031 Pedestrian signal 3/2/4** → Design: `trafficLights` state machine, collision exemption → Test: `redLightSlide.test.js`
+- **R-FR-022 Camera 60 % scroll** → Design: `camera.scrollThreshold = 0.6` → Test: `render/scroll.test.js` (recommended)
+- **R-FR-020 Slide dust** → Design: `effects.dust()` → Test: `style.test.js`
+- **R-NFR-002 Pixel sharpness** → Design: `ctx.imageSmoothingEnabled = false`, DPR Canvas → Test: `style.test.js`
+- **R-FR-050 PWA** → Design: `sw.js`, `manifest.json` → Test: `pwa.test.js` (recommended)
 
-## 8. 驗收準則（UAT）
-- UAT-001：切換語系後，START/Restart/對話皆更新。
-- UAT-002：60 秒倒數，10 秒內數字閃爍；逾時顯示失敗畫面與可點擊 Restart。
-- UAT-003：紅燈期間玩家與 NPC 靠近會停下並顯示對話泡泡；轉綠燈即恢復。
-- UAT-004：踩踏 NPC 能彈跳；第三次踩踏後可穿越；側撞會互相擊退。
-- UAT-005：桌面/行動皆可全螢幕；行動直向出現旋轉提示遮罩，橫向恢復遊戲。
-- UAT-006：離線時仍可載入並開始遊戲（已安裝為 PWA 後）。
+## 8. Acceptance Criteria (UAT)
+- UAT-001: After switching language, START/Restart buttons and dialogs update.
+- UAT-002: 60 s countdown flashes in the last 10 s; on timeout, a fail screen appears with a clickable Restart.
+- UAT-003: During a red light, the player and NPCs stop nearby and display dialog bubbles; they resume on green.
+- UAT-004: Stomping an NPC causes a bounce; the third stomp allows pass-through; side collisions knock both back.
+- UAT-005: Fullscreen works on desktop and mobile; portrait mode shows a rotate overlay and landscape resumes play.
+- UAT-006: Game loads and starts offline once installed as a PWA.
 
-## 9. 風險與限制
-- 不同裝置 DPR 與瀏覽器 UI 高度差異，可能造成視區換算誤差（已以 fit-height 與 `renderScale` 改善）。
-- 高密度 NPC 或特效可能造成掉幀，需控管同畫面實體數與剔除（只渲染鏡頭內）。
+## 9. Risks and Constraints
+- Device `devicePixelRatio` differences and varying browser UI heights may cause viewport miscalculations (mitigated by fit-height and `renderScale`).
+- High NPC counts or effects may reduce frame rate; control entity count and cull off-screen objects.
 
-## 10. 依賴與相容
-- 無框架依賴（原生 JS），工具鏈（Babel/Jest）僅於開發測試期使用。
+## 10. Dependencies and Compatibility
+- No framework dependencies (vanilla JS); tooling such as Babel and Jest is used only during development and testing.

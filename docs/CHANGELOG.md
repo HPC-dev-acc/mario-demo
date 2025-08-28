@@ -9,6 +9,9 @@ All notable changes to this project are documented here.
 - Build script now handles full Semantic Versioning, including prerelease versions (DS-16, T-16).
 - Introduced top-level `Requirements.md` and `Design.md` documents summarizing project goals and architecture.
 
+### Changed
+- Translated `Requirements.md` and `Design.md` to English.
+
 ## v2.0.0 - 2025-08-25
 
 ### Added
