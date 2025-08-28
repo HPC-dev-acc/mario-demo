@@ -11,6 +11,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 - Translated `Requirements.md` and `Design.md` to English.
+- Removed "Recent Changes" section from README.
 
 ## v2.0.0 - 2025-08-25
 
