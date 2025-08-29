@@ -2,7 +2,7 @@
 
 **Version: 2.0.0**
 
-Refer to `../Requirements.md` and `../Design.md` for high-level goals and architecture (both available in English).
+Refer to `./requirement.md` and `./design.md` for high-level goals and architecture (both available in English).
 
 ## DS-1: Orientation guard
 - Show overlay prompting landscape orientation on mobile portrait.

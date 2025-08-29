@@ -52,10 +52,10 @@ Run `npm run build` to read the version from `package.json` and generate `versio
 
 ## Documentation
 
-Project documentation is split between top-level overviews and in-depth specs:
+Project documentation is stored in the `docs/` directory:
 
-- `Requirements.md` – project scope and user stories (English)
-- `Design.md` – architecture overview (English)
+- `docs/requirement.md` – project scope and user stories (English)
+- `docs/design.md` – architecture overview (English)
 - `docs/DESIGN_SPEC.md`
 - `docs/TEST_PLAN.md`
 - `docs/CHANGELOG.md`
