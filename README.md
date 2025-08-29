@@ -54,8 +54,8 @@ Run `npm run build` to read the version from `package.json` and generate `versio
 
 Project documentation is stored in the `docs/` directory:
 
-- `docs/requirement.md` – project scope and user stories (English)
-- `docs/design.md` – architecture overview (English)
-- `docs/DESIGN_SPEC.md`
-- `docs/TEST_PLAN.md`
+- `docs/10-requirements.md` – URS, SRS, NFR, ICD, and RTM
+- `docs/20-design.md` – SAD, SDS, ERD, API, ADR, and UX
+- `docs/30-dev.md` – development guide, coding standards, and CI/CD
+- `docs/40-test.md` – test plan/specs/reports and UAT
 - `docs/CHANGELOG.md`
