@@ -1,15 +1,19 @@
-## Requirements
-## 1. Project Goals and Scope
-- Build a 2D side-scrolling platformer demo using HTML5 Canvas and vanilla JS with basic movement, jumping, stomping, NPC interaction, and clear/fail flow.
+
+# Requirements
+
+## URS
+### Project Goals and Scope
+- Build a 2D side-scrolling platformer demo using HTML5 Canvas and vanilla JS with movement, jumping, stomping, NPC interaction, and clear/fail flow.
 - Support mobile and desktop devices, fullscreen, and offline play (PWA) with HUD, language switching, and a simple debug panel.
 
-## 2. Key Stakeholders
+### Key Stakeholders
 - **Players**: experience the platformer and mobile controls.
 - **Product/Planning**: define game rules, levels, and art direction.
 - **Development/QA**: implement the code and verify performance and compatibility.
 - **Operations/Publishing**: handle deployment, versioning, and asset management.
 
-## 3. User Stories (Functional Requirements, FR)
+## SRS
+### Functional Requirements (FR)
 **Navigation / Launch**
 - FR-001: The home page shows a **START** button and language settings; pressing START begins the game.
 - FR-002: Language can be switched in the settings menu (English, Japanese, Traditional Chinese, Simplified Chinese); the HUD and pedestrian dialogs follow the selection.
@@ -37,7 +41,11 @@
 **Platform / Release**
 - FR-050: As a **PWA**, the game can be added to the home screen and launched offline with resource caching and versioning.
 
-## 4. Non-functional Requirements (NFR)
+### Content and Levels
+- Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL NPCs appear more often).
+- Level data uses object lists and **24 px sub-grid** collision masks (2×2) to support half tiles and custom patterns.
+
+## NFR
 - NFR-001 (Performance): Target **60 FPS** (allow degradation on low-end devices); render only tiles/objects within the camera view.
 - NFR-002 (Visual Quality): Canvas resolution = CSS size × `devicePixelRatio`; **disable image smoothing** for crisp pixels.
 - NFR-003 (Layout): Fixed **16:9** aspect; fullscreen uses letterboxing; mobile landscape uses **fit-height** to avoid browser UI overlap.
@@ -47,34 +55,22 @@
 - NFR-007 (Maintainability): Assets and levels managed via structured files (e.g., `assets/objects.custom.js`); introducing design mode/export must not break compatibility.
 - NFR-008 (PWA): `manifest.json` defines icons/splash screens; `sw.js` caches core assets and manages versions, prompting or activating updates.
 
-## 5. Content and Levels
-- Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL NPCs appear more often).
-- Level data uses object lists and **24 px sub-grid** collision masks (2×2) to support half tiles and custom patterns.
+## ICD
+- **Data / Events Summary**
+  - Character: `{id,type,pos(x,y),vel(vx,vy),state,dir,hitbox,anim}`
+  - Object: `{id,kind,bounds,mask(2x2),solid?,trigger?}`
+  - Traffic light: `{phase: green|blink|red, tRemaining, area}`
+  - Events: `npcSpawned, npcBumped, stomp, slide, lightPhaseChanged, goalReached, timeUp, restart`
+- **Dependencies and Compatibility**
+  - No framework dependencies (vanilla JS); tooling such as Babel and Jest is used only during development and testing.
 
-## 6. Data / Events (Summary)
-- Character: `{id,type,pos(x,y),vel(vx,vy),state,dir,hitbox,anim}`
-- Object: `{id,kind,bounds,mask(2x2),solid?,trigger?}`
-- Traffic light: `{phase: green|blink|red, tRemaining, area}`
-- Events: `npcSpawned, npcBumped, stomp, slide, lightPhaseChanged, goalReached, timeUp, restart`
-
-## 7. Traceability Matrix (Examples)
+## RTM
 - **R-FR-031 Pedestrian signal 3/2/4** → Design: `trafficLights` state machine, collision exemption → Test: `redLightSlide.test.js`
 - **R-FR-022 Camera 60 % scroll** → Design: `camera.scrollThreshold = 0.6` → Test: `render/scroll.test.js` (recommended)
 - **R-FR-020 Slide dust** → Design: `effects.dust()` → Test: `style.test.js`
 - **R-NFR-002 Pixel sharpness** → Design: `ctx.imageSmoothingEnabled = false`, DPR Canvas → Test: `style.test.js`
 - **R-FR-050 PWA** → Design: `sw.js`, `manifest.json` → Test: `pwa.test.js` (recommended)
 
-## 8. Acceptance Criteria (UAT)
-- UAT-001: After switching language, START/Restart buttons and dialogs update.
-- UAT-002: 60 s countdown flashes in the last 10 s; on timeout, a fail screen appears with a clickable Restart.
-- UAT-003: During a red light, the player and NPCs stop nearby and display dialog bubbles; they resume on green.
-- UAT-004: Stomping an NPC causes a bounce; the third stomp allows pass-through; side collisions knock both back.
-- UAT-005: Fullscreen works on desktop and mobile; portrait mode shows a rotate overlay and landscape resumes play.
-- UAT-006: Game loads and starts offline once installed as a PWA.
-
-## 9. Risks and Constraints
+## Risks and Constraints
 - Device `devicePixelRatio` differences and varying browser UI heights may cause viewport miscalculations (mitigated by fit-height and `renderScale`).
 - High NPC counts or effects may reduce frame rate; control entity count and cull off-screen objects.
-
-## 10. Dependencies and Compatibility
-- No framework dependencies (vanilla JS); tooling such as Babel and Jest is used only during development and testing.
