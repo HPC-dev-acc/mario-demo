@@ -85,3 +85,8 @@ See `../Requirements.md` and `../Design.md` for overall project context (now ava
 - **Design Spec**: [DS-16]
 - **Test File**: `updateVersion.test.js`
 - **Description**: Setting a prerelease version in `package.json` updates HTML query parameters, `version.js`, and `manifest.json`.
+
+## T-17: High-resolution background
+- **Design Spec**: [DS-17]
+- **Test File**: `background.test.js`
+- **Description**: Verifies background tiles render at the correct logical size when scaled by device pixel ratio.

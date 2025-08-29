@@ -8,6 +8,7 @@ All notable changes to this project are documented here.
 - Expanded design specifications and test plan to cover countdown timer, pedestrian traffic lights, NPC behavior, audio, stage configuration, level design mode, PWA support, and build versioning (DS-8–DS-15, T-8–T-15).
 - Build script now handles full Semantic Versioning, including prerelease versions (DS-16, T-16).
 - Introduced top-level `Requirements.md` and `Design.md` documents summarizing project goals and architecture.
+- Background rendering uses device pixel ratio to stay sharp in full-screen mode (DS-17, T-17).
 
 ### Changed
 - Translated `Requirements.md` and `Design.md` to English.

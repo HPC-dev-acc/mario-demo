@@ -61,11 +61,15 @@ const NPC_SPAWN_MAX_MS = 8000;
   const LOGICAL_W = 960;
   const LOGICAL_H = 540;
 
+    function getDpr() {
+      return Math.max(1, Math.min(window.devicePixelRatio || 1, 4));
+    }
+
     function applyDPR() {
       const rect = canvas.getBoundingClientRect();
       const cssW = rect.width;
       const cssH = rect.height;
-      const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 4));
+      const dpr = getDpr();
       canvas.width = Math.round(cssW * dpr);
       canvas.height = Math.round(cssH * dpr);
       const scaleX = canvas.width / LOGICAL_W;
@@ -78,7 +82,7 @@ const NPC_SPAWN_MAX_MS = 8000;
       window.__cssScaleY = cssScaleY;
       canvas.dataset.cssScaleX = cssScaleX;
       canvas.dataset.cssScaleY = cssScaleY;
-      makeScaledBg(LOGICAL_H);
+      makeScaledBg(LOGICAL_H, undefined, dpr);
     }
 
   window.addEventListener('resize', applyDPR);
@@ -657,7 +661,7 @@ const NPC_SPAWN_MAX_MS = 8000;
       loadOlNpcSprite(),
     ]), 10000, 'Timed out loading sprites')
       .then(([_, playerSprites, trafficLightSprites, npcSprite, olNpcSprite]) => {
-        makeScaledBg(LOGICAL_H);
+        makeScaledBg(LOGICAL_H, undefined, getDpr());
         state.playerSprites = playerSprites;
         state.trafficLightSprites = trafficLightSprites;
         state.npcSprite = npcSprite;

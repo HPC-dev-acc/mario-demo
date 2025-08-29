@@ -74,3 +74,6 @@ Refer to `../Requirements.md` and `../Design.md` for high-level goals and archit
 ## DS-16: Semantic version handling
 - Build script accepts full Semantic Versioning strings, including prerelease identifiers.
 - HTML query parameters and manifest version fields allow alphanumeric, dot, and hyphen segments.
+
+## DS-17: High-resolution background
+- Background image scales by device pixel ratio to avoid blurring in full-screen mode.

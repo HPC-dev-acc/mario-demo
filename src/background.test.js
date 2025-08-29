@@ -26,6 +26,18 @@ test('drawTiledBg uses logical width with cssScaleX', () => {
   expect(calls[1][1]).toBe(20);
 });
 
+test('drawTiledBg scales with device pixel ratio', () => {
+  const img = document.createElement('canvas');
+  img.width = 50; img.height = 25;
+  HTMLCanvasElement.prototype.getContext = () => ({ drawImage: () => {} });
+  makeScaledBg(25, img, 2);
+  const calls = [];
+  const ctx = { canvas: { width: 100, height: 50 }, drawImage: (...args) => calls.push(args) };
+  drawTiledBg(ctx, 0);
+  expect(calls[0][3]).toBe(50);
+  expect(calls[0][4]).toBe(25);
+});
+
 test('render leaves DOM backgrounds untouched', () => {
   const stage = { style: {} };
   const canvas = { width: 100, height: 100, parentElement: stage, dataset: { cssScaleX: '1', cssScaleY: '1' } };
