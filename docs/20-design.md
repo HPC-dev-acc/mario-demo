@@ -21,7 +21,7 @@
 ## API
 - Global `createGameState()` returns the mutable game state used by the loop and tests.
 - `showHUD()` reveals HUD elements while keeping the debug panel hidden.
-- `updateVersion.mjs` script reads `package.json` and emits `version.js` plus versioned query parameters.
+- `scripts/update-version.mjs` script reads `package.json` and emits `version.js` plus versioned query parameters.
 
 ## ADR (Architecture Decision Record)
 - Chosen **vanilla JS** for minimal dependencies; build tools (Babel, Jest) are used only for development.

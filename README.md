@@ -48,7 +48,7 @@ The tests verify collision handling, coin collection logic, and traffic light st
 
 ## Versioning
 
-Run `npm run build` to read the version from `package.json` and generate `version.js` plus versioned HTML query parameters. The build now accepts full Semantic Versioning strings, including prerelease identifiers. `version.js` defines a global `window.__APP_VERSION__` loaded before `main.js`, and this value is used in the UI to display the current version.
+Run `npm run build` (which executes `scripts/update-version.mjs`) to read the version from `package.json` and generate `version.js` plus versioned HTML query parameters. The build now accepts full Semantic Versioning strings, including prerelease identifiers. `version.js` defines a global `window.__APP_VERSION__` loaded before `main.js`, and this value is used in the UI to display the current version.
 
 ## Documentation
 
