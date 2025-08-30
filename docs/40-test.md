@@ -87,7 +87,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-17: High-resolution background
 - **Design Spec**: DS-17
 - **Test File**: `background.test.js`
-- **Description**: verifies background tiles render at the correct logical size when scaled by device pixel ratio.
+- **Description**: verifies background tiles render at the correct logical size when scaled by device pixel ratio and CSS scaling factors.
 
 ### T-18: Language switching
 - **Design Spec**: DS-18

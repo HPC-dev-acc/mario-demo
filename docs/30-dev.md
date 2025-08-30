@@ -5,6 +5,7 @@
 - Source code resides in `src/`; `main.js` and `hud.js` remain root-level entry points, while HUD logic lives in `src/ui/index.js` for modularity.
 - Use `npm run build` to update version information before deployment.
 - Canvas dimensions are recalculated on `fullscreenchange` to maintain centered letterboxing, and CSS targets `#game-root:fullscreen #stage` to handle fullscreen requests on the container.
+- Background images are regenerated with the canvas's CSS height during DPR adjustments to avoid upscaling in fullscreen.
 
 ## Coding Standard
 - Prefer ES modules and `const`/`let` declarations; avoid global variables except for the exported `__APP_VERSION__`.
