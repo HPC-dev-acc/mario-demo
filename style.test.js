@@ -12,7 +12,7 @@ describe('style.css', () => {
   });
 
   test('#stage:fullscreen centers with letterboxing', () => {
-    const rule = css.match(/#stage:fullscreen\s*{[^}]*}/);
+    const rule = css.match(/#stage:fullscreen,\s*#game-root:fullscreen #stage\s*{[^}]*}/);
     expect(rule).toBeTruthy();
     const r = rule[0];
     expect(r).toMatch(/width:\s*min\(100vw,\s*100vh\s*\*\s*\(var\(--game-w\)\s*\/\s*var\(--game-h\)\)\)/);
