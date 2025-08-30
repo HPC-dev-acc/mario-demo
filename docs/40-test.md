@@ -47,12 +47,12 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-9: Pedestrian traffic lights
 - **Design Spec**: DS-9
 - **Test**: Manual
-- **Description**: confirm lights cycle 3s green → 2s blink → 4s red and characters wait during red.
+- **Description**: confirm lights cycle 3s green → 2s blink → 4s red, nearby characters pause with dialog bubbles, and collisions remain unaffected.
 
 ### T-10: NPC behavior
 - **Design Spec**: DS-10
 - **Test**: Manual
-- **Description**: verify spawn intervals, stomping bounce, and side collision knockback.
+- **Description**: verify spawn intervals, stomping bounce, side collision knockback, and pass-through after the third stomp.
 
 ### T-11: Audio
 - **Design Spec**: DS-11
@@ -88,6 +88,36 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Design Spec**: DS-17
 - **Test File**: `background.test.js`
 - **Description**: verifies background tiles render at the correct logical size when scaled by device pixel ratio.
+
+### T-18: Language switching
+- **Design Spec**: DS-18
+- **Test**: Manual
+- **Description**: change language in settings and confirm HUD text and dialog bubbles update.
+
+### T-19: Player movement and slide dust
+- **Design Spec**: DS-19
+- **Test**: Manual
+- **Description**: move left/right, jump, and slide; verify dust effect triggers on slide.
+
+### T-20: Camera scroll threshold
+- **Design Spec**: DS-20
+- **Test**: Manual
+- **Description**: run right until the camera begins scrolling once crossing 60 % of the viewport.
+
+### T-21: Fullscreen letterboxing
+- **Design Spec**: DS-21
+- **Test**: Manual
+- **Description**: toggle fullscreen and ensure 16:9 aspect is preserved with letterboxing.
+
+### T-22: Performance culling
+- **Design Spec**: DS-22
+- **Test**: Manual
+- **Description**: monitor frame rate with dev tools and ensure off-screen objects are not rendered.
+
+### T-23: Cross-browser compatibility
+- **Design Spec**: DS-23
+- **Test**: Manual
+- **Description**: verify functionality on latest Chrome, Safari, Firefox, and Edge with responsive touch controls.
 
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.

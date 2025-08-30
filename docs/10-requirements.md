@@ -65,11 +65,37 @@
   - No framework dependencies (vanilla JS); tooling such as Babel and Jest is used only during development and testing.
 
 ## RTM
-- **R-FR-031 Pedestrian signal 3/2/4** → Design: `trafficLights` state machine, collision exemption → Test: `redLightSlide.test.js`
-- **R-FR-022 Camera 60 % scroll** → Design: `camera.scrollThreshold = 0.6` → Test: `render/scroll.test.js` (recommended)
-- **R-FR-020 Slide dust** → Design: `effects.dust()` → Test: `style.test.js`
-- **R-NFR-002 Pixel sharpness** → Design: `ctx.imageSmoothingEnabled = false`, DPR Canvas → Test: `style.test.js`
-- **R-FR-050 PWA** → Design: `sw.js`, `manifest.json` → Test: `pwa.test.js` (recommended)
+
+### Functional Requirements
+| Requirement | Design Spec | Test |
+| --- | --- | --- |
+| FR-001 | DS-5, DS-18 | T-5, T-18 |
+| FR-002 | DS-18 | T-18 |
+| FR-010 | DS-8 | T-8 |
+| FR-011 | DS-6 | T-6 |
+| FR-012 | DS-6 | T-6 |
+| FR-020 | DS-19 | T-19 |
+| FR-021 | DS-10 | T-10 |
+| FR-022 | DS-20 | T-20 |
+| FR-030 | DS-10 | T-10 |
+| FR-031 | DS-9 | T-9 |
+| FR-032 | DS-9 | T-9 |
+| FR-040 | DS-4, DS-6 | T-4, T-6 |
+| FR-041 | DS-6, DS-21 | T-6, T-21 |
+| FR-042 | DS-1 | T-1 |
+| FR-050 | DS-14 | T-14 |
+
+### Non-Functional Requirements
+| Requirement | Design Spec | Test |
+| --- | --- | --- |
+| NFR-001 | DS-22 | T-22 |
+| NFR-002 | DS-17 | T-17 |
+| NFR-003 | DS-3, DS-21 | T-3, T-21 |
+| NFR-004 | DS-23 | T-23 |
+| NFR-005 | DS-18 | T-18 |
+| NFR-006 | DS-5, DS-6 | T-5, T-6 |
+| NFR-007 | DS-12, DS-13 | T-12, T-13 |
+| NFR-008 | DS-14 | T-14 |
 
 ## Risks and Constraints
 - Device `devicePixelRatio` differences and varying browser UI heights may cause viewport miscalculations (mitigated by fit-height and `renderScale`).
