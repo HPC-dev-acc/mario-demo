@@ -31,7 +31,7 @@
 ## UX
 - HUD offers gear menu, info/debug panels, countdown timer, and touch controls on mobile.
 - Orientation guard pauses play in portrait mode and resumes on landscape.
-- Fullscreen uses letterboxing to preserve the 16:9 aspect ratio.
+- Fullscreen uses centered letterboxing with black bars and resizes on `fullscreenchange` to preserve the 16:9 aspect ratio.
 
 ## Design Specs (DS)
 | ID | Description | Requirements | Tests |
@@ -56,7 +56,7 @@
 | DS-18 | Language switcher updates HUD text and pedestrian dialogs. | FR-001, FR-002, NFR-005 | T-18 |
 | DS-19 | Player movement system supports left/right motion, jumping, sliding, and triggers a dust effect on slide. | FR-020 | T-19 |
 | DS-20 | Camera begins horizontal scroll once the player crosses 60 % of the viewport width. | FR-022 | T-20 |
-| DS-21 | Fullscreen toggle maintains a fixed 16:9 aspect ratio using letterboxing. | FR-041, NFR-003 | T-21 |
+| DS-21 | Fullscreen toggle maintains a fixed 16:9 aspect ratio using centered letterboxing and recalculates canvas size on `fullscreenchange`. | FR-041, NFR-003 | T-21 |
 | DS-22 | Rendering culls off-screen tiles and entities to sustain a 60 FPS target. | NFR-001 | T-22 |
 | DS-23 | Compatible with latest Chrome, Safari, Firefox, and Edge; touch controls scale with viewport on common iOS/Android devices. | NFR-004 | T-23 |
 | DS-24 | Continuous integration runs Jest tests on pushes and pull requests. | — | T-24 |

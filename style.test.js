@@ -11,6 +11,15 @@ describe('style.css', () => {
     expect(rule).toMatch(/max-height:\s*calc\(var\(--game-h\)\s*\*\s*1px\)/);
   });
 
+  test('#stage:fullscreen centers with letterboxing', () => {
+    const rule = css.match(/#stage:fullscreen\s*{[^}]*}/);
+    expect(rule).toBeTruthy();
+    const r = rule[0];
+    expect(r).toMatch(/width:\s*min\(100vw,\s*100vh\s*\*\s*\(var\(--game-w\)\s*\/\s*var\(--game-h\)\)\)/);
+    expect(r).toMatch(/height:\s*auto/);
+    expect(r).toMatch(/margin:\s*auto/);
+  });
+
   test('.pill has border and background', () => {
     const pill = css.match(/\.pill\s*{[^}]*}/);
     expect(pill).toBeTruthy();
