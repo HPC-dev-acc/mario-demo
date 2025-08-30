@@ -13,4 +13,4 @@
 ## CI/CD
 - GitHub Actions run linting and Jest tests on each push.
 - Successful merges deploy the static site to GitHub Pages.
-- `update-version.mjs` ensures the version in `package.json`, `manifest.json`, and `version.js` stays synchronized.
+- `scripts/update-version.mjs` ensures the version in `package.json`, `manifest.json`, and `version.js` stays synchronized.

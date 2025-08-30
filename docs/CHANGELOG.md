@@ -11,6 +11,7 @@ All notable changes to this project are documented here.
 - Added language switching, player movement and slide dust, camera scroll threshold, fullscreen letterboxing, performance culling, and cross-browser compatibility to design specs and test plan (DS-18–DS-23, T-18–T-23).
 
 ### Changed
+- Renamed version sync script to `scripts/update-version.mjs` and updated references (DS-16, T-16).
 - Restructured documentation: `10-requirements.md`, `20-design.md`, `30-dev.md`, and `40-test.md` replace previous files.
 - Removed "Recent Changes" section from README.
 - Clarified pedestrian traffic light behavior and NPC pass-through after the third stomp (DS-9–DS-10, T-9–T-10).

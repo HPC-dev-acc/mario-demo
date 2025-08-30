@@ -81,7 +81,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 
 ### T-16: Semantic version handling
 - **Design Spec**: DS-16
-- **Test File**: `updateVersion.test.js`
+- **Test File**: `update-version.test.js`
 - **Description**: prerelease versions update HTML parameters, `version.js`, and `manifest.json`.
 
 ### T-17: High-resolution background
