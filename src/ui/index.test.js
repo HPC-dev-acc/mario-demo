@@ -2,6 +2,7 @@ import { initUI } from './index.js';
 
   function setupDOM() {
     document.body.innerHTML = `
+      <div id="game-root">
       <div id="stage">
         <canvas id="game"></canvas>
         <div id="hud">
@@ -42,6 +43,7 @@ import { initUI } from './index.js';
       <div id="stage-clear" hidden><div class="title"></div><button id="btn-restart">Restart</button></div>
       <div id="stage-fail" hidden><div class="title"></div><button id="btn-restart-fail">Restart</button></div>
         </div>
+      </div>
       </div>`;
     return document.getElementById('game');
   }
@@ -214,33 +216,45 @@ test('info panel closes on outside click', () => {
   expect(panel.hidden).toBe(true);
 });
 
-  test('fullscreen toggle requests and exits fullscreen', () => {
+  test('fullscreen toggle requests and exits fullscreen', async () => {
     const canvas = setupDOM();
-    const root = document.getElementById('stage');
+    const root = document.getElementById('game-root');
     root.requestFullscreen = jest.fn().mockResolvedValue();
     document.exitFullscreen = jest.fn().mockResolvedValue();
     initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
     const btn = document.getElementById('fullscreen-toggle');
     btn.click();
+    await Promise.resolve();
     expect(root.requestFullscreen).toHaveBeenCalled();
     expect(btn.textContent).toBe('🞬');
     document.fullscreenElement = root;
     btn.click();
+    await Promise.resolve();
     expect(document.exitFullscreen).toHaveBeenCalled();
     expect(btn.textContent).toBe('⛶');
     document.fullscreenElement = null;
   });
 
-  test('fullscreen toggle schedules canvas resize', () => {
+  test('fullscreen toggle resizes canvas after request', async () => {
     const canvas = setupDOM();
+    const root = document.getElementById('game-root');
+    root.requestFullscreen = jest.fn().mockResolvedValue();
     window.__resizeGameCanvas = jest.fn();
-    jest.useFakeTimers();
     initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
     const btn = document.getElementById('fullscreen-toggle');
     btn.click();
-    jest.runAllTimers();
+    await Promise.resolve();
+    await Promise.resolve();
     expect(window.__resizeGameCanvas).toHaveBeenCalled();
-    jest.useRealTimers();
+    delete window.__resizeGameCanvas;
+  });
+
+  test('fullscreenchange triggers canvas resize', () => {
+    const canvas = setupDOM();
+    window.__resizeGameCanvas = jest.fn();
+    initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+    document.dispatchEvent(new Event('fullscreenchange'));
+    expect(window.__resizeGameCanvas).toHaveBeenCalled();
     delete window.__resizeGameCanvas;
   });
 

@@ -21,6 +21,11 @@ All notable changes to this project are documented here.
 - Clarified build step to focus on version updates, removing asset bundling references (DS-16, T-15).
 - CI documentation now highlights only Jest testing, removing the lint step (DS-24, T-24).
 
+## v2.1.0 - 2025-08-26
+
+### Changed
+- Fullscreen now centers the stage with black bars and recalculates canvas size on `fullscreenchange` (DS-21, T-21).
+
 ## v2.0.0 - 2025-08-25
 
 ### Added

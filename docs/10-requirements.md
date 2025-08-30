@@ -48,7 +48,7 @@
 ## NFR
 - NFR-001 (Performance): Target **60 FPS** (allow degradation on low-end devices); render only tiles/objects within the camera view.
 - NFR-002 (Visual Quality): Canvas resolution = CSS size × `devicePixelRatio`; **disable image smoothing** for crisp pixels.
-- NFR-003 (Layout): Fixed **16:9** aspect; fullscreen uses letterboxing; mobile landscape uses **fit-height** to avoid browser UI overlap.
+- NFR-003 (Layout): Fixed **16:9** aspect; fullscreen uses centered letterboxing with black bars and resizes the canvas on `fullscreenchange`; mobile landscape uses **fit-height** to avoid browser UI overlap.
 - NFR-004 (Compatibility): Latest Chrome/Safari/Firefox/Edge; common iOS/Android sizes must be operable (virtual buttons scale with viewport).
 - NFR-005 (i18n): UI, dialog bubbles, buttons, and prompts fully follow the selected language.
 - NFR-006 (Usability): START/Restart buttons must be **clickable** and visible; touch targets ≥ 40 px (recommended).

@@ -4,6 +4,7 @@
 - Install dependencies with `npm install`. The project builds to static files, so no development server is required.
 - Source code resides in `src/`; `main.js` and `hud.js` remain root-level entry points, while HUD logic lives in `src/ui/index.js` for modularity.
 - Use `npm run build` to update version information before deployment.
+- Canvas dimensions are recalculated on `fullscreenchange` to maintain centered letterboxing.
 
 ## Coding Standard
 - Prefer ES modules and `const`/`let` declarations; avoid global variables except for the exported `__APP_VERSION__`.

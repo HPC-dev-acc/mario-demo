@@ -227,23 +227,32 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   }
 
   const fullscreenToggle = document.getElementById('fullscreen-toggle');
-    if (fullscreenToggle) {
-      fullscreenToggle.addEventListener('click', () => {
-        const target = stage || canvas;
-        if (!document.fullscreenElement) {
-          target.requestFullscreen?.().catch(() => {});
-          fullscreenToggle.textContent = '🞬';
-        } else {
-          document.exitFullscreen?.().catch(() => {});
-          fullscreenToggle.textContent = '⛶';
-        }
-        setTimeout(() => {
-          if (window.__resizeGameCanvas) {
-            window.__resizeGameCanvas();
-          }
-        }, 0);
-      });
-    }
+  if (fullscreenToggle) {
+    fullscreenToggle.addEventListener('click', () => {
+      const target = stage?.parentElement || stage || canvas;
+      if (!document.fullscreenElement) {
+        target
+          ?.requestFullscreen?.()
+          .catch(() => {})
+          .finally(() => {
+            window.__resizeGameCanvas?.();
+          });
+        fullscreenToggle.textContent = '🞬';
+      } else {
+        document
+          .exitFullscreen?.()
+          .catch(() => {})
+          .finally(() => {
+            window.__resizeGameCanvas?.();
+          });
+        fullscreenToggle.textContent = '⛶';
+      }
+    });
+  }
+
+  document.addEventListener('fullscreenchange', () => {
+    window.__resizeGameCanvas?.();
+  });
 
   if (design) {
     enableBtn?.addEventListener('click', () => {
