@@ -14,6 +14,7 @@ All notable changes to this project are documented here.
 - Restructured documentation: `10-requirements.md`, `20-design.md`, `30-dev.md`, and `40-test.md` replace previous files.
 - Removed "Recent Changes" section from README.
 - Clarified pedestrian traffic light behavior and NPC pass-through after the third stomp (DS-9–DS-10, T-9–T-10).
+- Converted design specifications list into a table aligned with requirements and tests.
 
 ## v2.0.0 - 2025-08-25
 
