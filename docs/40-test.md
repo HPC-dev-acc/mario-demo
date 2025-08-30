@@ -119,6 +119,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test**: Manual
 - **Description**: verify functionality on latest Chrome, Safari, Firefox, and Edge with responsive touch controls.
 
+### T-24: Continuous integration tests
+- **Design Spec**: DS-24
+- **Test File**: `.github/workflows/test.yml`
+- **Description**: ensures GitHub Actions runs `npm test` on pushes and pull requests.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.

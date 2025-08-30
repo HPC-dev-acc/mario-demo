@@ -59,3 +59,4 @@
 | DS-21 | Fullscreen toggle maintains a fixed 16:9 aspect ratio using letterboxing. | FR-041, NFR-003 | T-21 |
 | DS-22 | Rendering culls off-screen tiles and entities to sustain a 60 FPS target. | NFR-001 | T-22 |
 | DS-23 | Compatible with latest Chrome, Safari, Firefox, and Edge; touch controls scale with viewport on common iOS/Android devices. | NFR-004 | T-23 |
+| DS-24 | Continuous integration runs Jest tests on pushes and pull requests. | — | T-24 |

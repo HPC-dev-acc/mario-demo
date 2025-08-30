@@ -19,6 +19,7 @@ All notable changes to this project are documented here.
 - Clarified UI architecture: `src/ui/index.js` handles HUD interactions while `hud.js` exposes only `showHUD` (DS-4).
 - Removed outdated development server references to reflect static build workflow.
 - Clarified build step to focus on version updates, removing asset bundling references (DS-16, T-15).
+- CI documentation now highlights only Jest testing, removing the lint step (DS-24, T-24).
 
 ## v2.0.0 - 2025-08-25
 

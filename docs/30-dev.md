@@ -11,6 +11,4 @@
 - Name files in `kebab-case` and keep functions pure when practical.
 
 ## CI/CD
-- GitHub Actions run linting and Jest tests on each push.
-- Successful merges deploy the static site to GitHub Pages.
-- `scripts/update-version.mjs` ensures the version in `package.json`, `manifest.json`, and `version.js` stays synchronized.
+- GitHub Actions run Jest tests on each push and pull request.
