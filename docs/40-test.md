@@ -107,7 +107,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-21: Fullscreen letterboxing
 - **Design Spec**: DS-21
 - **Test File**: `src/ui/index.test.js`
-- **Description**: toggles fullscreen, verifies 16:9 letterboxing, and ensures `fullscreenchange` triggers canvas resize.
+- **Description**: toggles fullscreen, verifies 16:9 letterboxing, ensures `fullscreenchange` triggers canvas resize, and confirms `#game-root:fullscreen #stage` styles apply.
 
 ### T-22: Performance culling
 - **Design Spec**: DS-22
