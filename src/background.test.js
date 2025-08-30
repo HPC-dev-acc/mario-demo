@@ -21,9 +21,21 @@ test('drawTiledBg uses logical width with cssScaleX', () => {
   const calls = [];
   const ctx = { canvas: { width: 120, height: 25, dataset: { cssScaleX: '2' } }, drawImage: (...args) => calls.push(args) };
   drawTiledBg(ctx, 30);
-  expect(calls.length).toBe(2);
-  expect(calls[0][1]).toBe(-30);
+  expect(calls.length).toBe(3);
+  expect(calls[0][1]).toBe(-5);
   expect(calls[1][1]).toBe(20);
+  expect(calls[2][1]).toBe(45);
+});
+
+test('drawTiledBg uses logical height with cssScaleY', () => {
+  const img = document.createElement('canvas');
+  img.width = 50; img.height = 50;
+  HTMLCanvasElement.prototype.getContext = () => ({ drawImage: () => {} });
+  makeScaledBg(50, img);
+  const calls = [];
+  const ctx = { canvas: { width: 50, height: 50, dataset: { cssScaleY: '2' } }, drawImage: (...args) => calls.push(args) };
+  drawTiledBg(ctx, 0);
+  expect(calls[0][4]).toBe(25);
 });
 
 test('drawTiledBg scales with device pixel ratio', () => {

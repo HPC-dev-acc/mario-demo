@@ -52,7 +52,7 @@
 | DS-14 | Progressive Web App support for offline play and installation. | FR-050, NFR-008 | T-14 |
 | DS-15 | Build script exposes `__APP_VERSION__` and versioned assets. | — | T-15 |
 | DS-16 | Semantic versioning accepts prerelease identifiers. | — | T-16 |
-| DS-17 | Canvas scales by device pixel ratio with image smoothing disabled; background images render at high resolution. | NFR-002 | T-17 |
+| DS-17 | Canvas scales by device pixel ratio with image smoothing disabled; background images regenerate using the current canvas height to render at native resolution. | NFR-002 | T-17 |
 | DS-18 | Language switcher updates HUD text and pedestrian dialogs. | FR-001, FR-002, NFR-005 | T-18 |
 | DS-19 | Player movement system supports left/right motion, jumping, sliding, and triggers a dust effect on slide. | FR-020 | T-19 |
 | DS-20 | Camera begins horizontal scroll once the player crosses 60 % of the viewport width. | FR-022 | T-20 |
