@@ -8,10 +8,12 @@ All notable changes to this project are documented here.
 - Expanded design specifications and test plan to cover countdown timer, pedestrian traffic lights, NPC behavior, audio, stage configuration, level design mode, PWA support, and build versioning (DS-8–DS-15, T-8–T-15).
 - Build script now handles full Semantic Versioning, including prerelease versions (DS-16, T-16).
 - Background rendering uses device pixel ratio to stay sharp in full-screen mode (DS-17, T-17).
+- Added language switching, player movement and slide dust, camera scroll threshold, fullscreen letterboxing, performance culling, and cross-browser compatibility to design specs and test plan (DS-18–DS-23, T-18–T-23).
 
 ### Changed
 - Restructured documentation: `10-requirements.md`, `20-design.md`, `30-dev.md`, and `40-test.md` replace previous files.
 - Removed "Recent Changes" section from README.
+- Clarified pedestrian traffic light behavior and NPC pass-through after the third stomp (DS-9–DS-10, T-9–T-10).
 
 ## v2.0.0 - 2025-08-25
 

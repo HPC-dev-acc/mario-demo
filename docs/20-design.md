@@ -42,12 +42,18 @@
 - **DS-6**: Responsive UI styling, clear/fail overlays, and timer pulse.
 - **DS-7**: OL NPC walk sprites for frames 0–11.
 - **DS-8**: One-minute countdown timer that flashes in the final 10 seconds.
-- **DS-9**: Pedestrian lights cycle 3s green → 2s blink → 4s red.
-- **DS-10**: NPCs spawn every 4–8 seconds, bounce on stomp, and knock back on side collisions.
+ - **DS-9**: Pedestrian lights cycle 3s green → 2s blink → 4s red; during red, nearby characters pause and display dialog bubbles without blocking collisions.
+ - **DS-10**: NPCs spawn every 4–8 seconds, bounce on stomp, knock back on side collisions, and allow pass-through after the third stomp.
 - **DS-11**: Audio effects for jump, slide, clear, coin, fail, plus looped BGM with mute control.
 - **DS-12**: Level objects load from `assets/objects.custom.js` with collision and transparency flags.
 - **DS-13**: Level design mode for dragging objects, nudge/rotate controls, and JSON export.
 - **DS-14**: Progressive Web App support for offline play and installation.
 - **DS-15**: Build script exposes `__APP_VERSION__` and versioned assets.
 - **DS-16**: Semantic versioning accepts prerelease identifiers.
-- **DS-17**: Background images scale by device pixel ratio for full-screen sharpness.
+ - **DS-17**: Canvas scales by device pixel ratio with image smoothing disabled; background images render at high resolution.
+ - **DS-18**: Language switcher updates HUD text and pedestrian dialogs.
+ - **DS-19**: Player movement system supports left/right motion, jumping, sliding, and triggers a dust effect on slide.
+ - **DS-20**: Camera begins horizontal scroll once the player crosses 60 % of the viewport width.
+ - **DS-21**: Fullscreen toggle maintains a fixed 16:9 aspect ratio using letterboxing.
+ - **DS-22**: Rendering culls off-screen tiles and entities to sustain a 60 FPS target.
+ - **DS-23**: Compatible with latest Chrome, Safari, Firefox, and Edge; touch controls scale with viewport on common iOS/Android devices.
