@@ -37,7 +37,7 @@ When enabled, an **新增** button appears to place a 24px collision block cente
 
 ## Testing
 
-Install dependencies and run the test suite:
+Install dependencies and run the test suite. The project does not include a development server; static files can be served directly.
 
 ```sh
 npm install
