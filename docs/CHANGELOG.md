@@ -17,6 +17,7 @@ All notable changes to this project are documented here.
 - Clarified pedestrian traffic light behavior and NPC pass-through after the third stomp (DS-9–DS-10, T-9–T-10).
 - Converted design specifications list into a table aligned with requirements and tests.
 - Clarified UI architecture: `src/ui/index.js` handles HUD interactions while `hud.js` exposes only `showHUD` (DS-4).
+- Removed outdated development server references to reflect static build workflow.
 
 ## v2.0.0 - 2025-08-25
 
