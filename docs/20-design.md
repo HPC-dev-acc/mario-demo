@@ -7,7 +7,7 @@
 
 ## SDS (Software Design Specification)
 - `main.js` initializes resources, manages the state machine, countdown, collisions, and NPC spawning.
-- `hud.js` implements the gear menu, language switcher, version pill, fullscreen toggle, and restart binding.
+- `src/ui/index.js` implements the gear menu, language switcher, version pill, fullscreen toggle, restart binding, and design mode controls; `hud.js` only exposes a `showHUD()` helper.
 - `orientation-guard.js` and `landscape-fit-height.js` handle device orientation and viewport fitting on mobile.
 - `sw.js` and `manifest.json` provide offline capability and installation metadata.
 - Source modules in `src/` encapsulate physics, rendering, camera control, and NPC logic.

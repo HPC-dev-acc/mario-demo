@@ -2,7 +2,7 @@
 
 ## Dev Guide
 - Install dependencies with `npm install` and run the development server using `npm start`.
-- Source code resides in `src/` while entry points (`main.js`, `hud.js`, etc.) live at project root for compatibility with the demo.
+- Source code resides in `src/`; `main.js` and `hud.js` remain root-level entry points, while HUD logic lives in `src/ui/index.js` for modularity.
 - Use `npm run build` to generate `version.js` and bundle assets before deployment.
 
 ## Coding Standard
