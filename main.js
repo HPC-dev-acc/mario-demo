@@ -342,7 +342,6 @@ const NPC_SPAWN_MAX_MS = 8000;
   const SLIDE_SPEED = 9;
   const SLIDE_TIME = 200; // ms
   const STUN_TIME = 450;      // 玩家硬直（不可操作）時長（毫秒）
-  const HITSTOP_MS = 60;
   const KNOCKBACK = 4.0;      // 側撞時初速
   const STOMP_BOUNCE = JUMP_VEL; // 踩到時的回彈高度與一般跳躍一致
 
@@ -448,10 +447,6 @@ const NPC_SPAWN_MAX_MS = 8000;
 
   function update(dt){
     const dtMs = dt*16.6667;
-    if (state.hitstopMs > 0) {
-      state.hitstopMs = Math.max(0, state.hitstopMs - dtMs);
-      return;
-    }
     if (!design.isEnabled() && !stageCleared && !stageFailed) {
       timeLeftMs = Math.max(0, timeLeftMs - dtMs);
       if (timerEl) {
@@ -601,7 +596,6 @@ const NPC_SPAWN_MAX_MS = 8000;
         npc.pauseTimer = Math.max(npc.pauseTimer, 400); // 0.4s
         npc.state = 'bump';
         npc.bumped = true;
-        state.hitstopMs = HITSTOP_MS;
       } else {
         // 側撞／下方：一次性擊退並硬直（不可操作）
         const dir = player.x < npc.x ? -1 : 1; // 依相對位置決定擊退方向
@@ -616,7 +610,6 @@ const NPC_SPAWN_MAX_MS = 8000;
         npc.pauseTimer = Math.max(npc.pauseTimer, 400);
         npc.state = 'bump';
         npc.bumped = true;
-        state.hitstopMs = HITSTOP_MS;
       }
     }
     state.npcs = state.npcs.filter(n => !isNpcOffScreen(n, camera.x));
