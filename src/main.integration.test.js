@@ -37,11 +37,12 @@ async function loadGame() {
   };
   jest.doMock('../src/audio.js', () => audio);
 
-    jest.doMock('../src/sprites.js', () => ({
+  jest.doMock('../src/sprites.js', () => ({
       loadPlayerSprites: () => Promise.resolve(),
       loadTrafficLightSprites: () => Promise.resolve({}),
       loadNpcSprite: () => Promise.resolve({}),
       loadOlNpcSprite: () => Promise.resolve({}),
+      loadStudentNpcSprite: () => Promise.resolve({}),
     }));
 
   let startCallback;
@@ -231,6 +232,50 @@ describe('npc spawn', () => {
     const npc = state.npcs[0];
     expect(npc.h).toBeCloseTo(state.player.h * 6 / 5);
     expect(npc.w).toBeCloseTo(48 * (state.player.h / 44) * 6 / 5);
+  });
+
+  test('Student npc spawns facing right', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    const seq = [0, 0.6];
+    Math.random = () => seq.shift();
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    expect(state.npcs[0].type).toBe('student');
+    expect(state.npcs[0].facing).toBe(1);
+  });
+
+  test('Student npc spawns larger than player', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    const seq = [0, 0.6];
+    Math.random = () => seq.shift();
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    const npc = state.npcs[0];
+    expect(npc.h).toBeCloseTo(state.player.h * 6 / 5);
+    expect(npc.w).toBeCloseTo(48 * (state.player.h / 44) * 6 / 5);
+  });
+
+  test('does not spawn student npc of same type when one exists', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    let seq = [0, 0.6];
+    Math.random = () => seq.shift();
+    hooks.runUpdate(1);
+    hooks.setNpcSpawnTimer(0);
+    seq = [0, 0.6];
+    Math.random = () => seq.shift();
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    expect(state.npcs.length).toBe(1);
+    expect(state.npcs[0].type).toBe('student');
   });
 
   test('does not spawn npc of same type when one exists', async () => {

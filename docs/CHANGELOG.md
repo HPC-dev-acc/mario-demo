@@ -21,6 +21,11 @@ All notable changes to this project are documented here.
 - Clarified build step to focus on version updates, removing asset bundling references (DS-16, T-15).
 - CI documentation now highlights only Jest testing, removing the lint step (DS-24, T-24).
 
+## v2.2.0 - 2025-08-31
+
+### Added
+- Student NPC for Stage 1-1 with walk sprites for frames 0–8 and shared spawn logic with OL NPCs (DS-25, T-25).
+
 ## v2.1.2 - 2025-08-27
 
 ### Fixed

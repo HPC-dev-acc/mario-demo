@@ -10,7 +10,7 @@ import objects from './assets/objects.custom.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render, CAMERA_OFFSET_Y } from './src/render.js';
 import { updateCamera } from './src/game/camera.js';
-import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite } from './src/sprites.js';
+import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite, loadStudentNpcSprite } from './src/sprites.js';
 import { loadBackground, makeScaledBg } from './src/bg.js';
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
@@ -552,14 +552,23 @@ const NPC_SPAWN_MAX_MS = 8000;
     if (npcSpawnTimer <= 0 && state.npcs.length < MAX_NPCS) {
         const spawnX = camera.x + LOGICAL_W + player.w;
       const baseScale = player.h / 44;
-      const useOl = state.olNpcSprite && Math.random() < 0.8;
-      const sizeScale = useOl ? 6 / 5 : 1;
+      let type = 'default';
+      let sprite = state.npcSprite;
+      let sizeScale = 1;
+      let opts;
+      let facing;
+      const specialTypes = [];
+      if (state.olNpcSprite) specialTypes.push('ol');
+      if (state.studentNpcSprite) specialTypes.push('student');
+      if (specialTypes.length && Math.random() < 0.8) {
+        type = specialTypes[Math.floor(Math.random() * specialTypes.length)];
+        sprite = type === 'ol' ? state.olNpcSprite : state.studentNpcSprite;
+        sizeScale = 6 / 5;
+        opts = { fixedSpeed: -1.5 };
+        facing = 1;
+      }
       const npcW = 48 * baseScale * sizeScale;
       const npcH = player.h * sizeScale;
-      const sprite = useOl ? state.olNpcSprite : state.npcSprite;
-      const opts = useOl ? { fixedSpeed: -1.5 } : undefined;
-      const facing = useOl ? 1 : undefined;
-      const type = useOl ? 'ol' : 'default';
       if (!state.npcs.some(n => n.type === type)) {
         const groundY = findGroundY(
           state.collisions,
@@ -659,13 +668,15 @@ const NPC_SPAWN_MAX_MS = 8000;
       loadTrafficLightSprites(),
       loadNpcSprite(),
       loadOlNpcSprite(),
+      loadStudentNpcSprite(),
     ]), 10000, 'Timed out loading sprites')
-      .then(([_, playerSprites, trafficLightSprites, npcSprite, olNpcSprite]) => {
+      .then(([_, playerSprites, trafficLightSprites, npcSprite, olNpcSprite, studentNpcSprite]) => {
         makeScaledBg(canvas.height / getDpr(), undefined, getDpr());
         state.playerSprites = playerSprites;
         state.trafficLightSprites = trafficLightSprites;
         state.npcSprite = npcSprite;
         state.olNpcSprite = olNpcSprite;
+        state.studentNpcSprite = studentNpcSprite;
         startScreen.showStart(() => beginGame());
       }).catch((err) => {
         console.error('Failed to load resources', err);
