@@ -17,7 +17,7 @@ function randRange(min, max, rand=Math.random) {
 }
 
 export function boxesOverlap(a, b) {
-  return a.x <= b.x + b.w && a.x + a.w >= b.x && a.y <= b.y + b.h && a.y + a.h >= b.y;
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
 
 export function createNpc(x, y, w, h, sprite, rand=Math.random, facing=-1, opts={}, type='default') {

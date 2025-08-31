@@ -45,7 +45,7 @@
 | DS-7 | OL NPC walk sprites for frames 0–11. | — | T-7 |
 | DS-8 | One-minute countdown timer that flashes in the final 10 seconds. | FR-010 | T-8 |
 | DS-9 | Pedestrian lights cycle 3s green → 2s blink → 4s red; during red, nearby characters pause and display dialog bubbles without blocking collisions. | FR-031, FR-032 | T-9 |
-| DS-10 | NPCs spawn every 4–8 seconds, bounce on stomp, side collisions knock back and trigger hitstop, and allow pass-through after the third stomp. | FR-021, FR-030 | T-10, T-25 |
+| DS-10 | NPCs spawn every 4–8 seconds, bounce on stomp, knock back on side collisions, and allow pass-through after the third stomp. | FR-021, FR-030 | T-10 |
 | DS-11 | Audio effects for jump, slide, clear, coin, fail, plus looped BGM with mute control. | — | T-11 |
 | DS-12 | Level objects load from `assets/objects.custom.js` with collision and transparency flags. | NFR-007 | T-12 |
 | DS-13 | Level design mode for dragging objects, nudge/rotate controls, and JSON export. | NFR-007 | T-13 |
@@ -60,4 +60,4 @@
 | DS-22 | Rendering culls off-screen tiles and entities to sustain a 60 FPS target. | NFR-001 | T-22 |
 | DS-23 | Compatible with latest Chrome, Safari, Firefox, and Edge; touch controls scale with viewport on common iOS/Android devices. | NFR-004 | T-23 |
 | DS-24 | Continuous integration runs Jest tests on pushes and pull requests. | — | T-24 |
-| DS-25 | Player–NPC collisions, including side contact and edge alignment, trigger a 60 ms hitstop timer that pauses game updates. | FR-021, FR-023 | T-25 |
+| DS-25 | Player–NPC collisions trigger a 60 ms hitstop timer that pauses game updates. | FR-023 | T-25 |
