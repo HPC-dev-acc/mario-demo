@@ -436,6 +436,18 @@ test('drawNpc renders from image arrays', () => {
   expect(ctx.drawImage).toHaveBeenCalledWith(img1, -npc.w / 2, -npc.h / 2, npc.w, npc.h);
 });
 
+test('drawNpc walks through all frames within one second', () => {
+  const ctx = {
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
+    drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true, translate: jest.fn(), scale: jest.fn(),
+  };
+  const frames = Array.from({ length: 12 }, () => ({}));
+  const npc = { x: 0, y: 0, shadowY: 0, w: 40, h: 80, state: 'walk', animTime: 0.99, facing: 1 };
+  const sprite = { walk: frames, idle: [frames[0]] };
+  drawNpc(ctx, npc, sprite);
+  expect(ctx.drawImage).toHaveBeenCalledWith(frames[11], -npc.w / 2, -npc.h / 2, npc.w, npc.h);
+});
+
 
 test('render uses npc sprite property', () => {
   const state = createGameState();
