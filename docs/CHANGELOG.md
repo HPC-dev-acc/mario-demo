@@ -2,10 +2,9 @@
 
 All notable changes to this project are documented here.
 
-## v2.2.0 - 2025-08-27
+## Unreleased
 
 ### Added
-- Added 60 ms hitstop after player–NPC collisions, pausing game updates (DS-25, T-25).
 - Expanded design specifications and test plan to cover countdown timer, pedestrian traffic lights, NPC behavior, audio, stage configuration, level design mode, PWA support, and build versioning (DS-8–DS-15, T-8–T-15).
 - Build script now handles full Semantic Versioning, including prerelease versions (DS-16, T-16).
 - Background rendering uses device pixel ratio to stay sharp in full-screen mode (DS-17, T-17).

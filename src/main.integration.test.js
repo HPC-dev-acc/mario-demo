@@ -458,7 +458,6 @@ describe('player and npc collision', () => {
     // First stomp
     player.vy = 10;
     hooks.runUpdate(16);
-      while (state.hitstopMs > 0) hooks.runUpdate(1);
     expect(npc.bounceCount).toBe(1);
 
     // Simulate landing on ground
@@ -469,6 +468,10 @@ describe('player and npc collision', () => {
     expect(player.onGround).toBe(true);
     expect(npc.bounceCount).toBe(0);
 
+    // Stomp again after landing
+    player.y = 0; player.vy = 10; npc.y = 60; npc.vy = 0;
+    hooks.runUpdate(16);
+    expect(npc.bounceCount).toBe(1);
   });
 
   test('player passes through npc after three stomps', async () => {
@@ -482,7 +485,6 @@ describe('player and npc collision', () => {
     for (let i = 0; i < 3; i++) {
       player.vy = 10;
       hooks.runUpdate(16);
-        while (state.hitstopMs > 0) hooks.runUpdate(1);
       expect(player.vy).toBe(JUMP_VEL);
       player.y = 0;
       npc.y = 60;
@@ -491,28 +493,8 @@ describe('player and npc collision', () => {
 
     player.vy = 10;
     hooks.runUpdate(16);
-        while (state.hitstopMs > 0) hooks.runUpdate(1);
 
     expect(npc.passThrough).toBe(true);
     expect(player.vy).toBeGreaterThan(0);
-  });
-  test('hitstop pauses game updates after NPC collision', async () => {
-    const { hooks } = await loadGame();
-    const state = hooks.getState();
-    const player = state.player;
-    const npc = createNpc(player.x, player.y, player.w, player.h, null, () => 0, undefined, { fixedSpeed: 0 });
-    state.npcs.push(npc);
-
-    hooks.runUpdate(0);
-    expect(state.hitstopMs).toBeGreaterThan(0);
-    const startPX = player.x, startNX = npc.x;
-    while (state.hitstopMs > 0) {
-      hooks.runUpdate(1);
-      expect(player.x).toBe(startPX);
-      expect(npc.x).toBe(startNX);
-    }
-    hooks.runUpdate(1);
-    expect(player.x).not.toBe(startPX);
-    expect(npc.x).not.toBe(startNX);
   });
 });

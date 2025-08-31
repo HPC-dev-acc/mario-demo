@@ -124,11 +124,6 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `.github/workflows/test.yml`
 - **Description**: ensures GitHub Actions runs `npm test` on pushes and pull requests.
 
-
-### T-25: Hitstop timer
-- **Design Spec**: DS-25
-- **Test File**: `src/main.integration.test.js`
-- **Description**: verifies player–NPC collisions trigger a 60 ms hitstop and halt movement until the timer expires.
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -138,6 +133,5 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - 60 s countdown flashes in the last 10 s; on timeout, a fail screen appears with a clickable Restart.
 - During a red light, the player and NPCs stop nearby and display dialog bubbles; they resume on green.
 - Stomping an NPC causes a bounce; the third stomp allows pass-through; side collisions knock both back.
-- Player–NPC collisions briefly freeze the scene before knockback resumes.
 - Fullscreen works on desktop and mobile; portrait mode shows a rotate overlay and landscape resumes play.
 - Game loads and starts offline once installed as a PWA.

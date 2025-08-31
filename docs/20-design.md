@@ -6,7 +6,7 @@
 - Core subsystems: game loop, input, physics, camera, AI/NPC, UI/HUD, PWA caching, and internationalization.
 
 ## SDS (Software Design Specification)
-- `main.js` initializes resources, manages the state machine, countdown, collisions, hitstop timer, and NPC spawning.
+- `main.js` initializes resources, manages the state machine, countdown, collisions, and NPC spawning.
 - `src/ui/index.js` implements the gear menu, language switcher, version pill, fullscreen toggle, restart binding, and design mode controls; `hud.js` only exposes a `showHUD()` helper.
 - `orientation-guard.js` and `landscape-fit-height.js` handle device orientation and viewport fitting on mobile.
 - `sw.js` and `manifest.json` provide offline capability and installation metadata.
@@ -60,4 +60,3 @@
 | DS-22 | Rendering culls off-screen tiles and entities to sustain a 60 FPS target. | NFR-001 | T-22 |
 | DS-23 | Compatible with latest Chrome, Safari, Firefox, and Edge; touch controls scale with viewport on common iOS/Android devices. | NFR-004 | T-23 |
 | DS-24 | Continuous integration runs Jest tests on pushes and pull requests. | — | T-24 |
-| DS-25 | Player–NPC collisions trigger a 60 ms hitstop timer that pauses game updates. | FR-023 | T-25 |
