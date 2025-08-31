@@ -124,6 +124,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `.github/workflows/test.yml`
 - **Description**: ensures GitHub Actions runs `npm test` on pushes and pull requests.
 
+### T-25: Student NPC walk sprites
+- **Design Spec**: DS-25
+- **Test File**: `student-walk-sprites.test.js`
+- **Description**: ensures sprite files for walk animation frames 0–8 exist.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.

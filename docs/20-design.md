@@ -60,3 +60,4 @@
 | DS-22 | Rendering culls off-screen tiles and entities to sustain a 60 FPS target. | NFR-001 | T-22 |
 | DS-23 | Compatible with latest Chrome, Safari, Firefox, and Edge; touch controls scale with viewport on common iOS/Android devices. | NFR-004 | T-23 |
 | DS-24 | Continuous integration runs Jest tests on pushes and pull requests. | — | T-24 |
+| DS-25 | Student NPC walk sprites for frames 0–8. | FR-030 | T-25 |

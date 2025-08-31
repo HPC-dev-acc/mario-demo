@@ -29,7 +29,7 @@
 - FR-022: The camera begins horizontal scrolling once the player crosses **60 %** of the viewport width.
 
 **NPCs and Traffic**
-- FR-030: Levels spawn various **NPCs** (including OL characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit.
+- FR-030: Levels spawn various **NPCs** (including OL and Student characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit.
 - FR-031: **Pedestrian signals** cycle **green 3s → blink 2s → red 4s**; during red, nearby characters stop and display a dialog bubble with a Japanese-style figure.
 - FR-032: Red lights do not block collision pass-through but must pause nearby characters; brushing the side or passing underneath should not change vertical movement.
 
@@ -42,7 +42,7 @@
 - FR-050: As a **PWA**, the game can be added to the home screen and launched offline with resource caching and versioning.
 
 ### Content and Levels
-- Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL NPCs appear more often).
+- Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL and Student NPCs appear more often).
 - Level data uses object lists and **24 px sub-grid** collision masks (2×2) to support half tiles and custom patterns.
 
 ## NFR
@@ -77,7 +77,7 @@
 | FR-020 | DS-19 | T-19 |
 | FR-021 | DS-10 | T-10 |
 | FR-022 | DS-20 | T-20 |
-| FR-030 | DS-10 | T-10 |
+| FR-030 | DS-10, DS-25 | T-10, T-25 |
 | FR-031 | DS-9 | T-9 |
 | FR-032 | DS-9 | T-9 |
 | FR-040 | DS-4, DS-6 | T-4, T-6 |

@@ -64,3 +64,16 @@ export function loadOlNpcSprite() {
     loadSeq('bump', 9),
   ]).then(([walk, bump]) => ({ walk, bump, idle: [walk[0]] }));
 }
+
+export function loadStudentNpcSprite() {
+  const loadSeq = (prefix, count) => Promise.all(
+    Array.from({ length: count }, (_, i) => {
+      const num = i.toString().padStart(3, '0');
+      return loadImage(new URL(`../assets/sprites/Student/${prefix}_${num}.png`, baseURL).href);
+    })
+  );
+  return Promise.all([
+    loadSeq('walk', 9),
+    loadSeq('bump', 8),
+  ]).then(([walk, bump]) => ({ walk, bump, idle: [walk[0]] }));
+}
