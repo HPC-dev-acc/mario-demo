@@ -165,8 +165,10 @@ export function drawNpc(ctx, p, sprite) {
   } else {
     const anim = sprite[p.state] || sprite.idle;
     if (!anim) return;
-    const frame = Math.floor((p.animTime || 0) * 8) % anim.length;
-    const img = anim[frame];
+    const frames = anim.frames || anim;
+    const fps = anim.fps || frames.length;
+    const frame = Math.floor((p.animTime || 0) * fps) % frames.length;
+    const img = frames[frame];
     ctx.save();
     ctx.imageSmoothingEnabled = false;
     ctx.translate(p.x, p.y);
