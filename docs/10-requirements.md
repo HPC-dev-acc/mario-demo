@@ -29,7 +29,7 @@
 - FR-022: The camera begins horizontal scrolling once the player crosses **60 %** of the viewport width.
 
 **NPCs and Traffic**
-- FR-030: Levels spawn various **NPCs** (including OL and Student characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit.
+- FR-030: Levels spawn various **NPCs** (including OL and Student characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit. Student walk animation uses 11 frames for smooth motion.
 - FR-031: **Pedestrian signals** cycle **green 3s → blink 2s → red 4s**; during red, nearby characters stop and display a dialog bubble with a Japanese-style figure.
 - FR-032: Red lights do not block collision pass-through but must pause nearby characters; brushing the side or passing underneath should not change vertical movement.
 
