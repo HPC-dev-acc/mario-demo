@@ -1,9 +1,9 @@
 # Mario Demo
 
 
-**Version: 2.2.0**
+**Version: 2.2.1**
 
-This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red. Background graphics rebuild using the canvas's full height to preserve source resolution in fullscreen. Fullscreen uses centered letterboxing with black bars and automatic canvas resize, and entering fullscreen via the root container resizes the stage correctly with centered letterboxing. Colliding with an NPC triggers a brief 60 ms hitstop that pauses game updates.
+This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red. Background graphics rebuild using the canvas's full height to preserve source resolution in fullscreen. Fullscreen uses centered letterboxing with black bars and automatic canvas resize, and entering fullscreen via the root container resizes the stage correctly with centered letterboxing. Side collisions with an NPC—even when only the edges touch—trigger a brief 60 ms hitstop that pauses game updates.
 
 ## Audio
 

@@ -25,9 +25,9 @@
 
 **Characters & Physics**
 - FR-020: The player can move left/right, jump, and slide (sliding triggers a brief dust effect).
-- FR-021: The player can stomp NPCs to bounce; after three stomps the player passes through to avoid getting stuck; side collisions knock both back.
+- FR-021: The player can stomp NPCs to bounce; after three stomps the player passes through to avoid getting stuck; side collisions knock both back and trigger hitstop.
 - FR-022: The camera begins horizontal scrolling once the player crosses **60 %** of the viewport width.
-- FR-023: Colliding with an NPC triggers a brief ~60 ms hitstop that pauses game updates.
+- FR-023: Colliding with an NPC—whether stomping or side contact—triggers a brief ~60 ms hitstop that pauses game updates.
 
 **NPCs and Traffic**
 - FR-030: Levels spawn various **NPCs** (including OL characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit.
@@ -76,7 +76,7 @@
 | FR-011 | DS-6 | T-6 |
 | FR-012 | DS-6 | T-6 |
 | FR-020 | DS-19 | T-19 |
-| FR-021 | DS-10 | T-10 |
+| FR-021 | DS-10, DS-25 | T-10, T-25 |
 | FR-023 | DS-25 | T-25 |
 | FR-030 | DS-10 | T-10 |
 | FR-031 | DS-9 | T-9 |

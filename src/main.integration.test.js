@@ -430,6 +430,19 @@ describe('player and npc collision', () => {
     expect(player.facing).toBe(facing);
   });
 
+  test('edge contact triggers hitstop on side collision', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    const player = state.player;
+    player.x = 0; player.y = 0; player.vx = 0; player.vy = 0;
+    const npc = createNpc(player.w, 0, player.w, player.h, null);
+    state.npcs.push(npc);
+
+    hooks.runUpdate(16);
+
+    expect(state.hitstopMs).toBeGreaterThan(0);
+  });
+
   test('stomping npc bounces player with normal jump height', async () => {
     const { hooks, audio } = await loadGame();
     const state = hooks.getState();

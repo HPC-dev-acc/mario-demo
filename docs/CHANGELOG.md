@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented here.
 
+## v2.2.1 - 2025-08-27
+
+### Fixed
+- Edge contact now counts as collision so side swipes trigger hitstop (DS-10, DS-25, T-10, T-25).
+
 ## v2.2.0 - 2025-08-27
 
 ### Added
