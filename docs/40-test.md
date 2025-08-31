@@ -127,7 +127,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-25: Student NPC walk sprites
 - **Design Spec**: DS-25
 - **Test File**: `student-walk-sprites.test.js`
-- **Description**: ensures sprite files for walk animation frames 0–8 exist.
+- **Description**: ensures sprite files for walk animation frames 0–10 exist.
 
 ### T-26: NPC walk animation frame usage
 - **Design Spec**: DS-26

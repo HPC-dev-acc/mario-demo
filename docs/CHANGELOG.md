@@ -21,6 +21,11 @@ All notable changes to this project are documented here.
 - Clarified build step to focus on version updates, removing asset bundling references (DS-16, T-15).
 - CI documentation now highlights only Jest testing, removing the lint step (DS-24, T-24).
 
+## v2.3.0 - 2025-09-02
+
+### Added
+- Student NPC walk animation now uses 11 frames for smoother motion (DS-25, T-25).
+
 ## v2.2.1 - 2025-09-01
 
 ### Fixed
