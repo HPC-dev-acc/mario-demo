@@ -52,7 +52,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-10: NPC behavior
 - **Design Spec**: DS-10
 - **Test**: Manual
-- **Description**: verify spawn intervals, stomping bounce, side collision knockback with hitstop, and pass-through after the third stomp.
+- **Description**: verify spawn intervals, stomping bounce, side collision knockback, and pass-through after the third stomp.
 
 ### T-11: Audio
 - **Design Spec**: DS-11
@@ -128,7 +128,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-25: Hitstop timer
 - **Design Spec**: DS-25
 - **Test File**: `src/main.integration.test.js`
-- **Description**: verifies player–NPC collisions, including side contact, trigger a 60 ms hitstop and halt movement until the timer expires.
+- **Description**: verifies player–NPC collisions trigger a 60 ms hitstop and halt movement until the timer expires.
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -137,7 +137,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - After switching language, START/Restart buttons and dialogs update.
 - 60 s countdown flashes in the last 10 s; on timeout, a fail screen appears with a clickable Restart.
 - During a red light, the player and NPCs stop nearby and display dialog bubbles; they resume on green.
-- Stomping an NPC causes a bounce; the third stomp allows pass-through; side collisions knock both back and trigger hitstop.
+- Stomping an NPC causes a bounce; the third stomp allows pass-through; side collisions knock both back.
 - Player–NPC collisions briefly freeze the scene before knockback resumes.
 - Fullscreen works on desktop and mobile; portrait mode shows a rotate overlay and landscape resumes play.
 - Game loads and starts offline once installed as a PWA.
