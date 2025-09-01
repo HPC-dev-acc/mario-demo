@@ -9,6 +9,7 @@ All notable changes to this project are documented here.
 - Build script now handles full Semantic Versioning, including prerelease versions (DS-16, T-16).
 - Background rendering uses device pixel ratio to stay sharp in full-screen mode (DS-17, T-17).
 - Added language switching, player movement and slide dust, camera scroll threshold, fullscreen letterboxing, performance culling, and cross-browser compatibility to design specs and test plan (DS-18–DS-23, T-18–T-23).
+- Added URS entries for coin collection feedback, audio control, and level design mode (URS-007–URS-009).
 
 ### Changed
 - Renamed version sync script to `scripts/update-version.mjs` and updated references (DS-16, T-16).
