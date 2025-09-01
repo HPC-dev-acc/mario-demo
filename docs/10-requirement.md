@@ -38,6 +38,10 @@
   - *Scenario*: Players wish to adjust or create new level layouts.
   - *User story*: I want a design mode where I can drag objects, toggle transparency or destructibility, and save the arrangement.
   - *Success*: A settings control enables design mode; objects can be moved or added, layouts saved, and the timer pauses during editing.
+- **URS-010: Live score and progress tracking**
+  - *Scenario*: Players monitor their performance while navigating the stage.
+  - *User story*: I want the HUD to display my current score, the stage label, and a countdown timer so I can gauge how well I'm doing.
+  - *Success*: During gameplay, the HUD continuously shows an updating score, the active stage name, and a timer.
 
 ## SRS
 ### Functional Requirements (FR)
