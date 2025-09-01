@@ -5,6 +5,7 @@ All notable changes to this project are documented here.
 ## Unreleased
 
 ### Added
+- Added ICD section and detailed SAS/SDS in design document.
 - Expanded design specifications and test plan to cover countdown timer, pedestrian traffic lights, NPC behavior, audio, stage configuration, a level editor, PWA support, and build versioning (DS-8–DS-15, T-8–T-15).
 - Build script now handles full Semantic Versioning, including prerelease versions (DS-16, T-16).
 - Background rendering uses device pixel ratio to stay sharp in full-screen mode (DS-17, T-17).
