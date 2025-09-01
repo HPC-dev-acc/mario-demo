@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.6.1 - 2025-09-06
+
+### Changed
+- Officeman sprite scale reduced from 1.5× to 1.25× to better match other characters (DS-31, T-31).
+
 ## v2.6.0 - 2025-09-05
 
 ### Added

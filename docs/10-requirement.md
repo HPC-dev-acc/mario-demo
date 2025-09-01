@@ -74,7 +74,7 @@
 - FR-031: **Pedestrian signals** cycle **green 3s → blink 2s → red 4s**; during red, nearby characters stop and display a dialog bubble with a Japanese-style figure.
  - FR-032: Red lights do not block collision pass-through but must pause nearby characters; brushing the side or passing underneath should not change vertical movement.
 
-- FR-033: Officeman NPC sprites render 1.5× larger from their center while their collision boxes remain unchanged.
+- FR-033: Officeman NPC sprites render 1.25× larger from their center while their collision boxes remain unchanged.
 
 **UI / HUD**
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info panel; mobile shows virtual buttons.
