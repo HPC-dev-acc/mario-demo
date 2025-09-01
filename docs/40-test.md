@@ -154,6 +154,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `officeman-walk-sprites.test.js`
 - **Description**: ensures sprite files for walk animation frames 0–10 exist.
 
+### T-31: Officeman sprite scaling
+- **Design Spec**: DS-31
+- **Test File**: `src/render.test.js`
+- **Description**: verifies Officeman NPC sprites draw 1.5× larger from their center while hitboxes remain unchanged.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -166,3 +171,4 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-005**: The game runs on desktop and mobile, supports fullscreen, and launches offline after installation.
 - **URS-006**: The HUD shows timer and controls, and portrait orientation displays a rotate prompt.
 - **URS-011**: Enabling developer mode reveals the debug panel, log controls, and level editor; disabling hides them again (developer/tester only).
+- **URS-012**: Officeman NPCs appear larger on screen without altering collision behavior.

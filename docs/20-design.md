@@ -19,7 +19,8 @@
 - Axis-aligned bounding boxes (AABB) detect overlaps against level objects and NPCs.
 
 ### NPC and Level Systems
- - NPC spawn timers pick random intervals (4–8 s) and choose OL, Student, or Officeman templates.
+- NPC spawn timers pick random intervals (4–8 s) and choose OL, Student, or Officeman templates.
+- Officeman sprites render 1.5× larger than their collision boxes, scaling from the sprite center.
 - Each NPC carries `state`, `dir`, and `speed`; stomp increases a counter that allows pass-through after the third hit.
 - Level data loads from `assets/objects.custom.js`; each entry defines type, coordinates, and optional collision masks.
 
@@ -92,5 +93,6 @@
 | DS-26 | OL and Student NPC walk animations cycle through all frames for smooth motion. | FR-030 | T-26 |
 | DS-27 | OL NPCs walk fastest, Officemen move at a medium pace, and Students walk more slowly. | FR-030 | T-27 |
 | DS-30 | Officeman NPC walk sprites for frames 0–10. | FR-030 | T-30 |
+| DS-31 | Officeman sprites render 1.5× larger from their center without altering collision boxes. | FR-033 | T-31 |
 | DS-28 | Developer switch reveals debug panel, log controls, and a level editor for developers/testers. | FR-043 | T-28 |
 | DS-29 | Game state factory exposes core fields (level, coins, lights, player, camera, npcs) and excludes score/time. | — | T-29 |

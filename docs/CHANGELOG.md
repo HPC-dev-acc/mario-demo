@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.6.0 - 2025-09-05
+
+### Added
+- Officeman sprites now render 1.5× larger from their center without altering collision boxes (DS-31, T-31).
+
 ## v2.5.0 - 2025-09-04
 
 ### Added
