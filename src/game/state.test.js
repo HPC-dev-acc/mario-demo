@@ -38,3 +38,15 @@ test('world is shifted down by Y_OFFSET tiles', () => {
   const sample = objects.find(o => o.type === 'brick');
   expect(state.level[sample.y + Y_OFFSET][sample.x]).toBe(2);
 });
+
+test('state exposes core fields without score or time', () => {
+  const state = createGameState();
+  expect(state).toHaveProperty('level');
+  expect(state).toHaveProperty('coins');
+  expect(state).toHaveProperty('lights');
+  expect(state).toHaveProperty('player');
+  expect(state).toHaveProperty('camera');
+  expect(state).toHaveProperty('npcs');
+  expect(state).not.toHaveProperty('score');
+  expect(state).not.toHaveProperty('time');
+});
