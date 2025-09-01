@@ -10,6 +10,7 @@ All notable changes to this project are documented here.
 - Background rendering uses device pixel ratio to stay sharp in full-screen mode (DS-17, T-17).
 - Added language switching, player movement and slide dust, camera scroll threshold, fullscreen letterboxing, performance culling, and cross-browser compatibility to design specs and test plan (DS-18–DS-23, T-18–T-23).
 - Added URS entries for coin collection feedback, audio control, and level design mode (URS-007–URS-009).
+- Added URS entry for live score, stage label, and timer visibility during gameplay (URS-010).
 
 ### Changed
 - Renamed version sync script to `scripts/update-version.mjs` and updated references (DS-16, T-16).
