@@ -24,6 +24,11 @@ All notable changes to this project are documented here.
 - CI documentation now highlights only Jest testing, removing the lint step (DS-24, T-24).
 - Renamed requirement document to `docs/10-requirement.md`, rewrote URS to focus on player needs, and removed ICD section.
 - Expanded URS with detailed scenarios and success criteria and linked UAT items to URS IDs.
+
+## v2.4.0 - 2025-09-03
+
+### Added
+- Developer toggle in settings reveals debug panel, log controls, and level design mode (DS-28, T-28).
 ## v2.3.1 - 2025-09-03
 
 ### Changed

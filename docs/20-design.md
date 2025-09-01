@@ -7,7 +7,7 @@
 
 ## SDS (Software Design Specification)
 - `main.js` initializes resources, manages the state machine, countdown, collisions, and NPC spawning.
-- `src/ui/index.js` implements the gear menu, language switcher, version pill, fullscreen toggle, restart binding, and design mode controls; `hud.js` only exposes a `showHUD()` helper.
+- `src/ui/index.js` implements the gear menu, language switcher, version pill, fullscreen toggle, restart binding, developer toggle, and design mode controls; `hud.js` only exposes a `showHUD()` helper.
 - `orientation-guard.js` and `landscape-fit-height.js` handle device orientation and viewport fitting on mobile.
 - `sw.js` and `manifest.json` provide offline capability and installation metadata.
 - Source modules in `src/` encapsulate physics, rendering, camera control, and NPC logic.
@@ -63,3 +63,4 @@
 | DS-25 | Student NPC walk sprites for frames 0–10. | FR-030 | T-25 |
 | DS-26 | OL and Student NPC walk animations cycle through all frames for smooth motion. | FR-030 | T-26 |
 | DS-27 | OL NPCs walk faster while Student NPCs walk more slowly. | FR-030 | T-27 |
+| DS-28 | Developer switch reveals debug panel, log controls, and level design mode. | FR-043 | T-28 |
