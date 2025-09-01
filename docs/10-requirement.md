@@ -2,12 +2,30 @@
 # Requirements
 
 ## URS
-- URS-001: Players start from a menu that offers a clear **START** option and language choice.
-- URS-002: Players guide a character through a side-scrolling world with movement, jumping, sliding, and stomping.
-- URS-003: Players encounter characters and traffic signals that require timing and offer interactive challenges.
-- URS-004: Players track a visible countdown and see clear or fail screens with the ability to restart.
-- URS-005: Players enjoy the game on both mobile and desktop, with fullscreen and offline play available.
-- URS-006: Players access a HUD for essential info, orientation hints, and optional debug details.
+- **URS-001: Start menu and language choice**
+  - *Scenario*: A first-time player lands on the home page.
+  - *User story*: As a new player, I want a visible **START** button and the ability to choose my language so that I can begin play in a language I understand.
+  - *Success*: The start screen is obvious, and switching language updates all on-screen text before gameplay begins.
+- **URS-002: Responsive movement and actions**
+  - *Scenario*: During play, the character needs to traverse the stage and avoid obstacles.
+  - *User story*: As a player, I want to move left or right, jump, slide, and stomp NPCs so that I can navigate the world and overcome challenges.
+  - *Success*: Controls feel immediate and allow the player to clear obstacles and interact with NPCs without delay.
+- **URS-003: Traffic and NPC interaction**
+  - *Scenario*: The player meets other characters and traffic signals along the route.
+  - *User story*: I want characters and signals that require me to time my actions, adding risk and variety.
+  - *Success*: Red lights and NPC behavior force the player to pause or adjust timing, with mistakes leading to setbacks or failure.
+- **URS-004: Countdown and session feedback**
+  - *Scenario*: Each run has a time limit and ends in success or failure.
+  - *User story*: I want to see how much time remains and receive a clear or fail screen with an option to restart.
+  - *Success*: A visible timer counts down, flashes near zero, and the game displays clear/fail messages with a restart control.
+- **URS-005: Cross-platform, fullscreen, and offline play**
+  - *Scenario*: Players try the game on various devices or without a network connection.
+  - *User story*: I want the game to work on mobile and desktop, support fullscreen, and remain playable offline so I can enjoy it anywhere.
+  - *Success*: The same content runs on touch and keyboard devices, fullscreen mode is available, and the game launches after installation even when offline.
+- **URS-006: Informative HUD and guidance**
+  - *Scenario*: Players need status information and orientation hints.
+  - *User story*: I want a HUD that shows essential info, warns me when the device is rotated, and optionally reveals debug details.
+  - *Success*: The HUD displays the timer and controls, portrait orientation shows a rotate prompt, and a menu exposes debug data when requested.
 
 ## SRS
 ### Functional Requirements (FR)

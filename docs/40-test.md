@@ -144,9 +144,9 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - Manual tests are recorded in issue comments or release notes as needed.
 
 ## UAT
-- After switching language, START/Restart buttons and dialogs update.
-- 60 s countdown flashes in the last 10 s; on timeout, a fail screen appears with a clickable Restart.
-- During a red light, the player and NPCs stop nearby and display dialog bubbles; they resume on green.
-- Stomping an NPC causes a bounce; the third stomp allows pass-through; side collisions knock both back.
-- Fullscreen works on desktop and mobile; portrait mode shows a rotate overlay and landscape resumes play.
-- Game loads and starts offline once installed as a PWA.
+- **URS-001**: On load, the start screen is visible and changing the language updates all text before play.
+- **URS-002**: During play, the character responds to left/right/jump/slide inputs and can stomp NPCs.
+- **URS-003**: Meeting NPCs and traffic lights requires timing; red lights pause nearby characters and resume on green.
+- **URS-004**: A countdown is always visible, flashes during the last 10 s, and clear/fail screens offer a restart.
+- **URS-005**: The game runs on desktop and mobile, supports fullscreen, and launches offline after installation.
+- **URS-006**: The HUD shows timer and controls; portrait orientation displays a rotate prompt, and a menu reveals debug info when requested.
