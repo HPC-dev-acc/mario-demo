@@ -134,6 +134,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/render.test.js`
 - **Description**: verifies OL and Student walk animations iterate through all sprite frames within one second for smooth motion.
 
+### T-27: NPC speed differentiation
+- **Design Spec**: DS-27
+- **Test File**: `src/main.integration.test.js`
+- **Description**: confirms OL NPC walks faster while the Student NPC walks more slowly.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.

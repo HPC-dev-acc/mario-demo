@@ -62,3 +62,4 @@
 | DS-24 | Continuous integration runs Jest tests on pushes and pull requests. | — | T-24 |
 | DS-25 | Student NPC walk sprites for frames 0–10. | FR-030 | T-25 |
 | DS-26 | OL and Student NPC walk animations cycle through all frames for smooth motion. | FR-030 | T-26 |
+| DS-27 | OL NPCs walk faster while Student NPCs walk more slowly. | FR-030 | T-27 |

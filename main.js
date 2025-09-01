@@ -564,7 +564,8 @@ const NPC_SPAWN_MAX_MS = 8000;
         type = specialTypes[Math.floor(Math.random() * specialTypes.length)];
         sprite = type === 'ol' ? state.olNpcSprite : state.studentNpcSprite;
         sizeScale = 6 / 5;
-        opts = { fixedSpeed: -1.5 };
+        const speed = type === 'ol' ? -2 : -1;
+        opts = { fixedSpeed: speed };
         facing = 1;
       }
       const npcW = 48 * baseScale * sizeScale;
