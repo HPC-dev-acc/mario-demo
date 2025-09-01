@@ -436,6 +436,17 @@ test('drawNpc renders from image arrays', () => {
   expect(ctx.drawImage).toHaveBeenCalledWith(img1, -npc.w / 2, -npc.h / 2, npc.w, npc.h);
 });
 
+test('drawNpc scales officeman 1.5x from center', () => {
+  const ctx = {
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
+    drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true, translate: jest.fn(), scale: jest.fn(),
+  };
+  const npc = { x: 0, y: 0, shadowY: 0, w: 40, h: 40, state: 'idle', animTime: 0, facing: 1, type: 'officeman' };
+  const sprite = { img: {}, frameWidth: 40, frameHeight: 40, columns: 1, animations: { idle: { frames: [0], fps: 1, offsetY: 0 } } };
+  drawNpc(ctx, npc, sprite);
+  expect(ctx.drawImage).toHaveBeenCalledWith(sprite.img, 0, 0, 40, 40, -30, -30, 60, 60);
+});
+
 test('drawNpc walks through all frames within one second', () => {
   const ctx = {
     save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
