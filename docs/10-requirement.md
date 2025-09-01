@@ -65,7 +65,7 @@
 - FR-022: The camera begins horizontal scrolling once the player crosses **60 %** of the viewport width.
 
 **NPCs and Traffic**
- - FR-030: Levels spawn various **NPCs** (including OL and Student characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit. OL NPCs walk faster while Students move more slowly, and the Student walk animation uses 11 frames for smooth motion.
+ - FR-030: Levels spawn various **NPCs** (including OL, Student, and Officeman characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit. OL NPCs walk fastest, Officemen move at a medium pace, Students walk more slowly, and the Student and Officeman walk animations use 11 frames for smooth motion.
 - FR-031: **Pedestrian signals** cycle **green 3s → blink 2s → red 4s**; during red, nearby characters stop and display a dialog bubble with a Japanese-style figure.
 - FR-032: Red lights do not block collision pass-through but must pause nearby characters; brushing the side or passing underneath should not change vertical movement.
 
@@ -79,7 +79,7 @@
 - FR-050: The game can be installed and launched offline with cached resources and versioning.
 
 ### Content and Levels
-- Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL and Student NPCs appear more often).
+ - Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL, Student, and Officeman NPCs appear more often).
 - Level data uses object lists and **24 px sub-grid** collision masks (2×2) to support half tiles and custom patterns.
 
 ## NFR
@@ -105,7 +105,7 @@
 | FR-020 | DS-19 | T-19 |
 | FR-021 | DS-10 | T-10 |
 | FR-022 | DS-20 | T-20 |
-| FR-030 | DS-10, DS-25, DS-26, DS-27 | T-10, T-25, T-26, T-27 |
+| FR-030 | DS-10, DS-25, DS-26, DS-27, DS-30 | T-10, T-25, T-26, T-27, T-30 |
 | FR-031 | DS-9 | T-9 |
 | FR-032 | DS-9 | T-9 |
 | FR-040 | DS-4, DS-6 | T-4, T-6 |

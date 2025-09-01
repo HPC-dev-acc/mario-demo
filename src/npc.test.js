@@ -16,6 +16,11 @@ test('createNpc assigns type', () => {
   expect(npc.type).toBe('ol');
 });
 
+test('createNpc assigns officeman type', () => {
+  const npc = createNpc(0, 0, 10, 10, null, undefined, undefined, undefined, 'officeman');
+  expect(npc.type).toBe('officeman');
+});
+
 test('createNpc defaults type to "default"', () => {
   const npc = createNpc(0, 0, 10, 10, null);
   expect(npc.type).toBe('default');

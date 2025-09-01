@@ -77,3 +77,16 @@ export function loadStudentNpcSprite() {
     loadSeq('bump', 8),
   ]).then(([walk, bump]) => ({ walk, bump, idle: [walk[0]] }));
 }
+
+export function loadOfficemanNpcSprite() {
+  const loadSeq = (prefix, count) => Promise.all(
+    Array.from({ length: count }, (_, i) => {
+      const num = i.toString().padStart(3, '0');
+      return loadImage(new URL(`../assets/sprites/officeman/${prefix}_${num}.png`, baseURL).href);
+    })
+  );
+  return Promise.all([
+    loadSeq('walk', 11),
+    loadSeq('bump', 11),
+  ]).then(([walk, bump]) => ({ walk, bump, idle: [walk[0]] }));
+}
