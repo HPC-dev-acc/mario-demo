@@ -26,6 +26,18 @@
   - *Scenario*: Players need status information and orientation hints.
   - *User story*: I want a HUD that shows essential info, warns me when the device is rotated, and optionally reveals debug details.
   - *Success*: The HUD displays the timer and controls, portrait orientation shows a rotate prompt, and a menu exposes debug data when requested.
+- **URS-007: Coin collection feedback**
+  - *Scenario*: Players move through the stage encountering coins.
+  - *User story*: I want coins to disappear, increase my score, and play a sound when collected so I know I grabbed them.
+  - *Success*: Touching a coin removes it from the stage, increments the score, and plays the coin sound effect.
+- **URS-008: Action audio and background music control**
+  - *Scenario*: Players jump, slide, or clear the stage while listening to background music.
+  - *User story*: I want distinct sound effects for actions and automatic BGM that I can mute or unmute from the interface.
+  - *Success*: The game loads multiple sound effects and looping BGM, and the interface toggles BGM mute state.
+- **URS-009: Level design mode**
+  - *Scenario*: Players wish to adjust or create new level layouts.
+  - *User story*: I want a design mode where I can drag objects, toggle transparency or destructibility, and save the arrangement.
+  - *Success*: A settings control enables design mode; objects can be moved or added, layouts saved, and the timer pauses during editing.
 
 ## SRS
 ### Functional Requirements (FR)
