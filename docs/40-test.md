@@ -154,4 +154,5 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-003**: Meeting NPCs and traffic lights requires timing; red lights pause nearby characters and resume on green.
 - **URS-004**: A countdown is always visible, flashes during the last 10 s, and clear/fail screens offer a restart.
 - **URS-005**: The game runs on desktop and mobile, supports fullscreen, and launches offline after installation.
-- **URS-006**: The HUD shows timer and controls; portrait orientation displays a rotate prompt, and a menu reveals debug info when requested.
+- **URS-006**: The HUD shows timer and controls, and portrait orientation displays a rotate prompt.
+- **URS-011**: Enabling developer mode reveals the debug panel, log controls, and level editor; disabling hides them again (developer/tester only).

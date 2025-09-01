@@ -25,6 +25,7 @@ All notable changes to this project are documented here.
 - Renamed requirement document to `docs/10-requirement.md`, rewrote URS to focus on player needs, and removed ICD section.
 - Expanded URS with detailed scenarios and success criteria and linked UAT items to URS IDs.
 - Moved level design mode requirement from URS to SRS and renumbered subsequent URS items.
+- HUD requirement no longer references debug data; debug tools are consolidated under a developer-only requirement and SRS entry (URS-006, URS-011, FR-040, FR-043, DS-4, DS-28, T-4, T-28).
 
 ## v2.4.0 - 2025-09-03
 
