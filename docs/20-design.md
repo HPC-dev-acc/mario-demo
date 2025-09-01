@@ -34,8 +34,8 @@
 - Language packs under `src/i18n/` feed the HUD; switching language updates all text nodes on the next frame.
 
 ## ICD (Interface Control Document)
-- **Game State API**: `createGameState()` ⇒ `{ player, npcs, lights, level, score, time }`.
-- **UI Events**: start button dispatches `game:start`; restart emits `game:restart`; fullscreen toggles call `document.fullscreenElement`.
+- **Game State API**: `createGameState()` ⇒ `{ level, coins, lights, player, camera, npcs, GOAL_X, LEVEL_W, LEVEL_H, spawnLights(), buildCollisions(), transparent, indestructible, patterns, selection }` (no `score` or `time`).
+- **UI Actions**: start button calls `showHUD()` and restart buttons call `restartStage()`; no custom events are emitted.
 - **Input Mapping**: keyboard arrows/space/Z map to move/jump/slide; touch buttons dispatch the same actions via custom events.
 - **Service Worker**: `navigator.serviceWorker.register('sw.js')`; messages of type `update` prompt a reload.
 - **Error Handling**: modules throw on missing assets; the main loop catches errors, logs to console, and pauses the game.
@@ -92,3 +92,4 @@
 | DS-26 | OL and Student NPC walk animations cycle through all frames for smooth motion. | FR-030 | T-26 |
 | DS-27 | OL NPCs walk faster while Student NPCs walk more slowly. | FR-030 | T-27 |
 | DS-28 | Developer switch reveals debug panel, log controls, and a level editor for developers/testers. | FR-043 | T-28 |
+| DS-29 | Game state factory exposes core fields (level, coins, lights, player, camera, npcs) and excludes score/time. | — | T-29 |

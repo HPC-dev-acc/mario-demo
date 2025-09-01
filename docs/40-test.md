@@ -144,6 +144,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/ui/index.test.js`
 - **Description**: toggling developer mode shows or hides the debug panel, log controls, and level editor controls for developers and testers.
 
+### T-29: Game state fields
+- **Design Spec**: DS-29
+- **Test File**: `src/game/state.test.js`
+- **Description**: `createGameState` exposes level, coins, lights, player, camera, and npcs without score or time properties.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.

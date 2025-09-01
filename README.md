@@ -1,7 +1,7 @@
 # Mario Demo
 
 
-**Version: 2.4.0**
+**Version: 2.4.1**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red. Background graphics rebuild using the canvas's full height to preserve source resolution in fullscreen. Fullscreen uses centered letterboxing with black bars and automatic canvas resize, and entering fullscreen via the root container resizes the stage correctly with centered letterboxing. Stage 1-1 now spawns both OL and Student NPCs with equal frequency. OL NPCs walk faster while Students move more slowly, and their walk animations cycle through all sprite frames for smoother motion. Student NPCs use an 11-frame walk sequence for added fluidity.
 During gameplay, the HUD displays the player's live score, current stage label, and a countdown timer to track progress. A developer toggle in the settings gear reveals a debug panel, log controls, and level editor tools for developers and testers.

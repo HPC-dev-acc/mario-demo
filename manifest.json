@@ -5,7 +5,7 @@
   "display": "fullscreen",
   "background_color": "#9fd4ea",
   "theme_color": "#9fd4ea",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "icons": [
     {
       "src": "assets/clear-star.svg",
