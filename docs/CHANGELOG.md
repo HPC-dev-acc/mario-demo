@@ -5,12 +5,12 @@ All notable changes to this project are documented here.
 ## Unreleased
 
 ### Added
-- Expanded design specifications and test plan to cover countdown timer, pedestrian traffic lights, NPC behavior, audio, stage configuration, level design mode, PWA support, and build versioning (DS-8–DS-15, T-8–T-15).
+- Expanded design specifications and test plan to cover countdown timer, pedestrian traffic lights, NPC behavior, audio, stage configuration, a level editor, PWA support, and build versioning (DS-8–DS-15, T-8–T-15).
 - Build script now handles full Semantic Versioning, including prerelease versions (DS-16, T-16).
 - Background rendering uses device pixel ratio to stay sharp in full-screen mode (DS-17, T-17).
 - Added language switching, player movement and slide dust, camera scroll threshold, fullscreen letterboxing, performance culling, and cross-browser compatibility to design specs and test plan (DS-18–DS-23, T-18–T-23).
-- Added URS entries for coin collection feedback, audio control, and level design mode (URS-007–URS-009).
-- Added URS entry for live score, stage label, and timer visibility during gameplay (URS-010).
+- Added URS entries for coin collection feedback and audio control (URS-007–URS-008).
+- Added URS entry for live score, stage label, and timer visibility during gameplay (URS-009).
 
 ### Changed
 - Renamed version sync script to `scripts/update-version.mjs` and updated references (DS-16, T-16).
@@ -24,11 +24,12 @@ All notable changes to this project are documented here.
 - CI documentation now highlights only Jest testing, removing the lint step (DS-24, T-24).
 - Renamed requirement document to `docs/10-requirement.md`, rewrote URS to focus on player needs, and removed ICD section.
 - Expanded URS with detailed scenarios and success criteria and linked UAT items to URS IDs.
+- Moved level design mode requirement from URS to SRS and renumbered subsequent URS items.
 
 ## v2.4.0 - 2025-09-03
 
 ### Added
-- Developer toggle in settings reveals debug panel, log controls, and level design mode (DS-28, T-28).
+- Developer toggle in settings reveals debug panel, log controls, and a level editor for developers and testers (DS-28, T-28).
 ## v2.3.1 - 2025-09-03
 
 ### Changed

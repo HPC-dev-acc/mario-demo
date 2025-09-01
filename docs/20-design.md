@@ -63,4 +63,4 @@
 | DS-25 | Student NPC walk sprites for frames 0–10. | FR-030 | T-25 |
 | DS-26 | OL and Student NPC walk animations cycle through all frames for smooth motion. | FR-030 | T-26 |
 | DS-27 | OL NPCs walk faster while Student NPCs walk more slowly. | FR-030 | T-27 |
-| DS-28 | Developer switch reveals debug panel, log controls, and level design mode. | FR-043 | T-28 |
+| DS-28 | Developer switch reveals debug panel, log controls, and a level editor for developers/testers. | FR-043 | T-28 |
