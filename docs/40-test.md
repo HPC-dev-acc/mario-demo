@@ -157,7 +157,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-31: Officeman sprite scaling
 - **Design Spec**: DS-31
 - **Test File**: `src/render.test.js`
-- **Description**: verifies Officeman NPC sprites draw 1.5× larger from their center while hitboxes remain unchanged.
+- **Description**: verifies Officeman NPC sprites draw 1.25× larger from their center while hitboxes remain unchanged.
 
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
