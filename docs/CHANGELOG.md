@@ -11,6 +11,7 @@ All notable changes to this project are documented here.
 - Added language switching, player movement and slide dust, camera scroll threshold, fullscreen letterboxing, performance culling, and cross-browser compatibility to design specs and test plan (DS-18–DS-23, T-18–T-23).
 - Added URS entries for coin collection feedback, audio control, and level design mode (URS-007–URS-009).
 - Added URS entry for live score, stage label, and timer visibility during gameplay (URS-010).
+- Added URS entry for an in-game settings menu enabling language switching, log viewing, music toggling, and design mode access (URS-011).
 
 ### Changed
 - Renamed version sync script to `scripts/update-version.mjs` and updated references (DS-16, T-16).

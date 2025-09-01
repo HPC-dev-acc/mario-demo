@@ -42,6 +42,10 @@
   - *Scenario*: Players monitor their performance while navigating the stage.
   - *User story*: I want the HUD to display my current score, the stage label, and a countdown timer so I can gauge how well I'm doing.
   - *Success*: During gameplay, the HUD continuously shows an updating score, the active stage name, and a timer.
+- **URS-011: In-game settings menu for quick configuration**
+  - *Scenario*: While navigating a stage, the player needs to adjust options without quitting.
+  - *User story*: As a player, I want to open a settings menu to switch language, inspect logs, toggle music, or enter design mode so that I can configure the game on the fly.
+  - *Success*: A settings control immediately pauses the action, presents language, log, music, and design options, and resumes play with minimal interruption.
 
 ## SRS
 ### Functional Requirements (FR)
