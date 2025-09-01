@@ -12,7 +12,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 - Renamed version sync script to `scripts/update-version.mjs` and updated references (DS-16, T-16).
-- Restructured documentation: `10-requirements.md`, `20-design.md`, `30-dev.md`, and `40-test.md` replace previous files.
+- Restructured documentation: `10-requirement.md`, `20-design.md`, `30-dev.md`, and `40-test.md` replace previous files.
 - Removed "Recent Changes" section from README.
 - Clarified pedestrian traffic light behavior and NPC pass-through after the third stomp (DS-9–DS-10, T-9–T-10).
 - Converted design specifications list into a table aligned with requirements and tests.
@@ -20,6 +20,7 @@ All notable changes to this project are documented here.
 - Removed outdated development server references to reflect static build workflow.
 - Clarified build step to focus on version updates, removing asset bundling references (DS-16, T-15).
 - CI documentation now highlights only Jest testing, removing the lint step (DS-24, T-24).
+- Renamed requirement document to `docs/10-requirement.md`, rewrote URS to focus on player needs, and removed ICD section.
 ## v2.3.1 - 2025-09-03
 
 ### Changed
