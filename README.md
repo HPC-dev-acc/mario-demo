@@ -4,7 +4,7 @@
 **Version: 2.4.0**
 
 This project is a simple platformer demo inspired by classic 2D side-scrollers. The stage clear screen now includes a simple star animation effect, sliding triggers a brief dust animation, and a one-minute countdown timer adds urgency. When time runs out before reaching the goal, a fail screen with a restart option appears. Pedestrian lights cycle through green (3s), blink (2s), and red (4s) phases, and nearby characters wait during red. Background graphics rebuild using the canvas's full height to preserve source resolution in fullscreen. Fullscreen uses centered letterboxing with black bars and automatic canvas resize, and entering fullscreen via the root container resizes the stage correctly with centered letterboxing. Stage 1-1 now spawns both OL and Student NPCs with equal frequency. OL NPCs walk faster while Students move more slowly, and their walk animations cycle through all sprite frames for smoother motion. Student NPCs use an 11-frame walk sequence for added fluidity.
-During gameplay, the HUD displays the player's live score, current stage label, and a countdown timer to track progress. A developer toggle in the settings gear reveals a debug panel, log controls, and level design tools.
+During gameplay, the HUD displays the player's live score, current stage label, and a countdown timer to track progress. A developer toggle in the settings gear reveals a debug panel, log controls, and level editor tools for developers and testers.
 
 ## Audio
 
@@ -29,9 +29,9 @@ Stage objects are defined in `assets/objects.custom.js` (or `assets/objects.js` 
 
 Supported `type` values are `brick`, `coin`, and `light`. The `x` and `y` fields use tile coordinates. The optional `transparent` flag (default `false`) renders an object at 50% opacity without changing its collision behavior. A `collision` array like `[1,1,0,0]` can define sub-tile patterns (top-left, top-right, bottom-left, bottom-right) on the 24px collision grid. `createGameState` loads this file to populate the level, coins, and traffic lights.
 
-## Level Design Mode
+## Level Editor (developer/tester only)
 
-Open the settings menu and use the **LEVEL** controls to enable design mode. The canvas gains a dashed outline while active. While design mode is on, the countdown timer pauses. Click or tap an object to select it, drag it to a new tile, then release to drop it. Click the selected object again to clear the selection. Disabling design mode clears the current selection. The transparency toggle affects only the current selection; clicking it with nothing selected has no effect. The layout can be saved as JSON for editing.
+Open the settings menu and use the **LEVEL** controls to enable design mode. This editor is intended for developers and testers; the canvas gains a dashed outline while active and the countdown timer pauses. Click or tap an object to select it, drag it to a new tile, then release to drop it. Click the selected object again to clear the selection. Disabling design mode clears the current selection. The transparency toggle affects only the current selection; clicking it with nothing selected has no effect. The layout can be saved as JSON for editing.
 While an object is selected, you can move it one tile at a time with the `W`, `A`, `S`, and `D` keys for up, left, down, and right nudges respectively.
 Press `Q` to cycle a selected 24px block through quadrants clockwise.
 When enabled, an **新增** button appears to place a 24px collision block centered below the HUD.

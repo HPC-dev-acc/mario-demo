@@ -34,18 +34,14 @@
   - *Scenario*: Players jump, slide, or clear the stage while listening to background music.
   - *User story*: I want distinct sound effects for actions and automatic BGM that I can mute or unmute from the interface.
   - *Success*: The game loads multiple sound effects and looping BGM, and the interface toggles BGM mute state.
-- **URS-009: Level design mode**
-  - *Scenario*: Players wish to adjust or create new level layouts.
-  - *User story*: I want a design mode where I can drag objects, toggle transparency or destructibility, and save the arrangement.
-  - *Success*: A settings control enables design mode; objects can be moved or added, layouts saved, and the timer pauses during editing.
-- **URS-010: Live score and progress tracking**
+- **URS-009: Live score and progress tracking**
   - *Scenario*: Players monitor their performance while navigating the stage.
   - *User story*: I want the HUD to display my current score, the stage label, and a countdown timer so I can gauge how well I'm doing.
   - *Success*: During gameplay, the HUD continuously shows an updating score, the active stage name, and a timer.
-- **URS-011: Developer tools toggle**
-  - *Scenario*: Advanced users or testers need access to debugging utilities.
-  - *User story*: I want a switch in the settings gear that reveals a debug panel, log controls, and level design mode so I can inspect and modify the game.
-  - *Success*: Turning on the developer switch shows the debug panel and extra controls; turning it off hides them.
+- **URS-010: Developer tools toggle (developer/tester only)**
+  - *Scenario*: Developers or testers need access to debugging and level editing utilities.
+  - *User story*: As a developer or tester, I want a switch in the settings gear that reveals a debug panel, log controls, and a level editor so I can inspect and modify the game.
+  - *Success*: Turning on the developer switch shows the debug panel, log controls, and level editor; turning it off hides them.
 
 ## SRS
 ### Functional Requirements (FR)
@@ -72,7 +68,7 @@
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info and debug panels; mobile shows virtual buttons.
 - FR-041: Supports **fullscreen** toggle; start/clear/fail screens have clickable **restart** buttons.
 - FR-042: Provides an **orientation guard overlay**: mobile portrait shows a mask and pauses the game, prompting rotation to landscape.
-- FR-043: The settings menu offers a **developer switch** that reveals the debug panel, log controls, and level design mode when enabled.
+- FR-043: The settings menu offers a **developer switch** that reveals the debug panel, log controls, and a level editor for developers and testers when enabled.
 
 **Platform / Release**
 - FR-050: The game can be installed and launched offline with cached resources and versioning.

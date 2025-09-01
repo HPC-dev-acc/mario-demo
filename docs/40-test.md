@@ -142,7 +142,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-28: Developer switch
 - **Design Spec**: DS-28
 - **Test File**: `src/ui/index.test.js`
-- **Description**: toggling developer mode shows or hides the debug panel, log controls, and level design controls.
+- **Description**: toggling developer mode shows or hides the debug panel, log controls, and level editor controls for developers and testers.
 
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
