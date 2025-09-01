@@ -67,7 +67,7 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
     return grid;
   }
 
-  const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null, trafficLightSprites: null, npcSprite: null, olNpcSprite: null, studentNpcSprite: null, npcs: [], transparent, indestructible, collisions: null, patterns, buildCollisions, selection: null };
+  const state = { level, coins, initialLevel, lights: {}, player: null, camera: null, GOAL_X, LEVEL_W, LEVEL_H, spawnLights: null, playerSprites: null, trafficLightSprites: null, npcSprite: null, olNpcSprite: null, studentNpcSprite: null, officemanNpcSprite: null, npcs: [], transparent, indestructible, collisions: null, patterns, buildCollisions, selection: null };
   state.spawnLights = function spawnLights() {
     for (const k in state.lights) {
       const [lx, ly] = k.split(',').map(Number);

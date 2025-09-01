@@ -58,6 +58,7 @@ async function loadGame() {
     loadNpcSprite: () => Promise.resolve({}),
     loadOlNpcSprite: () => Promise.resolve({}),
     loadStudentNpcSprite: () => Promise.resolve({}),
+    loadOfficemanNpcSprite: () => Promise.resolve({}),
   }));
   await import('../../main.js');
   await Promise.resolve();

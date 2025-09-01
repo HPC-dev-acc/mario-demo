@@ -19,7 +19,7 @@
 - Axis-aligned bounding boxes (AABB) detect overlaps against level objects and NPCs.
 
 ### NPC and Level Systems
-- NPC spawn timers pick random intervals (4–8 s) and choose OL or Student templates.
+ - NPC spawn timers pick random intervals (4–8 s) and choose OL, Student, or Officeman templates.
 - Each NPC carries `state`, `dir`, and `speed`; stomp increases a counter that allows pass-through after the third hit.
 - Level data loads from `assets/objects.custom.js`; each entry defines type, coordinates, and optional collision masks.
 
@@ -90,6 +90,7 @@
 | DS-24 | Continuous integration runs Jest tests on pushes and pull requests. | — | T-24 |
 | DS-25 | Student NPC walk sprites for frames 0–10. | FR-030 | T-25 |
 | DS-26 | OL and Student NPC walk animations cycle through all frames for smooth motion. | FR-030 | T-26 |
-| DS-27 | OL NPCs walk faster while Student NPCs walk more slowly. | FR-030 | T-27 |
+| DS-27 | OL NPCs walk fastest, Officemen move at a medium pace, and Students walk more slowly. | FR-030 | T-27 |
+| DS-30 | Officeman NPC walk sprites for frames 0–10. | FR-030 | T-30 |
 | DS-28 | Developer switch reveals debug panel, log controls, and a level editor for developers/testers. | FR-043 | T-28 |
 | DS-29 | Game state factory exposes core fields (level, coins, lights, player, camera, npcs) and excludes score/time. | — | T-29 |

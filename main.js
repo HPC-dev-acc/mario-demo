@@ -10,7 +10,7 @@ import objects from './assets/objects.custom.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render, CAMERA_OFFSET_Y } from './src/render.js';
 import { updateCamera } from './src/game/camera.js';
-import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite, loadStudentNpcSprite } from './src/sprites.js';
+import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite, loadStudentNpcSprite, loadOfficemanNpcSprite } from './src/sprites.js';
 import { loadBackground, makeScaledBg } from './src/bg.js';
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
@@ -560,11 +560,12 @@ const NPC_SPAWN_MAX_MS = 8000;
       const specialTypes = [];
       if (state.olNpcSprite) specialTypes.push('ol');
       if (state.studentNpcSprite) specialTypes.push('student');
+      if (state.officemanNpcSprite) specialTypes.push('officeman');
       if (specialTypes.length && Math.random() < 0.8) {
         type = specialTypes[Math.floor(Math.random() * specialTypes.length)];
-        sprite = type === 'ol' ? state.olNpcSprite : state.studentNpcSprite;
+        sprite = type === 'ol' ? state.olNpcSprite : type === 'student' ? state.studentNpcSprite : state.officemanNpcSprite;
         sizeScale = 6 / 5;
-        const speed = type === 'ol' ? -2 : -1;
+        const speed = type === 'ol' ? -2 : type === 'student' ? -1 : -1.5;
         opts = { fixedSpeed: speed };
         facing = 1;
       }
@@ -670,14 +671,16 @@ const NPC_SPAWN_MAX_MS = 8000;
       loadNpcSprite(),
       loadOlNpcSprite(),
       loadStudentNpcSprite(),
+      loadOfficemanNpcSprite(),
     ]), 10000, 'Timed out loading sprites')
-      .then(([_, playerSprites, trafficLightSprites, npcSprite, olNpcSprite, studentNpcSprite]) => {
+      .then(([_, playerSprites, trafficLightSprites, npcSprite, olNpcSprite, studentNpcSprite, officemanNpcSprite]) => {
         makeScaledBg(canvas.height / getDpr(), undefined, getDpr());
         state.playerSprites = playerSprites;
         state.trafficLightSprites = trafficLightSprites;
         state.npcSprite = npcSprite;
         state.olNpcSprite = olNpcSprite;
         state.studentNpcSprite = studentNpcSprite;
+        state.officemanNpcSprite = officemanNpcSprite;
         startScreen.showStart(() => beginGame());
       }).catch((err) => {
         console.error('Failed to load resources', err);

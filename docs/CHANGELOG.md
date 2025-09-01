@@ -5,6 +5,14 @@ All notable changes to this project are documented here.
 ## Unreleased
 
 ### Added
+- No entries.
+
+### Changed
+- No entries.
+
+## v2.5.0 - 2025-09-04
+
+### Added
 - Added ICD section and detailed SAS/SDS in design document.
 - Expanded design specifications and test plan to cover countdown timer, pedestrian traffic lights, NPC behavior, audio, stage configuration, a level editor, PWA support, and build versioning (DS-8–DS-15, T-8–T-15).
 - Build script now handles full Semantic Versioning, including prerelease versions (DS-16, T-16).
@@ -12,6 +20,7 @@ All notable changes to this project are documented here.
 - Added language switching, player movement and slide dust, camera scroll threshold, fullscreen letterboxing, performance culling, and cross-browser compatibility to design specs and test plan (DS-18–DS-23, T-18–T-23).
 - Added URS entries for coin collection feedback and audio control (URS-007–URS-008).
 - Added URS entry for live score, stage label, and timer visibility during gameplay (URS-009).
+- Added Officeman NPC with dedicated sprite set and medium walk speed between Student and OL (DS-30, T-30).
 
 ### Changed
 - Renamed version sync script to `scripts/update-version.mjs` and updated references (DS-16, T-16).

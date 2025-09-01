@@ -1,4 +1,4 @@
-import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite, loadStudentNpcSprite } from './sprites.js';
+import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite, loadStudentNpcSprite, loadOfficemanNpcSprite } from './sprites.js';
 
 describe('loadPlayerSprites', () => {
   const OriginalImage = global.Image;
@@ -65,5 +65,15 @@ test('loadStudentNpcSprite loads walk and bump frames', async () => {
   const sprite = await loadStudentNpcSprite();
   expect(Object.keys(sprite)).toEqual(['walk','bump','idle']);
   expect(loaded[0]).toMatch(/\/assets\/sprites\/Student\/walk_000\.png$/);
+  global.Image = OriginalImage;
+});
+
+test('loadOfficemanNpcSprite loads walk and bump frames', async () => {
+  const OriginalImage = global.Image;
+  const loaded = [];
+  global.Image = class { set src(v) { loaded.push(v); if (this.onload) setTimeout(() => this.onload()); } };
+  const sprite = await loadOfficemanNpcSprite();
+  expect(Object.keys(sprite)).toEqual(['walk','bump','idle']);
+  expect(loaded[0]).toMatch(/\/assets\/sprites\/officeman\/walk_000\.png$/);
   global.Image = OriginalImage;
 });

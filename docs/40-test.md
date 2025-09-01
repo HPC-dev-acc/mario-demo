@@ -137,7 +137,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-27: NPC speed differentiation
 - **Design Spec**: DS-27
 - **Test File**: `src/main.integration.test.js`
-- **Description**: confirms OL NPC walks faster while the Student NPC walks more slowly.
+- **Description**: confirms OL NPC walks fastest, Officeman NPC walks at a medium pace, and the Student NPC walks more slowly.
 
 ### T-28: Developer switch
 - **Design Spec**: DS-28
@@ -148,6 +148,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Design Spec**: DS-29
 - **Test File**: `src/game/state.test.js`
 - **Description**: `createGameState` exposes level, coins, lights, player, camera, and npcs without score or time properties.
+
+### T-30: Officeman NPC walk sprites
+- **Design Spec**: DS-30
+- **Test File**: `officeman-walk-sprites.test.js`
+- **Description**: ensures sprite files for walk animation frames 0–10 exist.
 
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.

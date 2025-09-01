@@ -43,6 +43,7 @@ async function loadGame() {
       loadNpcSprite: () => Promise.resolve({}),
       loadOlNpcSprite: () => Promise.resolve({}),
       loadStudentNpcSprite: () => Promise.resolve({}),
+      loadOfficemanNpcSprite: () => Promise.resolve({}),
     }));
 
   let startCallback;
@@ -247,6 +248,19 @@ describe('npc spawn', () => {
     expect(state.npcs[0].facing).toBe(1);
   });
 
+  test('Officeman npc spawns facing right', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    const seq = [0, 0.9];
+    Math.random = () => seq.shift();
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    expect(state.npcs[0].type).toBe('officeman');
+    expect(state.npcs[0].facing).toBe(1);
+  });
+
   test('Student npc spawns larger than player', async () => {
     const { hooks } = await loadGame();
     const state = hooks.getState();
@@ -284,6 +298,18 @@ describe('npc spawn', () => {
     expect(state.npcs[0].vx).toBeCloseTo(-1);
   });
 
+  test('Officeman npc uses medium walk speed', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    const seq = [0, 0.9];
+    Math.random = () => seq.shift();
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    expect(state.npcs[0].vx).toBeCloseTo(-1.5);
+  });
+
   test('does not spawn student npc of same type when one exists', async () => {
     const { hooks } = await loadGame();
     const state = hooks.getState();
@@ -299,6 +325,23 @@ describe('npc spawn', () => {
     Math.random = origRandom;
     expect(state.npcs.length).toBe(1);
     expect(state.npcs[0].type).toBe('student');
+  });
+
+  test('does not spawn officeman npc of same type when one exists', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    let seq = [0, 0.9];
+    Math.random = () => seq.shift();
+    hooks.runUpdate(1);
+    hooks.setNpcSpawnTimer(0);
+    seq = [0, 0.9];
+    Math.random = () => seq.shift();
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    expect(state.npcs.length).toBe(1);
+    expect(state.npcs[0].type).toBe('officeman');
   });
 
   test('does not spawn npc of same type when one exists', async () => {
