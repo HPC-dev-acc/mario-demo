@@ -18,16 +18,19 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const timeLabel = document.getElementById('time-label');
   const settingsToggle = document.getElementById('settings-toggle');
   const langControls = document.getElementById('lang-controls');
+  const devControls = document.getElementById('dev-controls');
   const logControls = document.getElementById('log-controls');
   const audioControls = document.getElementById('audio-controls');
   const designControls = document.getElementById('design-controls');
   const langLabelEl = langControls?.querySelector('strong');
+  const devLabelEl = devControls?.querySelector('strong');
   const logLabelEl = logControls?.querySelector('strong');
   const audioLabelEl = audioControls?.querySelector('strong');
   const levelLabelEl = designControls?.querySelector('strong');
   const logCopy = document.getElementById('log-copy');
   const logClear = document.getElementById('log-clear');
   const bgmToggle = document.getElementById('bgm-toggle');
+  const devToggle = document.getElementById('dev-toggle');
   const enableBtn = document.getElementById('design-enable');
   const transBtn = document.getElementById('design-transparent');
   const destroyBtn = document.getElementById('design-destroyable');
@@ -37,6 +40,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const docTitle = document.getElementById('doc-title');
   const docText = infoPanel?.querySelector('.doc');
   let bgmOn = true;
+  let devOn = false;
   let designOn = false;
   const pedDialogMap = {
     wait: {
@@ -53,12 +57,15 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     time: { en: 'Time', ja: '時間', 'zh-Hant': '時間', 'zh-Hans': '时间' },
     settings: { en: 'Settings', ja: '設定', 'zh-Hant': '設定', 'zh-Hans': '设置' },
     lang: { en: 'LANG', ja: '言語', 'zh-Hant': '語言', 'zh-Hans': '语言' },
+    dev: { en: 'DEV', ja: '開発', 'zh-Hant': '開發', 'zh-Hans': '开发' },
     log: { en: 'LOG', ja: 'ログ', 'zh-Hant': '記錄', 'zh-Hans': '日志' },
     copy: { en: 'Copy', ja: 'コピー', 'zh-Hant': '複製', 'zh-Hans': '复制' },
     clear: { en: 'Clear', ja: 'クリア', 'zh-Hant': '清除', 'zh-Hans': '清空' },
     bgm: { en: 'BGM', ja: 'BGM', 'zh-Hant': 'BGM', 'zh-Hans': 'BGM' },
     mute: { en: 'Mute', ja: 'ミュート', 'zh-Hant': '靜音', 'zh-Hans': '静音' },
     unmute: { en: 'Unmute', ja: 'ミュート解除', 'zh-Hant': '取消靜音', 'zh-Hans': '取消静音' },
+    devOn: { en: 'On', ja: 'オン', 'zh-Hant': '開啟', 'zh-Hans': '开启' },
+    devOff: { en: 'Off', ja: 'オフ', 'zh-Hant': '關閉', 'zh-Hans': '关闭' },
     level: { en: 'LEVEL', ja: 'レベル', 'zh-Hant': '關卡', 'zh-Hans': '关卡' },
     enable: { en: 'Enable', ja: '有効', 'zh-Hant': '啟用', 'zh-Hans': '启用' },
     disable: { en: 'Disable', ja: '無効', 'zh-Hant': '停用', 'zh-Hans': '停用' },
@@ -87,11 +94,13 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     if (timeLabel) timeLabel.textContent = uiText.time[currentLang];
     settingsToggle?.setAttribute('aria-label', uiText.settings[currentLang]);
     if (langLabelEl) langLabelEl.textContent = uiText.lang[currentLang];
+    if (devLabelEl) devLabelEl.textContent = uiText.dev[currentLang];
     if (logLabelEl) logLabelEl.textContent = uiText.log[currentLang];
     if (logCopy) logCopy.textContent = uiText.copy[currentLang];
     if (logClear) logClear.textContent = uiText.clear[currentLang];
     if (audioLabelEl) audioLabelEl.textContent = uiText.bgm[currentLang];
     if (bgmToggle) bgmToggle.textContent = uiText[bgmOn ? 'mute' : 'unmute'][currentLang];
+    if (devToggle) devToggle.textContent = uiText[devOn ? 'devOff' : 'devOn'][currentLang];
     if (levelLabelEl) levelLabelEl.textContent = uiText.level[currentLang];
     if (enableBtn) enableBtn.textContent = uiText[designOn ? 'disable' : 'enable'][currentLang];
     if (transBtn) transBtn.textContent = uiText.transparent[currentLang];
@@ -185,7 +194,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
       e.stopPropagation();
       const hidden = infoPanel.hidden;
       infoPanel.hidden = !hidden;
-      if (debugPanel) debugPanel.hidden = !hidden;
+      if (debugPanel) debugPanel.hidden = infoPanel.hidden || !devOn;
     });
     document.addEventListener('click', (e) => {
       if (infoPanel.hidden) return;
@@ -268,6 +277,26 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     saveBtn?.addEventListener('click', () => design.save());
     addBtn?.addEventListener('click', () => design.addBlock());
   }
+
+  devToggle?.addEventListener('click', () => {
+    devOn = !devOn;
+    devToggle.classList.toggle('active', devOn);
+    devToggle.setAttribute('aria-pressed', devOn ? 'true' : 'false');
+    devToggle.textContent = uiText[devOn ? 'devOff' : 'devOn'][currentLang];
+    if (debugPanel) debugPanel.hidden = !devOn;
+    if (logControls) logControls.hidden = !devOn;
+    if (designControls) designControls.hidden = !devOn;
+    if (!devOn && designOn && design?.enable) {
+      design.enable();
+      designOn = false;
+      if (enableBtn) {
+        enableBtn.classList.remove('active');
+        enableBtn.setAttribute('aria-pressed', 'false');
+        enableBtn.textContent = uiText.enable[currentLang];
+      }
+      if (addBtn) addBtn.hidden = true;
+    }
+  });
 
   canvas.setAttribute('tabindex', '0');
   function refocus(e) { try { if (e) e.preventDefault(); canvas.focus(); } catch (_) {} }

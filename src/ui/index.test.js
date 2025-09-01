@@ -27,6 +27,27 @@ import { initUI } from './index.js';
               <option value="zh-Hans">简体中文</option>
             </select>
           </div>
+          <div id="dev-controls" class="pill">
+            <strong>DEV</strong>
+            <button id="dev-toggle" class="mini" aria-pressed="false">On</button>
+          </div>
+          <div id="log-controls" class="pill" hidden>
+            <strong>LOG</strong>
+            <button id="log-copy" class="mini">Copy</button>
+            <button id="log-clear" class="mini">Clear</button>
+          </div>
+          <div id="audio-controls" class="pill">
+            <strong>BGM</strong>
+            <button id="bgm-toggle" class="mini">Mute</button>
+          </div>
+          <div id="design-controls" class="pill" hidden>
+            <strong>LEVEL</strong>
+            <button id="design-enable" class="mini" aria-pressed="false">Enable</button>
+            <button id="design-transparent" class="mini">Transparent</button>
+            <button id="design-destroyable" class="mini">Break</button>
+            <button id="design-save" class="mini">Save</button>
+            <button id="design-add" class="mini" hidden>Add</button>
+          </div>
         </div>
         <div id="info-panel" hidden>
           <h1 id="doc-title"></h1>
@@ -176,17 +197,41 @@ test('info toggle shows and hides info panel', () => {
   expect(panel.hidden).toBe(true);
 });
 
-test('debug panel toggles with info button', () => {
+test('debug panel toggles with info button only when dev mode is on', () => {
   const canvas = setupDOM();
   initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
   const debug = document.getElementById('debug-panel');
-  const toggle = document.getElementById('info-toggle');
+  const infoBtn = document.getElementById('info-toggle');
   const versionPill = document.getElementById('version-pill');
+  const devToggle = document.getElementById('dev-toggle');
   expect(debug.hidden).toBe(true);
-  toggle.click();
+  infoBtn.click();
+  expect(debug.hidden).toBe(true);
+  devToggle.click();
+  infoBtn.click();
   expect(debug.hidden).toBe(false);
   versionPill.click();
   expect(debug.hidden).toBe(true);
+});
+
+test('developer toggle shows debug, log, and design controls', () => {
+  const canvas = setupDOM();
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  const devToggle = document.getElementById('dev-toggle');
+  const debug = document.getElementById('debug-panel');
+  const logControls = document.getElementById('log-controls');
+  const designControls = document.getElementById('design-controls');
+  expect(debug.hidden).toBe(true);
+  expect(logControls.hidden).toBe(true);
+  expect(designControls.hidden).toBe(true);
+  devToggle.click();
+  expect(debug.hidden).toBe(false);
+  expect(logControls.hidden).toBe(false);
+  expect(designControls.hidden).toBe(false);
+  devToggle.click();
+  expect(debug.hidden).toBe(true);
+  expect(logControls.hidden).toBe(true);
+  expect(designControls.hidden).toBe(true);
 });
 
 test('settings menu toggles and closes on outside click', () => {

@@ -42,6 +42,10 @@
   - *Scenario*: Players monitor their performance while navigating the stage.
   - *User story*: I want the HUD to display my current score, the stage label, and a countdown timer so I can gauge how well I'm doing.
   - *Success*: During gameplay, the HUD continuously shows an updating score, the active stage name, and a timer.
+- **URS-011: Developer tools toggle**
+  - *Scenario*: Advanced users or testers need access to debugging utilities.
+  - *User story*: I want a switch in the settings gear that reveals a debug panel, log controls, and level design mode so I can inspect and modify the game.
+  - *Success*: Turning on the developer switch shows the debug panel and extra controls; turning it off hides them.
 
 ## SRS
 ### Functional Requirements (FR)
@@ -68,6 +72,7 @@
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info and debug panels; mobile shows virtual buttons.
 - FR-041: Supports **fullscreen** toggle; start/clear/fail screens have clickable **restart** buttons.
 - FR-042: Provides an **orientation guard overlay**: mobile portrait shows a mask and pauses the game, prompting rotation to landscape.
+- FR-043: The settings menu offers a **developer switch** that reveals the debug panel, log controls, and level design mode when enabled.
 
 **Platform / Release**
 - FR-050: The game can be installed and launched offline with cached resources and versioning.
@@ -105,6 +110,7 @@
 | FR-040 | DS-4, DS-6 | T-4, T-6 |
 | FR-041 | DS-6, DS-21 | T-6, T-21 |
 | FR-042 | DS-1 | T-1 |
+| FR-043 | DS-28 | T-28 |
 | FR-050 | DS-14 | T-14 |
 
 ### Non-Functional Requirements
