@@ -261,6 +261,29 @@ describe('npc spawn', () => {
     expect(npc.w).toBeCloseTo(48 * (state.player.h / 44) * 6 / 5);
   });
 
+  test('OL npc uses faster walk speed', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    Math.random = () => 0; // force OL type
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    expect(state.npcs[0].vx).toBeCloseTo(-2);
+  });
+
+  test('Student npc uses slower walk speed', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    const seq = [0, 0.6];
+    Math.random = () => seq.shift(); // force Student type
+    hooks.runUpdate(1);
+    Math.random = origRandom;
+    expect(state.npcs[0].vx).toBeCloseTo(-1);
+  });
+
   test('does not spawn student npc of same type when one exists', async () => {
     const { hooks } = await loadGame();
     const state = hooks.getState();

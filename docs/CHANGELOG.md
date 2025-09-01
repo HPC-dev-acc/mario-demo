@@ -20,6 +20,10 @@ All notable changes to this project are documented here.
 - Removed outdated development server references to reflect static build workflow.
 - Clarified build step to focus on version updates, removing asset bundling references (DS-16, T-15).
 - CI documentation now highlights only Jest testing, removing the lint step (DS-24, T-24).
+## v2.3.1 - 2025-09-03
+
+### Changed
+- OL NPC walk speed increased while Student NPC walk speed decreased (DS-27, T-27).
 
 ## v2.3.0 - 2025-09-02
 
