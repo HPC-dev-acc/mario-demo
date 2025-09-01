@@ -21,6 +21,7 @@ All notable changes to this project are documented here.
 - Clarified build step to focus on version updates, removing asset bundling references (DS-16, T-15).
 - CI documentation now highlights only Jest testing, removing the lint step (DS-24, T-24).
 - Renamed requirement document to `docs/10-requirement.md`, rewrote URS to focus on player needs, and removed ICD section.
+- Expanded URS with detailed scenarios and success criteria and linked UAT items to URS IDs.
 ## v2.3.1 - 2025-09-03
 
 ### Changed
