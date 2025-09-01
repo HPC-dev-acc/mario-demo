@@ -7,7 +7,7 @@
 
 ## SDS (Software Design Specification)
 - `main.js` initializes resources, manages the state machine, countdown, collisions, and NPC spawning.
-- `src/ui/index.js` implements the gear menu, language switcher, version pill, fullscreen toggle, restart binding, developer toggle, and design mode controls; `hud.js` only exposes a `showHUD()` helper.
+- `src/ui/index.js` implements the gear menu, language switcher, version pill, fullscreen toggle, restart binding, developer toggle for developers/testers, and design mode controls; `hud.js` only exposes a `showHUD()` helper.
 - `orientation-guard.js` and `landscape-fit-height.js` handle device orientation and viewport fitting on mobile.
 - `sw.js` and `manifest.json` provide offline capability and installation metadata.
 - Source modules in `src/` encapsulate physics, rendering, camera control, and NPC logic.
@@ -29,7 +29,7 @@
 - Enabled PWA support so the demo can run offline and be installed on mobile devices.
 
 ## UX
-- HUD offers gear menu, info/debug panels, countdown timer, and touch controls on mobile.
+- HUD offers a gear menu, info panel, countdown timer, and touch controls on mobile. A debug panel appears only when developer mode is enabled for developers or testers.
 - Orientation guard pauses play in portrait mode and resumes on landscape.
 - Fullscreen uses centered letterboxing with black bars and resizes on `fullscreenchange` to preserve the 16:9 aspect ratio; styles target both `#stage:fullscreen` and `#game-root:fullscreen #stage`.
 

@@ -24,8 +24,8 @@
   - *Success*: The same content runs on touch and keyboard devices, fullscreen mode is available, and the game launches after installation even when offline.
 - **URS-006: Informative HUD and guidance**
   - *Scenario*: Players need status information and orientation hints.
-  - *User story*: I want a HUD that shows essential info, warns me when the device is rotated, and optionally reveals debug details.
-  - *Success*: The HUD displays the timer and controls, portrait orientation shows a rotate prompt, and a menu exposes debug data when requested.
+  - *User story*: I want a HUD that shows essential info and warns me when the device is rotated so I stay oriented.
+  - *Success*: The HUD displays the timer and controls, and portrait orientation shows a rotate prompt.
 - **URS-007: Coin collection feedback**
   - *Scenario*: Players move through the stage encountering coins.
   - *User story*: I want coins to disappear, increase my score, and play a sound when collected so I know I grabbed them.
@@ -38,10 +38,15 @@
   - *Scenario*: Players monitor their performance while navigating the stage.
   - *User story*: I want the HUD to display my current score, the stage label, and a countdown timer so I can gauge how well I'm doing.
   - *Success*: During gameplay, the HUD continuously shows an updating score, the active stage name, and a timer.
-- **URS-010: Developer tools toggle (developer/tester only)**
-  - *Scenario*: Developers or testers need access to debugging and level editing utilities.
-  - *User story*: As a developer or tester, I want a switch in the settings gear that reveals a debug panel, log controls, and a level editor so I can inspect and modify the game.
-  - *Success*: Turning on the developer switch shows the debug panel, log controls, and level editor; turning it off hides them.
+- **URS-010: Developer mode toggle (developer/tester only)**
+  - *Scenario*: Developers or testers sometimes need additional insight while running the game.
+  - *User story*: As a developer or tester, I want a switch in the settings gear that enables developer mode so I can access debugging tools when necessary.
+  - *Success*: Turning on the developer switch enables developer mode; turning it off returns to the standard player experience.
+
+- **URS-011: Debug panel and tools (developer/tester only)**
+  - *Scenario*: Developers or testers investigate behavior or adjust level layout.
+  - *User story*: As a developer or tester, I want a debug panel with log controls and a level editor so I can inspect and modify the game.
+  - *Success*: In developer mode, the debug panel, log controls, and level editor are visible; in player mode they remain hidden.
 
 ## SRS
 ### Functional Requirements (FR)
@@ -65,7 +70,7 @@
 - FR-032: Red lights do not block collision pass-through but must pause nearby characters; brushing the side or passing underneath should not change vertical movement.
 
 **UI / HUD**
-- FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info and debug panels; mobile shows virtual buttons.
+- FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info panel; mobile shows virtual buttons.
 - FR-041: Supports **fullscreen** toggle; start/clear/fail screens have clickable **restart** buttons.
 - FR-042: Provides an **orientation guard overlay**: mobile portrait shows a mask and pauses the game, prompting rotation to landscape.
 - FR-043: The settings menu offers a **developer switch** that reveals the debug panel, log controls, and a level editor for developers and testers when enabled.
