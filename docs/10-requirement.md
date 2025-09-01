@@ -2,15 +2,12 @@
 # Requirements
 
 ## URS
-### Project Goals and Scope
-- Build a 2D side-scrolling platformer demo using HTML5 Canvas and vanilla JS with movement, jumping, stomping, NPC interaction, and clear/fail flow.
-- Support mobile and desktop devices, fullscreen, and offline play (PWA) with HUD, language switching, and a simple debug panel.
-
-### Key Stakeholders
-- **Players**: experience the platformer and mobile controls.
-- **Product/Planning**: define game rules, levels, and art direction.
-- **Development/QA**: implement the code and verify performance and compatibility.
-- **Operations/Publishing**: handle deployment, versioning, and asset management.
+- URS-001: Players start from a menu that offers a clear **START** option and language choice.
+- URS-002: Players guide a character through a side-scrolling world with movement, jumping, sliding, and stomping.
+- URS-003: Players encounter characters and traffic signals that require timing and offer interactive challenges.
+- URS-004: Players track a visible countdown and see clear or fail screens with the ability to restart.
+- URS-005: Players enjoy the game on both mobile and desktop, with fullscreen and offline play available.
+- URS-006: Players access a HUD for essential info, orientation hints, and optional debug details.
 
 ## SRS
 ### Functional Requirements (FR)
@@ -39,30 +36,21 @@
 - FR-042: Provides an **orientation guard overlay**: mobile portrait shows a mask and pauses the game, prompting rotation to landscape.
 
 **Platform / Release**
-- FR-050: As a **PWA**, the game can be added to the home screen and launched offline with resource caching and versioning.
+- FR-050: The game can be installed and launched offline with cached resources and versioning.
 
 ### Content and Levels
 - Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL and Student NPCs appear more often).
 - Level data uses object lists and **24 px sub-grid** collision masks (2×2) to support half tiles and custom patterns.
 
 ## NFR
-- NFR-001 (Performance): Target **60 FPS** (allow degradation on low-end devices); render only tiles/objects within the camera view.
-- NFR-002 (Visual Quality): Canvas resolution = CSS size × `devicePixelRatio`; background regenerates with the canvas height to avoid upscaling; **disable image smoothing** for crisp pixels.
-- NFR-003 (Layout): Fixed **16:9** aspect; fullscreen uses centered letterboxing with black bars and resizes the canvas on `fullscreenchange`; styles apply when either the stage or its `#game-root` parent is fullscreen; mobile landscape uses **fit-height** to avoid browser UI overlap.
-- NFR-004 (Compatibility): Latest Chrome/Safari/Firefox/Edge; common iOS/Android sizes must be operable (virtual buttons scale with viewport).
+- NFR-001 (Performance): Target **60 FPS** and process only what is visible to maintain smooth play on most devices.
+- NFR-002 (Visual Quality): Graphics stay sharp at full resolution, regenerating backgrounds as needed and avoiding smoothing artifacts.
+- NFR-003 (Layout): Maintain a **16:9** aspect; fullscreen centers the stage with black bars and adapts to orientation changes while keeping controls unobstructed.
+- NFR-004 (Compatibility): Operate on current major desktop and mobile browsers across common screen sizes, scaling virtual buttons with the viewport.
 - NFR-005 (i18n): UI, dialog bubbles, buttons, and prompts fully follow the selected language.
-- NFR-006 (Usability): START/Restart buttons must be **clickable** and visible; touch targets ≥ 40 px (recommended).
-- NFR-007 (Maintainability): Assets and levels managed via structured files (e.g., `assets/objects.custom.js`); introducing design mode/export must not break compatibility.
-- NFR-008 (PWA): `manifest.json` defines icons/splash screens; `sw.js` caches core assets and manages versions, prompting or activating updates.
-
-## ICD
-- **Data / Events Summary**
-  - Character: `{id,type,pos(x,y),vel(vx,vy),state,dir,hitbox,anim}`
-  - Object: `{id,kind,bounds,mask(2x2),solid?,trigger?}`
-  - Traffic light: `{phase: green|blink|red, tRemaining, area}`
-  - Events: `npcSpawned, npcBumped, stomp, slide, lightPhaseChanged, goalReached, timeUp, restart`
-- **Dependencies and Compatibility**
-  - No framework dependencies (vanilla JS); tooling such as Babel and Jest is used only during development and testing.
+- NFR-006 (Usability): START/Restart buttons remain visible and clickable; touch targets are at least **40 px**.
+- NFR-007 (Maintainability): Game assets and level data stay organized; enabling design mode/export must not break existing content.
+- NFR-008 (Offline): Installation defines icons and splash screens; offline caching manages versions and informs users of updates.
 
 ## RTM
 
@@ -96,7 +84,3 @@
 | NFR-006 | DS-5, DS-6 | T-5, T-6 |
 | NFR-007 | DS-12, DS-13 | T-12, T-13 |
 | NFR-008 | DS-14 | T-14 |
-
-## Risks and Constraints
-- Device `devicePixelRatio` differences and varying browser UI heights may cause viewport miscalculations (mitigated by fit-height and `renderScale`).
-- High NPC counts or effects may reduce frame rate; control entity count and cull off-screen objects.
