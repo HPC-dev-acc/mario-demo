@@ -1,16 +1,44 @@
 # Design
 
 ## SAD (System Architecture Design)
-- Single-page application built with `index.html` hosting the Canvas and HUD.
-- Rendering uses a 960×540 logical grid scaled by `devicePixelRatio` with image smoothing disabled.
-- Core subsystems: game loop, input, physics, camera, AI/NPC, UI/HUD, PWA caching, and internationalization.
+- Single-page application served by `index.html` that boots `main.js` and the HUD layer.
+- Runtime modules are grouped into **input**, **physics**, **renderer**, **camera**, **AI/NPC**, **UI/HUD**, **audio**, and **PWA/i18n** subsystems.
+- `requestAnimationFrame` drives an update → physics → render loop that targets 60 FPS.
+- Game state is held in a central object created by `createGameState()` and shared across modules.
+- Data flow: user input mutates state → physics resolves collisions → camera follows the player → renderer draws the visible slice.
 
 ## SDS (Software Design Specification)
-- `main.js` initializes resources, manages the state machine, countdown, collisions, and NPC spawning.
-- `src/ui/index.js` implements the gear menu, language switcher, version pill, fullscreen toggle, restart binding, developer toggle for developers/testers, and design mode controls; `hud.js` only exposes a `showHUD()` helper.
-- `orientation-guard.js` and `landscape-fit-height.js` handle device orientation and viewport fitting on mobile.
-- `sw.js` and `manifest.json` provide offline capability and installation metadata.
-- Source modules in `src/` encapsulate physics, rendering, camera control, and NPC logic.
+### Game Loop and State
+- `main.js` seeds textures/audio, creates the game state, and invokes `tick()` on each frame.
+- `tick()` updates timers, spawns NPCs, advances AI, handles collisions, and calls `draw()`.
+- Countdown logic emits events when time hits 10 s and 0 s, toggling HUD flashes or fail/clear overlays.
+
+### Player and Physics
+- Movement uses a 24 px sub-grid; velocity integrates with gravity and is clamped on collision.
+- Sliding sets a flag that shrinks the hitbox; canceling slide or hitting a red light restores height.
+- Axis-aligned bounding boxes (AABB) detect overlaps against level objects and NPCs.
+
+### NPC and Level Systems
+- NPC spawn timers pick random intervals (4–8 s) and choose OL or Student templates.
+- Each NPC carries `state`, `dir`, and `speed`; stomp increases a counter that allows pass-through after the third hit.
+- Level data loads from `assets/objects.custom.js`; each entry defines type, coordinates, and optional collision masks.
+
+### Rendering and Camera
+- `src/render.js` culls tiles and entities outside the viewport and draws remaining sprites to the canvas using device pixel ratio scaling.
+- Backgrounds regenerate when DPR or fullscreen state changes to avoid blurring.
+- The camera begins scrolling once the player crosses 60 % of the viewport width and clamps to level bounds.
+
+### PWA and Internationalization
+- `sw.js` caches `index.html`, scripts, assets, and versioned files; on activation it cleans up old caches.
+- `manifest.json` provides icons and install metadata.
+- Language packs under `src/i18n/` feed the HUD; switching language updates all text nodes on the next frame.
+
+## ICD (Interface Control Document)
+- **Game State API**: `createGameState()` ⇒ `{ player, npcs, lights, level, score, time }`.
+- **UI Events**: start button dispatches `game:start`; restart emits `game:restart`; fullscreen toggles call `document.fullscreenElement`.
+- **Input Mapping**: keyboard arrows/space/Z map to move/jump/slide; touch buttons dispatch the same actions via custom events.
+- **Service Worker**: `navigator.serviceWorker.register('sw.js')`; messages of type `update` prompt a reload.
+- **Error Handling**: modules throw on missing assets; the main loop catches errors, logs to console, and pauses the game.
 
 ## ERD (Entity Relationship Overview)
 - **Entity** – player and NPC share common fields: `id`, `type`, `pos`, `vel`, `state`, and `hitbox`.
@@ -21,7 +49,7 @@
 ## API
 - Global `createGameState()` returns the mutable game state used by the loop and tests.
 - `showHUD()` reveals HUD elements while keeping the debug panel hidden.
-- `scripts/update-version.mjs` script reads `package.json` and emits `version.js` plus versioned query parameters.
+- `scripts/update-version.mjs` reads `package.json` and emits `version.js` plus versioned query parameters.
 
 ## ADR (Architecture Decision Record)
 - Chosen **vanilla JS** for minimal dependencies; build tools (Babel, Jest) are used only for development.
