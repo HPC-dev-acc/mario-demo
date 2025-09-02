@@ -20,11 +20,36 @@
   7. call `draw(state)` to render.
   After rendering, `tick` schedules the next frame with `requestAnimationFrame`.
 - The shared `state` object exposes `{ player, npcs, camera, timer, level, coins, lights }`. Modules mutate only their own sub-objects to avoid unintended coupling.
+  The preload step builds an `assets` map where each entry is either an `Image` or `Audio` element. `Promise.all` wraps `fetch` and `decodeAudioData` calls so that the loop begins only when every asset is ready. Input listeners push symbolic actions (`'left'`, `'jump'`, `'slide'`) into a queue. The queue is drained during step (1) of `tick`, ensuring deterministic order regardless of event timing. The central `state` object also keeps immutable constants like `LEVEL_W` and `LEVEL_H` so modules can compute bounds without importing extra files.
+  Pseudocode for the main loop:
+  ```js
+  let last = 0;
+  function tick(time){
+    const dt = Math.min(time - last, 32);
+    last = time;
+    applyInput(dt);
+    updateTimers(dt);
+    spawnNpcs(dt);
+    runNpcAI(dt);
+    resolvePhysics(dt);
+    updateCamera(dt);
+    draw(state);
+    requestAnimationFrame(tick);
+  }
+  ```
 
 ### Player and Physics
 - Input maps to acceleration: holding left/right sets `ax` to ±0.004 px/ms² and updates facing. Velocity integrates as `vx += ax*dt` and `vy += gravity*dt` with gravity `0.0025 px/ms²`. Velocities clamp to ±0.35 px/ms horizontally and 1.5 px/ms vertically.
 - Collision resolution uses a swept **AABB** algorithm. For each axis, the engine computes potential penetration depth, moves the entity to the contact edge, and zeroes the velocity component if a solid tile or NPC is hit.
 - The player state machine includes `idle`, `run`, `jump`, `slide`, and `stunned`. Sliding halves the hitbox height and locks the state for 400 ms; releasing slide or encountering a red light transitions back to `run` and restores the hitbox.
+  A friction coefficient of `0.0008` reduces horizontal velocity when no input is applied, producing gradual deceleration: `vx += -Math.sign(vx)*Math.min(Math.abs(vx), friction*dt)`. Jump initiation sets `vy = -0.75` and flags `onGround = false`. The swept AABB implementation calculates entry times `tx` and `ty` against tile boundaries:
+  ```js
+  const tx = (nextX - tileEdgeX) / vx;
+  const ty = (nextY - tileEdgeY) / vy;
+  const t = Math.max(tx, ty);
+  if (t >= 0 && t <= 1) { /* collision */ }
+  ```
+  Ground detection simply checks `vy === 0` after resolving the vertical axis. Each entity stores `{ pos:{x,y}, vel:{x,y}, ax, ay, state, hitbox:{w,h} }` for physics calculations.
 
 ### NPC and Level Systems
 - Each level maintains `nextSpawn` in milliseconds. When it reaches zero, the engine picks an NPC template (OL, Student, Officeman) using equal probabilities, spawns it at the right edge, and resets `nextSpawn` to a random 4–8 s interval.
@@ -32,16 +57,33 @@
 - Officeman rendering multiplies the draw scale by `1.25` around the sprite center: `ctx.save(); ctx.translate(cx, cy); ctx.scale(1.25,1.25); ...; ctx.restore();` Collision boxes remain unscaled.
 - Level geometry loads from `assets/objects.custom.js` (falling back to `objects.js`). Each object entry is `{ type, x, y, transparent?, collision?[] }`. `buildCollisions()` converts these into solid tile masks, and `spawnLights()` instantiates traffic lights with phases.
 - NPC spawn height uses the player's `baseH` so that temporary slide height changes do not affect NPC size or ground alignment.
+  NPC templates specify `{speed, sprites, width, height}` and are shallow-cloned for each spawn. The spawn routine places new NPCs at `(LEVEL_W + 24, groundY)` so they walk into view from the right. State transitions are driven by timers:
+  ```js
+  switch(npc.state){
+    case 'walk': if (npc.hit) npc.state='stomped'; break;
+    case 'stomped': if (npc.timer>200) npc.state='recover'; break;
+    case 'recover': npc.state='walk'; break;
+  }
+  ```
+  When `hits` reaches 3 the `solid` flag toggles off allowing the player to pass through. `buildCollisions()` tiles a boolean grid indexed by `(x + y*LEVEL_W)` to speed up collision lookups during physics resolution.
 
 ### Rendering and Camera
 - `draw(state)` clears the canvas, calculates visible tile ranges from `camera.x`/`camera.y`, and skips any tile or entity whose bounding box falls outside the viewport rectangle. All sprite draws multiply coordinates by `devicePixelRatio` and disable image smoothing for pixel art fidelity.
 - Background layers regenerate an off-screen canvas whenever `devicePixelRatio` or fullscreen status changes. The regenerated image uses the canvas's CSS height to render at native resolution and avoid stretching artifacts.
 - Camera logic keeps the player at 60 % of the viewport width: `if (player.x > camera.x + 0.6*VIEW_W) camera.x = min(player.x - 0.6*VIEW_W, LEVEL_W - VIEW_W)`. Vertical movement remains locked to the level height.
+  Rendering order is background → level tiles → NPCs → player → HUD. Tile rendering iterates visible columns and rows:
+  ```js
+  for (let y=minY; y<maxY; y++)
+    for (let x=minX; x<maxX; x++)
+      drawTile(level[y][x]);
+  ```
+  Each entity draw call computes `screenX = (entity.x - camera.x)*dpr` and skips rendering when `screenX` is outside `[0, VIEW_W*dpr]`. This culling keeps the draw list small enough to maintain 60 FPS.
 
 ### PWA and Internationalization
 - The service worker uses a cache-first strategy. During `install` it opens a versioned cache like `demo-v${APP_VERSION}` and stores `index.html`, scripts, sprites, and audio. `activate` removes caches that do not match the current version. `fetch` serves cached responses when available and falls back to network.
 - `manifest.json` supplies icons, names, and `display: standalone` so installing the PWA launches a borderless window.
 - Language modules under `src/i18n/*.js` export dictionaries. `setLanguage(code)` swaps the active dictionary and queues a HUD update; on the next frame, text nodes read from the new dictionary ensuring instant translation without reload.
+  The service worker listens for `message` events so `navigator.serviceWorker.controller.postMessage({type:'update'})` can trigger a manual refresh prompt. Cache keys include the version string, forcing `install` to fetch fresh assets after each release. Internationalization uses `data-i18n` attributes; `setLanguage` iterates `document.querySelectorAll('[data-i18n]')` and replaces `textContent` from the chosen dictionary. Dictionaries follow a flat `{ key: text }` structure for quick lookup, and changing languages sets `state.language` which tests read to verify translations.
 
 ## ICD (Interface Control Document)
 - **Game State API**: `createGameState()` ⇒ `{ level, coins, lights, player, camera, npcs, GOAL_X, LEVEL_W, LEVEL_H, spawnLights(), buildCollisions(), transparent, indestructible, patterns, selection }` (no `score` or `time`).

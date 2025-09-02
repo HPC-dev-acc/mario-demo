@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.7.1 SDS elaborates the tick order, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.7.2 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
