@@ -197,6 +197,40 @@ test('triggerSlideEffect scales position and size with cssScaleX/Y', () => {
   jest.useRealTimers();
 });
 
+test('triggerStompEffect centers star and removes it', () => {
+  jest.useFakeTimers();
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  ui.triggerStompEffect(100, 200);
+  const fx = document.querySelector('.stomp-effect');
+  expect(fx).not.toBeNull();
+  expect(fx.style.left).toBe('88px');
+  expect(fx.style.top).toBe('188px');
+  jest.advanceTimersByTime(300);
+  expect(document.querySelector('.stomp-effect')).toBeNull();
+  jest.useRealTimers();
+});
+
+test('triggerStompEffect scales with cssScaleX/Y', () => {
+  jest.useFakeTimers();
+  window.__cssScaleX = 2;
+  window.__cssScaleY = 3;
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  ui.triggerStompEffect(100, 200);
+  const fx = document.querySelector('.stomp-effect');
+  expect(fx).not.toBeNull();
+  expect(fx.style.left).toBe('176px');
+  expect(fx.style.top).toBe('564px');
+  expect(fx.style.width).toBe('48px');
+  expect(fx.style.height).toBe('72px');
+  jest.advanceTimersByTime(300);
+  expect(document.querySelector('.stomp-effect')).toBeNull();
+  delete window.__cssScaleX;
+  delete window.__cssScaleY;
+  jest.useRealTimers();
+});
+
 test('info toggle shows and hides info panel', () => {
   const canvas = setupDOM();
   initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });

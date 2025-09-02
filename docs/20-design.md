@@ -51,6 +51,7 @@
   if (t >= 0 && t <= 1) { /* collision */ }
   ```
   Ground detection simply checks `vy === 0` after resolving the vertical axis. Each entity stores `{ pos:{x,y}, vel:{x,y}, ax, ay, state, hitbox:{w,h} }` for physics calculations.
+  Stomping an NPC sets `player.vy` to `JUMP_VEL` and invokes `triggerStompEffect` with the NPC's screen coordinates to draw a 24 px star for 300 ms at the impact point.
 
 ### NPC and Level Systems
 - Each level maintains `nextSpawn` in milliseconds. When it reaches zero, the engine picks an NPC template (OL, Student, Officeman) using equal probabilities, spawns it at the right edge, and resets `nextSpawn` to a random 4–8 s interval.
@@ -156,3 +157,4 @@
 | DS-35 | Touch controls use circular buttons positioned at the bottom left and right screen corners. | FR-044, NFR-006 | T-35 |
 | DS-36 | NPC collision boxes span one tile width irrespective of sprite size. | FR-052 | T-36 |
 | DS-37 | Player sprite width shrinks to two-thirds when idle via `renderW` while collision width stays at one tile. | FR-023 | T-37 |
+| DS-38 | Stomping an NPC triggers a 24 px star effect at the impact point for 300 ms. | FR-053 | T-38 |

@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.11.0 - 2025-09-18
+
+### Added
+- Stomping an NPC now spawns a brief star effect at the impact point for visual feedback (DS-38, T-38).
+
 ## v2.10.0 - 2025-09-17
 
 ### Changed

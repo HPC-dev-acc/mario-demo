@@ -391,6 +391,22 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     stage.appendChild(fx);
     setTimeout(() => fx.remove(), 500);
   }
+  function triggerStompEffect(x, y) {
+    if (!stage) return;
+    const fx = document.createElement('img');
+    fx.src = 'assets/stomp-star.svg';
+    fx.alt = '';
+    fx.className = 'stomp-effect';
+    const scaleX = window.__cssScaleX || 1;
+    const scaleY = window.__cssScaleY || 1;
+    const SIZE = 24;
+    fx.style.left = `${(x - SIZE / 2) * scaleX}px`;
+    fx.style.top = `${(y - SIZE / 2) * scaleY}px`;
+    fx.style.width = `${SIZE * scaleX}px`;
+    fx.style.height = `${SIZE * scaleY}px`;
+    stage.appendChild(fx);
+    setTimeout(() => fx.remove(), 300);
+  }
   function triggerFailEffect() {
     if (!stage) return;
     const fx = document.createElement('div');
@@ -410,5 +426,5 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   function showStageFail() { if (stageFailEl) stageFailEl.hidden = false; }
   function hideStageOverlays() { if (stageClearEl) stageClearEl.hidden = true; if (stageFailEl) stageFailEl.hidden = true; }
 
-  return { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen, showPedDialog, hidePedDialog, syncDialogToPlayer };
+  return { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerStompEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen, showPedDialog, hidePedDialog, syncDialogToPlayer };
 }

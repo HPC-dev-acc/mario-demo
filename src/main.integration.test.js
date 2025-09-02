@@ -48,26 +48,31 @@ async function loadGame() {
     }));
 
   let startCallback;
+  let uiObj;
   jest.doMock('../src/ui/index.js', () => ({
-    initUI: () => ({
-      Logger: { info: jest.fn(), debug: jest.fn() },
-      dbg: {},
-      scoreEl,
-      timerEl,
-      triggerClearEffect: jest.fn(),
-      triggerSlideEffect: jest.fn(),
-      triggerFailEffect: jest.fn(),
-      triggerStartEffect: jest.fn(),
-      showStageClear: jest.fn(),
-      showStageFail: jest.fn(),
-      hideStageOverlays: jest.fn(),
-      startScreen: { setStatus: jest.fn(), showStart: jest.fn((cb) => { startCallback = cb; }), showError: jest.fn(), setProgress: jest.fn() },
-    }),
+    initUI: () => {
+      uiObj = {
+        Logger: { info: jest.fn(), debug: jest.fn() },
+        dbg: {},
+        scoreEl,
+        timerEl,
+        triggerClearEffect: jest.fn(),
+        triggerSlideEffect: jest.fn(),
+        triggerStompEffect: jest.fn(),
+        triggerFailEffect: jest.fn(),
+        triggerStartEffect: jest.fn(),
+        showStageClear: jest.fn(),
+        showStageFail: jest.fn(),
+        hideStageOverlays: jest.fn(),
+        startScreen: { setStatus: jest.fn(), showStart: jest.fn((cb) => { startCallback = cb; }), showError: jest.fn(), setProgress: jest.fn() },
+      };
+      return uiObj;
+    },
   }));
 
   await import('../main.js');
   await new Promise((r) => setTimeout(r, 0));
-  return { hooks: window.__testHooks, scoreEl, timerEl, audio, startCallback, canvas, ctx };
+  return { hooks: window.__testHooks, scoreEl, timerEl, audio, startCallback, canvas, ctx, ui: uiObj };
 }
 
 describe('canvas scaling', () => {
@@ -560,7 +565,7 @@ describe('player and npc collision', () => {
   });
 
   test('stomping npc bounces player with normal jump height', async () => {
-    const { hooks, audio } = await loadGame();
+    const { hooks, audio, ui } = await loadGame();
     const state = hooks.getState();
     const player = state.player;
     player.x = 0; player.y = 0; player.vy = 10;
@@ -574,6 +579,7 @@ describe('player and npc collision', () => {
     expect(npc.state).toBe('bump');
     expect(npc.pauseTimer).toBeGreaterThanOrEqual(400);
     expect(audio.play).toHaveBeenCalledWith('jump');
+    expect(ui.triggerStompEffect).toHaveBeenCalledTimes(1);
   });
 
   test('npc bounce count resets when player lands', async () => {

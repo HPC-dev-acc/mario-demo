@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.10.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.11.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -189,6 +189,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/game/width.test.js`
 - **Description**: verifies the player's sprite width shrinks when idle while the collision box width remains one tile wide.
 
+### T-38: NPC stomp star effect
+- **Design Spec**: DS-38
+- **Test Files**: `src/ui/index.test.js`, `src/main.integration.test.js`
+- **Description**: calling `triggerStompEffect` positions a star at the impact point and stomping an NPC invokes it once.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -206,3 +211,4 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-014**: A progress bar shows loading status before the start button appears.
 - **URS-015**: Design mode outlines collision boxes for all objects and characters.
 - **URS-016**: Idling leaves the collision box unchanged while the sprite narrows.
+- **URS-017**: Stomping an NPC produces a brief star effect at the impact point.
