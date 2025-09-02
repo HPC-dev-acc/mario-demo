@@ -664,15 +664,20 @@ const NPC_SPAWN_MAX_MS = 8000;
   }
   function preload(){
     startScreen.setStatus('Loading sprites...');
-    withTimeout(Promise.all([
-      loadBackground('assets/Background/background1.jpeg'),
-      loadPlayerSprites(),
-      loadTrafficLightSprites(),
-      loadNpcSprite(),
-      loadOlNpcSprite(),
-      loadStudentNpcSprite(),
-      loadOfficemanNpcSprite(),
-    ]), 10000, 'Timed out loading sprites')
+    const loaders = [
+      () => loadBackground('assets/Background/background1.jpeg'),
+      () => loadPlayerSprites(),
+      () => loadTrafficLightSprites(),
+      () => loadNpcSprite(),
+      () => loadOlNpcSprite(),
+      () => loadStudentNpcSprite(),
+      () => loadOfficemanNpcSprite(),
+    ];
+    let loaded = 0;
+    const total = loaders.length;
+    const updateProgress = () => startScreen.setProgress(Math.round((loaded / total) * 100));
+    updateProgress();
+    withTimeout(Promise.all(loaders.map(fn => fn().then(res => { loaded++; updateProgress(); return res; }))), 10000, 'Timed out loading sprites')
       .then(([_, playerSprites, trafficLightSprites, npcSprite, olNpcSprite, studentNpcSprite, officemanNpcSprite]) => {
         makeScaledBg(canvas.height / getDpr(), undefined, getDpr());
         state.playerSprites = playerSprites;
