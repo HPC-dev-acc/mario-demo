@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.9.1: NPC collision boxes span one tile width._
+_Updated for v2.9.2: Player collision box width is fixed at two-thirds of a tile._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -69,6 +69,11 @@ _Updated for v2.9.1: NPC collision boxes span one tile width._
   - *User story*: As a developer or tester, I want collision boxes for all objects and characters visible so I can place elements accurately.
   - *Success*: Enabling design mode draws green outlines around every object, the player, and NPCs.
 
+- **URS-016: Predictable player width**
+  - *Scenario*: The player squeezes through narrow gaps or past NPCs.
+  - *User story*: As a player, I want my character's width to stay consistent regardless of action so collisions feel fair.
+  - *Success*: The player's collision edges do not expand or shrink when idling, running, or sliding.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -105,6 +110,7 @@ _Updated for v2.9.1: NPC collision boxes span one tile width._
 - FR-050: The game can be installed and launched offline with cached resources and versioning.
 - FR-051: Enabling design mode draws green collision box outlines for all objects, the player, and NPCs.
 - FR-052: NPC collision boxes span exactly one tile width for consistent interactions.
+- FR-053: The player collision box width remains fixed at two-thirds of a tile regardless of action or state.
 
 ### Content and Levels
  - Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL, Student, and Officeman NPCs appear more often).
@@ -147,6 +153,7 @@ _Updated for v2.9.1: NPC collision boxes span one tile width._
 | FR-050 | DS-14 | T-14 |
 | FR-051 | DS-34 | T-34 |
 | FR-052 | DS-36 | T-36 |
+| FR-053 | DS-37 | T-37 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |

@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.9.2 - 2025-09-16
+
+### Changed
+- Player collision box width fixed at two-thirds of a tile and no longer varies with state (DS-37, T-37).
+
 ## v2.9.1 - 2025-09-15
 
 ### Changed
