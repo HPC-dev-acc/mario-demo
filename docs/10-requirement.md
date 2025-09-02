@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.9.0: touch buttons are circular and pinned to the bottom corners._
+_Updated for v2.9.1: NPC collision boxes span one tile width._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -104,6 +104,7 @@ _Updated for v2.9.0: touch buttons are circular and pinned to the bottom corners
 **Platform / Release**
 - FR-050: The game can be installed and launched offline with cached resources and versioning.
 - FR-051: Enabling design mode draws green collision box outlines for all objects, the player, and NPCs.
+- FR-052: NPC collision boxes span exactly one tile width for consistent interactions.
 
 ### Content and Levels
  - Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL, Student, and Officeman NPCs appear more often).
@@ -145,6 +146,7 @@ _Updated for v2.9.0: touch buttons are circular and pinned to the bottom corners
 | FR-044 | DS-35 | T-35 |
 | FR-050 | DS-14 | T-14 |
 | FR-051 | DS-34 | T-34 |
+| FR-052 | DS-36 | T-36 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |

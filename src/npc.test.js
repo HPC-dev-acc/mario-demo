@@ -1,4 +1,5 @@
 import { createNpc, updateNpc, isNpcOffScreen, boxesOverlap } from './npc.js';
+import { TILE } from './game/physics.js';
 
 function makeState() {
   return { level: [[0,0]], collisions: [[0,0],[0,0]], lights: {}, gravity: 0 };
@@ -71,9 +72,9 @@ test('npc collision box tracks position', () => {
   const npc = createNpc(50, 50, 10, 20, null, () => 0.5);
   const state = makeState();
   updateNpc(npc, 16, state);
-  expect(npc.box.x).toBeCloseTo(npc.x - npc.w / 2);
+  expect(npc.box.x).toBeCloseTo(npc.x - TILE / 2);
   expect(npc.box.y).toBeCloseTo(npc.y - npc.h / 2);
-  expect(npc.box.w).toBe(npc.w);
+  expect(npc.box.w).toBe(TILE);
   expect(npc.box.h).toBe(npc.h);
 });
 

@@ -1,4 +1,4 @@
-import { resolveCollisions, findGroundY } from './game/physics.js';
+import { resolveCollisions, findGroundY, TILE } from './game/physics.js';
 
 export const MAX_NPCS = 2;
 const WALK_SPEED = 1.5;
@@ -24,7 +24,7 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random, facing=-1, opts=
   const npc = {
     type,
     x, y, w, h,
-    box: { x: x - w / 2, y: y - h / 2, w, h },
+    box: { x: x - TILE / 2, y: y - h / 2, w: TILE, h },
     vx: -WALK_SPEED,
     vy: 0,
     onGround: false,
@@ -95,9 +95,9 @@ export function updateNpc(npc, dtMs, state, player) {
   npc.vy += state.gravity * dtMs / 16.6667;
   resolveCollisions(npc, state.level, state.collisions, state.lights);
   npc.shadowY = findGroundY(state.collisions, npc.x, npc.y + npc.h / 2);
-  npc.box.x = npc.x - npc.w / 2;
+  npc.box.x = npc.x - TILE / 2;
   npc.box.y = npc.y - npc.h / 2;
-  npc.box.w = npc.w;
+  npc.box.w = TILE;
   npc.box.h = npc.h;
 }
 

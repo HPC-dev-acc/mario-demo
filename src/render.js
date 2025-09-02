@@ -66,7 +66,7 @@ export function render(ctx, state, design) {
   if (npcs) {
     for (const n of npcs) {
       drawNpc(ctx, n, n.sprite);
-      if (showBoxes) ctx.strokeRect(n.x - n.w / 2, n.y - n.h / 2, n.w, n.h);
+      if (showBoxes) ctx.strokeRect(n.box.x, n.box.y, n.box.w, n.box.h);
     }
   }
   drawPlayer(ctx, player, playerSprites);

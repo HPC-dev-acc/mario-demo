@@ -57,6 +57,7 @@
 - Officeman rendering multiplies the draw scale by `1.25` around the sprite center: `ctx.save(); ctx.translate(cx, cy); ctx.scale(1.25,1.25); ...; ctx.restore();` Collision boxes remain unscaled.
 - Level geometry loads from `assets/objects.custom.js` (falling back to `objects.js`). Each object entry is `{ type, x, y, transparent?, collision?[] }`. `buildCollisions()` converts these into solid tile masks, and `spawnLights()` instantiates traffic lights with phases.
 - NPC spawn height uses the player's `baseH` so that temporary slide height changes do not affect NPC size or ground alignment.
+- NPC collision boxes use a fixed `TILE` width regardless of sprite dimensions to ensure consistent player interactions.
   NPC templates specify `{speed, sprites, width, height}` and are shallow-cloned for each spawn. The spawn routine places new NPCs at `(LEVEL_W + 24, groundY)` so they walk into view from the right. State transitions are driven by timers:
   ```js
   switch(npc.state){
@@ -152,3 +153,4 @@
 | DS-33 | Start page displays a resource loading progress bar that updates as assets load. | FR-003 | T-33 |
 | DS-34 | Design mode renders green collision boxes for all tiles, the player, and NPCs. | FR-051 | T-34 |
 | DS-35 | Touch controls use circular buttons positioned at the bottom left and right screen corners. | FR-044, NFR-006 | T-35 |
+| DS-36 | NPC collision boxes span one tile width irrespective of sprite size. | FR-052 | T-36 |
