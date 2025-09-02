@@ -78,6 +78,7 @@
       drawTile(level[y][x]);
   ```
   Each entity draw call computes `screenX = (entity.x - camera.x)*dpr` and skips rendering when `screenX` is outside `[0, VIEW_W*dpr]`. This culling keeps the draw list small enough to maintain 60 FPS.
+  When design mode is enabled, rendering additionally draws green collision box outlines around visible tiles, the player, and NPCs to assist with level editing.
 
 ### PWA and Internationalization
 - The service worker uses a cache-first strategy. During `install` it opens a versioned cache like `demo-v${APP_VERSION}` and stores `index.html`, scripts, sprites, and audio. `activate` removes caches that do not match the current version. `fetch` serves cached responses when available and falls back to network.
@@ -149,3 +150,4 @@
 | DS-28 | Developer switch reveals debug panel, log controls, and a level editor for developers/testers. | FR-043 | T-28 |
 | DS-29 | Game state factory exposes core fields (level, coins, lights, player, camera, npcs) and excludes score/time. | — | T-29 |
 | DS-33 | Start page displays a resource loading progress bar that updates as assets load. | FR-003 | T-33 |
+| DS-34 | Design mode renders green collision boxes for all tiles, the player, and NPCs. | FR-051 | T-34 |

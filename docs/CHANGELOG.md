@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.8.0 - 2025-09-13
+
+### Added
+- Design mode outlines collision boxes for all tiles, the player, and NPCs in green to aid level editing (DS-34, T-34).
+
 ## v2.7.3 - 2025-09-12
 
 ### Fixed
