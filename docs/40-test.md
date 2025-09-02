@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.9.2 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.9.1 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -184,11 +184,6 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `npc.test.js`
 - **Description**: asserts that NPC collision boxes are one tile wide and centered on the NPC position.
 
-### T-37: Player collision box width
-- **Design Spec**: DS-37
-- **Test File**: `src/game/width.test.js`
-- **Description**: verifies the player hitbox width is always two-thirds of a tile regardless of action.
-
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -205,4 +200,3 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-013**: NPCs spawn at normal size even when the player slides.
 - **URS-014**: A progress bar shows loading status before the start button appears.
 - **URS-015**: Design mode outlines collision boxes for all objects and characters.
-- **URS-016**: Player width remains consistent; collisions feel fair whether idle, running, or sliding.
