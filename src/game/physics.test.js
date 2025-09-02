@@ -11,7 +11,7 @@ function setBlock(world, x, y, val) {
   const cy = y * 2, cx = x * 2;
   if (val === TRAFFIC_LIGHT) {
     world.collisions[cy][cx] = world.collisions[cy][cx + 1] = TRAFFIC_LIGHT;
-    world.collisions[cy + 1][cx] = world.collisions[cy + 1][cx + 1] = 1;
+    world.collisions[cy + 1][cx] = world.collisions[cy + 1][cx + 1] = TRAFFIC_LIGHT;
   } else {
     const base = val ? 1 : 0;
     world.collisions[cy][cx] = world.collisions[cy][cx + 1] = world.collisions[cy + 1][cx] = world.collisions[cy + 1][cx + 1] = base;
@@ -124,24 +124,23 @@ test('crossing a traffic light right to left keeps vertical motion unchanged', (
   expect(ent.y).toBeCloseTo(startY, 1);
 });
 
-test('falling directly over a traffic light does not alter vertical motion', () => {
+test('traffic lights provide no surface to stand on', () => {
   const world = makeWorld(5, 5);
   setBlock(world, 2, 3, TRAFFIC_LIGHT);
   const h = 120;
   const ent = {
     x: TILE * 2 + TILE / 2,
-    y: 80,
+    y: TILE * 3 - h - 1,
     w: BASE_W,
     h,
     vx: 0,
-    vy: 10,
+    vy: 30,
     onGround: false,
   };
   const expectedY = ent.y + ent.vy;
-  const expectedVy = ent.vy;
   resolveCollisions(ent, world.level, world.collisions);
-  expect(ent.vy).toBe(expectedVy);
   expect(ent.y).toBeCloseTo(expectedY, 1);
+  expect(ent.onGround).toBe(false);
 });
 
 test('collecting a coin adds score and removes coin', () => {

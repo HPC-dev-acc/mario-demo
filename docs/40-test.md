@@ -47,7 +47,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-9: Pedestrian traffic lights
 - **Design Spec**: DS-9
 - **Test**: Manual
-- **Description**: confirm lights cycle 3s green → 2s blink → 4s red, nearby characters pause with dialog bubbles, and collisions remain unaffected.
+- **Description**: confirm lights cycle 3s green → 2s blink → 4s red, nearby characters pause with dialog bubbles, and traffic lights provide no surface to stand on.
 
 ### T-10: NPC behavior
 - **Design Spec**: DS-10

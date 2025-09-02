@@ -71,7 +71,6 @@ export function resolveCollisions(ent, level, collisions, lights = {}, events = 
       if (solidAt(collisions, x, bottom, lights)) {
         const centerTx = worldToCollTile(ent.x);
         const centerCy = worldToCollTile(bottom);
-        if (collisions[centerCy]?.[centerTx] === TRAFFIC_LIGHT) continue;
         const tx = worldToCollTile(x);
         let cy = centerCy;
         while (cy >= 0 && collisions[cy][tx] && collisions[cy][tx] !== TRAFFIC_LIGHT) cy--;
@@ -89,7 +88,6 @@ export function resolveCollisions(ent, level, collisions, lights = {}, events = 
       if (solidAt(collisions, x, bottom, lights)) {
         const centerTx = worldToCollTile(ent.x);
         const centerCy = worldToCollTile(bottom);
-        if (collisions[centerCy]?.[centerTx] === TRAFFIC_LIGHT) continue;
         const tx = worldToCollTile(x);
         let cy = centerCy;
         while (cy >= 0 && collisions[cy][tx] && collisions[cy][tx] !== TRAFFIC_LIGHT) cy--;

@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.6.3 - 2025-09-08
+
+### Fixed
+- Traffic light tiles no longer have collision boxes, preventing characters from standing on them (DS-9, T-9).
+
 ## v2.6.2 - 2025-09-07
 
 ### Fixed

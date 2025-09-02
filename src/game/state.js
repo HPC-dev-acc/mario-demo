@@ -48,7 +48,7 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
           const cy = y * 2, cx = x * 2;
           if (t === TRAFFIC_LIGHT) {
             grid[cy][cx] = grid[cy][cx + 1] = TRAFFIC_LIGHT;
-            grid[cy + 1][cx] = grid[cy + 1][cx + 1] = 1;
+            grid[cy + 1][cx] = grid[cy + 1][cx + 1] = TRAFFIC_LIGHT;
           } else {
             grid[cy][cx] = grid[cy][cx + 1] = grid[cy + 1][cx] = grid[cy + 1][cx + 1] = 1;
           }
