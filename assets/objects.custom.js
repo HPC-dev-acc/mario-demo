@@ -115,7 +115,7 @@ export default [
   },
   {
     "type": "light",
-    "x": 15,
+    "x": 8,
     "y": 5,
     "transparent": false
   },
@@ -399,7 +399,20 @@ export default [
       0,
       0,
       1,
-      1
+      0
+    ]
+  },
+  {
+    "type": "brick",
+    "x": 82,
+    "y": 1,
+    "transparent": true,
+    "destroyable": false,
+    "collision": [
+      0,
+      1,
+      0,
+      0
     ]
   },
   {
