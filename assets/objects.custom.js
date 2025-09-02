@@ -115,7 +115,7 @@ export default [
   },
   {
     "type": "light",
-    "x": 8,
+    "x": 7,
     "y": 5,
     "transparent": false
   },
