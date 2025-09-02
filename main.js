@@ -551,7 +551,7 @@ const NPC_SPAWN_MAX_MS = 8000;
     npcSpawnTimer -= dtMs;
     if (npcSpawnTimer <= 0 && state.npcs.length < MAX_NPCS) {
         const spawnX = camera.x + LOGICAL_W + player.w;
-      const baseScale = player.h / 44;
+      const baseScale = player.baseH / 44;
       let type = 'default';
       let sprite = state.npcSprite;
       let sizeScale = 1;
@@ -570,7 +570,7 @@ const NPC_SPAWN_MAX_MS = 8000;
         facing = 1;
       }
       const npcW = 48 * baseScale * sizeScale;
-      const npcH = player.h * sizeScale;
+      const npcH = player.baseH * sizeScale;
       if (!state.npcs.some(n => n.type === type)) {
         const groundY = findGroundY(
           state.collisions,

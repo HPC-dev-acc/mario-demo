@@ -23,6 +23,7 @@
 - Officeman sprites render 1.25× larger than their collision boxes, scaling from the sprite center.
 - Each NPC carries `state`, `dir`, and `speed`; stomp increases a counter that allows pass-through after the third hit.
 - Level data loads from `assets/objects.custom.js`; each entry defines type, coordinates, and optional collision masks.
+ - NPC spawn dimensions use the player's `baseH` so sliding does not change NPC size.
 
 ### Rendering and Camera
 - `src/render.js` culls tiles and entities outside the viewport and draws remaining sprites to the canvas using device pixel ratio scaling.
@@ -94,5 +95,6 @@
 | DS-27 | OL NPCs walk fastest, Officemen move at a medium pace, and Students walk more slowly. | FR-030 | T-27 |
 | DS-30 | Officeman NPC walk sprites for frames 0–10. | FR-030 | T-30 |
 | DS-31 | Officeman sprites render 1.25× larger from their center without altering collision boxes. | FR-033 | T-31 |
+| DS-32 | NPC spawn size derives from player's base height to stay consistent while sliding. | FR-034 | T-32 |
 | DS-28 | Developer switch reveals debug panel, log controls, and a level editor for developers/testers. | FR-043 | T-28 |
 | DS-29 | Game state factory exposes core fields (level, coins, lights, player, camera, npcs) and excludes score/time. | — | T-29 |

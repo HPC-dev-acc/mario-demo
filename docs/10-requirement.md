@@ -53,6 +53,11 @@
   - *User story*: As a player, I want Officeman NPCs to appear at a comparable size so they are easy to see while gameplay physics stay consistent.
   - *Success*: Officeman sprites display larger on screen without changing how their collision boxes interact.
 
+- **URS-013: Consistent NPC size during slides**
+  - *Scenario*: The player is sliding while NPCs spawn.
+  - *User story*: As a player, I want NPCs to spawn at their normal size even when I'm sliding so visuals stay consistent.
+  - *Success*: NPCs always appear at their standard height and align with the ground regardless of player height changes.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -75,6 +80,7 @@
  - FR-032: Red lights do not block collision pass-through but must pause nearby characters; brushing the side or passing underneath should not change vertical movement.
 
 - FR-033: Officeman NPC sprites render 1.25× larger from their center while their collision boxes remain unchanged.
+- FR-034: NPC spawn dimensions derive from the player's base height so sliding does not shrink NPCs or misalign them with the ground.
 
 **UI / HUD**
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info panel; mobile shows virtual buttons.
@@ -116,6 +122,7 @@
 | FR-031 | DS-9 | T-9 |
 | FR-032 | DS-9 | T-9 |
 | FR-033 | DS-31 | T-31 |
+| FR-034 | DS-32 | T-32 |
 | FR-040 | DS-4, DS-6 | T-4, T-6 |
 | FR-041 | DS-6, DS-21 | T-6, T-21 |
 | FR-042 | DS-1 | T-1 |
