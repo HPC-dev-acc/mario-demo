@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.7.2: expanded SDS with asset pipeline, physics, and rendering details; requirement mapping remains unchanged._
+_Updated for v2.7.3: audio now preloads with sprites before gameplay; requirement mapping remains unchanged._
 
 ## URS
 - **URS-001: Start menu and language choice**

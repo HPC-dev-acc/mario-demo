@@ -34,7 +34,7 @@ async function loadGame() {
     play: jest.fn(),
     playMusic: jest.fn(),
     toggleMusic: jest.fn(),
-    resumeAudio: jest.fn(),
+    resumeAudio: jest.fn(() => Promise.resolve()),
   };
   jest.doMock('../src/audio.js', () => audio);
 
@@ -94,12 +94,15 @@ describe('audio loading', () => {
     jest.resetModules();
   });
 
-  test('loadSounds waits for start interaction', async () => {
+  test('audio preloads before start and music plays on interaction', async () => {
     const { audio, startCallback } = await loadGame();
-    expect(audio.loadSounds).not.toHaveBeenCalled();
+    expect(audio.loadSounds).toHaveBeenCalledTimes(1);
+    expect(audio.playMusic).not.toHaveBeenCalled();
     startCallback();
+    await Promise.resolve();
     expect(audio.resumeAudio).toHaveBeenCalled();
-    expect(audio.loadSounds).toHaveBeenCalled();
+    expect(audio.playMusic).toHaveBeenCalled();
+    expect(audio.loadSounds).toHaveBeenCalledTimes(1);
   });
 });
 

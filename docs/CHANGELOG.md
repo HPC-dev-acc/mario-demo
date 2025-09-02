@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.7.3 - 2025-09-12
+
+### Fixed
+- Preloaded audio alongside sprites using `Promise.all` so sound effects and music are ready before gameplay (DS-11, DS-33, T-11, T-33).
+
 ## v2.7.2 - 2025-09-11
 
 ### Changed
