@@ -58,11 +58,17 @@
   - *User story*: As a player, I want NPCs to spawn at their normal size even when I'm sliding so visuals stay consistent.
   - *Success*: NPCs always appear at their standard height and align with the ground regardless of player height changes.
 
+- **URS-014: Resource loading feedback**
+  - *Scenario*: Players wait for assets to load on the home screen.
+  - *User story*: As a player, I want a progress indicator so I know when the game is ready to start.
+  - *Success*: A visible progress bar reaches 100 % before the START button appears.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
 - FR-001: The home page shows a **START** button and language settings; pressing START begins the game.
 - FR-002: Language can be switched in the settings menu (English, Japanese, Traditional Chinese, Simplified Chinese); the HUD and pedestrian dialogs follow the selection.
+- FR-003: The home page displays a loading progress indicator while assets download, reaching **100 %** before the **START** button is shown.
 
 **Game Flow**
 - FR-010: Each session has a **60-second countdown** that flashes during the final 10 seconds.
@@ -112,6 +118,7 @@
 | --- | --- | --- |
 | FR-001 | DS-5, DS-18 | T-5, T-18 |
 | FR-002 | DS-18 | T-18 |
+| FR-003 | DS-33 | T-33 |
 | FR-010 | DS-8 | T-8 |
 | FR-011 | DS-6 | T-6 |
 | FR-012 | DS-6 | T-6 |

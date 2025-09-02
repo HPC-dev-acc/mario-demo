@@ -9,6 +9,7 @@ import { initUI } from './index.js';
           <div id="start-page">
             <div id="start-status"></div>
             <div id="start-version"></div>
+            <progress id="loading-progress" value="0" max="100"></progress>
             <button id="btn-start">START</button>
             <button id="btn-retry" hidden>Retry</button>
           </div>
@@ -79,6 +80,17 @@ test('start button hidden before preload complete', () => {
   const canvas = setupDOM();
   initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
   expect(document.getElementById('btn-start').hidden).toBe(true);
+});
+
+test('progress bar updates during loading', () => {
+  const canvas = setupDOM();
+  const ui = initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
+  ui.startScreen.setProgress(30);
+  const bar = document.getElementById('loading-progress');
+  expect(bar.hidden).toBe(false);
+  expect(bar.value).toBe(30);
+  ui.startScreen.showStart(() => {});
+  expect(bar.hidden).toBe(true);
 });
 
 test('shows version on start page', () => {

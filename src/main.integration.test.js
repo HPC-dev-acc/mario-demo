@@ -61,7 +61,7 @@ async function loadGame() {
       showStageClear: jest.fn(),
       showStageFail: jest.fn(),
       hideStageOverlays: jest.fn(),
-      startScreen: { setStatus: jest.fn(), showStart: jest.fn((cb) => { startCallback = cb; }), showError: jest.fn() },
+      startScreen: { setStatus: jest.fn(), showStart: jest.fn((cb) => { startCallback = cb; }), showError: jest.fn(), setProgress: jest.fn() },
     }),
   }));
 

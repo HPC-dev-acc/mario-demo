@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.7.0 - 2025-09-09
+
+### Added
+- Home screen displays a resource loading progress bar during asset preload (DS-33, T-33).
+
 ## v2.6.3 - 2025-09-08
 
 ### Fixed

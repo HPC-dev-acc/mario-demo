@@ -164,6 +164,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/main.integration.test.js`
 - **Description**: ensures NPCs spawn at normal size even when the player is sliding.
 
+### T-33: Loading progress bar
+- **Design Spec**: DS-33
+- **Test File**: `src/ui/index.test.js`
+- **Description**: verifies the start screen progress bar updates and hides after loading completes.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -177,3 +182,5 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-006**: The HUD shows timer and controls, and portrait orientation displays a rotate prompt.
 - **URS-011**: Enabling developer mode reveals the debug panel, log controls, and level editor; disabling hides them again (developer/tester only).
 - **URS-012**: Officeman NPCs appear larger on screen without altering collision behavior.
+- **URS-013**: NPCs spawn at normal size even when the player slides.
+- **URS-014**: A progress bar shows loading status before the start button appears.

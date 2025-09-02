@@ -98,3 +98,4 @@
 | DS-32 | NPC spawn size derives from player's base height to stay consistent while sliding. | FR-034 | T-32 |
 | DS-28 | Developer switch reveals debug panel, log controls, and a level editor for developers/testers. | FR-043 | T-28 |
 | DS-29 | Game state factory exposes core fields (level, coins, lights, player, camera, npcs) and excludes score/time. | — | T-29 |
+| DS-33 | Start page displays a resource loading progress bar that updates as assets load. | FR-003 | T-33 |

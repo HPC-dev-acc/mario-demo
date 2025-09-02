@@ -5,6 +5,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const startPage = document.getElementById('start-page');
   const startStatus = document.getElementById('start-status');
   const startVersion = document.getElementById('start-version');
+  const loadingProgress = document.getElementById('loading-progress');
   const btnStart = document.getElementById('btn-start');
   const btnRetry = document.getElementById('btn-retry');
   const btnRestart = document.getElementById('btn-restart');
@@ -315,14 +316,18 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   window.addEventListener('pointerdown', () => resumeAudio(), { once: true });
 
   function setStatus(msg) { if (startStatus) startStatus.textContent = msg; }
+  function setProgress(val) { if (loadingProgress) loadingProgress.value = val; }
   function showLoading() {
     setStatus('Loading...');
+    setProgress(0);
+    if (loadingProgress) loadingProgress.hidden = false;
     if (btnStart) btnStart.hidden = true;
     if (btnRetry) btnRetry.hidden = true;
     if (startPage) startPage.hidden = false;
   }
   function showStart(onStart) {
     setStatus('');
+    if (loadingProgress) loadingProgress.hidden = true;
     if (btnRetry) btnRetry.hidden = true;
     if (btnStart) {
       btnStart.hidden = false;
@@ -331,6 +336,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   }
   function showError(onRetry) {
     setStatus('Failed to load resources');
+    if (loadingProgress) loadingProgress.hidden = true;
     if (btnStart) btnStart.hidden = true;
     if (btnRetry) {
       btnRetry.hidden = false;
@@ -338,7 +344,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     }
     if (startPage) startPage.hidden = false;
   }
-  const startScreen = { showLoading, showStart, showError, setStatus };
+  const startScreen = { showLoading, showStart, showError, setStatus, setProgress };
   showLoading();
 
   const dbg = {

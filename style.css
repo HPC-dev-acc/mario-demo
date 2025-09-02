@@ -195,6 +195,11 @@ body {
   pointer-events: auto;
 }
 
+#loading-progress {
+  width: 80%;
+  max-width: 300px;
+}
+
 .ped-dialog {
   position: absolute;
   min-width: 220px;
