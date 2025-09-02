@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.9.1: NPC collision boxes span one tile width._
+_Updated for v2.9.2: Player idle sprite narrows without shrinking its collision box._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -69,6 +69,11 @@ _Updated for v2.9.1: NPC collision boxes span one tile width._
   - *User story*: As a developer or tester, I want collision boxes for all objects and characters visible so I can place elements accurately.
   - *Success*: Enabling design mode draws green outlines around every object, the player, and NPCs.
 
+- **URS-016: Stable collision during idle**
+  - *Scenario*: The player character pauses without input.
+  - *User story*: As a player, I want the character's collision box to stay the same when idle so positioning remains reliable.
+  - *Success*: Idling only narrows the sprite visually; collisions and interactions are unaffected.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -85,6 +90,8 @@ _Updated for v2.9.1: NPC collision boxes span one tile width._
 - FR-020: The player can move left/right, jump, and slide (sliding triggers a brief dust effect).
 - FR-021: The player can stomp NPCs to bounce; after three stomps the player passes through to avoid getting stuck; side collisions knock both back.
 - FR-022: The camera begins horizontal scrolling once the player crosses **60 %** of the viewport width.
+
+- FR-023: While idle on the ground, the player sprite may narrow visually but the collision box width remains at the base size.
 
 **NPCs and Traffic**
  - FR-030: Levels spawn various **NPCs** (including OL, Student, and Officeman characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit. OL NPCs walk fastest, Officemen move at a medium pace, Students walk more slowly, and the Student and Officeman walk animations use 11 frames for smooth motion.
@@ -134,6 +141,7 @@ _Updated for v2.9.1: NPC collision boxes span one tile width._
 | FR-020 | DS-19 | T-19 |
 | FR-021 | DS-10 | T-10 |
 | FR-022 | DS-20 | T-20 |
+| FR-023 | DS-37 | T-37 |
 | FR-030 | DS-10, DS-25, DS-26, DS-27, DS-30 | T-10, T-25, T-26, T-27, T-30 |
 | FR-031 | DS-9 | T-9 |
 | FR-032 | DS-9 | T-9 |
