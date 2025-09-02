@@ -157,12 +157,14 @@ test('collecting a coin adds score and removes coin', () => {
 test('coin collection uses entity dimensions for detection', () => {
   const coinX = TILE * 1 + TILE / 2;
   const coinY = TILE * 1 + TILE / 2;
+  const halfW = BASE_W / 2 - 1;
+  const halfH = 120 / 2 - 1;
   const positions = [
-    { x: coinX + 30, y: coinY },
-    { x: coinX - 30, y: coinY },
-    { x: coinX, y: coinY + 50 },
-    { x: coinX, y: coinY - 50 },
-    { x: coinX + 30, y: coinY + 50 },
+    { x: coinX + halfW, y: coinY },
+    { x: coinX - halfW, y: coinY },
+    { x: coinX, y: coinY + halfH },
+    { x: coinX, y: coinY - halfH },
+    { x: coinX + halfW, y: coinY + halfH },
   ];
   for (const pos of positions) {
     const world = makeWorld(3, 3);
