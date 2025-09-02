@@ -1,6 +1,7 @@
 # Development Guide
 
 ## Dev Guide
+- Refer to the expanded SDS in `docs/20-design.md` for step-by-step game loop and physics algorithms when implementing features (v2.7.1).
 - Install dependencies with `npm install`. The project builds to static files, so no development server is required.
 - Source code resides in `src/`; `main.js` and `hud.js` remain root-level entry points, while HUD logic lives in `src/ui/index.js` for modularity.
 - Use `npm run build` to update version information before deployment.

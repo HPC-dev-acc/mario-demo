@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.7.1 - 2025-09-10
+
+### Changed
+- Expanded SDS with detailed game-loop, physics, NPC, rendering, and PWA implementation notes (DS-1–DS-33).
+
 ## v2.7.0 - 2025-09-09
 
 ### Added

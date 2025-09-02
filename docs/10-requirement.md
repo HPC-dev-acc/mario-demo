@@ -1,6 +1,8 @@
 
 # Requirements
 
+_Updated for v2.7.1: clarified SDS implementation details; requirement mapping remains unchanged._
+
 ## URS
 - **URS-001: Start menu and language choice**
   - *Scenario*: A first-time player lands on the home page.
