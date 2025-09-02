@@ -42,7 +42,7 @@
 - Input maps to acceleration: holding left/right sets `ax` to ±0.004 px/ms² and updates facing. Velocity integrates as `vx += ax*dt` and `vy += gravity*dt` with gravity `0.0025 px/ms²`. Velocities clamp to ±0.35 px/ms horizontally and 1.5 px/ms vertically.
 - Collision resolution uses a swept **AABB** algorithm. For each axis, the engine computes potential penetration depth, moves the entity to the contact edge, and zeroes the velocity component if a solid tile or NPC is hit.
 - The player state machine includes `idle`, `run`, `jump`, `slide`, and `stunned`. Sliding halves the hitbox height and locks the state for 400 ms; releasing slide or encountering a red light transitions back to `run` and restores the hitbox.
-  When idling on the ground, `updatePlayerWidth` keeps `player.w` at `BASE_W` for physics but sets `player.renderW` to `BASE_W*2/3` so `drawPlayer` renders a narrower sprite while collisions remain unaffected.
+  When idling on the ground, `updatePlayerWidth` keeps `player.w` at `COLL_W` (one tile) for physics but sets `player.renderW` to `BASE_W*2/3` so `drawPlayer` renders a narrower sprite while collisions remain unaffected.
   A friction coefficient of `0.0008` reduces horizontal velocity when no input is applied, producing gradual deceleration: `vx += -Math.sign(vx)*Math.min(Math.abs(vx), friction*dt)`. Jump initiation sets `vy = -0.75` and flags `onGround = false`. The swept AABB implementation calculates entry times `tx` and `ty` against tile boundaries:
   ```js
   const tx = (nextX - tileEdgeX) / vx;
@@ -155,4 +155,4 @@
 | DS-34 | Design mode renders green collision boxes for all tiles, the player, and NPCs. | FR-051 | T-34 |
 | DS-35 | Touch controls use circular buttons positioned at the bottom left and right screen corners. | FR-044, NFR-006 | T-35 |
 | DS-36 | NPC collision boxes span one tile width irrespective of sprite size. | FR-052 | T-36 |
-| DS-37 | Player sprite width shrinks to two-thirds when idle via `renderW` while collision width stays at `BASE_W`. | FR-023 | T-37 |
+| DS-37 | Player sprite width shrinks to two-thirds when idle via `renderW` while collision width stays at one tile. | FR-023 | T-37 |

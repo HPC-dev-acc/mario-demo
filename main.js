@@ -1,6 +1,6 @@
 import { TILE, COLL_TILE, resolveCollisions, collectCoins, TRAFFIC_LIGHT, findGroundY } from './src/game/physics.js';
 import { showHUD } from './hud.js';
-import { BASE_W, updatePlayerWidth } from './src/game/width.js';
+import { COLL_W, updatePlayerWidth } from './src/game/width.js';
 import { advanceLight } from './src/game/trafficLight.js';
 import { loadSounds, play, playMusic, toggleMusic, resumeAudio } from './src/audio.js';
 import { createControls } from './src/controls.js';
@@ -388,7 +388,7 @@ const NPC_SPAWN_MAX_MS = 8000;
     playMusic();
     player.x = SPAWN_X; player.y = SPAWN_Y; player.shadowY = player.y + player.h/2;
     player.vx=0; player.vy=0; player.onGround=false; player.sliding=0; player.stunnedMs=0;
-    player.h = player.baseH; player.w = player.baseW || BASE_W;
+    player.h = player.baseH; player.w = COLL_W;
     camera.x=0; stageCleared=false; stageFailed=false;
     hideStageOverlays();
     score=0; if (scoreEl) scoreEl.textContent = score;

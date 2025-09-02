@@ -1,5 +1,5 @@
 import { resolveCollisions, collectCoins, TILE, TRAFFIC_LIGHT, COLL_TILE, isNearRedLight } from './physics.js';
-import { BASE_W } from './width.js';
+import { COLL_W } from './width.js';
 
 function makeWorld(w, h) {
   const level = Array.from({ length: h }, () => Array(w).fill(0));
@@ -21,7 +21,7 @@ function setBlock(world, x, y, val) {
 test('entity passes through a wall', () => {
   const world = makeWorld(5, 5);
   setBlock(world, 3, 2, 1); // wall block to the right
-  const ent = { x: TILE * 2, y: TILE * 2, w: BASE_W, h: 120, vx: 50, vy: 0, onGround: false };
+  const ent = { x: TILE * 2, y: TILE * 2, w: COLL_W, h: 120, vx: 50, vy: 0, onGround: false };
   resolveCollisions(ent, world.level, world.collisions);
   expect(ent.vx).toBe(50);
   expect(ent.x).toBeGreaterThan(TILE * 3 - ent.w / 2);
@@ -30,7 +30,7 @@ test('entity passes through a wall', () => {
 test('misaligned side collisions do not stop the entity', () => {
   const world = makeWorld(5, 5);
   setBlock(world, 3, 2, 1);
-  const ent = { x: TILE * 2, y: TILE * 2 + COLL_TILE / 2, w: BASE_W, h: 120, vx: 50, vy: 0, onGround: false };
+  const ent = { x: TILE * 2, y: TILE * 2 + COLL_TILE / 2, w: COLL_W, h: 120, vx: 50, vy: 0, onGround: false };
   resolveCollisions(ent, world.level, world.collisions);
   expect(ent.vx).toBe(50);
   expect(ent.x).toBeGreaterThan(TILE * 3 - ent.w / 2);
@@ -39,7 +39,7 @@ test('misaligned side collisions do not stop the entity', () => {
 test('horizontal collisions no longer toggle blocked flag', () => {
   const world = makeWorld(5, 5);
   setBlock(world, 3, 2, 1); // wall block to the right
-  const ent = { x: TILE * 2, y: TILE * 2, w: BASE_W, h: 120, vx: 50, vy: 0, onGround: false };
+  const ent = { x: TILE * 2, y: TILE * 2, w: COLL_W, h: 120, vx: 50, vy: 0, onGround: false };
   resolveCollisions(ent, world.level, world.collisions);
   expect(ent.blocked).toBe(false);
   ent.x = TILE * 1;
@@ -52,7 +52,7 @@ test('traffic lights are always pass-through', () => {
   const world = makeWorld(5, 5);
   setBlock(world, 3, 2, TRAFFIC_LIGHT);
   const lights = { '3,2': { state: 'red' } };
-  const ent = { x: TILE * 2, y: TILE * 2, w: BASE_W, h: 120, vx: 50, vy: 0, onGround: false };
+  const ent = { x: TILE * 2, y: TILE * 2, w: COLL_W, h: 120, vx: 50, vy: 0, onGround: false };
   resolveCollisions(ent, world.level, world.collisions, lights);
   expect(ent.vx).not.toBe(0);
   ent.x = TILE * 2;
@@ -70,7 +70,7 @@ test('passing next to a traffic light does not alter vertical movement', () => {
   const ent = {
     x: TILE * 1 + TILE / 2,
     y: TILE * 2 - h / 2,
-    w: BASE_W,
+    w: COLL_W,
     h,
     vx: 10,
     vy: 0,
@@ -91,7 +91,7 @@ test('crossing a traffic light left to right keeps vertical motion unchanged', (
   const ent = {
     x: TILE * 0 + TILE / 2,
     y: TILE * 2 - h / 2,
-    w: BASE_W,
+    w: COLL_W,
     h,
     vx: TILE * 2,
     vy: 0,
@@ -112,7 +112,7 @@ test('crossing a traffic light right to left keeps vertical motion unchanged', (
   const ent = {
     x: TILE * 2 + TILE / 2,
     y: TILE * 2 - h / 2,
-    w: BASE_W,
+    w: COLL_W,
     h,
     vx: -TILE * 2,
     vy: 0,
@@ -131,7 +131,7 @@ test('traffic lights provide no surface to stand on', () => {
   const ent = {
     x: TILE * 2 + TILE / 2,
     y: TILE * 3 - h - 1,
-    w: BASE_W,
+    w: COLL_W,
     h,
     vx: 0,
     vy: 30,
@@ -158,17 +158,17 @@ test('coin collection uses entity dimensions for detection', () => {
   const coinX = TILE * 1 + TILE / 2;
   const coinY = TILE * 1 + TILE / 2;
   const positions = [
-    { x: coinX + 30, y: coinY },
-    { x: coinX - 30, y: coinY },
+    { x: coinX + 20, y: coinY },
+    { x: coinX - 20, y: coinY },
     { x: coinX, y: coinY + 50 },
     { x: coinX, y: coinY - 50 },
-    { x: coinX + 30, y: coinY + 50 },
+    { x: coinX + 20, y: coinY + 50 },
   ];
   for (const pos of positions) {
     const world = makeWorld(3, 3);
     world.level[1][1] = 3;
     const coins = new Set(['1,1']);
-    const ent = { x: pos.x, y: pos.y, w: BASE_W, h: 120, vx: 0, vy: 0 };
+    const ent = { x: pos.x, y: pos.y, w: COLL_W, h: 120, vx: 0, vy: 0 };
     const gained = collectCoins(ent, world.level, coins);
     expect(gained).toBe(10);
   }
@@ -186,7 +186,7 @@ test('resolveCollisions flags redLightPaused near red light', () => {
   const world = makeWorld(5,5);
   setBlock(world,3,2,TRAFFIC_LIGHT);
   const lights = { '3,2': { state: 'red' } };
-  const ent = { x: TILE * 3 + TILE / 2, y: TILE * 2 + TILE / 2, w: BASE_W, h: 120, vx: 0, vy: 0 };
+  const ent = { x: TILE * 3 + TILE / 2, y: TILE * 2 + TILE / 2, w: COLL_W, h: 120, vx: 0, vy: 0 };
   resolveCollisions(ent, world.level, world.collisions, lights);
   expect(ent.redLightPaused).toBe(true);
   lights['3,2'].state = 'green';
@@ -200,7 +200,7 @@ test('bricks remain intact when hit from below and no event is fired', () => {
   const ent = {
     x: TILE * 1 + TILE / 2,
     y: TILE * 1 + TILE / 2 + 20,
-    w: BASE_W,
+    w: COLL_W,
     h: 120,
     vx: 0,
     vy: -10,
@@ -223,7 +223,7 @@ test('player moving upward through a block retains velocity and position until g
   const ent = {
     x: TILE * 1 + TILE / 2,
     y: TILE * 2 + TILE / 2,
-    w: BASE_W,
+    w: COLL_W,
     h: 120,
     vx: 0,
     vy: -20,
