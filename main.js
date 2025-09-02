@@ -331,7 +331,7 @@ const NPC_SPAWN_MAX_MS = 8000;
     version: VERSION,
     design,
   });
-  const { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen, showPedDialog, hidePedDialog, syncDialogToPlayer } = ui;
+  const { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerStompEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen, showPedDialog, hidePedDialog, syncDialogToPlayer } = ui;
   Logger.info('app_start', { version: VERSION });
 
   const GRAVITY = 0.88;
@@ -604,6 +604,10 @@ const NPC_SPAWN_MAX_MS = 8000;
         // 玩家彈起、NPC idle 一下
         player.vy = STOMP_BOUNCE;
         play('jump');
+        triggerStompEffect(
+          npc.x - camera.x,
+          npc.y - (camera.y + CAMERA_OFFSET_Y) - npc.h / 2
+        );
         npc.pauseTimer = Math.max(npc.pauseTimer, 400); // 0.4s
         npc.state = 'bump';
         npc.bumped = true;

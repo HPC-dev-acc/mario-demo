@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.10.0: Player collision box width matches one tile while the sprite's visual width is unchanged._
+_Updated for v2.11.0: Stomping an NPC shows a brief star effect at the impact point._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -74,6 +74,11 @@ _Updated for v2.10.0: Player collision box width matches one tile while the spri
   - *User story*: As a player, I want the character's collision box to stay the same when idle so positioning remains reliable.
   - *Success*: Idling only narrows the sprite visually; collisions remain one tile wide and interactions are unaffected.
 
+- **URS-017: Stomp visual feedback**
+  - *Scenario*: The player jumps onto an NPC.
+  - *User story*: As a player, I want a visible effect when I stomp an NPC so I know the bounce registered.
+  - *Success*: Stomping an NPC produces a brief star effect at the contact point.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -112,6 +117,7 @@ _Updated for v2.10.0: Player collision box width matches one tile while the spri
 - FR-050: The game can be installed and launched offline with cached resources and versioning.
 - FR-051: Enabling design mode draws green collision box outlines for all objects, the player, and NPCs.
 - FR-052: NPC collision boxes span exactly one tile width for consistent interactions.
+- FR-053: Stomping an NPC spawns a brief star effect at the contact point.
 
 ### Content and Levels
  - Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL, Student, and Officeman NPCs appear more often).
@@ -155,6 +161,7 @@ _Updated for v2.10.0: Player collision box width matches one tile while the spri
 | FR-050 | DS-14 | T-14 |
 | FR-051 | DS-34 | T-34 |
 | FR-052 | DS-36 | T-36 |
+| FR-053 | DS-38 | T-38 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |
