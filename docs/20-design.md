@@ -9,31 +9,39 @@
 
 ## SDS (Software Design Specification)
 ### Game Loop and State
-- `main.js` seeds textures/audio, creates the game state, and invokes `tick()` on each frame.
-- `tick()` updates timers, spawns NPCs, advances AI, handles collisions, and calls `draw()`.
-- Countdown logic emits events when time hits 10 s and 0 s, toggling HUD flashes or fail/clear overlays.
+- `main.js` preloads textures and audio via `Promise.all`, constructs the initial game state using `createGameState()`, and registers input/HUD listeners. Once assets resolve it starts the loop with `requestAnimationFrame(tick)`.
+- `tick(time)` calculates `dt = min(time - lastTime, 32)` to avoid spiral-of-death stalls, then executes the frame in a fixed order:
+  1. apply pending input to mutate player velocity and state;
+  2. decrement countdown timers and dispatch `countdown:warning` at 10 s and `countdown:end` at 0 s;
+  3. spawn NPCs whose delay has expired;
+  4. advance NPC AI state machines;
+  5. resolve physics and collisions;
+  6. update camera position;
+  7. call `draw(state)` to render.
+  After rendering, `tick` schedules the next frame with `requestAnimationFrame`.
+- The shared `state` object exposes `{ player, npcs, camera, timer, level, coins, lights }`. Modules mutate only their own sub-objects to avoid unintended coupling.
 
 ### Player and Physics
-- Movement uses a 24 px sub-grid; velocity integrates with gravity and is clamped on collision.
-- Sliding sets a flag that shrinks the hitbox; canceling slide or hitting a red light restores height.
-- Axis-aligned bounding boxes (AABB) detect overlaps against level objects and NPCs.
+- Input maps to acceleration: holding left/right sets `ax` to ±0.004 px/ms² and updates facing. Velocity integrates as `vx += ax*dt` and `vy += gravity*dt` with gravity `0.0025 px/ms²`. Velocities clamp to ±0.35 px/ms horizontally and 1.5 px/ms vertically.
+- Collision resolution uses a swept **AABB** algorithm. For each axis, the engine computes potential penetration depth, moves the entity to the contact edge, and zeroes the velocity component if a solid tile or NPC is hit.
+- The player state machine includes `idle`, `run`, `jump`, `slide`, and `stunned`. Sliding halves the hitbox height and locks the state for 400 ms; releasing slide or encountering a red light transitions back to `run` and restores the hitbox.
 
 ### NPC and Level Systems
-- NPC spawn timers pick random intervals (4–8 s) and choose OL, Student, or Officeman templates.
-- Officeman sprites render 1.25× larger than their collision boxes, scaling from the sprite center.
-- Each NPC carries `state`, `dir`, and `speed`; stomp increases a counter that allows pass-through after the third hit.
-- Level data loads from `assets/objects.custom.js`; each entry defines type, coordinates, and optional collision masks.
- - NPC spawn dimensions use the player's `baseH` so sliding does not change NPC size.
+- Each level maintains `nextSpawn` in milliseconds. When it reaches zero, the engine picks an NPC template (OL, Student, Officeman) using equal probabilities, spawns it at the right edge, and resets `nextSpawn` to a random 4–8 s interval.
+- NPCs follow a small state machine: `walk` → (`stomped` with upward bounce and incremented `hits`) → `recover`. After three stomps `hits >= 3`, the player passes through the NPC until it exits the screen. Side collisions push both entities apart and enter a `knockback` state for 300 ms.
+- Officeman rendering multiplies the draw scale by `1.25` around the sprite center: `ctx.save(); ctx.translate(cx, cy); ctx.scale(1.25,1.25); ...; ctx.restore();` Collision boxes remain unscaled.
+- Level geometry loads from `assets/objects.custom.js` (falling back to `objects.js`). Each object entry is `{ type, x, y, transparent?, collision?[] }`. `buildCollisions()` converts these into solid tile masks, and `spawnLights()` instantiates traffic lights with phases.
+- NPC spawn height uses the player's `baseH` so that temporary slide height changes do not affect NPC size or ground alignment.
 
 ### Rendering and Camera
-- `src/render.js` culls tiles and entities outside the viewport and draws remaining sprites to the canvas using device pixel ratio scaling.
-- Backgrounds regenerate when DPR or fullscreen state changes to avoid blurring.
-- The camera begins scrolling once the player crosses 60 % of the viewport width and clamps to level bounds.
+- `draw(state)` clears the canvas, calculates visible tile ranges from `camera.x`/`camera.y`, and skips any tile or entity whose bounding box falls outside the viewport rectangle. All sprite draws multiply coordinates by `devicePixelRatio` and disable image smoothing for pixel art fidelity.
+- Background layers regenerate an off-screen canvas whenever `devicePixelRatio` or fullscreen status changes. The regenerated image uses the canvas's CSS height to render at native resolution and avoid stretching artifacts.
+- Camera logic keeps the player at 60 % of the viewport width: `if (player.x > camera.x + 0.6*VIEW_W) camera.x = min(player.x - 0.6*VIEW_W, LEVEL_W - VIEW_W)`. Vertical movement remains locked to the level height.
 
 ### PWA and Internationalization
-- `sw.js` caches `index.html`, scripts, assets, and versioned files; on activation it cleans up old caches.
-- `manifest.json` provides icons and install metadata.
-- Language packs under `src/i18n/` feed the HUD; switching language updates all text nodes on the next frame.
+- The service worker uses a cache-first strategy. During `install` it opens a versioned cache like `demo-v${APP_VERSION}` and stores `index.html`, scripts, sprites, and audio. `activate` removes caches that do not match the current version. `fetch` serves cached responses when available and falls back to network.
+- `manifest.json` supplies icons, names, and `display: standalone` so installing the PWA launches a borderless window.
+- Language modules under `src/i18n/*.js` export dictionaries. `setLanguage(code)` swaps the active dictionary and queues a HUD update; on the next frame, text nodes read from the new dictionary ensuring instant translation without reload.
 
 ## ICD (Interface Control Document)
 - **Game State API**: `createGameState()` ⇒ `{ level, coins, lights, player, camera, npcs, GOAL_X, LEVEL_W, LEVEL_H, spawnLights(), buildCollisions(), transparent, indestructible, patterns, selection }` (no `score` or `time`).
