@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.8.0: design mode now outlines collision boxes for all objects and characters._
+_Updated for v2.9.0: touch buttons are circular and pinned to the bottom corners._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -27,7 +27,7 @@ _Updated for v2.8.0: design mode now outlines collision boxes for all objects an
 - **URS-006: Informative HUD and guidance**
   - *Scenario*: Players need status information and orientation hints.
   - *User story*: I want a HUD that shows essential info and warns me when the device is rotated so I stay oriented.
-  - *Success*: The HUD displays the timer and controls, and portrait orientation shows a rotate prompt.
+  - *Success*: The HUD displays the timer and circular touch controls at the screen corners, and portrait orientation shows a rotate prompt.
 - **URS-007: Coin collection feedback**
   - *Scenario*: Players move through the stage encountering coins.
   - *User story*: I want coins to disappear, increase my score, and play a sound when collected so I know I grabbed them.
@@ -99,6 +99,7 @@ _Updated for v2.8.0: design mode now outlines collision boxes for all objects an
 - FR-041: Supports **fullscreen** toggle; start/clear/fail screens have clickable **restart** buttons.
 - FR-042: Provides an **orientation guard overlay**: mobile portrait shows a mask and pauses the game, prompting rotation to landscape.
 - FR-043: The settings menu offers a **developer switch** that reveals the debug panel, log controls, and a level editor for developers and testers when enabled.
+- FR-044: Touch controls use circular buttons pinned to the bottom corners for ergonomic thumb reach.
 
 **Platform / Release**
 - FR-050: The game can be installed and launched offline with cached resources and versioning.
@@ -141,6 +142,7 @@ _Updated for v2.8.0: design mode now outlines collision boxes for all objects an
 | FR-041 | DS-6, DS-21 | T-6, T-21 |
 | FR-042 | DS-1 | T-1 |
 | FR-043 | DS-28 | T-28 |
+| FR-044 | DS-35 | T-35 |
 | FR-050 | DS-14 | T-14 |
 | FR-051 | DS-34 | T-34 |
 
@@ -152,6 +154,6 @@ _Updated for v2.8.0: design mode now outlines collision boxes for all objects an
 | NFR-003 | DS-3, DS-21 | T-3, T-21 |
 | NFR-004 | DS-23 | T-23 |
 | NFR-005 | DS-18 | T-18 |
-| NFR-006 | DS-5, DS-6 | T-5, T-6 |
+| NFR-006 | DS-5, DS-6, DS-35 | T-5, T-6, T-35 |
 | NFR-007 | DS-12, DS-13 | T-12, T-13 |
 | NFR-008 | DS-14 | T-14 |

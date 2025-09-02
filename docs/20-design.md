@@ -110,7 +110,7 @@
 - Enabled PWA support so the demo can run offline and be installed on mobile devices.
 
 ## UX
-- HUD offers a gear menu, info panel, countdown timer, and touch controls on mobile. A debug panel appears only when developer mode is enabled for developers or testers.
+- HUD offers a gear menu, info panel, countdown timer, and circular touch controls pinned to the screen corners on mobile. A debug panel appears only when developer mode is enabled for developers or testers.
 - Orientation guard pauses play in portrait mode and resumes on landscape.
 - Fullscreen uses centered letterboxing with black bars and resizes on `fullscreenchange` to preserve the 16:9 aspect ratio; styles target both `#stage:fullscreen` and `#game-root:fullscreen #stage`.
 
@@ -151,3 +151,4 @@
 | DS-29 | Game state factory exposes core fields (level, coins, lights, player, camera, npcs) and excludes score/time. | — | T-29 |
 | DS-33 | Start page displays a resource loading progress bar that updates as assets load. | FR-003 | T-33 |
 | DS-34 | Design mode renders green collision boxes for all tiles, the player, and NPCs. | FR-051 | T-34 |
+| DS-35 | Touch controls use circular buttons positioned at the bottom left and right screen corners. | FR-044, NFR-006 | T-35 |
