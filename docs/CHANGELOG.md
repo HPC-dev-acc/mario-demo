@@ -10,11 +10,6 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
-## v2.10.0 - 2025-09-17
-
-### Changed
-- Player collision box width now equals one tile for predictable navigation (DS-38, T-38).
-
 ## v2.9.2 - 2025-09-16
 
 ### Fixed
