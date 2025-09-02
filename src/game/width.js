@@ -1,6 +1,4 @@
-import { TILE } from './physics.js';
-
-export const BASE_W = TILE;
+export const BASE_W = 84;
 
 export function updatePlayerWidth(player) {
   player.w = BASE_W;
