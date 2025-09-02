@@ -1,6 +1,6 @@
 import pkg from '../package.json' assert { type: 'json' };
 import { TILE, COLL_TILE, resolveCollisions, findGroundY } from './game/physics.js';
-import { BASE_W } from './game/width.js';
+import { BASE_W, COLL_W } from './game/width.js';
 import { SPAWN_X, SPAWN_Y, Y_OFFSET } from './game/state.js';
 import { createNpc } from './npc.js';
 import { enterSlide } from './game/slide.js';
@@ -125,7 +125,7 @@ describe('restartStage integration', () => {
 
     expect(state.player.x).toBe(SPAWN_X);
     expect(state.player.y).toBe(SPAWN_Y);
-    expect(state.player.w).toBe(BASE_W);
+    expect(state.player.w).toBe(COLL_W);
     expect(state.player.h).toBe(120);
     expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
     expect(state.player.stunnedMs).toBe(0);
@@ -153,7 +153,7 @@ describe('restartStage integration', () => {
 
     expect(state.player.x).toBe(SPAWN_X);
     expect(state.player.y).toBe(SPAWN_Y);
-    expect(state.player.w).toBe(BASE_W);
+    expect(state.player.w).toBe(COLL_W);
     expect(state.player.h).toBe(120);
     expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
     expect(state.player.stunnedMs).toBe(0);

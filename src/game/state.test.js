@@ -1,6 +1,6 @@
 import { TILE, TRAFFIC_LIGHT } from './physics.js';
 import { createGameState, Y_OFFSET, SPAWN_X, SPAWN_Y } from './state.js';
-import { BASE_W } from './width.js';
+import { BASE_W, COLL_W } from './width.js';
 import objects from '../../assets/objects.custom.js';
 
 test('createGameState returns initial values', () => {
@@ -9,7 +9,7 @@ test('createGameState returns initial values', () => {
   expect(state.level[0].length).toBe(state.LEVEL_W);
   expect(state.player.x).toBe(SPAWN_X);
   expect(state.player.y).toBe(SPAWN_Y);
-  expect(state.player.w).toBe(BASE_W);
+  expect(state.player.w).toBe(COLL_W);
   expect(state.player.renderW).toBe(BASE_W);
   expect(state.player.h).toBe(120);
   expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);

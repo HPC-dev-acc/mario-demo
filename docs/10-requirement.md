@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.9.2: Player idle sprite narrows without shrinking its collision box._
+_Updated for v2.10.0: Player collision box width matches one tile while the sprite's visual width is unchanged._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -72,7 +72,7 @@ _Updated for v2.9.2: Player idle sprite narrows without shrinking its collision 
 - **URS-016: Stable collision during idle**
   - *Scenario*: The player character pauses without input.
   - *User story*: As a player, I want the character's collision box to stay the same when idle so positioning remains reliable.
-  - *Success*: Idling only narrows the sprite visually; collisions and interactions are unaffected.
+  - *Success*: Idling only narrows the sprite visually; collisions remain one tile wide and interactions are unaffected.
 
 ## SRS
 ### Functional Requirements (FR)
@@ -91,7 +91,7 @@ _Updated for v2.9.2: Player idle sprite narrows without shrinking its collision 
 - FR-021: The player can stomp NPCs to bounce; after three stomps the player passes through to avoid getting stuck; side collisions knock both back.
 - FR-022: The camera begins horizontal scrolling once the player crosses **60 %** of the viewport width.
 
-- FR-023: While idle on the ground, the player sprite may narrow visually but the collision box width remains at the base size.
+- FR-023: While idle on the ground, the player sprite may narrow visually but the collision box width remains one tile wide.
 
 **NPCs and Traffic**
  - FR-030: Levels spawn various **NPCs** (including OL, Student, and Officeman characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit. OL NPCs walk fastest, Officemen move at a medium pace, Students walk more slowly, and the Student and Officeman walk animations use 11 frames for smooth motion.

@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.10.0 - 2025-09-17
+
+### Changed
+- Player collision box width now matches one tile while sprite width remains unchanged (DS-37, T-37).
+
 ## v2.9.2 - 2025-09-16
 
 ### Fixed
