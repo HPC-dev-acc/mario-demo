@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.7.3: audio now preloads with sprites before gameplay; requirement mapping remains unchanged._
+_Updated for v2.8.0: design mode now outlines collision boxes for all objects and characters._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -64,6 +64,10 @@ _Updated for v2.7.3: audio now preloads with sprites before gameplay; requiremen
   - *Scenario*: Players wait for assets to load on the home screen.
   - *User story*: As a player, I want a progress indicator so I know when the game is ready to start.
   - *Success*: A visible progress bar reaches 100 % before the START button appears.
+- **URS-015: Collision box visibility in design mode**
+  - *Scenario*: Developers or testers adjust level layouts.
+  - *User story*: As a developer or tester, I want collision boxes for all objects and characters visible so I can place elements accurately.
+  - *Success*: Enabling design mode draws green outlines around every object, the player, and NPCs.
 
 ## SRS
 ### Functional Requirements (FR)
@@ -98,6 +102,7 @@ _Updated for v2.7.3: audio now preloads with sprites before gameplay; requiremen
 
 **Platform / Release**
 - FR-050: The game can be installed and launched offline with cached resources and versioning.
+- FR-051: Enabling design mode draws green collision box outlines for all objects, the player, and NPCs.
 
 ### Content and Levels
  - Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL, Student, and Officeman NPCs appear more often).
@@ -137,6 +142,7 @@ _Updated for v2.7.3: audio now preloads with sprites before gameplay; requiremen
 | FR-042 | DS-1 | T-1 |
 | FR-043 | DS-28 | T-28 |
 | FR-050 | DS-14 | T-14 |
+| FR-051 | DS-34 | T-34 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |

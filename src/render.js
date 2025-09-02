@@ -27,23 +27,26 @@ export function render(ctx, state, design) {
   ctx.save();
   ctx.translate(-camera.x, -camY);
   const { startX, endX, startY, endY } = getVisibleRange(camera, ctx.canvas, LEVEL_W, LEVEL_H, camY);
+  const showBoxes = design?.isEnabled?.();
+  if (showBoxes) { ctx.strokeStyle = '#0f0'; ctx.lineWidth = 1; }
   for (let y = startY; y < endY; y++) {
     for (let x = startX; x < endX; x++) {
       const t = level[y][x], px = x * TILE, py = y * TILE;
       const key = `${x},${y}`;
       const isTransparent = transparent?.has(key);
-      const alpha = isTransparent ? (design?.isEnabled?.() ? 0.5 : 0) : 1;
+      const alpha = isTransparent ? (showBoxes ? 0.5 : 0) : 1;
       const patt = patterns?.[key];
       if (t === 2) {
-        const locked = design?.isEnabled?.() && indestructible?.has(key);
+        const locked = showBoxes && indestructible?.has(key);
         if (patt) drawBrickPattern(ctx, px, py, patt.mask, alpha, locked);
         else drawBrick(ctx, px, py, alpha, locked);
       }
       if (t === 3) drawCoin(ctx, px + TILE / 2, py + TILE / 2, alpha);
       if (t === TRAFFIC_LIGHT) drawTrafficLight(ctx, px, py, lights[key]?.state, state.trafficLightSprites, alpha);
+      if (showBoxes && t !== 0) ctx.strokeRect(px, py, TILE, TILE);
     }
   }
-  if (design?.isEnabled?.()) {
+  if (showBoxes) {
     ctx.strokeStyle = getHighlightColor();
     ctx.lineWidth = 2;
     const selObj = design.getSelected?.();
@@ -55,15 +58,19 @@ export function render(ctx, state, design) {
       const sy = sel.y * TILE + Math.floor(sel.q / 2) * h;
       ctx.strokeRect(sx, sy, h, h);
     }
+    ctx.strokeStyle = '#0f0';
+    ctx.lineWidth = 1;
   }
   ctx.fillStyle = 'rgba(0,0,0,.15)';
   ctx.fillRect(-TILE, -TILE, TILE, LEVEL_H * TILE + 2 * TILE);
   if (npcs) {
     for (const n of npcs) {
       drawNpc(ctx, n, n.sprite);
+      if (showBoxes) ctx.strokeRect(n.x - n.w / 2, n.y - n.h / 2, n.w, n.h);
     }
   }
   drawPlayer(ctx, player, playerSprites);
+  if (showBoxes) ctx.strokeRect(player.x - player.w / 2, player.y - player.h / 2, player.w, player.h);
   ctx.restore();
 }
 

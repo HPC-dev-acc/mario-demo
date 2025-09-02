@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.7.3 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.8.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -169,6 +169,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/ui/index.test.js`
 - **Description**: verifies the start screen progress bar updates and hides after loading completes.
 
+### T-34: Design mode collision boxes
+- **Design Spec**: DS-34
+- **Test File**: `src/render.test.js`
+- **Description**: enabling design mode outlines collision boxes for tiles, the player, and NPCs in green.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -184,3 +189,4 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-012**: Officeman NPCs appear larger on screen without altering collision behavior.
 - **URS-013**: NPCs spawn at normal size even when the player slides.
 - **URS-014**: A progress bar shows loading status before the start button appears.
+- **URS-015**: Design mode outlines collision boxes for all objects and characters.

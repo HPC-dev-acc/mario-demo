@@ -485,3 +485,36 @@ test('render uses npc sprite property', () => {
   render(ctx, state);
   expect(ctx.drawImage).toHaveBeenCalled();
 });
+
+test('design mode outlines collision boxes', () => {
+  const state = createGameState();
+  state.level[0][0] = 2;
+  const npc = { x: 96, y: 96, w: 32, h: 64, state: 'idle', sprite: { idle: [{}] }, shadowY: 96 };
+  state.npcs = [npc];
+  const ctx = {
+    canvas: { width: 256, height: 240 },
+    clearRect: jest.fn(),
+    save: jest.fn(),
+    translate: jest.fn(),
+    fillRect: jest.fn(),
+    beginPath: jest.fn(),
+    arc: jest.fn(),
+    ellipse: jest.fn(),
+    fill: jest.fn(),
+    strokeRect: jest.fn(),
+    restore: jest.fn(),
+    scale: jest.fn(),
+    drawImage: jest.fn(),
+    fillStyle: '',
+  };
+  const design = { isEnabled: () => true };
+  render(ctx, state, design);
+  expect(ctx.strokeRect).toHaveBeenCalledWith(0, 0, TILE, TILE);
+  expect(ctx.strokeRect).toHaveBeenCalledWith(npc.x - npc.w / 2, npc.y - npc.h / 2, npc.w, npc.h);
+  expect(ctx.strokeRect).toHaveBeenCalledWith(
+    state.player.x - state.player.w / 2,
+    state.player.y - state.player.h / 2,
+    state.player.w,
+    state.player.h,
+  );
+});
