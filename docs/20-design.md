@@ -74,7 +74,7 @@
 | DS-6 | Responsive UI styling, clear/fail overlays, and timer pulse. | FR-011, FR-012, FR-040, FR-041, NFR-006 | T-6 |
 | DS-7 | OL NPC walk sprites for frames 0–11. | — | T-7 |
 | DS-8 | One-minute countdown timer that flashes in the final 10 seconds. | FR-010 | T-8 |
-| DS-9 | Pedestrian lights cycle 3s green → 2s blink → 4s red; during red, nearby characters pause and display dialog bubbles without blocking collisions. | FR-031, FR-032 | T-9 |
+| DS-9 | Pedestrian lights cycle 3s green → 2s blink → 4s red; during red, nearby characters pause and display dialog bubbles. Traffic light tiles are fully non-solid so characters cannot stand on them. | FR-031, FR-032 | T-9 |
 | DS-10 | NPCs spawn every 4–8 seconds, bounce on stomp, knock back on side collisions, and allow pass-through after the third stomp. | FR-021, FR-030 | T-10 |
 | DS-11 | Audio effects for jump, slide, clear, coin, fail, plus looped BGM with mute control. | — | T-11 |
 | DS-12 | Level objects load from `assets/objects.custom.js` with collision and transparency flags. | NFR-007 | T-12 |

@@ -13,7 +13,7 @@
 - **URS-003: Traffic and NPC interaction**
   - *Scenario*: The player meets other characters and traffic signals along the route.
   - *User story*: I want characters and signals that require me to time my actions, adding risk and variety.
-  - *Success*: Red lights and NPC behavior force the player to pause or adjust timing, with mistakes leading to setbacks or failure.
+  - *Success*: Red lights and NPC behavior force the player to pause or adjust timing without using traffic lights as platforms; mistakes lead to setbacks or failure.
 - **URS-004: Countdown and session feedback**
   - *Scenario*: Each run has a time limit and ends in success or failure.
   - *User story*: I want to see how much time remains and receive a clear or fail screen with an option to restart.
@@ -77,7 +77,7 @@
 **NPCs and Traffic**
  - FR-030: Levels spawn various **NPCs** (including OL, Student, and Officeman characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit. OL NPCs walk fastest, Officemen move at a medium pace, Students walk more slowly, and the Student and Officeman walk animations use 11 frames for smooth motion.
 - FR-031: **Pedestrian signals** cycle **green 3s → blink 2s → red 4s**; during red, nearby characters stop and display a dialog bubble with a Japanese-style figure.
- - FR-032: Red lights do not block collision pass-through but must pause nearby characters; brushing the side or passing underneath should not change vertical movement.
+ - FR-032: Red lights do not block collision pass-through and traffic lights provide no surface to stand on; brushing the side or passing underneath should not change vertical movement.
 
 - FR-033: Officeman NPC sprites render 1.25× larger from their center while their collision boxes remain unchanged.
 - FR-034: NPC spawn dimensions derive from the player's base height so sliding does not shrink NPCs or misalign them with the ground.
