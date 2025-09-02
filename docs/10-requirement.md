@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.7.1: clarified SDS implementation details; requirement mapping remains unchanged._
+_Updated for v2.7.2: expanded SDS with asset pipeline, physics, and rendering details; requirement mapping remains unchanged._
 
 ## URS
 - **URS-001: Start menu and language choice**

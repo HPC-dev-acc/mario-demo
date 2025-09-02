@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.7.2 - 2025-09-11
+
+### Changed
+- Elaborated SDS with asset preload flow, input queuing, friction, collision math, rendering cull pseudocode, and service worker/i18n details (DS-1–DS-33).
+
 ## v2.7.1 - 2025-09-10
 
 ### Changed
