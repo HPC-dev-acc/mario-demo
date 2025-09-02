@@ -158,12 +158,12 @@ test('coin collection uses entity dimensions for detection', () => {
   const coinX = TILE * 1 + TILE / 2;
   const coinY = TILE * 1 + TILE / 2;
   const positions = [
-    { x: coinX + 30, y: coinY },
-    { x: coinX - 30, y: coinY },
-    { x: coinX, y: coinY + 50 },
-    { x: coinX, y: coinY - 50 },
-    { x: coinX + 30, y: coinY + 50 },
-  ];
+      { x: coinX + 20, y: coinY },
+      { x: coinX - 20, y: coinY },
+      { x: coinX, y: coinY + 50 },
+      { x: coinX, y: coinY - 50 },
+      { x: coinX + 20, y: coinY + 50 },
+    ];
   for (const pos of positions) {
     const world = makeWorld(3, 3);
     world.level[1][1] = 3;

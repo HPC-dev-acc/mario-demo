@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.9.2: Player idle sprite narrows without shrinking its collision box._
+_Updated for v2.10.0: Player collision box width equals one tile._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -74,6 +74,11 @@ _Updated for v2.9.2: Player idle sprite narrows without shrinking its collision 
   - *User story*: As a player, I want the character's collision box to stay the same when idle so positioning remains reliable.
   - *Success*: Idling only narrows the sprite visually; collisions and interactions are unaffected.
 
+- **URS-017: Player fits one-tile gaps**
+  - *Scenario*: The player navigates tight passages.
+  - *User story*: As a player, I want the character's collision box to match one tile in width so squeezing through gaps feels predictable.
+  - *Success*: The player can clear one-tile-wide passages without unexpected snagging.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -92,6 +97,7 @@ _Updated for v2.9.2: Player idle sprite narrows without shrinking its collision 
 - FR-022: The camera begins horizontal scrolling once the player crosses **60 %** of the viewport width.
 
 - FR-023: While idle on the ground, the player sprite may narrow visually but the collision box width remains at the base size.
+- FR-053: The player collision box spans exactly one tile width for predictable movement.
 
 **NPCs and Traffic**
  - FR-030: Levels spawn various **NPCs** (including OL, Student, and Officeman characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit. OL NPCs walk fastest, Officemen move at a medium pace, Students walk more slowly, and the Student and Officeman walk animations use 11 frames for smooth motion.
@@ -155,6 +161,7 @@ _Updated for v2.9.2: Player idle sprite narrows without shrinking its collision 
 | FR-050 | DS-14 | T-14 |
 | FR-051 | DS-34 | T-34 |
 | FR-052 | DS-36 | T-36 |
+| FR-053 | DS-38 | T-38 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |
