@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.9.0 - 2025-09-14
+
+### Changed
+- Touch buttons are circular and pinned to the screen corners for easier reach (DS-35, T-35).
+
 ## v2.8.0 - 2025-09-13
 
 ### Added

@@ -47,6 +47,21 @@ describe('style.css', () => {
     expect(rule).toMatch(/opacity:\s*0?\.5/);
   });
 
+  test('touch buttons are circular and pinned to screen corners', () => {
+    const left = css.match(/#touch-left\s*{[^}]*}/);
+    const right = css.match(/#touch-right\s*{[^}]*}/);
+    expect(left).toBeTruthy();
+    expect(right).toBeTruthy();
+    expect(left[0]).toMatch(/left:\s*0/);
+    expect(left[0]).toMatch(/bottom:\s*0/);
+    expect(right[0]).toMatch(/right:\s*0/);
+    expect(right[0]).toMatch(/bottom:\s*0/);
+
+    const btn = css.match(/\.touch-btn\s*{[^}]*}/);
+    expect(btn).toBeTruthy();
+    expect(btn[0]).toMatch(/border-radius:\s*50%/);
+  });
+
   test('#stage-clear and #stage-fail permit pointer events', () => {
     const stageClear = css.match(/#stage-clear\s*{[^}]*}/);
     const stageFail = css.match(/#stage-fail\s*{[^}]*}/);

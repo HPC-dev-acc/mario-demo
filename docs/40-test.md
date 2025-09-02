@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.8.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.9.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -174,6 +174,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/render.test.js`
 - **Description**: enabling design mode outlines collision boxes for tiles, the player, and NPCs in green.
 
+### T-35: Circular touch controls pinned to corners
+- **Design Spec**: DS-35
+- **Test File**: `style.test.js`
+- **Description**: validates that touch buttons are circular and `#touch-left`/`#touch-right` are anchored to the bottom left and right edges.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -184,7 +189,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-003**: Meeting NPCs and traffic lights requires timing; red lights pause nearby characters and resume on green.
 - **URS-004**: A countdown is always visible, flashes during the last 10 s, and clear/fail screens offer a restart.
 - **URS-005**: The game runs on desktop and mobile, supports fullscreen, and launches offline after installation.
-- **URS-006**: The HUD shows timer and controls, and portrait orientation displays a rotate prompt.
+- **URS-006**: The HUD shows timer and controls, circular touch buttons at the screen corners, and portrait orientation displays a rotate prompt.
 - **URS-011**: Enabling developer mode reveals the debug panel, log controls, and level editor; disabling hides them again (developer/tester only).
 - **URS-012**: Officeman NPCs appear larger on screen without altering collision behavior.
 - **URS-013**: NPCs spawn at normal size even when the player slides.
