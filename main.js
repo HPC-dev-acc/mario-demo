@@ -658,12 +658,16 @@ const NPC_SPAWN_MAX_MS = 8000;
   function beginGame(){
     loadOrientationGuard();
     triggerStartEffect();
-    resumeAudio();
-    loadSounds().then(() => playMusic());
+    const resumed = resumeAudio();
+    if (resumed && typeof resumed.then === 'function') {
+      resumed.then(() => playMusic());
+    } else {
+      playMusic();
+    }
     requestAnimationFrame(loop);
   }
   function preload(){
-    startScreen.setStatus('Loading sprites...');
+    startScreen.setStatus('Loading assets...');
     const loaders = [
       () => loadBackground('assets/Background/background1.jpeg'),
       () => loadPlayerSprites(),
@@ -672,6 +676,7 @@ const NPC_SPAWN_MAX_MS = 8000;
       () => loadOlNpcSprite(),
       () => loadStudentNpcSprite(),
       () => loadOfficemanNpcSprite(),
+      () => loadSounds(),
     ];
     let loaded = 0;
     const total = loaders.length;
