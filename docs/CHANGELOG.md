@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.9.1 - 2025-09-15
+
+### Changed
+- NPC collision boxes now span one tile width for consistent player interactions (DS-36, T-36).
+
 ## v2.9.0 - 2025-09-14
 
 ### Changed

@@ -489,7 +489,7 @@ test('render uses npc sprite property', () => {
 test('design mode outlines collision boxes', () => {
   const state = createGameState();
   state.level[0][0] = 2;
-  const npc = { x: 96, y: 96, w: 32, h: 64, state: 'idle', sprite: { idle: [{}] }, shadowY: 96 };
+  const npc = { x: 96, y: 96, w: 32, h: 64, box: { x: 96 - TILE / 2, y: 96 - 32, w: TILE, h: 64 }, state: 'idle', sprite: { idle: [{}] }, shadowY: 96 };
   state.npcs = [npc];
   const ctx = {
     canvas: { width: 256, height: 240 },
@@ -510,7 +510,7 @@ test('design mode outlines collision boxes', () => {
   const design = { isEnabled: () => true };
   render(ctx, state, design);
   expect(ctx.strokeRect).toHaveBeenCalledWith(0, 0, TILE, TILE);
-  expect(ctx.strokeRect).toHaveBeenCalledWith(npc.x - npc.w / 2, npc.y - npc.h / 2, npc.w, npc.h);
+  expect(ctx.strokeRect).toHaveBeenCalledWith(npc.box.x, npc.box.y, npc.box.w, npc.box.h);
   expect(ctx.strokeRect).toHaveBeenCalledWith(
     state.player.x - state.player.w / 2,
     state.player.y - state.player.h / 2,

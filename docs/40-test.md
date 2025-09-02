@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.9.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.9.1 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -178,6 +178,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Design Spec**: DS-35
 - **Test File**: `style.test.js`
 - **Description**: validates that touch buttons are circular and `#touch-left`/`#touch-right` are anchored to the bottom left and right edges.
+
+### T-36: NPC collision box width
+- **Design Spec**: DS-36
+- **Test File**: `npc.test.js`
+- **Description**: asserts that NPC collision boxes are one tile wide and centered on the NPC position.
 
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
