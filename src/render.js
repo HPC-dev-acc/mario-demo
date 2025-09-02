@@ -116,7 +116,8 @@ export function drawTrafficLight(ctx, x, y, state, sprites, alpha = 1) {
 }
 
 export function drawPlayer(ctx, p, sprites, t = performance.now()) {
-  const { w, h } = p; // use player dimensions for scaling
+  const w = p.renderW || p.w;
+  const { h } = p; // use player dimensions for scaling
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.3)';
   ctx.beginPath();
@@ -136,7 +137,7 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
   if (anim && anim.length) {
     const frame = Math.floor(t / (p.blocked ? 200 : 100)) % anim.length;
     const img = anim[frame];
-    ctx.drawImage(img, -w / 2, -h / 2, w, h);
+      ctx.drawImage(img, -w / 2, -h / 2, w, h);
   }
   ctx.restore();
   if (p.redLightPaused) {

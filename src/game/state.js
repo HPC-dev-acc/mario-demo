@@ -88,7 +88,9 @@ export function createGameState(customObjects = objects.map(o => ({ ...o }))) {
   state.spawnLights();
 
   state.player = {
-    x: SPAWN_X, y: SPAWN_Y, w: BASE_W, h: 120, baseH: 120, baseW: BASE_W,
+    x: SPAWN_X, y: SPAWN_Y,
+    w: BASE_W, renderW: BASE_W,
+    h: 120, baseH: 120, baseW: BASE_W,
     vx: 0, vy: 0, onGround: false, facing: 1, sliding: 0,
     stunnedMs: 0 // 玩家硬直（不可操作）時間，毫秒
   };

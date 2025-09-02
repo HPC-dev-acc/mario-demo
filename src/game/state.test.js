@@ -10,6 +10,7 @@ test('createGameState returns initial values', () => {
   expect(state.player.x).toBe(SPAWN_X);
   expect(state.player.y).toBe(SPAWN_Y);
   expect(state.player.w).toBe(BASE_W);
+  expect(state.player.renderW).toBe(BASE_W);
   expect(state.player.h).toBe(120);
   expect(state.player.shadowY).toBe(state.player.y + state.player.h / 2);
   expect(state.player.stunnedMs).toBe(0);

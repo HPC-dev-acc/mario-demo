@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.9.2 - 2025-09-16
+
+### Fixed
+- Player idle sprite now narrows without reducing the collision box width (DS-37, T-37).
+
 ## v2.9.1 - 2025-09-15
 
 ### Changed

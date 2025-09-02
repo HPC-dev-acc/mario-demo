@@ -1,7 +1,7 @@
 # Development Guide
 
 ## Dev Guide
-- Refer to the expanded SDS in `docs/20-design.md` for asset preload flow, input queue handling, game loop steps, and physics algorithms when implementing features (v2.9.1).
+- Refer to the expanded SDS in `docs/20-design.md` for asset preload flow, input queue handling, game loop steps, and physics algorithms when implementing features (v2.9.2).
 - Install dependencies with `npm install`. The project builds to static files, so no development server is required.
 - Source code resides in `src/`; `main.js` and `hud.js` remain root-level entry points, while HUD logic lives in `src/ui/index.js` for modularity.
 - Use `npm run build` to update version information before deployment.
@@ -13,6 +13,7 @@
 - Officeman sprites render at **1.25×** scale from their center while the collision box dimensions stay fixed.
 - NPC spawn size derives from the player's `baseH`, ensuring sliding does not change NPC dimensions (DS-32, T-32).
 - NPC collision boxes use a fixed one-tile width for consistent player interaction (DS-36, T-36).
+- Player idle animation narrows the sprite via `renderW` while keeping the collision width at `BASE_W` (DS-37, T-37).
 - Traffic light tiles are fully pass-through; edits to physics should preserve their non-solid behavior (DS-9, T-9).
 - Walking animations consume all provided frames; `drawNpc` uses the animation's frame count as its FPS.
 - Canvas dimensions are recalculated on `fullscreenchange` to maintain centered letterboxing, and CSS targets `#game-root:fullscreen #stage` to handle fullscreen requests on the container.
