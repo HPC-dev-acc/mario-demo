@@ -1,7 +1,8 @@
 import { updatePlayerWidth, BASE_W } from './width.js';
+import { TILE } from './physics.js';
 
-test('BASE_W matches expected pixel width', () => {
-  expect(BASE_W).toBe(84);
+test('BASE_W equals one tile', () => {
+  expect(BASE_W).toBe(TILE);
 });
 
 test('player render width shrinks when idle on ground while collision width stays base', () => {
