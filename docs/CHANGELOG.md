@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.6.2 - 2025-09-07
+
+### Fixed
+- NPC spawn height now derives from the player's base height, preventing sliding from shrinking NPCs (DS-32, T-32).
+
 ## v2.6.1 - 2025-09-06
 
 ### Changed

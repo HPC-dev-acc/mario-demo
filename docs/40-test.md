@@ -159,6 +159,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/render.test.js`
 - **Description**: verifies Officeman NPC sprites draw 1.25× larger from their center while hitboxes remain unchanged.
 
+### T-32: NPC spawn size during player slide
+- **Design Spec**: DS-32
+- **Test File**: `src/main.integration.test.js`
+- **Description**: ensures NPCs spawn at normal size even when the player is sliding.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.

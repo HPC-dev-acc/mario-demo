@@ -3,6 +3,7 @@ import { TILE, COLL_TILE, resolveCollisions, findGroundY } from './game/physics.
 import { BASE_W } from './game/width.js';
 import { SPAWN_X, SPAWN_Y, Y_OFFSET } from './game/state.js';
 import { createNpc } from './npc.js';
+import { enterSlide } from './game/slide.js';
 
 const JUMP_VEL = -17.8; // mirror JUMP_VEL in main.js
 
@@ -402,6 +403,20 @@ describe('npc spawn', () => {
     Math.random = origRandom;
     const npc = state.npcs[0];
     expect(npc.y).toBeCloseTo(expectedY - npc.h / 2, 1);
+  });
+
+  test('npc spawns at normal size while player sliding', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    const baseH = state.player.h;
+    enterSlide(state.player);
+    hooks.setNpcSpawnTimer(0);
+    const origRandom = Math.random;
+    Math.random = () => 1;
+    hooks.runUpdate(0);
+    Math.random = origRandom;
+    const npc = state.npcs[0];
+    expect(npc.h).toBeCloseTo(baseH, 1);
   });
 
   test('npc spawn timer respects new minimum interval', async () => {
