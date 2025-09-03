@@ -3,6 +3,7 @@ import { CAMERA_OFFSET_Y } from '../render.js';
 export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {}) {
   const stage = document.getElementById('stage');
   const startPage = document.getElementById('start-page');
+  const splash = document.getElementById('splash');
   const startStatus = document.getElementById('start-status');
   const startVersion = document.getElementById('start-version');
   const loadingProgress = document.getElementById('loading-progress');
@@ -346,6 +347,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   }
   const startScreen = { showLoading, showStart, showError, setStatus, setProgress };
   showLoading();
+  splash?.addEventListener('animationend', () => splash.remove());
 
   const dbg = {
     fpsEl: document.getElementById('dbg-fps'),

@@ -197,6 +197,40 @@ body {
   pointer-events: auto;
 }
 
+#start-page .title {
+  font-size: 72px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 4px;
+  text-shadow: 0 4px 8px rgba(0,0,0,.6);
+}
+
+#splash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  animation: splash-fade 3s forwards;
+  z-index: 200;
+}
+
+#splash .logo {
+  font-size: 64px;
+  font-weight: 900;
+  color: #0ff;
+  letter-spacing: 6px;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+}
+
+@keyframes splash-fade {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 #loading-progress {
   width: 80%;
   max-width: 300px;

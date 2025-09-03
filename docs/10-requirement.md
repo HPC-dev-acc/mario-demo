@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.11.0: Stomping an NPC shows a brief star effect at the impact point._
+_Updated for v2.12.0: Added HPC Games splash screen and enlarged home title._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -79,6 +79,16 @@ _Updated for v2.11.0: Stomping an NPC shows a brief star effect at the impact po
   - *User story*: As a player, I want a visible effect when I stomp an NPC so I know the bounce registered.
   - *Success*: Stomping an NPC produces a brief star effect at the contact point.
 
+- **URS-018: Impactful home title**
+  - *Scenario*: A player views the home screen before starting.
+  - *User story*: I want the game title to appear large and stylized so the start screen feels exciting.
+  - *Success*: The title is prominently displayed with bold styling on the home screen.
+
+- **URS-019: Intro splash screen**
+  - *Scenario*: The game launches before the home screen appears.
+  - *User story*: I want a brief branded splash so I know who made the game.
+  - *Success*: A black screen fades in "HPC Games" then fades out to reveal the home screen.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -118,6 +128,8 @@ _Updated for v2.11.0: Stomping an NPC shows a brief star effect at the impact po
 - FR-051: Enabling design mode draws green collision box outlines for all objects, the player, and NPCs.
 - FR-052: NPC collision boxes span exactly one tile width for consistent interactions.
 - FR-053: Stomping an NPC spawns a brief star effect at the contact point.
+- FR-054: The home screen displays the game title in 72 px stylized lettering.
+- FR-055: On launch, a black splash screen briefly fades in and out "HPC Games" before showing the home screen.
 
 ### Content and Levels
  - Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL, Student, and Officeman NPCs appear more often).
@@ -162,6 +174,8 @@ _Updated for v2.11.0: Stomping an NPC shows a brief star effect at the impact po
 | FR-051 | DS-34 | T-34 |
 | FR-052 | DS-36 | T-36 |
 | FR-053 | DS-38 | T-38 |
+| FR-054 | DS-39 | T-39 |
+| FR-055 | DS-40 | T-40 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |
