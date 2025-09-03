@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.12.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.12.1 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -202,7 +202,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 ### T-40: Intro splash screen
 - **Design Spec**: DS-40
 - **Test File**: `splash-screen.test.js`
-- **Description**: ensures the HPC GAMES splash overlay exists with black background and fade animation.
+- **Description**: ensures the HPC GAMES splash overlay exists with black background, fade animation, and pointer events disabled.
 
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.

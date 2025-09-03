@@ -347,7 +347,13 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   }
   const startScreen = { showLoading, showStart, showError, setStatus, setProgress };
   showLoading();
-  splash?.addEventListener('animationend', () => splash.remove());
+  if (splash) {
+    splash.style.pointerEvents = 'none';
+    const remove = () => splash.remove();
+    splash.addEventListener('animationend', remove);
+    const anim = splash.getAnimations?.()[0];
+    if (!anim || anim.playState === 'finished' || getComputedStyle(splash).opacity === '0') remove();
+  }
 
   const dbg = {
     fpsEl: document.getElementById('dbg-fps'),

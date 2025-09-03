@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { TextEncoder, TextDecoder } from 'util';
 
+
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
@@ -17,5 +18,6 @@ test('index.html includes splash screen logo', () => {
 
 test('style.css styles splash screen', () => {
   const css = fs.readFileSync('style.css', 'utf8');
-  expect(css).toMatch(/#splash\s*{[^}]*background:\s*#000;[^}]*animation:[^}]*}/m);
+  expect(css).toMatch(/#splash\s*{[^}]*background:\s*#000;[^}]*pointer-events:\s*none;[^}]*animation:[^}]*}/m);
 });
+
