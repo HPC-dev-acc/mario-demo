@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.13.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.14.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -208,6 +208,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Design Spec**: DS-41
 - **Test File**: `ol-idle-sprites.test.js`
 - **Description**: verifies `idle_000`–`idle_012` images exist for OL NPC idle animation.
+
+### T-42: Officeman NPC idle sprites
+- **Design Spec**: DS-42
+- **Test File**: `officeman-idle-sprites.test.js`
+- **Description**: verifies `idle_000`–`idle_018` images exist for Officeman NPC idle animation.
 
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.

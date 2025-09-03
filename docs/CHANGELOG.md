@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.14.0 - 2025-09-22
+
+### Added
+- Officeman NPC idle animation plays during red-light waits (DS-42, T-42).
+
 ## v2.13.0 - 2025-09-21
 
 ### Added

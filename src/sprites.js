@@ -89,5 +89,6 @@ export function loadOfficemanNpcSprite() {
   return Promise.all([
     loadSeq('walk', 11),
     loadSeq('bump', 11),
-  ]).then(([walk, bump]) => ({ walk, bump, idle: [walk[0]] }));
+    loadSeq('idle', 19),
+  ]).then(([walk, bump, idle]) => ({ walk, bump, idle: { frames: idle, fps: 6 } }));
 }

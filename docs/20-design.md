@@ -166,3 +166,4 @@
 | DS-39 | Start page title uses 72px bold lettering with drop shadow. | FR-054 | T-39 |
 | DS-40 | Intro splash screen fades in/out "HPC GAMES" logo before start page; overlay disables pointer events and removes itself if the animation already finished. | FR-055 | T-40 |
 | DS-41 | OL NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-41 |
+| DS-42 | Officeman NPC idle sprites for frames 0–18, played when red lights pause them. | FR-056 | T-42 |
