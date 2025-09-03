@@ -60,6 +60,7 @@
 - Level geometry loads from `assets/objects.custom.js` (falling back to `objects.js`). Each object entry is `{ type, x, y, transparent?, collision?[] }`. `buildCollisions()` converts these into solid tile masks, and `spawnLights()` instantiates traffic lights with phases.
 - NPC spawn height uses the player's `baseH` so that temporary slide height changes do not affect NPC size or ground alignment.
 - NPC collision boxes use a fixed `TILE` width regardless of sprite dimensions to ensure consistent player interactions.
+ - OL NPCs include a dedicated idle sprite sequence (`idle_000`–`idle_012`) loaded at 6 FPS and played whenever a red light pauses them.
   NPC templates specify `{speed, sprites, width, height}` and are shallow-cloned for each spawn. The spawn routine places new NPCs at `(LEVEL_W + 24, groundY)` so they walk into view from the right. State transitions are driven by timers:
   ```js
   switch(npc.state){
@@ -164,3 +165,4 @@
 | DS-38 | Stomping an NPC triggers a 24 px star effect at the impact point for 300 ms. | FR-053 | T-38 |
 | DS-39 | Start page title uses 72px bold lettering with drop shadow. | FR-054 | T-39 |
 | DS-40 | Intro splash screen fades in/out "HPC GAMES" logo before start page; overlay disables pointer events and removes itself if the animation already finished. | FR-055 | T-40 |
+| DS-41 | OL NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-41 |

@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.13.0 - 2025-09-21
+
+### Added
+- OL NPC idle animation plays during red-light waits (DS-41, T-41).
+
 ## v2.12.1 - 2025-09-20
 
 ### Fixed

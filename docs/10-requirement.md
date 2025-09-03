@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.12.1: Splash screen no longer blocks start page; pointer events disabled and element removed when initialization finishes._
+_Updated for v2.13.0: OL NPCs display an idle animation when waiting at red lights._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -89,6 +89,11 @@ _Updated for v2.12.1: Splash screen no longer blocks start page; pointer events 
   - *User story*: I want a brief branded splash so I know who made the game.
   - *Success*: A black screen fades in "HPC Games" then fades out to reveal an immediately interactive home screen.
 
+- **URS-020: Animated NPC waiting**
+  - *Scenario*: NPCs pause at pedestrian red lights.
+  - *User story*: I want characters to show motion even when stopped so the world feels alive.
+  - *Success*: When waiting at a red light, OL NPCs play an idle animation instead of standing frozen.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -115,6 +120,7 @@ _Updated for v2.12.1: Splash screen no longer blocks start page; pointer events 
 
 - FR-033: Officeman NPC sprites render 1.25× larger from their center while their collision boxes remain unchanged.
 - FR-034: NPC spawn dimensions derive from the player's base height so sliding does not shrink NPCs or misalign them with the ground.
+- FR-056: OL NPCs display an idle animation when paused by red lights.
 
 **UI / HUD**
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info panel; mobile shows virtual buttons.
@@ -176,6 +182,7 @@ _Updated for v2.12.1: Splash screen no longer blocks start page; pointer events 
 | FR-053 | DS-38 | T-38 |
 | FR-054 | DS-39 | T-39 |
 | FR-055 | DS-40 | T-40 |
+| FR-056 | DS-41 | T-41 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |
