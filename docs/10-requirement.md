@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.13.0: OL NPCs display an idle animation when waiting at red lights._
+_Updated for v2.14.0: Officeman and OL NPCs display idle animations when waiting at red lights._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -92,7 +92,7 @@ _Updated for v2.13.0: OL NPCs display an idle animation when waiting at red ligh
 - **URS-020: Animated NPC waiting**
   - *Scenario*: NPCs pause at pedestrian red lights.
   - *User story*: I want characters to show motion even when stopped so the world feels alive.
-  - *Success*: When waiting at a red light, OL NPCs play an idle animation instead of standing frozen.
+  - *Success*: When waiting at a red light, OL and Officeman NPCs play idle animations instead of standing frozen.
 
 ## SRS
 ### Functional Requirements (FR)
@@ -120,7 +120,7 @@ _Updated for v2.13.0: OL NPCs display an idle animation when waiting at red ligh
 
 - FR-033: Officeman NPC sprites render 1.25× larger from their center while their collision boxes remain unchanged.
 - FR-034: NPC spawn dimensions derive from the player's base height so sliding does not shrink NPCs or misalign them with the ground.
-- FR-056: OL NPCs display an idle animation when paused by red lights.
+- FR-056: OL and Officeman NPCs display idle animations when paused by red lights.
 
 **UI / HUD**
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info panel; mobile shows virtual buttons.
@@ -182,7 +182,7 @@ _Updated for v2.13.0: OL NPCs display an idle animation when waiting at red ligh
 | FR-053 | DS-38 | T-38 |
 | FR-054 | DS-39 | T-39 |
 | FR-055 | DS-40 | T-40 |
-| FR-056 | DS-41 | T-41 |
+| FR-056 | DS-41, DS-42 | T-41, T-42 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |
