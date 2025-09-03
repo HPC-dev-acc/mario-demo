@@ -10,6 +10,12 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.12.0 - 2025-09-19
+
+### Added
+- Intro splash screen fades in and out "HPC Games" before the start page (DS-40, T-40).
+- Home screen title enlarged with bold styling for stronger impact (DS-39, T-39).
+
 ## v2.11.0 - 2025-09-18
 
 ### Added

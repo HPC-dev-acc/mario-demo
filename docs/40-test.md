@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.11.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, and NPC state machines so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.12.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -194,6 +194,16 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test Files**: `src/ui/index.test.js`, `src/main.integration.test.js`
 - **Description**: calling `triggerStompEffect` positions a star at the impact point and stomping an NPC invokes it once.
 
+### T-39: Home title styling
+- **Design Spec**: DS-39
+- **Test File**: `start-title-style.test.js`
+- **Description**: verifies `#start-page .title` uses 72px font size with a drop shadow.
+
+### T-40: Intro splash screen
+- **Design Spec**: DS-40
+- **Test File**: `splash-screen.test.js`
+- **Description**: ensures the HPC GAMES splash overlay exists with black background and fade animation.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -212,3 +222,5 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-015**: Design mode outlines collision boxes for all objects and characters.
 - **URS-016**: Idling leaves the collision box unchanged while the sprite narrows.
 - **URS-017**: Stomping an NPC produces a brief star effect at the impact point.
+- **URS-018**: The home screen shows a large, stylized title before play begins.
+- **URS-019**: Launching the game displays a brief HPC Games splash before the home screen.
