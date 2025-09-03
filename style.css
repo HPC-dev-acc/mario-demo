@@ -212,6 +212,7 @@ body {
   justify-content: center;
   align-items: center;
   background: #000;
+  pointer-events: none;
   animation: splash-fade 3s forwards;
   z-index: 200;
 }

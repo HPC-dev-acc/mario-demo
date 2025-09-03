@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.12.1 - 2025-09-20
+
+### Fixed
+- Splash screen disables pointer events and removes itself if the animation finished before initialization so the start page remains clickable (DS-40, T-40).
+
 ## v2.12.0 - 2025-09-19
 
 ### Added

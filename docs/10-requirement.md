@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.12.0: Added HPC Games splash screen and enlarged home title._
+_Updated for v2.12.1: Splash screen no longer blocks start page; pointer events disabled and element removed when initialization finishes._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -87,7 +87,7 @@ _Updated for v2.12.0: Added HPC Games splash screen and enlarged home title._
 - **URS-019: Intro splash screen**
   - *Scenario*: The game launches before the home screen appears.
   - *User story*: I want a brief branded splash so I know who made the game.
-  - *Success*: A black screen fades in "HPC Games" then fades out to reveal the home screen.
+  - *Success*: A black screen fades in "HPC Games" then fades out to reveal an immediately interactive home screen.
 
 ## SRS
 ### Functional Requirements (FR)
@@ -129,7 +129,7 @@ _Updated for v2.12.0: Added HPC Games splash screen and enlarged home title._
 - FR-052: NPC collision boxes span exactly one tile width for consistent interactions.
 - FR-053: Stomping an NPC spawns a brief star effect at the contact point.
 - FR-054: The home screen displays the game title in 72 px stylized lettering.
-- FR-055: On launch, a black splash screen briefly fades in and out "HPC Games" before showing the home screen.
+- FR-055: On launch, a black splash screen briefly fades in and out "HPC Games" before showing the home screen, and it must not block the start button if scripts load slowly.
 
 ### Content and Levels
  - Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL, Student, and Officeman NPCs appear more often).
