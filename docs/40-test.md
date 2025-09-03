@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.12.1 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.13.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -204,6 +204,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `splash-screen.test.js`
 - **Description**: ensures the HPC GAMES splash overlay exists with black background, fade animation, and pointer events disabled.
 
+### T-41: OL NPC idle sprites
+- **Design Spec**: DS-41
+- **Test File**: `ol-idle-sprites.test.js`
+- **Description**: verifies `idle_000`–`idle_012` images exist for OL NPC idle animation.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -224,3 +229,4 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-017**: Stomping an NPC produces a brief star effect at the impact point.
 - **URS-018**: The home screen shows a large, stylized title before play begins.
 - **URS-019**: Launching the game displays a brief HPC Games splash before the home screen.
+- **URS-020**: NPCs waiting at red lights animate instead of standing motionless.

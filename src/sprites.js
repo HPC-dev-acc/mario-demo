@@ -62,7 +62,8 @@ export function loadOlNpcSprite() {
   return Promise.all([
     loadSeq('walk', 12),
     loadSeq('bump', 9),
-  ]).then(([walk, bump]) => ({ walk, bump, idle: [walk[0]] }));
+    loadSeq('idle', 13),
+  ]).then(([walk, bump, idle]) => ({ walk, bump, idle: { frames: idle, fps: 6 } }));
 }
 
 export function loadStudentNpcSprite() {

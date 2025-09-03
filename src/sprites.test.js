@@ -48,12 +48,13 @@ test('loadNpcSprite provides frame data', async () => {
   });
 });
 
-test('loadOlNpcSprite loads walk and bump frames', async () => {
+test('loadOlNpcSprite loads walk, bump, and idle frames', async () => {
   const OriginalImage = global.Image;
   const loaded = [];
   global.Image = class { set src(v) { loaded.push(v); if (this.onload) setTimeout(() => this.onload()); } };
   const sprite = await loadOlNpcSprite();
   expect(Object.keys(sprite)).toEqual(['walk','bump','idle']);
+  expect(sprite.idle.frames).toHaveLength(13);
   expect(loaded[0]).toMatch(/\/assets\/sprites\/OL\/walk_000\.png$/);
   global.Image = OriginalImage;
 });
