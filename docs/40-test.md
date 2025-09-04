@@ -224,6 +224,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `trunk-move-sprites.test.js`
 - **Description**: ensures `Move_000`–`Move_012` images exist for Trunk NPC movement.
 
+### T-45: Trunk NPC aspect ratio
+- **Design Spec**: DS-45
+- **Test File**: `trunk-aspect-ratio.test.js`
+- **Description**: verifies the Trunk NPC's width derives from the sprite's original aspect ratio.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
