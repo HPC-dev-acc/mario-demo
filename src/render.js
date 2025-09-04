@@ -147,10 +147,11 @@ export function drawPlayer(ctx, p, sprites, t = performance.now()) {
 
 export function drawNpc(ctx, p, sprite) {
   const { w, h } = p;
+  const offsetY = p.offsetY || 0;
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.3)';
   ctx.beginPath();
-  ctx.ellipse(p.x, p.shadowY || (p.y + h/2), w/4, h/8, 0, 0, Math.PI*2);
+  ctx.ellipse(p.x, (p.shadowY || (p.y + h/2)) + offsetY, w/4, h/8, 0, 0, Math.PI*2);
   ctx.fill();
   ctx.restore();
   if (!sprite) return;
@@ -170,11 +171,11 @@ export function drawNpc(ctx, p, sprite) {
     ctx.save();
     ctx.imageSmoothingEnabled = false;
     if (p.type === 'officeman') {
-      ctx.translate(p.x, p.y + anim.offsetY * baseScale * extra);
+      ctx.translate(p.x, p.y + anim.offsetY * baseScale * extra + offsetY);
       ctx.scale(p.facing || 1, 1);
       ctx.drawImage(img, sx, sy, FW, FH, -dw / 2, -dh / 2, dw, dh);
     } else {
-      ctx.translate(p.x, p.y + h / 2 - dh + anim.offsetY * baseScale);
+      ctx.translate(p.x, p.y + h / 2 - dh + anim.offsetY * baseScale + offsetY);
       ctx.scale(p.facing || 1, 1);
       ctx.drawImage(img, sx, sy, FW, FH, -dw / 2, 0, dw, dh);
     }
@@ -188,7 +189,7 @@ export function drawNpc(ctx, p, sprite) {
     const img = frames[frame];
     ctx.save();
     ctx.imageSmoothingEnabled = false;
-    ctx.translate(p.x, p.y);
+    ctx.translate(p.x, p.y + offsetY);
     ctx.scale(p.facing || 1, 1);
     const extra = p.type === 'officeman' ? 1.25 : 1;
     const dw = w * extra;
@@ -197,7 +198,7 @@ export function drawNpc(ctx, p, sprite) {
     ctx.restore();
   }
   if (p.redLightPaused) {
-    drawSweat(ctx, p.x, p.y - h / 2 - 5);
+    drawSweat(ctx, p.x, p.y + offsetY - h / 2 - 5);
   }
 }
 

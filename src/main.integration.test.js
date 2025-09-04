@@ -45,6 +45,7 @@ async function loadGame() {
       loadOlNpcSprite: () => Promise.resolve({}),
       loadStudentNpcSprite: () => Promise.resolve({}),
       loadOfficemanNpcSprite: () => Promise.resolve({}),
+      loadTrunkNpcSprite: () => Promise.resolve({}),
     }));
 
   let startCallback;

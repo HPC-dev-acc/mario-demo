@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.16.0 - 2025-09-24
+
+### Added
+- Trunk NPC moves from left to right with move animation and no collisions (DS-44, T-44).
+
 ## v2.15.0 - 2025-09-23
 
 ### Added

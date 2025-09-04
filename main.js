@@ -10,7 +10,7 @@ import objects from './assets/objects.custom.js';
 import { enterSlide, exitSlide } from './src/game/slide.js';
 import { render, CAMERA_OFFSET_Y } from './src/render.js';
 import { updateCamera } from './src/game/camera.js';
-import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite, loadStudentNpcSprite, loadOfficemanNpcSprite } from './src/sprites.js';
+import { loadPlayerSprites, loadTrafficLightSprites, loadNpcSprite, loadOlNpcSprite, loadStudentNpcSprite, loadOfficemanNpcSprite, loadTrunkNpcSprite } from './src/sprites.js';
 import { loadBackground, makeScaledBg } from './src/bg.js';
 import { initUI } from './src/ui/index.js';
 import { withTimeout } from './src/utils/withTimeout.js';
@@ -550,7 +550,6 @@ const NPC_SPAWN_MAX_MS = 8000;
 
     npcSpawnTimer -= dtMs;
     if (npcSpawnTimer <= 0 && state.npcs.length < MAX_NPCS) {
-        const spawnX = camera.x + LOGICAL_W + player.w;
       const baseScale = player.baseH / 44;
       let type = 'default';
       let sprite = state.npcSprite;
@@ -561,6 +560,8 @@ const NPC_SPAWN_MAX_MS = 8000;
       if (state.olNpcSprite) specialTypes.push('ol');
       if (state.studentNpcSprite) specialTypes.push('student');
       if (state.officemanNpcSprite) specialTypes.push('officeman');
+      const defaultTypes = ['default'];
+      if (state.trunkNpcSprite) defaultTypes.push('trunk');
       if (specialTypes.length && Math.random() < 0.8) {
         type = specialTypes[Math.floor(Math.random() * specialTypes.length)];
         sprite = type === 'ol' ? state.olNpcSprite : type === 'student' ? state.studentNpcSprite : state.officemanNpcSprite;
@@ -568,7 +569,18 @@ const NPC_SPAWN_MAX_MS = 8000;
         const speed = type === 'ol' ? -2 : type === 'student' ? -1 : -1.5;
         opts = { fixedSpeed: speed };
         facing = 1;
+      } else {
+        type = defaultTypes[Math.floor(Math.random() * defaultTypes.length)];
+        if (type === 'trunk') {
+          sprite = state.trunkNpcSprite;
+          sizeScale = 2;
+          opts = { fixedSpeed: 3 };
+          facing = 1;
+        }
       }
+      const spawnX = type === 'trunk'
+        ? camera.x - player.w
+        : camera.x + LOGICAL_W + player.w;
       const npcW = 48 * baseScale * sizeScale;
       const npcH = player.baseH * sizeScale;
       if (!state.npcs.some(n => n.type === type)) {
@@ -579,6 +591,10 @@ const NPC_SPAWN_MAX_MS = 8000;
           true,
         );
         const npc = createNpc(spawnX, groundY - npcH / 2, npcW, npcH, sprite, undefined, facing, opts, type);
+        if (type === 'trunk') {
+          npc.passThrough = true;
+          npc.offsetY = TILE;
+        }
         state.npcs.push(npc);
       }
       npcSpawnTimer = NPC_SPAWN_MIN_MS + Math.random() * (NPC_SPAWN_MAX_MS - NPC_SPAWN_MIN_MS);
@@ -680,6 +696,7 @@ const NPC_SPAWN_MAX_MS = 8000;
       () => loadOlNpcSprite(),
       () => loadStudentNpcSprite(),
       () => loadOfficemanNpcSprite(),
+      () => loadTrunkNpcSprite(),
       () => loadSounds(),
     ];
     let loaded = 0;
@@ -687,7 +704,7 @@ const NPC_SPAWN_MAX_MS = 8000;
     const updateProgress = () => startScreen.setProgress(Math.round((loaded / total) * 100));
     updateProgress();
     withTimeout(Promise.all(loaders.map(fn => fn().then(res => { loaded++; updateProgress(); return res; }))), 10000, 'Timed out loading sprites')
-      .then(([_, playerSprites, trafficLightSprites, npcSprite, olNpcSprite, studentNpcSprite, officemanNpcSprite]) => {
+      .then(([_, playerSprites, trafficLightSprites, npcSprite, olNpcSprite, studentNpcSprite, officemanNpcSprite, trunkNpcSprite]) => {
         makeScaledBg(canvas.height / getDpr(), undefined, getDpr());
         state.playerSprites = playerSprites;
         state.trafficLightSprites = trafficLightSprites;
@@ -695,6 +712,7 @@ const NPC_SPAWN_MAX_MS = 8000;
         state.olNpcSprite = olNpcSprite;
         state.studentNpcSprite = studentNpcSprite;
         state.officemanNpcSprite = officemanNpcSprite;
+        state.trunkNpcSprite = trunkNpcSprite;
         startScreen.showStart(() => beginGame());
       }).catch((err) => {
         console.error('Failed to load resources', err);
