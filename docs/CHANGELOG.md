@@ -10,6 +10,19 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+### Fixed
+- No entries.
+
+## v2.16.2 - 2025-09-26
+
+### Fixed
+- Guarded Trunk NPC width calculation against missing sprite frame data to prevent spawn errors (DS-45, T-45).
+
+## v2.16.1 - 2025-09-25
+
+### Fixed
+- Trunk NPC now preserves its original sprite aspect ratio (DS-45, T-45).
+
 ## v2.16.0 - 2025-09-24
 
 ### Added

@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.16.0: Added a Trunk NPC that moves from left to right without collisions._
+_Updated for v2.16.2: Trunk NPC width falls back to a default if sprite frames are missing to avoid spawn errors._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -99,6 +99,11 @@ _Updated for v2.16.0: Added a Trunk NPC that moves from left to right without co
   - *User story*: As a player, I want occasional trunks to move from the left without knocking me back so I react to unexpected scenery.
   - *Success*: A trunk glides from the left toward the right, cannot be stood on, and does not impede the player.
 
+- **URS-022: Authentic Trunk appearance**
+  - *Scenario*: The Trunk NPC appears on screen.
+  - *User story*: I want the trunk to keep its original proportions so the artwork looks natural.
+  - *Success*: The trunk displays without being stretched or squashed.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -126,7 +131,8 @@ _Updated for v2.16.0: Added a Trunk NPC that moves from left to right without co
 - FR-033: Officeman NPC sprites render 1.25× larger from their center while their collision boxes remain unchanged.
 - FR-034: NPC spawn dimensions derive from the player's base height so sliding does not shrink NPCs or misalign them with the ground.
  - FR-056: OL, Officeman, and Student NPCs display idle animations when paused by red lights.
- - FR-057: A Trunk NPC may slide in from the left, moves to the right faster than OL, cannot be stood on, and causes no collision response.
+- FR-057: A Trunk NPC may slide in from the left, moves to the right faster than OL, cannot be stood on, and causes no collision response.
+ - FR-058: The Trunk NPC renders using its native sprite aspect ratio; if frame dimensions are unavailable, it falls back to a default width to prevent errors.
 
 **UI / HUD**
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info panel; mobile shows virtual buttons.
@@ -190,6 +196,7 @@ _Updated for v2.16.0: Added a Trunk NPC that moves from left to right without co
 | FR-055 | DS-40 | T-40 |
 | FR-056 | DS-41, DS-42, DS-43 | T-41, T-42, T-43 |
 | FR-057 | DS-44 | T-44 |
+| FR-058 | DS-45 | T-45 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |

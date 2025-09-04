@@ -61,7 +61,7 @@
 - NPC spawn height uses the player's `baseH` so that temporary slide height changes do not affect NPC size or ground alignment.
 - NPC collision boxes use a fixed `TILE` width regardless of sprite dimensions to ensure consistent player interactions.
 - OL, Officeman, and Student NPCs include dedicated idle sprite sequences (`idle_000`–`idle_012` for OL and Student, `idle_000`–`idle_018` for Officeman) loaded at 6 FPS and played whenever a red light pauses them.
-- Trunk NPCs use `Move_000`–`Move_012` frames at 8 FPS, draw one `TILE` lower including shadow, stand twice the player's `baseH`, move right at speed `3`, and set `passThrough` so the player cannot collide or stand on them.
+ - Trunk NPCs use `Move_000`–`Move_012` frames at 8 FPS, draw one `TILE` lower including shadow, stand twice the player's `baseH`, move right at speed `3`, set `passThrough` so the player cannot collide or stand on them, and derive width from the sprite's native aspect ratio, falling back to the standard NPC width when frame data is missing.
   NPC templates specify `{speed, sprites, width, height}` and are shallow-cloned for each spawn. The spawn routine places new NPCs at `(LEVEL_W + 24, groundY)` so they walk into view from the right. State transitions are driven by timers:
   ```js
   switch(npc.state){
@@ -170,3 +170,4 @@
 | DS-42 | Officeman NPC idle sprites for frames 0–18, played when red lights pause them. | FR-056 | T-42 |
 | DS-43 | Student NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-43 |
 | DS-44 | Trunk NPC move sprites for frames 0–12; spawns from the left, moves right at speed 3, is pass-through, draws one `TILE` lower, and stands twice the player's base height. | FR-057 | T-44 |
+| DS-45 | Trunk NPC width derives from sprite aspect ratio to preserve original proportions and falls back to default width when sprite frames are missing. | FR-058 | T-45 |

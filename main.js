@@ -581,8 +581,12 @@ const NPC_SPAWN_MAX_MS = 8000;
       const spawnX = type === 'trunk'
         ? camera.x - player.w
         : camera.x + LOGICAL_W + player.w;
-      const npcW = 48 * baseScale * sizeScale;
       const npcH = player.baseH * sizeScale;
+      const npcW = type === 'trunk'
+        ? sprite.walk?.frames?.[0]
+          ? npcH * (sprite.walk.frames[0].width / sprite.walk.frames[0].height)
+          : 48 * baseScale * sizeScale
+        : 48 * baseScale * sizeScale;
       if (!state.npcs.some(n => n.type === type)) {
         const groundY = findGroundY(
           state.collisions,

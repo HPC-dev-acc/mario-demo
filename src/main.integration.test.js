@@ -1,4 +1,5 @@
-import pkg from '../package.json' assert { type: 'json' };
+import { readFileSync } from 'fs';
+const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url)));
 import { TILE, COLL_TILE, resolveCollisions, findGroundY } from './game/physics.js';
 import { BASE_W, COLL_W } from './game/width.js';
 import { SPAWN_X, SPAWN_Y, Y_OFFSET } from './game/state.js';
