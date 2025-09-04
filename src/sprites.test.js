@@ -59,12 +59,13 @@ test('loadOlNpcSprite loads walk, bump, and idle frames', async () => {
   global.Image = OriginalImage;
 });
 
-test('loadStudentNpcSprite loads walk and bump frames', async () => {
+test('loadStudentNpcSprite loads walk, bump, and idle frames', async () => {
   const OriginalImage = global.Image;
   const loaded = [];
   global.Image = class { set src(v) { loaded.push(v); if (this.onload) setTimeout(() => this.onload()); } };
   const sprite = await loadStudentNpcSprite();
   expect(Object.keys(sprite)).toEqual(['walk','bump','idle']);
+  expect(sprite.idle.frames).toHaveLength(13);
   expect(loaded[0]).toMatch(/\/assets\/sprites\/Student\/walk_000\.png$/);
   global.Image = OriginalImage;
 });
