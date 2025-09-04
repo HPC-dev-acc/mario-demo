@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.15.0: Student NPCs also display idle animations when waiting at red lights._
+_Updated for v2.16.0: Added a Trunk NPC that moves from left to right without collisions._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -94,6 +94,11 @@ _Updated for v2.15.0: Student NPCs also display idle animations when waiting at 
   - *User story*: I want characters to show motion even when stopped so the world feels alive.
   - *Success*: When waiting at a red light, OL and Officeman NPCs play idle animations instead of standing frozen.
 
+- **URS-021: Passing Trunk obstacle**
+  - *Scenario*: A log slides across the stage faster than other characters.
+  - *User story*: As a player, I want occasional trunks to move from the left without knocking me back so I react to unexpected scenery.
+  - *Success*: A trunk glides from the left toward the right, cannot be stood on, and does not impede the player.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -120,7 +125,8 @@ _Updated for v2.15.0: Student NPCs also display idle animations when waiting at 
 
 - FR-033: Officeman NPC sprites render 1.25× larger from their center while their collision boxes remain unchanged.
 - FR-034: NPC spawn dimensions derive from the player's base height so sliding does not shrink NPCs or misalign them with the ground.
-- FR-056: OL, Officeman, and Student NPCs display idle animations when paused by red lights.
+ - FR-056: OL, Officeman, and Student NPCs display idle animations when paused by red lights.
+ - FR-057: A Trunk NPC may slide in from the left, moves to the right faster than OL, cannot be stood on, and causes no collision response.
 
 **UI / HUD**
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info panel; mobile shows virtual buttons.
@@ -183,6 +189,7 @@ _Updated for v2.15.0: Student NPCs also display idle animations when waiting at 
 | FR-054 | DS-39 | T-39 |
 | FR-055 | DS-40 | T-40 |
 | FR-056 | DS-41, DS-42, DS-43 | T-41, T-42, T-43 |
+| FR-057 | DS-44 | T-44 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |

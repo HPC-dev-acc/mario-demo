@@ -54,13 +54,14 @@
   Stomping an NPC sets `player.vy` to `JUMP_VEL` and invokes `triggerStompEffect` with the NPC's screen coordinates to draw a 24 px star for 300 ms at the impact point.
 
 ### NPC and Level Systems
-- Each level maintains `nextSpawn` in milliseconds. When it reaches zero, the engine picks an NPC template (OL, Student, Officeman) using equal probabilities, spawns it at the right edge, and resets `nextSpawn` to a random 4–8 s interval.
+- Each level maintains `nextSpawn` in milliseconds. When it reaches zero, the engine picks an NPC template (OL, Student, Officeman) using equal probabilities, spawns it at the right edge, and resets `nextSpawn` to a random 4–8 s interval. The default Character1 or a Trunk may appear instead with equal chance when a special NPC is not chosen; Trunk spawns from the left.
 - NPCs follow a small state machine: `walk` → (`stomped` with upward bounce and incremented `hits`) → `recover`. After three stomps `hits >= 3`, the player passes through the NPC until it exits the screen. Side collisions push both entities apart and enter a `knockback` state for 300 ms.
 - Officeman rendering multiplies the draw scale by `1.25` around the sprite center: `ctx.save(); ctx.translate(cx, cy); ctx.scale(1.25,1.25); ...; ctx.restore();` Collision boxes remain unscaled.
 - Level geometry loads from `assets/objects.custom.js` (falling back to `objects.js`). Each object entry is `{ type, x, y, transparent?, collision?[] }`. `buildCollisions()` converts these into solid tile masks, and `spawnLights()` instantiates traffic lights with phases.
 - NPC spawn height uses the player's `baseH` so that temporary slide height changes do not affect NPC size or ground alignment.
 - NPC collision boxes use a fixed `TILE` width regardless of sprite dimensions to ensure consistent player interactions.
- - OL, Officeman, and Student NPCs include dedicated idle sprite sequences (`idle_000`–`idle_012` for OL and Student, `idle_000`–`idle_018` for Officeman) loaded at 6 FPS and played whenever a red light pauses them.
+- OL, Officeman, and Student NPCs include dedicated idle sprite sequences (`idle_000`–`idle_012` for OL and Student, `idle_000`–`idle_018` for Officeman) loaded at 6 FPS and played whenever a red light pauses them.
+- Trunk NPCs use `Move_000`–`Move_012` frames at 8 FPS, draw one `TILE` lower including shadow, stand twice the player's `baseH`, move right at speed `3`, and set `passThrough` so the player cannot collide or stand on them.
   NPC templates specify `{speed, sprites, width, height}` and are shallow-cloned for each spawn. The spawn routine places new NPCs at `(LEVEL_W + 24, groundY)` so they walk into view from the right. State transitions are driven by timers:
   ```js
   switch(npc.state){
@@ -168,3 +169,4 @@
 | DS-41 | OL NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-41 |
 | DS-42 | Officeman NPC idle sprites for frames 0–18, played when red lights pause them. | FR-056 | T-42 |
 | DS-43 | Student NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-43 |
+| DS-44 | Trunk NPC move sprites for frames 0–12; spawns from the left, moves right at speed 3, is pass-through, draws one `TILE` lower, and stands twice the player's base height. | FR-057 | T-44 |

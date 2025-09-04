@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.15.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.16.0 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -219,6 +219,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `student-idle-sprites.test.js`
 - **Description**: verifies `idle_000`–`idle_012` images exist for Student NPC idle animation.
 
+### T-44: Trunk NPC move sprites
+- **Design Spec**: DS-44
+- **Test File**: `trunk-move-sprites.test.js`
+- **Description**: ensures `Move_000`–`Move_012` images exist for Trunk NPC movement.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -238,5 +243,6 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-016**: Idling leaves the collision box unchanged while the sprite narrows.
 - **URS-017**: Stomping an NPC produces a brief star effect at the impact point.
 - **URS-018**: The home screen shows a large, stylized title before play begins.
+- **URS-021**: A trunk glides from the left to the right faster than other characters without affecting the player.
 - **URS-019**: Launching the game displays a brief HPC Games splash before the home screen.
 - **URS-020**: NPCs waiting at red lights animate instead of standing motionless.

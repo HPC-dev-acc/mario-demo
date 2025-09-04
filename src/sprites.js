@@ -93,3 +93,13 @@ export function loadOfficemanNpcSprite() {
     loadSeq('idle', 19),
   ]).then(([walk, bump, idle]) => ({ walk, bump, idle: { frames: idle, fps: 6 } }));
 }
+
+export function loadTrunkNpcSprite() {
+  const loadSeq = (prefix, count) => Promise.all(
+    Array.from({ length: count }, (_, i) => {
+      const num = i.toString().padStart(3, '0');
+      return loadImage(new URL(`../assets/sprites/Trunk/${prefix}_${num}.png`, baseURL).href);
+    })
+  );
+  return loadSeq('Move', 13).then(move => ({ move: { frames: move, fps: 8 } }));
+}
