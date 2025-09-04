@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.14.0: Officeman and OL NPCs display idle animations when waiting at red lights._
+_Updated for v2.15.0: Student NPCs also display idle animations when waiting at red lights._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -120,7 +120,7 @@ _Updated for v2.14.0: Officeman and OL NPCs display idle animations when waiting
 
 - FR-033: Officeman NPC sprites render 1.25× larger from their center while their collision boxes remain unchanged.
 - FR-034: NPC spawn dimensions derive from the player's base height so sliding does not shrink NPCs or misalign them with the ground.
-- FR-056: OL and Officeman NPCs display idle animations when paused by red lights.
+- FR-056: OL, Officeman, and Student NPCs display idle animations when paused by red lights.
 
 **UI / HUD**
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info panel; mobile shows virtual buttons.
@@ -182,7 +182,7 @@ _Updated for v2.14.0: Officeman and OL NPCs display idle animations when waiting
 | FR-053 | DS-38 | T-38 |
 | FR-054 | DS-39 | T-39 |
 | FR-055 | DS-40 | T-40 |
-| FR-056 | DS-41, DS-42 | T-41, T-42 |
+| FR-056 | DS-41, DS-42, DS-43 | T-41, T-42, T-43 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |

@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.15.0 - 2025-09-23
+
+### Added
+- Student NPC idle animation plays during red-light waits (DS-43, T-43).
+
 ## v2.14.0 - 2025-09-22
 
 ### Added
