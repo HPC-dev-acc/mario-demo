@@ -101,5 +101,5 @@ export function loadTrunkNpcSprite() {
       return loadImage(new URL(`../assets/sprites/Trunk/${prefix}_${num}.png`, baseURL).href);
     })
   );
-  return loadSeq('Move', 13).then(move => ({ move: { frames: move, fps: 8 } }));
+  return loadSeq('Move', 13).then(move => ({ walk: { frames: move, fps: 8 } }));
 }
