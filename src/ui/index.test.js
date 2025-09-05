@@ -49,6 +49,11 @@ import { initUI } from './index.js';
             <button id="design-save" class="mini">Save</button>
             <button id="design-add" class="mini" hidden>Add</button>
           </div>
+          <div id="npc-controls" class="pill" hidden>
+            <strong>NPC</strong>
+            <button id="npc1" class="mini">NPC1</button>
+            <button id="npc2" class="mini">NPC2</button>
+          </div>
         </div>
         <div id="info-panel" hidden>
           <h1 id="doc-title"></h1>
@@ -260,24 +265,38 @@ test('debug panel toggles with info button only when dev mode is on', () => {
   expect(debug.hidden).toBe(true);
 });
 
-test('developer toggle shows debug, log, and design controls', () => {
+test('developer toggle shows debug, log, design, and npc controls', () => {
   const canvas = setupDOM();
   initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0' });
   const devToggle = document.getElementById('dev-toggle');
   const debug = document.getElementById('debug-panel');
   const logControls = document.getElementById('log-controls');
   const designControls = document.getElementById('design-controls');
+  const npcControls = document.getElementById('npc-controls');
   expect(debug.hidden).toBe(true);
   expect(logControls.hidden).toBe(true);
   expect(designControls.hidden).toBe(true);
+  expect(npcControls.hidden).toBe(true);
   devToggle.click();
   expect(debug.hidden).toBe(false);
   expect(logControls.hidden).toBe(false);
   expect(designControls.hidden).toBe(false);
+  expect(npcControls.hidden).toBe(false);
   devToggle.click();
   expect(debug.hidden).toBe(true);
   expect(logControls.hidden).toBe(true);
   expect(designControls.hidden).toBe(true);
+  expect(npcControls.hidden).toBe(true);
+});
+
+test('npc buttons trigger spawnNpc', () => {
+  const canvas = setupDOM();
+  const calls = [];
+  initUI(canvas, { resumeAudio: () => {}, toggleMusic: () => true, version: '0', spawnNpc: t => calls.push(t) });
+  document.getElementById('dev-toggle').click();
+  document.getElementById('npc1').click();
+  document.getElementById('npc2').click();
+  expect(calls).toEqual(['ol', 'trunk']);
 });
 
 test('settings menu toggles and closes on outside click', () => {

@@ -325,11 +325,43 @@ const NPC_SPAWN_MAX_MS = 8000;
     }
     return { enable, isEnabled, toggleTransparent, toggleDestroyable, save, getSelected, addBlock };
   })();
+  function spawnDevNpc(type) {
+    const baseScale = player.baseH / 24;
+    let sprite, sizeScale = 1, opts = {}, facing = 1;
+    if (type === 'ol') {
+      if (!state.olNpcSprite) return;
+      sprite = state.olNpcSprite;
+      sizeScale = 6 / 5;
+      opts = { fixedSpeed: -2 };
+    } else if (type === 'trunk') {
+      if (!state.trunkNpcSprite) return;
+      sprite = state.trunkNpcSprite;
+      sizeScale = 2;
+      opts = { fixedSpeed: 3, passThrough: true, offsetY: TILE };
+    } else {
+      return;
+    }
+    const spawnX = type === 'trunk'
+      ? camera.x - player.w
+      : camera.x + LOGICAL_W + player.w;
+    const npcW = 48 * baseScale * sizeScale;
+    const npcH = player.baseH * sizeScale;
+    const groundY = findGroundY(
+      state.collisions,
+      spawnX,
+      state.collisions.length * COLL_TILE - 1,
+      true,
+    );
+    const npc = createNpc(spawnX, groundY - npcH / 2, npcW, npcH, sprite, undefined, facing, opts, type);
+    if (type === 'trunk') npc.dustTimer = 0;
+    state.npcs.push(npc);
+  }
   const ui = initUI(canvas, {
     resumeAudio,
     toggleMusic,
     version: VERSION,
     design,
+    spawnNpc: spawnDevNpc,
   });
   const { Logger, dbg, scoreEl, timerEl, triggerClearEffect, triggerSlideEffect, triggerStompEffect, triggerFailEffect, triggerStartEffect, showStageClear, showStageFail, hideStageOverlays, startScreen, showPedDialog, hidePedDialog, syncDialogToPlayer } = ui;
   Logger.info('app_start', { version: VERSION });

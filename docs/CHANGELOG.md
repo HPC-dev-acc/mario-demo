@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.18.0 - 2025-09-30
+
+### Added
+- Developer mode NPC panel with NPC1 and NPC2 buttons to spawn OL and Trunk NPCs (DS-47, T-51).
+
 ## v2.17.0 - 2025-09-29
 
 ### Added
