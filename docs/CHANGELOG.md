@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.16.4 - 2025-09-28
+
+### Fixed
+- Trunk NPC scaling now enables image smoothing so 1.25× zoom uses original sprite resolution (DS-44, T-48).
+
 ## v2.16.3 - 2025-09-27
 
 ### Changed

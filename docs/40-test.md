@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.16.3 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.16.4 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -238,6 +238,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Design Spec**: DS-44
 - **Test File**: `src/render.test.js`
 - **Description**: verifies trunk sprites render 1.25× larger from their centers without shifting collision boxes.
+
+### T-48: Trunk NPC smoothing
+- **Design Spec**: DS-44
+- **Test File**: `src/render.test.js`
+- **Description**: ensures trunk drawing enables image smoothing to preserve detail when scaled.
 
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.

@@ -169,4 +169,4 @@
 | DS-41 | OL NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-41 |
 | DS-42 | Officeman NPC idle sprites for frames 0–18, played when red lights pause them. | FR-056 | T-42 |
 | DS-43 | Student NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-43 |
-| DS-44 | Trunk NPC uses `Move_000`–`Move_012` frames as a walk animation; spawns from the left, moves right at speed 3, is pass-through (reapplied each frame so landing never makes it solid), draws one `TILE` lower, stands twice the player's base height, and scales 1.25× from its center. | FR-057 | T-44, T-45, T-46, T-47 |
+| DS-44 | Trunk NPC uses `Move_000`–`Move_012` frames as a walk animation; spawns from the left, moves right at speed 3, is pass-through (reapplied each frame so landing never makes it solid), draws one `TILE` lower, stands twice the player's base height, and scales 1.25× from its center with image smoothing to preserve sprite detail. | FR-057 | T-44, T-45, T-46, T-47, T-48 |

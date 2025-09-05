@@ -169,7 +169,7 @@ export function drawNpc(ctx, p, sprite) {
     dw *= extra;
     dh *= extra;
     ctx.save();
-    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = p.type === 'trunk';
     if (p.type === 'officeman' || p.type === 'trunk') {
       ctx.translate(p.x, p.y + anim.offsetY * baseScale * extra + offsetY);
       ctx.scale(p.facing || 1, 1);
@@ -188,7 +188,7 @@ export function drawNpc(ctx, p, sprite) {
     const frame = Math.floor((p.animTime || 0) * fps) % frames.length;
     const img = frames[frame];
     ctx.save();
-    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = p.type === 'trunk';
     ctx.translate(p.x, p.y + offsetY);
     ctx.scale(p.facing || 1, 1);
     const extra = p.type === 'officeman' || p.type === 'trunk' ? 1.25 : 1;
