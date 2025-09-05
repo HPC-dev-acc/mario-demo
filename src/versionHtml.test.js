@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { TextEncoder, TextDecoder } from 'util';
-import pkg from '../package.json' assert { type: 'json' };
+const pkg = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url)));
 
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;

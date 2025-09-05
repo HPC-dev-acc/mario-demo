@@ -1,4 +1,5 @@
-import pkg from '../../package.json' assert { type: 'json' };
+import { readFileSync } from 'fs';
+const pkg = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url)));
 import { TILE, COLL_TILE } from '../game/physics.js';
 import { CAMERA_OFFSET_Y } from '../render.js';
 

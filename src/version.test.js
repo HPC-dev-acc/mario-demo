@@ -1,4 +1,5 @@
-import pkg from '../package.json' assert { type: 'json' };
+import { readFileSync } from 'fs';
+const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url)));
 import '../version.js';
 import { initUI } from './ui/index.js';
 
