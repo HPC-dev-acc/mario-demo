@@ -165,12 +165,12 @@ export function drawNpc(ctx, p, sprite) {
     const sy = Math.floor(frameIdx / columns) * FH;
     let dw = FW * baseScale;
     let dh = FH * baseScale;
-    const extra = p.type === 'officeman' ? 1.25 : 1;
+    const extra = p.type === 'officeman' || p.type === 'trunk' ? 1.25 : 1;
     dw *= extra;
     dh *= extra;
     ctx.save();
     ctx.imageSmoothingEnabled = false;
-    if (p.type === 'officeman') {
+    if (p.type === 'officeman' || p.type === 'trunk') {
       ctx.translate(p.x, p.y + anim.offsetY * baseScale * extra + offsetY);
       ctx.scale(p.facing || 1, 1);
       ctx.drawImage(img, sx, sy, FW, FH, -dw / 2, -dh / 2, dw, dh);
@@ -191,7 +191,7 @@ export function drawNpc(ctx, p, sprite) {
     ctx.imageSmoothingEnabled = false;
     ctx.translate(p.x, p.y + offsetY);
     ctx.scale(p.facing || 1, 1);
-    const extra = p.type === 'officeman' ? 1.25 : 1;
+    const extra = p.type === 'officeman' || p.type === 'trunk' ? 1.25 : 1;
     const dw = w * extra;
     const dh = h * extra;
     ctx.drawImage(img, -dw / 2, -dh / 2, dw, dh);

@@ -447,6 +447,18 @@ test('drawNpc scales officeman 1.25x from center', () => {
   expect(ctx.drawImage).toHaveBeenCalledWith(sprite.img, 0, 0, 40, 40, -25, -25, 50, 50);
 });
 
+test('drawNpc scales trunk 1.25x from center', () => {
+  const ctx = {
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
+    drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true, translate: jest.fn(), scale: jest.fn(),
+  };
+  const npc = { x: 0, y: 0, shadowY: 0, w: 40, h: 40, state: 'walk', animTime: 0, facing: 1, type: 'trunk' };
+  const frames = [{}];
+  const sprite = { walk: frames, idle: frames };
+  drawNpc(ctx, npc, sprite);
+  expect(ctx.drawImage).toHaveBeenCalledWith(frames[0], -25, -25, 50, 50);
+});
+
 test('drawNpc walks through all frames within one second', () => {
   const ctx = {
     save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),

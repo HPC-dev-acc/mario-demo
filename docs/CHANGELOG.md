@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.16.3 - 2025-09-27
+
+### Changed
+- Trunk NPC sprites now render 1.25× larger from their center for better visibility (DS-44, T-47).
+
 ## v2.16.2 - 2025-09-26
 
 ### Fixed
