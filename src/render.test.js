@@ -459,6 +459,18 @@ test('drawNpc scales trunk 1.25x from center', () => {
   expect(ctx.drawImage).toHaveBeenCalledWith(frames[0], -25, -25, 50, 50);
 });
 
+test('drawNpc enables smoothing for trunk', () => {
+  const ctx = {
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
+    drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: false, translate: jest.fn(), scale: jest.fn(),
+  };
+  const npc = { x: 0, y: 0, shadowY: 0, w: 40, h: 40, state: 'walk', animTime: 0, facing: 1, type: 'trunk' };
+  const frames = [{}];
+  const sprite = { walk: frames, idle: frames };
+  drawNpc(ctx, npc, sprite);
+  expect(ctx.imageSmoothingEnabled).toBe(true);
+});
+
 test('drawNpc walks through all frames within one second', () => {
   const ctx = {
     save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
