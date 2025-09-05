@@ -39,7 +39,8 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random, facing=-1, opts=
     state: 'walk',
     animTime: 0,
     bounceCount: 0,
-    passThrough: false,
+    passThrough: !!opts.passThrough,
+    offsetY: opts.offsetY || 0,
     bumped: false
   };
   if (opts.fixedSpeed !== undefined) {

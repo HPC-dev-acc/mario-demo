@@ -574,7 +574,7 @@ const NPC_SPAWN_MAX_MS = 8000;
         if (type === 'trunk') {
           sprite = state.trunkNpcSprite;
           sizeScale = 2;
-          opts = { fixedSpeed: 3 };
+          opts = { fixedSpeed: 3, passThrough: true, offsetY: TILE };
           facing = 1;
         }
       }
@@ -591,10 +591,6 @@ const NPC_SPAWN_MAX_MS = 8000;
           true,
         );
         const npc = createNpc(spawnX, groundY - npcH / 2, npcW, npcH, sprite, undefined, facing, opts, type);
-        if (type === 'trunk') {
-          npc.passThrough = true;
-          npc.offsetY = TILE;
-        }
         state.npcs.push(npc);
       }
       npcSpawnTimer = NPC_SPAWN_MIN_MS + Math.random() * (NPC_SPAWN_MAX_MS - NPC_SPAWN_MIN_MS);
