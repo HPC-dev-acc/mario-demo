@@ -259,6 +259,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/ui/index.test.js`
 - **Description**: clicking **NPC1** and **NPC2** buttons calls `spawnNpc('ol')` and `spawnNpc('trunk')` when developer mode is enabled.
 
+### T-52: Developer NPC width
+- **Design Spec**: DS-48
+- **Test File**: `src/main.integration.test.js`
+- **Description**: spawning an NPC via the developer panel uses `player.baseH / 44` to keep sprites from stretching.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -282,3 +287,4 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-019**: Launching the game displays a brief HPC Games splash before the home screen.
 - **URS-020**: NPCs waiting at red lights animate instead of standing motionless.
 - **URS-022**: Developer mode shows an NPC panel where **NPC1** spawns an OL from the right and **NPC2** spawns a Trunk from the left.
+- **URS-023**: NPCs spawned from the developer panel appear at normal width.

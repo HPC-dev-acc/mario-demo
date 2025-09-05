@@ -326,7 +326,7 @@ const NPC_SPAWN_MAX_MS = 8000;
     return { enable, isEnabled, toggleTransparent, toggleDestroyable, save, getSelected, addBlock };
   })();
   function spawnDevNpc(type) {
-    const baseScale = player.baseH / 24;
+    const baseScale = player.baseH / 44;
     let sprite, sizeScale = 1, opts = {}, facing = 1;
     if (type === 'ol') {
       if (!state.olNpcSprite) return;
@@ -461,6 +461,7 @@ const NPC_SPAWN_MAX_MS = 8000;
     getObjects: () => designObjects,
     getNpcSpawnTimer: () => npcSpawnTimer,
     setNpcSpawnTimer: (v) => { npcSpawnTimer = v; },
+    spawnNpc: spawnDevNpc,
   };
 
   let last=0;

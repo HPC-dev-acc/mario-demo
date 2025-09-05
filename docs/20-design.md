@@ -119,7 +119,7 @@
 - Enabled PWA support so the demo can run offline and be installed on mobile devices.
 
 ## UX
-- HUD offers a gear menu, info panel, countdown timer, and circular touch controls pinned to the screen corners on mobile. A debug panel appears only when developer mode is enabled for developers or testers. Developer mode also reveals an NPC panel with **NPC1**/**NPC2** buttons wired to a `spawnNpc(type)` hook to insert an OL from the right or a Trunk from the left for testing.
+- HUD offers a gear menu, info panel, countdown timer, and circular touch controls pinned to the screen corners on mobile. A debug panel appears only when developer mode is enabled for developers or testers. Developer mode also reveals an NPC panel with **NPC1**/**NPC2** buttons wired to a `spawnNpc(type)` hook to insert an OL from the right or a Trunk from the left for testing. These hooks scale width with `player.baseH / 44` so spawned sprites keep their normal proportions.
 - Orientation guard pauses play in portrait mode and resumes on landscape.
 - Fullscreen uses centered letterboxing with black bars and resizes on `fullscreenchange` to preserve the 16:9 aspect ratio; styles target both `#stage:fullscreen` and `#game-root:fullscreen #stage`.
 
@@ -173,3 +173,4 @@
 | DS-45 | Trunk movement spawns slide dust about every 200 ms. | FR-058 | T-49 |
 | DS-46 | Trunk NPCs render after the player and other NPCs so they remain in front. | FR-059 | T-50 |
 | DS-47 | Developer NPC panel provides **NPC1**/**NPC2** buttons that call `spawnNpc('ol')` or `spawnNpc('trunk')` to generate test NPCs. | FR-060 | T-51 |
+| DS-48 | Developer NPC panel scales spawned NPC width using `player.baseH / 44` to match normal aspect ratio. | FR-061 | T-52 |
