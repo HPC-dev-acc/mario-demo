@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.20.0 - 2025-10-07
+
+### Changed
+- Trunk NPC shadow now offsets one tile upward for alignment (DS-44, T-57).
+
 ## v2.19.1 - 2025-10-06
 
 ### Changed

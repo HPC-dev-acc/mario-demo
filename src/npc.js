@@ -41,6 +41,7 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random, facing=-1, opts=
     bounceCount: 0,
     passThrough: !!opts.passThrough,
     offsetY: opts.offsetY || 0,
+    shadowOffsetY: opts.shadowOffsetY || 0,
     bumped: false,
     despawnAtLeftEdge: !!opts.despawnAtLeftEdge
   };

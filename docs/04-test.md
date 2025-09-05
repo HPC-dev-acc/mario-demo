@@ -284,6 +284,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/render.test.js`
 - **Description**: verifies trunk shadows draw at one-third of the sprite width.
 
+### T-57: Trunk shadow upward offset
+- **Design Spec**: DS-44
+- **Test File**: `src/render.test.js`
+- **Description**: verifies trunk shadows are drawn one `TILE` higher than their `offsetY`.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
