@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.16.1 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/20-design.md` is verified by an automated or manual test. The v2.16.2 SDS elaborates the tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and the new splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
@@ -228,6 +228,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Design Spec**: DS-44
 - **Test File**: `src/npc.test.js`
 - **Description**: verifies `createNpc` sets `passThrough`, letting the player pass without collision.
+
+### T-46: Trunk NPC pass-through persists after landing
+- **Design Spec**: DS-44
+- **Test File**: `src/main.integration.test.js`
+- **Description**: ensures landing logic does not clear `passThrough` on Trunk NPCs.
 
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.

@@ -541,7 +541,9 @@ const NPC_SPAWN_MAX_MS = 8000;
     if (player.onGround && !wasOnGround) {
       for (const npc of state.npcs) {
         npc.bounceCount = 0;
-        npc.passThrough = false;
+        if (npc.type !== 'trunk') {
+          npc.passThrough = false;
+        }
       }
     }
     player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2);
@@ -598,6 +600,7 @@ const NPC_SPAWN_MAX_MS = 8000;
 
     for (const npc of state.npcs) {
       updateNpc(npc, dtMs, { level, collisions: state.collisions, lights: state.lights, gravity: GRAVITY }, player);
+      if (npc.type === 'trunk') npc.passThrough = true;
     }
     // 玩家 vs NPC 碰撞處理
     const pbox = { x: player.x - player.w/2, y: player.y - player.h/2, w: player.w, h: player.h };

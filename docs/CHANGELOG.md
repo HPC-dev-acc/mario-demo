@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.16.2 - 2025-09-26
+
+### Fixed
+- Landing no longer clears Trunk NPC pass-through so they remain non-collidable (DS-44, T-46).
+
 ## v2.16.1 - 2025-09-25
 
 ### Fixed
