@@ -341,9 +341,13 @@ const NPC_SPAWN_MAX_MS = 8000;
     } else {
       return;
     }
-    const spawnX = type === 'trunk'
+    opts = { ...(opts || {}), despawnAtLeftEdge: type !== 'trunk' };
+    const rawSpawnX = type === 'trunk'
       ? camera.x - player.w
       : camera.x + LOGICAL_W + player.w;
+    const spawnX = type === 'trunk'
+      ? Math.max(rawSpawnX, player.w / 2)
+      : rawSpawnX;
     const npcW = 48 * baseScale * sizeScale;
     const npcH = player.baseH * sizeScale;
     const groundY = findGroundY(
@@ -589,7 +593,7 @@ const NPC_SPAWN_MAX_MS = 8000;
       let type = 'default';
       let sprite = state.npcSprite;
       let sizeScale = 1;
-      let opts;
+      let opts = {};
       let facing;
       const specialTypes = [];
       if (state.olNpcSprite) specialTypes.push('ol');
@@ -613,9 +617,13 @@ const NPC_SPAWN_MAX_MS = 8000;
           facing = 1;
         }
       }
-      const spawnX = type === 'trunk'
+      opts = { ...(opts || {}), despawnAtLeftEdge: type !== 'trunk' };
+      const rawSpawnX = type === 'trunk'
         ? camera.x - player.w
         : camera.x + LOGICAL_W + player.w;
+      const spawnX = type === 'trunk'
+        ? Math.max(rawSpawnX, player.w / 2)
+        : rawSpawnX;
       const npcW = 48 * baseScale * sizeScale;
       const npcH = player.baseH * sizeScale;
       if (!state.npcs.some(n => n.type === type)) {
