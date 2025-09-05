@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.17.0: Trunk movement emits slide dust and renders above all characters._
+_Updated for v2.18.0: Developer mode adds an NPC spawn panel with buttons to create OL and Trunk NPCs._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -99,6 +99,11 @@ _Updated for v2.17.0: Trunk movement emits slide dust and renders above all char
   - *User story*: As a player, I want occasional trunks to move from the left without knocking me back so I react to unexpected scenery.
   - *Success*: A trunk glides from the left toward the right, displays 1.25× larger from its center with smoothing that preserves sprite detail, cannot be stood on, does not impede the player, kicks up dust like a slide, and appears above other characters when overlapping.
 
+- **URS-022: NPC spawn panel (developer/tester only)**
+  - *Scenario*: Developers or testers need to spawn specific NPCs for debugging.
+  - *User story*: As a developer or tester, I want buttons to spawn OL or Trunk NPCs so I can quickly test behavior.
+  - *Success*: Clicking **NPC1** spawns an OL from the right; clicking **NPC2** spawns a Trunk from the left.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -136,6 +141,7 @@ _Updated for v2.17.0: Trunk movement emits slide dust and renders above all char
 - FR-042: Provides an **orientation guard overlay**: mobile portrait shows a mask and pauses the game, prompting rotation to landscape.
 - FR-043: The settings menu offers a **developer switch** that reveals the debug panel, log controls, and a level editor for developers and testers when enabled.
 - FR-044: Touch controls use circular buttons pinned to the bottom corners for ergonomic thumb reach.
+- FR-060: Developer mode exposes an **NPC** panel with **NPC1** and **NPC2** buttons to spawn an OL from the right or a Trunk from the left.
 
 **Platform / Release**
 - FR-050: The game can be installed and launched offline with cached resources and versioning.
@@ -194,6 +200,7 @@ _Updated for v2.17.0: Trunk movement emits slide dust and renders above all char
 | FR-057 | DS-44 | T-44, T-45, T-46, T-47, T-48 |
 | FR-058 | DS-45 | T-49 |
 | FR-059 | DS-46 | T-50 |
+| FR-060 | DS-47 | T-51 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |

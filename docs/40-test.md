@@ -254,6 +254,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/render.test.js`
 - **Description**: verifies trunks render after the player and other NPCs so they remain visible.
 
+### T-51: Developer NPC panel
+- **Design Spec**: DS-47
+- **Test File**: `src/ui/index.test.js`
+- **Description**: clicking **NPC1** and **NPC2** buttons calls `spawnNpc('ol')` and `spawnNpc('trunk')` when developer mode is enabled.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -276,3 +281,4 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-021**: A trunk glides from the left to the right faster than other characters without affecting the player.
 - **URS-019**: Launching the game displays a brief HPC Games splash before the home screen.
 - **URS-020**: NPCs waiting at red lights animate instead of standing motionless.
+- **URS-022**: Developer mode shows an NPC panel where **NPC1** spawns an OL from the right and **NPC2** spawns a Trunk from the left.

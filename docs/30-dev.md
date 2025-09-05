@@ -6,6 +6,7 @@
 - Source code resides in `src/`; `main.js` and `hud.js` remain root-level entry points, while HUD logic lives in `src/ui/index.js` for modularity.
 - Use `npm run build` to update version information before deployment.
 - Developer mode is hidden by default. Toggle it in the settings gear to access the debug panel, log tools, and level editor controls (developers/testers only).
+- When developer mode is on, an NPC panel appears with **NPC1** and **NPC2** buttons that call into `spawnNpc('ol')` and `spawnNpc('trunk')` for quick NPC generation during testing.
 - Design mode outlines collision boxes for all tiles, the player, and NPCs in green to assist with layout edits (DS-34).
 - Style tests ensure circular touch controls remain pinned to the bottom screen corners (DS-35, T-35).
 - The start screen exposes `startScreen.setProgress` to update a loading progress bar while assets load (DS-33, T-33).

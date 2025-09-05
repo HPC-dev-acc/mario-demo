@@ -1,6 +1,6 @@
 import { CAMERA_OFFSET_Y } from '../render.js';
 
-export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {}) {
+export function initUI(canvas, { resumeAudio, toggleMusic, version, design, spawnNpc } = {}) {
   const stage = document.getElementById('stage');
   const startPage = document.getElementById('start-page');
   const splash = document.getElementById('splash');
@@ -24,11 +24,13 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const logControls = document.getElementById('log-controls');
   const audioControls = document.getElementById('audio-controls');
   const designControls = document.getElementById('design-controls');
+  const npcControls = document.getElementById('npc-controls');
   const langLabelEl = langControls?.querySelector('strong');
   const devLabelEl = devControls?.querySelector('strong');
   const logLabelEl = logControls?.querySelector('strong');
   const audioLabelEl = audioControls?.querySelector('strong');
   const levelLabelEl = designControls?.querySelector('strong');
+  const npcLabelEl = npcControls?.querySelector('strong');
   const logCopy = document.getElementById('log-copy');
   const logClear = document.getElementById('log-clear');
   const bgmToggle = document.getElementById('bgm-toggle');
@@ -38,6 +40,8 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
   const destroyBtn = document.getElementById('design-destroyable');
   const saveBtn = document.getElementById('design-save');
   const addBtn = document.getElementById('design-add');
+  const npc1Btn = document.getElementById('npc1');
+  const npc2Btn = document.getElementById('npc2');
   const infoPanel = document.querySelector('#top-right #info-panel');
   const docTitle = document.getElementById('doc-title');
   const docText = infoPanel?.querySelector('.doc');
@@ -61,6 +65,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     lang: { en: 'LANG', ja: '言語', 'zh-Hant': '語言', 'zh-Hans': '语言' },
     dev: { en: 'DEV', ja: '開発', 'zh-Hant': '開發', 'zh-Hans': '开发' },
     log: { en: 'LOG', ja: 'ログ', 'zh-Hant': '記錄', 'zh-Hans': '日志' },
+    npc: { en: 'NPC', ja: 'NPC', 'zh-Hant': 'NPC', 'zh-Hans': 'NPC' },
     copy: { en: 'Copy', ja: 'コピー', 'zh-Hant': '複製', 'zh-Hans': '复制' },
     clear: { en: 'Clear', ja: 'クリア', 'zh-Hant': '清除', 'zh-Hans': '清空' },
     bgm: { en: 'BGM', ja: 'BGM', 'zh-Hant': 'BGM', 'zh-Hans': 'BGM' },
@@ -104,6 +109,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     if (bgmToggle) bgmToggle.textContent = uiText[bgmOn ? 'mute' : 'unmute'][currentLang];
     if (devToggle) devToggle.textContent = uiText[devOn ? 'devOff' : 'devOn'][currentLang];
     if (levelLabelEl) levelLabelEl.textContent = uiText.level[currentLang];
+    if (npcLabelEl) npcLabelEl.textContent = uiText.npc[currentLang];
     if (enableBtn) enableBtn.textContent = uiText[designOn ? 'disable' : 'enable'][currentLang];
     if (transBtn) transBtn.textContent = uiText.transparent[currentLang];
     if (destroyBtn) destroyBtn.textContent = uiText.destroy[currentLang];
@@ -280,6 +286,9 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     addBtn?.addEventListener('click', () => design.addBlock());
   }
 
+  npc1Btn?.addEventListener('click', () => spawnNpc?.('ol'));
+  npc2Btn?.addEventListener('click', () => spawnNpc?.('trunk'));
+
   devToggle?.addEventListener('click', () => {
     devOn = !devOn;
     devToggle.classList.toggle('active', devOn);
@@ -288,6 +297,7 @@ export function initUI(canvas, { resumeAudio, toggleMusic, version, design } = {
     if (debugPanel) debugPanel.hidden = !devOn;
     if (logControls) logControls.hidden = !devOn;
     if (designControls) designControls.hidden = !devOn;
+    if (npcControls) npcControls.hidden = !devOn;
     if (!devOn && designOn && design?.enable) {
       design.enable();
       designOn = false;
