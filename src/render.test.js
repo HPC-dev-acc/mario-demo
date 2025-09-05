@@ -331,6 +331,16 @@ test('drawNpc draws shadow with half width', () => {
   expect(ctx.ellipse).toHaveBeenCalledWith(npc.x, npc.shadowY, npc.w / 4, npc.h / 8, 0, 0, Math.PI * 2);
 });
 
+test('drawNpc widens shadow for trunk', () => {
+  const ctx = {
+    save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
+    drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true, translate: jest.fn(), scale: jest.fn(),
+  };
+  const npc = { x: 10, y: 20, shadowY: 30, w: 90, h: 80, state: 'idle', animTime: 0, type: 'trunk' };
+  drawNpc(ctx, npc, null);
+  expect(ctx.ellipse).toHaveBeenCalledWith(npc.x, npc.shadowY, npc.w / 3, npc.h / 8, 0, 0, Math.PI * 2);
+});
+
 test('drawPlayer omits red-person icon when paused at red light', () => {
   const ctx = {
     save: jest.fn(),

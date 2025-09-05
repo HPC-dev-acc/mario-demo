@@ -160,7 +160,8 @@ export function drawNpc(ctx, p, sprite) {
   ctx.save();
   ctx.fillStyle = 'rgba(0,0,0,0.3)';
   ctx.beginPath();
-  ctx.ellipse(p.x, (p.shadowY || (p.y + h/2)) + offsetY, w/4, h/8, 0, 0, Math.PI*2);
+  const shadowW = p.type === 'trunk' ? w / 3 : w / 4;
+  ctx.ellipse(p.x, (p.shadowY || (p.y + h / 2)) + offsetY, shadowW, h / 8, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
   if (!sprite) return;

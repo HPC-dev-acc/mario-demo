@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.18.5: Trunk NPC scale reduced to 1.1× and it now draws one tile lower._
+_Updated for v2.19.0: Trunk NPC now draws three tiles lower with a wider shadow._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -97,7 +97,7 @@ _Updated for v2.18.5: Trunk NPC scale reduced to 1.1× and it now draws one tile
 - **URS-021: Passing Trunk obstacle**
   - *Scenario*: A log slides across the stage faster than other characters.
   - *User story*: As a player, I want occasional trunks to move from the left without knocking me back so I react to unexpected scenery.
-  - *Success*: A trunk glides from the left toward the right, displays 1.1× larger from its center with smoothing that preserves sprite detail, draws one tile lower, cannot be stood on, does not impede the player, kicks up dust like a slide, and appears above other characters when overlapping.
+  - *Success*: A trunk glides from the left toward the right, displays 1.1× larger from its center with smoothing that preserves sprite detail, draws three tiles lower with a wider shadow, cannot be stood on, does not impede the player, kicks up dust like a slide, and appears above other characters when overlapping.
 
 - **URS-022: NPC spawn panel (developer/tester only)**
   - *Scenario*: Developers or testers need to spawn specific NPCs for debugging.
@@ -141,7 +141,7 @@ _Updated for v2.18.5: Trunk NPC scale reduced to 1.1× and it now draws one tile
 - FR-033: Officeman NPC sprites render 1.25× larger from their center while their collision boxes remain unchanged.
 - FR-034: NPC spawn dimensions derive from the player's base height so sliding does not shrink NPCs or misalign them with the ground.
  - FR-056: OL, Officeman, and Student NPCs display idle animations when paused by red lights.
-- FR-057: A Trunk NPC may slide in from the left, moves to the right faster than OL, renders 1.1× larger from its center one tile lower with image smoothing and without altering collisions, cannot be stood on, and causes no collision response; pass-through persists even after the player lands.
+- FR-057: A Trunk NPC may slide in from the left, moves to the right faster than OL, renders 1.1× larger from its center three tiles lower with image smoothing and a widened shadow without altering collisions, cannot be stood on, and causes no collision response; pass-through persists even after the player lands.
 - FR-058: Trunk movement triggers a slide-like dust effect.
 - FR-059: When overlapping, Trunk sprites render in front of the player and other NPCs.
 
@@ -210,7 +210,7 @@ _Updated for v2.18.5: Trunk NPC scale reduced to 1.1× and it now draws one tile
 | FR-054 | DS-39 | T-39 |
 | FR-055 | DS-40 | T-40 |
 | FR-056 | DS-41, DS-42, DS-43 | T-41, T-42, T-43 |
-| FR-057 | DS-44 | T-44, T-45, T-46, T-47, T-48 |
+| FR-057 | DS-44 | T-44, T-45, T-46, T-47, T-48, T-55, T-56 |
 | FR-058 | DS-45 | T-49 |
 | FR-059 | DS-46 | T-50 |
 | FR-060 | DS-47 | T-51 |

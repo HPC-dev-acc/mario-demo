@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.19.0 - 2025-10-05
+
+### Changed
+- Trunk NPC now draws three tiles lower with a wider shadow (DS-44, T-55, T-56).
+
 ## v2.18.5 - 2025-10-04
 
 ### Changed
