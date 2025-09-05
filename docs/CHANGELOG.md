@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.16.1 - 2025-09-25
+
+### Fixed
+- Trunk NPC walk animation renders and no longer collides with the player (DS-44, T-44, T-45).
+
 ## v2.16.0 - 2025-09-24
 
 ### Added

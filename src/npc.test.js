@@ -103,3 +103,14 @@ test('npc shows bump state during pause', () => {
   expect(npc.state).toBe('walk');
   expect(npc.bumped).toBe(false);
 });
+
+test('createNpc applies passThrough option', () => {
+  const npc = createNpc(0,0,10,10,null,undefined,undefined,{ passThrough: true }, 'trunk');
+  expect(npc.passThrough).toBe(true);
+  expect(npc.offsetY).toBe(0);
+});
+
+test('createNpc applies offsetY option', () => {
+  const npc = createNpc(0,0,10,10,null,undefined,undefined,{ offsetY: TILE }, 'trunk');
+  expect(npc.offsetY).toBe(TILE);
+});

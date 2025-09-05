@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.16.0: Added a Trunk NPC that moves from left to right without collisions._
+_Updated for v2.16.1: Trunk NPC walk animation displays and no longer collides with the player._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -189,7 +189,7 @@ _Updated for v2.16.0: Added a Trunk NPC that moves from left to right without co
 | FR-054 | DS-39 | T-39 |
 | FR-055 | DS-40 | T-40 |
 | FR-056 | DS-41, DS-42, DS-43 | T-41, T-42, T-43 |
-| FR-057 | DS-44 | T-44 |
+| FR-057 | DS-44 | T-44, T-45 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |
