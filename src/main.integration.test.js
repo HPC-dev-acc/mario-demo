@@ -633,4 +633,21 @@ describe('player and npc collision', () => {
     expect(npc.passThrough).toBe(true);
     expect(player.vy).toBeGreaterThan(0);
   });
+
+  test('trunk remains pass-through after player lands', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    const player = state.player;
+    player.x = 0; player.y = 0;
+    const npc = createNpc(0, 60, player.w, player.h, null, undefined, undefined, { passThrough: true }, 'trunk');
+    state.npcs.push(npc);
+
+    player.y = SPAWN_Y - 20;
+    player.vy = 10;
+    player.onGround = false;
+    for (let i = 0; i < 60 && !player.onGround; i++) hooks.runUpdate(16);
+
+    expect(player.onGround).toBe(true);
+    expect(npc.passThrough).toBe(true);
+  });
 });

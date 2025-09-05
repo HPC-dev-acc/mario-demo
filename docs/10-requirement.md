@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.16.1: Trunk NPC walk animation displays and no longer collides with the player._
+_Updated for v2.16.2: Trunk NPC walk animation displays and never collides with the player, even after landing._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -126,7 +126,7 @@ _Updated for v2.16.1: Trunk NPC walk animation displays and no longer collides w
 - FR-033: Officeman NPC sprites render 1.25× larger from their center while their collision boxes remain unchanged.
 - FR-034: NPC spawn dimensions derive from the player's base height so sliding does not shrink NPCs or misalign them with the ground.
  - FR-056: OL, Officeman, and Student NPCs display idle animations when paused by red lights.
- - FR-057: A Trunk NPC may slide in from the left, moves to the right faster than OL, cannot be stood on, and causes no collision response.
+ - FR-057: A Trunk NPC may slide in from the left, moves to the right faster than OL, cannot be stood on, and causes no collision response; pass-through persists even after the player lands.
 
 **UI / HUD**
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info panel; mobile shows virtual buttons.
@@ -189,7 +189,7 @@ _Updated for v2.16.1: Trunk NPC walk animation displays and no longer collides w
 | FR-054 | DS-39 | T-39 |
 | FR-055 | DS-40 | T-40 |
 | FR-056 | DS-41, DS-42, DS-43 | T-41, T-42, T-43 |
-| FR-057 | DS-44 | T-44, T-45 |
+| FR-057 | DS-44 | T-44, T-45, T-46 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |
