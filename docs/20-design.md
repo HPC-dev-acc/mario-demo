@@ -63,7 +63,7 @@
 - NPCs are culled once their left edge reaches the camera's x position, and left-side spawns clamp their initial X to the first tile to avoid falling.
 - Automatic spawns merge provided NPC options with an empty object before adding boundary flags so missing option objects do not throw errors.
 - OL, Officeman, and Student NPCs include dedicated idle sprite sequences (`idle_000`–`idle_012` for OL and Student, `idle_000`–`idle_018` for Officeman) loaded at 6 FPS and played whenever a red light pauses them.
-- Trunk NPCs load `Move_000`–`Move_012` frames as a `walk` animation at 8 FPS, draw three `TILE`s lower with a shadow one third their width, stand twice the player's `baseH`, scale 1.1× from their center, move right at speed 3, and mark `passThrough` so the player cannot collide or stand on them; `passThrough` is reapplied every frame to keep trunks non-solid, and their movement triggers a slide-like dust effect roughly every 200 ms.
+- Trunk NPCs load `Move_000`–`Move_012` frames as a `walk` animation at 8 FPS, draw two `TILE`s lower with a shadow one third their width, stand twice the player's `baseH`, scale 1.1× from their center, move right at speed 3, and mark `passThrough` so the player cannot collide or stand on them; `passThrough` is reapplied every frame to keep trunks non-solid, and their movement triggers a slide-like dust effect roughly every 200 ms.
   NPC templates specify `{speed, sprites, width, height}` and are shallow-cloned for each spawn. The spawn routine places new NPCs at `(LEVEL_W + 24, groundY)` so they walk into view from the right. State transitions are driven by timers:
   ```js
   switch(npc.state){
@@ -171,7 +171,7 @@
 | DS-41 | OL NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-41 |
 | DS-42 | Officeman NPC idle sprites for frames 0–18, played when red lights pause them. | FR-056 | T-42 |
 | DS-43 | Student NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-43 |
-| DS-44 | Trunk NPC uses `Move_000`–`Move_012` frames as a walk animation; spawns from the left, moves right at speed 3, is pass-through (reapplied each frame so landing never makes it solid), draws three `TILE`s lower with a wider shadow, stands twice the player's base height, and scales 1.1× from its center with image smoothing to preserve sprite detail. | FR-057 | T-44, T-45, T-46, T-47, T-48, T-55, T-56 |
+| DS-44 | Trunk NPC uses `Move_000`–`Move_012` frames as a walk animation; spawns from the left, moves right at speed 3, is pass-through (reapplied each frame so landing never makes it solid), draws two `TILE`s lower with a wider shadow, stands twice the player's base height, and scales 1.1× from its center with image smoothing to preserve sprite detail. | FR-057 | T-44, T-45, T-46, T-47, T-48, T-55, T-56 |
 | DS-45 | Trunk movement spawns slide dust about every 200 ms. | FR-058 | T-49 |
 | DS-46 | Trunk NPCs render after the player and other NPCs so they remain in front. | FR-059 | T-50 |
 | DS-47 | Developer NPC panel provides **NPC1**/**NPC2** buttons that call `spawnNpc('ol')` or `spawnNpc('trunk')` to generate test NPCs. | FR-060 | T-51 |
