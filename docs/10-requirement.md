@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.18.1: Developer NPC panel spawns maintain correct width when creating test NPCs._
+_Updated for v2.18.3: Default NPC spawns no longer crash when options are omitted._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -109,6 +109,11 @@ _Updated for v2.18.1: Developer NPC panel spawns maintain correct width when cre
   - *User story*: As a developer or tester, I want spawned NPCs to appear at normal width so visuals match standard gameplay.
   - *Success*: NPCs spawned from the panel match the aspect ratio of regular spawns.
 
+- **URS-024: Smooth NPC boundary transition**
+  - *Scenario*: NPCs enter or exit at the left edge when the camera is at the starting position.
+  - *User story*: As a player, I want NPCs to leave the stage without getting stuck or falling so the world feels coherent.
+  - *Success*: NPCs exiting left disappear cleanly and those entering from the left stand on the ground.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -146,8 +151,9 @@ _Updated for v2.18.1: Developer NPC panel spawns maintain correct width when cre
 - FR-042: Provides an **orientation guard overlay**: mobile portrait shows a mask and pauses the game, prompting rotation to landscape.
 - FR-043: The settings menu offers a **developer switch** that reveals the debug panel, log controls, and a level editor for developers and testers when enabled.
 - FR-044: Touch controls use circular buttons pinned to the bottom corners for ergonomic thumb reach.
-- FR-060: Developer mode exposes an **NPC** panel with **NPC1** and **NPC2** buttons to spawn an OL from the right or a Trunk from the left.
-- FR-061: NPCs spawned via the developer panel match standard spawn dimensions and avoid stretched rendering.
+  - FR-060: Developer mode exposes an **NPC** panel with **NPC1** and **NPC2** buttons to spawn an OL from the right or a Trunk from the left.
+  - FR-061: NPCs spawned via the developer panel match standard spawn dimensions and avoid stretched rendering.
+  - FR-062: NPCs exiting from the right disappear at the left edge even when the camera has not scrolled, and NPCs entering from the left stand on the ground when the camera is at the start.
 
 **Platform / Release**
 - FR-050: The game can be installed and launched offline with cached resources and versioning.
@@ -169,7 +175,8 @@ _Updated for v2.18.1: Developer NPC panel spawns maintain correct width when cre
 - NFR-005 (i18n): UI, dialog bubbles, buttons, and prompts fully follow the selected language.
 - NFR-006 (Usability): START/Restart buttons remain visible and clickable; touch targets are at least **40 px**.
 - NFR-007 (Maintainability): Game assets and level data stay organized; enabling design mode/export must not break existing content.
-- NFR-008 (Offline): Installation defines icons and splash screens; offline caching manages versions and informs users of updates.
+  - NFR-008 (Offline): Installation defines icons and splash screens; offline caching manages versions and informs users of updates.
+  - NFR-009 (Reliability): Automatic NPC spawning must handle missing option objects without throwing errors.
 
 ## RTM
 
@@ -208,6 +215,7 @@ _Updated for v2.18.1: Developer NPC panel spawns maintain correct width when cre
 | FR-059 | DS-46 | T-50 |
 | FR-060 | DS-47 | T-51 |
 | FR-061 | DS-48 | T-52 |
+| FR-062 | DS-49 | T-53 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |
@@ -220,3 +228,4 @@ _Updated for v2.18.1: Developer NPC panel spawns maintain correct width when cre
 | NFR-006 | DS-5, DS-6, DS-35 | T-5, T-6, T-35 |
 | NFR-007 | DS-12, DS-13 | T-12, T-13 |
 | NFR-008 | DS-14 | T-14 |
+| NFR-009 | DS-50 | T-54 |

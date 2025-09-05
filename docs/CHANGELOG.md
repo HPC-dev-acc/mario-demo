@@ -10,6 +10,17 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.18.3 - 2025-10-02
+
+### Fixed
+- Automatic NPC spawns now merge undefined option objects with defaults to prevent crashes (DS-50, T-54).
+
+## v2.18.2 - 2025-10-02
+
+### Fixed
+- NPCs entering from the right no longer stick at the stage start; they are culled when touching the left edge (DS-49, T-53).
+- NPCs spawning from the left stand on the ground when the camera is at the starting position (DS-49, T-53).
+
 ## v2.18.1 - 2025-10-01
 
 ### Fixed

@@ -264,6 +264,16 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/main.integration.test.js`
 - **Description**: spawning an NPC via the developer panel uses `player.baseH / 44` to keep sprites from stretching.
 
+### T-53: NPC culls at left boundary
+- **Design Spec**: DS-49
+- **Test File**: `src/npc.test.js`
+- **Description**: ensures an NPC at the left edge with the camera at 0 is considered off-screen.
+
+### T-54: Safe NPC spawn options
+- **Design Spec**: DS-50
+- **Test File**: `src/npc.test.js`
+- **Description**: merging undefined NPC option objects before adding flags does not throw.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -288,3 +298,4 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-020**: NPCs waiting at red lights animate instead of standing motionless.
 - **URS-022**: Developer mode shows an NPC panel where **NPC1** spawns an OL from the right and **NPC2** spawns a Trunk from the left.
 - **URS-023**: NPCs spawned from the developer panel appear at normal width.
+- **URS-024**: NPCs exit at the left edge without sticking and left-side spawns stand on the ground at stage start.
