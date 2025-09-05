@@ -447,7 +447,7 @@ test('drawNpc scales officeman 1.25x from center', () => {
   expect(ctx.drawImage).toHaveBeenCalledWith(sprite.img, 0, 0, 40, 40, -25, -25, 50, 50);
 });
 
-test('drawNpc scales trunk 1.25x from center', () => {
+test('drawNpc scales trunk 1.2x from center', () => {
   const ctx = {
     save: jest.fn(), beginPath: jest.fn(), ellipse: jest.fn(), fill: jest.fn(), restore: jest.fn(),
     drawImage: jest.fn(), fillStyle: '', imageSmoothingEnabled: true, translate: jest.fn(), scale: jest.fn(),
@@ -456,7 +456,7 @@ test('drawNpc scales trunk 1.25x from center', () => {
   const frames = [{}];
   const sprite = { walk: frames, idle: frames };
   drawNpc(ctx, npc, sprite);
-  expect(ctx.drawImage).toHaveBeenCalledWith(frames[0], -25, -25, 50, 50);
+  expect(ctx.drawImage).toHaveBeenCalledWith(frames[0], -24, -24, 48, 48);
 });
 
 test('drawNpc enables smoothing for trunk', () => {

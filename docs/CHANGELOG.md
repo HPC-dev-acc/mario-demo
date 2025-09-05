@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.18.4 - 2025-10-03
+
+### Changed
+- Trunk NPC now renders 1.2× larger and two tiles lower (DS-44, T-47).
+
 ## v2.18.3 - 2025-10-02
 
 ### Fixed
