@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.20.3 - 2025-10-10
+
+### Fixed
+- Canvas resizes on visual viewport changes to keep dust effects aligned on iPhone Safari (DS-52, T-59).
+
 ## v2.20.2 - 2025-10-09
 
 ### Fixed

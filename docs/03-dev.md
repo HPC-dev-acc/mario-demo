@@ -24,7 +24,7 @@
 - Stomping an NPC invokes `triggerStompEffect` to briefly show a star at the impact point (DS-38, T-38).
 - Traffic light tiles are fully pass-through; edits to physics should preserve their non-solid behavior (DS-9, T-9).
 - Walking animations consume all provided frames; `drawNpc` uses the animation's frame count as its FPS.
-- Canvas dimensions are recalculated on `fullscreenchange` to maintain centered letterboxing, and CSS targets `#game-root:fullscreen #stage` to handle fullscreen requests on the container.
+- Canvas dimensions are recalculated on `fullscreenchange` and `visualViewport.resize` to maintain centered letterboxing and correct CSS scaling, and CSS targets `#game-root:fullscreen #stage` to handle fullscreen requests on the container.
 - Background images are regenerated with the canvas's CSS height during DPR adjustments to avoid upscaling in fullscreen.
 
 ## Coding Standard

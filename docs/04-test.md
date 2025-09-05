@@ -294,6 +294,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/game/physics.test.js`
 - **Description**: verifies `ignoreRedLight` prevents Trunk NPCs from pausing or hiding at red lights.
 
+### T-59: Visual viewport resize rescales canvas
+- **Design Spec**: DS-52
+- **Test File**: `src/main.integration.test.js`
+- **Description**: dispatching `visualViewport.resize` updates CSS scale factors so effects remain aligned when mobile browser chrome hides.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.

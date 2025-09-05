@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.20.2: Splash screen and home title scale to small displays._
+_Updated for v2.20.3: Canvas rescales on visual viewport changes to keep dust aligned on iPhone Safari._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -171,7 +171,7 @@ _Updated for v2.20.2: Splash screen and home title scale to small displays._
 ## NFR
 - NFR-001 (Performance): Target **60 FPS** and process only what is visible to maintain smooth play on most devices.
 - NFR-002 (Visual Quality): Graphics stay sharp at full resolution, regenerating backgrounds as needed and avoiding smoothing artifacts.
-- NFR-003 (Layout): Maintain a **16:9** aspect; fullscreen centers the stage with black bars and adapts to orientation changes while keeping controls unobstructed. Splash logos and the home title scale with the viewport to avoid overflow.
+- NFR-003 (Layout): Maintain a **16:9** aspect; fullscreen centers the stage with black bars and adapts to orientation changes while keeping controls unobstructed. Splash logos and the home title scale with the viewport to avoid overflow. Visual viewport changes (e.g., mobile browser chrome hiding) must trigger canvas rescaling so effects remain aligned.
 - NFR-004 (Compatibility): Operate on current major desktop and mobile browsers across common screen sizes, scaling virtual buttons with the viewport.
 - NFR-005 (i18n): UI, dialog bubbles, buttons, and prompts fully follow the selected language.
 - NFR-006 (Usability): START/Restart buttons remain visible and clickable; touch targets are at least **40 px**.
@@ -224,7 +224,7 @@ _Updated for v2.20.2: Splash screen and home title scale to small displays._
 | --- | --- | --- |
 | NFR-001 | DS-22 | T-22 |
 | NFR-002 | DS-17 | T-17 |
-| NFR-003 | DS-3, DS-21 | T-3, T-21 |
+| NFR-003 | DS-3, DS-21, DS-52 | T-3, T-21, T-59 |
 | NFR-004 | DS-23 | T-23 |
 | NFR-005 | DS-18 | T-18 |
 | NFR-006 | DS-5, DS-6, DS-35 | T-5, T-6, T-35 |

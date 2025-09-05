@@ -93,6 +93,22 @@ describe('canvas scaling', () => {
     expect(canvas.dataset.cssScaleY).toBe('1');
     expect(ctx.setTransform).toHaveBeenLastCalledWith(2, 0, 0, 2, 0, 0);
   });
+
+  test('visualViewport resize updates css scale factors', async () => {
+    let listener;
+    window.visualViewport = {
+      addEventListener: jest.fn((evt, cb) => {
+        if (evt === 'resize') listener = cb;
+      }),
+    };
+    const { canvas } = await loadGame();
+    expect(window.visualViewport.addEventListener).toHaveBeenCalledWith('resize', expect.any(Function));
+    canvas.getBoundingClientRect = () => ({ width: 960, height: 600, left: 0, top: 0 });
+    Object.defineProperty(canvas, 'clientHeight', { configurable: true, value: 600 });
+    listener();
+    expect(parseFloat(canvas.dataset.cssScaleY)).toBeCloseTo(600 / 540);
+    delete window.visualViewport;
+  });
 });
 
 describe('audio loading', () => {
