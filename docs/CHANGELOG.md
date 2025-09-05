@@ -9,6 +9,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 - Clarified documentation across requirements, design, development, and testing guides.
+- Rephrased URS success criteria to focus on player outcomes without rendering details (URS-008, URS-012–URS-023).
 
 ## v2.20.3 - 2025-10-10
 

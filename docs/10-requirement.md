@@ -32,7 +32,7 @@
 - **URS-008: Action audio and background music control**
   - *Scenario*: Players jump, slide, or clear the stage while listening to background music.
   - *User story*: I want distinct sound effects for actions and automatic BGM that I can mute or unmute from the interface.
-  - *Success*: The game loads multiple sound effects and looping BGM, and the interface toggles BGM mute state.
+  - *Success*: Action sounds are distinct, background music loops automatically, and players can mute or unmute it from the interface.
 - **URS-009: Live score and progress tracking**
   - *Scenario*: Players monitor their performance while navigating the stage.
   - *User story*: I want the HUD to display my current score, the stage label, and a countdown timer so I can gauge how well I'm doing.
@@ -50,12 +50,12 @@
 - **URS-012: Officeman visibility**
   - *Scenario*: Officeman NPC sprites are smaller than other characters.
   - *User story*: As a player, I want Officeman NPCs to appear at a comparable size so they are easy to see while gameplay physics stay consistent.
-  - *Success*: Officeman sprites display larger on screen without changing how their collision boxes interact.
+  - *Success*: Officeman NPCs appear clearly while gameplay behaves the same.
 
 - **URS-013: Consistent NPC size during slides**
   - *Scenario*: The player is sliding while NPCs spawn.
   - *User story*: As a player, I want NPCs to spawn at their normal size even when I'm sliding so visuals stay consistent.
-  - *Success*: NPCs always appear at their standard height and align with the ground regardless of player height changes.
+  - *Success*: NPCs look normal and stand on the ground even when the player is sliding.
 
 - **URS-014: Resource loading feedback**
   - *Scenario*: Players wait for assets to load on the home screen.
@@ -69,7 +69,7 @@
 - **URS-016: Stable collision during idle**
   - *Scenario*: The player character pauses without input.
   - *User story*: As a player, I want the character's collision box to stay the same when idle so positioning remains reliable.
-  - *Success*: Idling only narrows the sprite visually; collisions remain one tile wide and interactions are unaffected.
+  - *Success*: When the player stops moving, the character may look slightly narrower but still interacts with the world the same way.
 
 - **URS-017: Stomp visual feedback**
   - *Scenario*: The player jumps onto an NPC.
@@ -79,12 +79,12 @@
 - **URS-018: Impactful home title**
   - *Scenario*: A player views the home screen before starting.
   - *User story*: I want the game title to appear large and stylized so the start screen feels exciting.
-  - *Success*: The title is prominently displayed with bold styling and adjusts to fit the available space on the home screen.
+  - *Success*: The title is prominently displayed with bold styling and stays properly sized on the home screen.
 
 - **URS-019: Intro splash screen**
   - *Scenario*: The game launches before the home screen appears.
   - *User story*: I want a brief branded splash so I know who made the game.
-  - *Success*: A black screen fades in "HPC Games" then fades out to reveal an immediately interactive home screen, and the logo scales to the display.
+  - *Success*: A black screen fades in "HPC Games" then fades out to reveal an immediately interactive home screen, and the logo remains clear on any screen.
 
 - **URS-020: Animated NPC waiting**
   - *Scenario*: NPCs pause at pedestrian red lights.
@@ -94,7 +94,7 @@
 - **URS-021: Passing Trunk obstacle**
   - *Scenario*: A log slides across the stage faster than other characters.
   - *User story*: As a player, I want occasional trunks to move from the left without knocking me back so I react to unexpected scenery.
-  - *Success*: A trunk glides from the left toward the right, displays 1.1× larger from its center with smoothing that preserves sprite detail, draws two tiles lower with a wider shadow offset one tile upward, cannot be stood on, does not impede the player, ignores red lights so its walk animation stays visible, kicks up dust like a slide, and appears above other characters when overlapping.
+  - *Success*: A trunk slides from left to right faster than other characters, keeps moving through red lights, kicks up dust as it passes, and the player can run through it without being pushed or using it as a platform.
 
 - **URS-022: NPC spawn panel (developer/tester only)**
   - *Scenario*: Developers or testers need to spawn specific NPCs for debugging.
@@ -104,7 +104,7 @@
 - **URS-023: Developer-spawned NPC proportions (developer/tester only)**
   - *Scenario*: Developers or testers spawn NPCs via the debug panel.
   - *User story*: As a developer or tester, I want spawned NPCs to appear at normal width so visuals match standard gameplay.
-  - *Success*: NPCs spawned from the panel match the aspect ratio of regular spawns.
+  - *Success*: NPCs spawned from the panel look the same as those that appear during normal play.
 
 - **URS-024: Smooth NPC boundary transition**
   - *Scenario*: NPCs enter or exit at the left edge when the camera is at the starting position.
