@@ -593,6 +593,7 @@ const NPC_SPAWN_MAX_MS = 8000;
           true,
         );
         const npc = createNpc(spawnX, groundY - npcH / 2, npcW, npcH, sprite, undefined, facing, opts, type);
+        if (type === 'trunk') npc.dustTimer = 0;
         state.npcs.push(npc);
       }
       npcSpawnTimer = NPC_SPAWN_MIN_MS + Math.random() * (NPC_SPAWN_MAX_MS - NPC_SPAWN_MIN_MS);
@@ -600,7 +601,18 @@ const NPC_SPAWN_MAX_MS = 8000;
 
     for (const npc of state.npcs) {
       updateNpc(npc, dtMs, { level, collisions: state.collisions, lights: state.lights, gravity: GRAVITY }, player);
-      if (npc.type === 'trunk') npc.passThrough = true;
+      if (npc.type === 'trunk') {
+        npc.passThrough = true;
+        npc.dustTimer = (npc.dustTimer || 0) - dtMs;
+        if (npc.dustTimer <= 0) {
+          triggerSlideEffect(
+            npc.x - camera.x,
+            npc.y - (camera.y + CAMERA_OFFSET_Y) + npc.h / 2 + (npc.offsetY || 0),
+            npc.facing || 1,
+          );
+          npc.dustTimer = 200;
+        }
+      }
     }
     // 玩家 vs NPC 碰撞處理
     const pbox = { x: player.x - player.w/2, y: player.y - player.h/2, w: player.w, h: player.h };

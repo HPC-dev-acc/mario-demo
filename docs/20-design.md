@@ -61,7 +61,7 @@
 - NPC spawn height uses the player's `baseH` so that temporary slide height changes do not affect NPC size or ground alignment.
 - NPC collision boxes use a fixed `TILE` width regardless of sprite dimensions to ensure consistent player interactions.
 - OL, Officeman, and Student NPCs include dedicated idle sprite sequences (`idle_000`–`idle_012` for OL and Student, `idle_000`–`idle_018` for Officeman) loaded at 6 FPS and played whenever a red light pauses them.
-- Trunk NPCs load `Move_000`–`Move_012` frames as a `walk` animation at 8 FPS, draw one `TILE` lower including shadow, stand twice the player's `baseH`, scale 1.25× from their center, move right at speed 3, and mark `passThrough` so the player cannot collide or stand on them; `passThrough` is reapplied every frame to keep trunks non-solid.
+- Trunk NPCs load `Move_000`–`Move_012` frames as a `walk` animation at 8 FPS, draw one `TILE` lower including shadow, stand twice the player's `baseH`, scale 1.25× from their center, move right at speed 3, and mark `passThrough` so the player cannot collide or stand on them; `passThrough` is reapplied every frame to keep trunks non-solid, and their movement triggers a slide-like dust effect roughly every 200 ms.
   NPC templates specify `{speed, sprites, width, height}` and are shallow-cloned for each spawn. The spawn routine places new NPCs at `(LEVEL_W + 24, groundY)` so they walk into view from the right. State transitions are driven by timers:
   ```js
   switch(npc.state){
@@ -76,7 +76,7 @@
 - `draw(state)` clears the canvas, calculates visible tile ranges from `camera.x`/`camera.y`, and skips any tile or entity whose bounding box falls outside the viewport rectangle. All sprite draws multiply coordinates by `devicePixelRatio` and disable image smoothing for pixel art fidelity.
 - Background layers regenerate an off-screen canvas whenever `devicePixelRatio` or fullscreen status changes. The regenerated image uses the canvas's CSS height to render at native resolution and avoid stretching artifacts.
 - Camera logic keeps the player at 60 % of the viewport width: `if (player.x > camera.x + 0.6*VIEW_W) camera.x = min(player.x - 0.6*VIEW_W, LEVEL_W - VIEW_W)`. Vertical movement remains locked to the level height.
-  Rendering order is background → level tiles → NPCs → player → HUD. Tile rendering iterates visible columns and rows:
+  Rendering order is background → level tiles → other NPCs → player → Trunk NPCs → HUD so trunks never hide behind characters. Tile rendering iterates visible columns and rows:
   ```js
   for (let y=minY; y<maxY; y++)
     for (let x=minX; x<maxX; x++)
@@ -170,3 +170,5 @@
 | DS-42 | Officeman NPC idle sprites for frames 0–18, played when red lights pause them. | FR-056 | T-42 |
 | DS-43 | Student NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-43 |
 | DS-44 | Trunk NPC uses `Move_000`–`Move_012` frames as a walk animation; spawns from the left, moves right at speed 3, is pass-through (reapplied each frame so landing never makes it solid), draws one `TILE` lower, stands twice the player's base height, and scales 1.25× from its center with image smoothing to preserve sprite detail. | FR-057 | T-44, T-45, T-46, T-47, T-48 |
+| DS-45 | Trunk movement spawns slide dust about every 200 ms. | FR-058 | T-49 |
+| DS-46 | Trunk NPCs render after the player and other NPCs so they remain in front. | FR-059 | T-50 |
