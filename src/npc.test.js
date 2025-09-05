@@ -121,6 +121,11 @@ test('createNpc applies passThrough option', () => {
     expect(npc.offsetY).toBe(TILE * 2);
   });
 
+  test('createNpc applies shadowOffsetY option', () => {
+    const npc = createNpc(0,0,10,10,null,undefined,undefined,{ shadowOffsetY: -TILE }, 'trunk');
+    expect(npc.shadowOffsetY).toBe(-TILE);
+  });
+
   test('auto spawn merges undefined options safely', () => {
     let opts;
     expect(() => {
