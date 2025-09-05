@@ -42,6 +42,7 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random, facing=-1, opts=
     passThrough: !!opts.passThrough,
     offsetY: opts.offsetY || 0,
     shadowOffsetY: opts.shadowOffsetY || 0,
+    ignoreRedLight: !!opts.ignoreRedLight,
     bumped: false,
     despawnAtLeftEdge: !!opts.despawnAtLeftEdge
   };
@@ -57,7 +58,7 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random, facing=-1, opts=
 export function updateNpc(npc, dtMs, state, player) {
   const rand = npc.rand || Math.random;
   npc.animTime += dtMs / 1000;
-  if (npc.redLightPaused) {
+  if (npc.redLightPaused && !npc.ignoreRedLight) {
     npc.vx = 0;
     npc.state = npc.bumped ? 'bump' : 'idle';
   } else if (npc.knockbackTimer > 0) {

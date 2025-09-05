@@ -50,7 +50,7 @@ export function isNearRedLight(ent, lights = {}) {
 }
 
 export function resolveCollisions(ent, level, collisions, lights = {}, events = {}, indestructible = new Set()) {
-  ent.redLightPaused = isNearRedLight(ent, lights);
+  ent.redLightPaused = !ent.ignoreRedLight && isNearRedLight(ent, lights);
   if (ent.redLightPaused) {
     ent.vx *= 0.8;
     if (Math.abs(ent.vx) < 0.05) ent.vx = 0;
