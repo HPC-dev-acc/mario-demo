@@ -180,3 +180,5 @@
 | DS-50 | Automatic NPC spawns merge undefined option objects with defaults before appending boundary flags. | NFR-009 | T-54 |
 | DS-51 | Trunk NPC sets `ignoreRedLight` so traffic signals never pause its walk animation. | FR-063 | T-58 |
 | DS-52 | Visual viewport resize events rescale the canvas, updating CSS scale factors when mobile browser chrome hides. | NFR-003 | T-59 |
+
+For development environment guidance, see [03-dev.md](03-dev.md). Testing procedures and reports are documented in [04-test.md](04-test.md).

@@ -1,7 +1,7 @@
 # Development Guide
 
 ## Dev Guide
-- Refer to the expanded SDS in `docs/20-design.md` for asset preload flow, input queue handling, game loop steps, and physics algorithms when implementing features (v2.16.4).
+ - Refer to the expanded SDS in `docs/20-design.md` for asset preload flow, input queue handling, game loop steps, and physics algorithms when implementing features.
 - Install dependencies with `npm install`. The project builds to static files, so no development server is required.
 - Source code resides in `src/`; `main.js` and `hud.js` remain root-level entry points, while HUD logic lives in `src/ui/index.js` for modularity.
 - Use `npm run build` to update version information before deployment.
@@ -13,7 +13,6 @@
 - A `#splash` overlay animates the **HPC GAMES** logo on load, disables pointer events, scales the logo responsively, and removes itself if the animation already finished on initialization (DS-40).
 - Home screen title styling lives in CSS under `#start-page .title` using responsive `clamp(32px, 12vw, 72px)` bold lettering with a drop shadow (DS-39).
 - Student, Officeman, and OL NPC sprites are stored under `assets/sprites/Student`, `assets/sprites/officeman`, and `assets/sprites/OL`; add a loader in `src/sprites.js` and update spawn logic in `main.js` when introducing new NPC types. The Student and Officeman walk sequences include frames `walk_000`–`walk_010` for smooth motion, and spawn logic sets walk speeds to `1` for Student, `1.5` for Officeman, and `2` for OL for variety. OL and Student include `idle_000`–`idle_012` sequences and Officeman includes `idle_000`–`idle_018`, all playing at 6 FPS while red lights pause the NPCs.
- - Trunk sprites live in `assets/sprites/Trunk`; `loadTrunkNpcSprite` exposes a `walk` animation from `Move_000`–`Move_012`. Spawns originate from the left, move right at fixed speed `3`, render two tiles lower with double `baseH` and a wider shadow, scale 1.1× from their center with image smoothing to preserve sprite detail, ignore red lights so the walk animation never pauses, and pass `passThrough`/`offsetY: TILE * 2`/`ignoreRedLight: true` options to `createNpc` to avoid collisions. The main loop reapplies `passThrough` each frame so landing logic never makes trunks solid, spawns slide dust roughly every 200 ms, and draws trunks after the player so they remain visible.
  - Trunk sprites live in `assets/sprites/Trunk`; `loadTrunkNpcSprite` exposes a `walk` animation from `Move_000`–`Move_012`. Spawns originate from the left, move right at fixed speed `3`, render two tiles lower with double `baseH` and a wider shadow offset one `TILE` upward, scale 1.1× from their center with image smoothing to preserve sprite detail, ignore red lights so the walk animation never pauses, and pass `passThrough`/`offsetY: TILE * 2`/`shadowOffsetY: -TILE`/`ignoreRedLight: true` options to `createNpc` to avoid collisions. The main loop reapplies `passThrough` each frame so landing logic never makes trunks solid, spawns slide dust roughly every 200 ms, and draws trunks after the player so they remain visible.
 - Officeman sprites render at **1.25×** scale from their center while the collision box dimensions stay fixed.
 - NPC spawn size derives from the player's `baseH`, ensuring sliding does not change NPC dimensions (DS-32, T-32).
