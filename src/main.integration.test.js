@@ -660,6 +660,13 @@ describe('player and npc collision', () => {
     expect(npc.passThrough).toBe(true);
   });
 
+  test('spawned trunk offsets three tiles down', async () => {
+    const { hooks } = await loadGame();
+    hooks.spawnNpc('trunk');
+    const trunk = hooks.getState().npcs.find(n => n.type === 'trunk');
+    expect(trunk.offsetY).toBe(TILE * 3);
+  });
+
   test('trunk emits slide dust while moving', async () => {
     const { hooks, ui } = await loadGame();
     const state = hooks.getState();
