@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.20.2 - 2025-10-09
+
+### Fixed
+- Splash logo and home title now scale with the viewport to avoid layout issues on small screens (DS-39, DS-40, T-39, T-40).
+
 ## v2.20.1 - 2025-10-08
 
 ### Fixed
