@@ -39,6 +39,12 @@ test('npc off-screen detection', () => {
   expect(isNpcOffScreen(npc, 30)).toBe(true);
 });
 
+test('npc at left boundary is off-screen when camera is at start', () => {
+  const w = 48;
+  const npc = createNpc(w / 2, 0, w, 10, null, () => 0.5, undefined, { despawnAtLeftEdge: true });
+  expect(isNpcOffScreen(npc, 0)).toBe(true);
+});
+
 test('npc state updates with movement', () => {
   const npc = createNpc(0,0,10,10,null,()=>0.5);
   const state = makeState();

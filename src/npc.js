@@ -41,7 +41,8 @@ export function createNpc(x, y, w, h, sprite, rand=Math.random, facing=-1, opts=
     bounceCount: 0,
     passThrough: !!opts.passThrough,
     offsetY: opts.offsetY || 0,
-    bumped: false
+    bumped: false,
+    despawnAtLeftEdge: !!opts.despawnAtLeftEdge
   };
   if (opts.fixedSpeed !== undefined) {
     npc.fixedSpeed = opts.fixedSpeed;
@@ -103,5 +104,8 @@ export function updateNpc(npc, dtMs, state, player) {
 }
 
 export function isNpcOffScreen(npc, cameraX) {
-  return npc.x + npc.w/2 < cameraX;
+  if (npc.despawnAtLeftEdge && cameraX <= 0) {
+    return npc.x <= npc.w / 2;
+  }
+  return npc.x + npc.w / 2 < cameraX;
 }

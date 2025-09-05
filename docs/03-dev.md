@@ -17,6 +17,7 @@
 - Officeman sprites render at **1.25×** scale from their center while the collision box dimensions stay fixed.
 - NPC spawn size derives from the player's `baseH`, ensuring sliding does not change NPC dimensions (DS-32, T-32).
 - NPC collision boxes use a fixed one-tile width for consistent player interaction (DS-36, T-36).
+- NPCs touching the left camera boundary are removed, and left-side spawns clamp to the first tile to stay grounded (DS-49).
 - Player idle animation narrows the sprite via `renderW` while keeping the collision width at one tile (DS-37, T-37).
 - Stomping an NPC invokes `triggerStompEffect` to briefly show a star at the impact point (DS-38, T-38).
 - Traffic light tiles are fully pass-through; edits to physics should preserve their non-solid behavior (DS-9, T-9).

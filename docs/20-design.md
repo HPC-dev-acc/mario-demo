@@ -60,6 +60,7 @@
 - Level geometry loads from `assets/objects.custom.js` (falling back to `objects.js`). Each object entry is `{ type, x, y, transparent?, collision?[] }`. `buildCollisions()` converts these into solid tile masks, and `spawnLights()` instantiates traffic lights with phases.
 - NPC spawn height uses the player's `baseH` so that temporary slide height changes do not affect NPC size or ground alignment.
 - NPC collision boxes use a fixed `TILE` width regardless of sprite dimensions to ensure consistent player interactions.
+- NPCs are culled once their left edge reaches the camera's x position, and left-side spawns clamp their initial X to the first tile to avoid falling.
 - OL, Officeman, and Student NPCs include dedicated idle sprite sequences (`idle_000`–`idle_012` for OL and Student, `idle_000`–`idle_018` for Officeman) loaded at 6 FPS and played whenever a red light pauses them.
 - Trunk NPCs load `Move_000`–`Move_012` frames as a `walk` animation at 8 FPS, draw one `TILE` lower including shadow, stand twice the player's `baseH`, scale 1.25× from their center, move right at speed 3, and mark `passThrough` so the player cannot collide or stand on them; `passThrough` is reapplied every frame to keep trunks non-solid, and their movement triggers a slide-like dust effect roughly every 200 ms.
   NPC templates specify `{speed, sprites, width, height}` and are shallow-cloned for each spawn. The spawn routine places new NPCs at `(LEVEL_W + 24, groundY)` so they walk into view from the right. State transitions are driven by timers:
@@ -174,3 +175,4 @@
 | DS-46 | Trunk NPCs render after the player and other NPCs so they remain in front. | FR-059 | T-50 |
 | DS-47 | Developer NPC panel provides **NPC1**/**NPC2** buttons that call `spawnNpc('ol')` or `spawnNpc('trunk')` to generate test NPCs. | FR-060 | T-51 |
 | DS-48 | Developer NPC panel scales spawned NPC width using `player.baseH / 44` to match normal aspect ratio. | FR-061 | T-52 |
+| DS-49 | NPCs touching the left camera boundary are removed and left-side spawns clamp to ground at level start. | FR-062 | T-53 |
