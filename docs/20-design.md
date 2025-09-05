@@ -94,8 +94,8 @@
   The service worker listens for `message` events so `navigator.serviceWorker.controller.postMessage({type:'update'})` can trigger a manual refresh prompt. Cache keys include the version string, forcing `install` to fetch fresh assets after each release. Internationalization uses `data-i18n` attributes; `setLanguage` iterates `document.querySelectorAll('[data-i18n]')` and replaces `textContent` from the chosen dictionary. Dictionaries follow a flat `{ key: text }` structure for quick lookup, and changing languages sets `state.language` which tests read to verify translations.
 
 ### Splash and Title Styling
-- A `#splash` overlay sits above the HUD on load. CSS animation `splash-fade` fades in the teal **HPC GAMES** logo against a black background, holds for roughly two seconds, then fades out. The overlay disables pointer events and, on initialization, removes itself immediately when the animation has already finished so the start page is always interactive.
-- The start screen title `#start-page .title` uses 72px bold white text with wide letter spacing and a drop shadow to create a strong visual identity.
+- A `#splash` overlay sits above the HUD on load. CSS animation `splash-fade` fades in the teal **HPC GAMES** logo against a black background, holds for roughly two seconds, then fades out. The overlay disables pointer events, scales the logo with `font-size: clamp(32px, 10vw, 64px)`, and on initialization removes itself immediately when the animation has already finished so the start page is always interactive.
+- The start screen title `#start-page .title` uses bold white text with wide letter spacing, a drop shadow, and `font-size: clamp(32px, 12vw, 72px)` so it shrinks on narrow screens but never exceeds 72 px.
 
 ## ICD (Interface Control Document)
 - **Game State API**: `createGameState()` ⇒ `{ level, coins, lights, player, camera, npcs, GOAL_X, LEVEL_W, LEVEL_H, spawnLights(), buildCollisions(), transparent, indestructible, patterns, selection }` (no `score` or `time`).
@@ -166,8 +166,8 @@
 | DS-36 | NPC collision boxes span one tile width irrespective of sprite size. | FR-052 | T-36 |
 | DS-37 | Player sprite width shrinks to two-thirds when idle via `renderW` while collision width stays at one tile. | FR-023 | T-37 |
 | DS-38 | Stomping an NPC triggers a 24 px star effect at the impact point for 300 ms. | FR-053 | T-38 |
-| DS-39 | Start page title uses 72px bold lettering with drop shadow. | FR-054 | T-39 |
-| DS-40 | Intro splash screen fades in/out "HPC GAMES" logo before start page; overlay disables pointer events and removes itself if the animation already finished. | FR-055 | T-40 |
+| DS-39 | Start page title uses bold lettering with drop shadow and responsive font size up to 72 px. | FR-054 | T-39 |
+| DS-40 | Intro splash screen fades in/out "HPC GAMES" logo, scales the logo with viewport, disables pointer events, and removes itself if the animation already finished. | FR-055 | T-40 |
 | DS-41 | OL NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-41 |
 | DS-42 | Officeman NPC idle sprites for frames 0–18, played when red lights pause them. | FR-056 | T-42 |
 | DS-43 | Student NPC idle sprites for frames 0–12, played when red lights pause them. | FR-056 | T-43 |

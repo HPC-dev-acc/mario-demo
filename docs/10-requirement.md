@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.20.1: Trunk NPC ignores red lights to keep its walk animation visible._
+_Updated for v2.20.2: Splash screen and home title scale to small displays._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -82,12 +82,12 @@ _Updated for v2.20.1: Trunk NPC ignores red lights to keep its walk animation vi
 - **URS-018: Impactful home title**
   - *Scenario*: A player views the home screen before starting.
   - *User story*: I want the game title to appear large and stylized so the start screen feels exciting.
-  - *Success*: The title is prominently displayed with bold styling on the home screen.
+  - *Success*: The title is prominently displayed with bold styling and adjusts to fit the available space on the home screen.
 
 - **URS-019: Intro splash screen**
   - *Scenario*: The game launches before the home screen appears.
   - *User story*: I want a brief branded splash so I know who made the game.
-  - *Success*: A black screen fades in "HPC Games" then fades out to reveal an immediately interactive home screen.
+  - *Success*: A black screen fades in "HPC Games" then fades out to reveal an immediately interactive home screen, and the logo scales to the display.
 
 - **URS-020: Animated NPC waiting**
   - *Scenario*: NPCs pause at pedestrian red lights.
@@ -161,8 +161,8 @@ _Updated for v2.20.1: Trunk NPC ignores red lights to keep its walk animation vi
 - FR-051: Enabling design mode draws green collision box outlines for all objects, the player, and NPCs.
 - FR-052: NPC collision boxes span exactly one tile width for consistent interactions.
 - FR-053: Stomping an NPC spawns a brief star effect at the contact point.
-- FR-054: The home screen displays the game title in 72 px stylized lettering.
-- FR-055: On launch, a black splash screen briefly fades in and out "HPC Games" before showing the home screen, and it must not block the start button if scripts load slowly.
+- FR-054: The home screen displays the game title in stylized lettering that scales responsively up to 72 px.
+- FR-055: On launch, a black splash screen briefly fades in and out "HPC Games" before showing the home screen, the logo scales with the viewport, and it must not block the start button if scripts load slowly.
 
 ### Content and Levels
  - Default level **Stage 1-1** offers basic terrain (bricks/platforms/coins/pedestrian lights) with NPC combinations and spawn rates (OL, Student, and Officeman NPCs appear more often).
@@ -171,7 +171,7 @@ _Updated for v2.20.1: Trunk NPC ignores red lights to keep its walk animation vi
 ## NFR
 - NFR-001 (Performance): Target **60 FPS** and process only what is visible to maintain smooth play on most devices.
 - NFR-002 (Visual Quality): Graphics stay sharp at full resolution, regenerating backgrounds as needed and avoiding smoothing artifacts.
-- NFR-003 (Layout): Maintain a **16:9** aspect; fullscreen centers the stage with black bars and adapts to orientation changes while keeping controls unobstructed.
+- NFR-003 (Layout): Maintain a **16:9** aspect; fullscreen centers the stage with black bars and adapts to orientation changes while keeping controls unobstructed. Splash logos and the home title scale with the viewport to avoid overflow.
 - NFR-004 (Compatibility): Operate on current major desktop and mobile browsers across common screen sizes, scaling virtual buttons with the viewport.
 - NFR-005 (i18n): UI, dialog bubbles, buttons, and prompts fully follow the selected language.
 - NFR-006 (Usability): START/Restart buttons remain visible and clickable; touch targets are at least **40 px**.

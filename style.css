@@ -1,4 +1,4 @@
-/* Version: 2.1.1 */
+/* Version: 2.1.2 */
 :root {
   --game-w: 960;
   --game-h: 540;
@@ -198,11 +198,12 @@ body {
 }
 
 #start-page .title {
-  font-size: 72px;
+  font-size: clamp(32px, 12vw, 72px);
   font-weight: 900;
   color: #fff;
   letter-spacing: 4px;
   text-shadow: 0 4px 8px rgba(0,0,0,.6);
+  text-align: center;
 }
 
 #splash {
@@ -218,11 +219,12 @@ body {
 }
 
 #splash .logo {
-  font-size: 64px;
+  font-size: clamp(32px, 10vw, 64px);
   font-weight: 900;
   color: #0ff;
   letter-spacing: 6px;
   text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+  text-align: center;
 }
 
 @keyframes splash-fade {
