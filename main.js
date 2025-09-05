@@ -87,6 +87,7 @@ const NPC_SPAWN_MAX_MS = 8000;
 
   window.addEventListener('resize', applyDPR);
   document.addEventListener('fullscreenchange', applyDPR);
+  window.visualViewport?.addEventListener('resize', applyDPR);
   applyDPR();
   window.__resizeGameCanvas = applyDPR;
   function getLogicalViewSize() {

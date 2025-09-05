@@ -76,7 +76,7 @@
 
 ### Rendering and Camera
 - `draw(state)` clears the canvas, calculates visible tile ranges from `camera.x`/`camera.y`, and skips any tile or entity whose bounding box falls outside the viewport rectangle. All sprite draws multiply coordinates by `devicePixelRatio` and disable image smoothing for pixel art fidelity.
-- Background layers regenerate an off-screen canvas whenever `devicePixelRatio` or fullscreen status changes. The regenerated image uses the canvas's CSS height to render at native resolution and avoid stretching artifacts.
+- Background layers regenerate an off-screen canvas whenever `devicePixelRatio` or fullscreen status changes. The regenerated image uses the canvas's CSS height to render at native resolution and avoid stretching artifacts. Visual viewport resize events (such as mobile browser chrome collapsing) also invoke this rescale so CSS scale factors stay synchronized.
 - Camera logic keeps the player at 60 % of the viewport width: `if (player.x > camera.x + 0.6*VIEW_W) camera.x = min(player.x - 0.6*VIEW_W, LEVEL_W - VIEW_W)`. Vertical movement remains locked to the level height.
   Rendering order is background → level tiles → other NPCs → player → Trunk NPCs → HUD so trunks never hide behind characters. Tile rendering iterates visible columns and rows:
   ```js
@@ -179,3 +179,4 @@
 | DS-49 | NPCs touching the left camera boundary are removed and left-side spawns clamp to ground at level start. | FR-062 | T-53 |
 | DS-50 | Automatic NPC spawns merge undefined option objects with defaults before appending boundary flags. | NFR-009 | T-54 |
 | DS-51 | Trunk NPC sets `ignoreRedLight` so traffic signals never pause its walk animation. | FR-063 | T-58 |
+| DS-52 | Visual viewport resize events rescale the canvas, updating CSS scale factors when mobile browser chrome hides. | NFR-003 | T-59 |
