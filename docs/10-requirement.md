@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.20.0: Trunk NPC shadow offsets one tile upward for alignment._
+_Updated for v2.20.1: Trunk NPC ignores red lights to keep its walk animation visible._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -97,7 +97,7 @@ _Updated for v2.20.0: Trunk NPC shadow offsets one tile upward for alignment._
 - **URS-021: Passing Trunk obstacle**
   - *Scenario*: A log slides across the stage faster than other characters.
   - *User story*: As a player, I want occasional trunks to move from the left without knocking me back so I react to unexpected scenery.
-  - *Success*: A trunk glides from the left toward the right, displays 1.1× larger from its center with smoothing that preserves sprite detail, draws two tiles lower with a wider shadow offset one tile upward, cannot be stood on, does not impede the player, kicks up dust like a slide, and appears above other characters when overlapping.
+  - *Success*: A trunk glides from the left toward the right, displays 1.1× larger from its center with smoothing that preserves sprite detail, draws two tiles lower with a wider shadow offset one tile upward, cannot be stood on, does not impede the player, ignores red lights so its walk animation stays visible, kicks up dust like a slide, and appears above other characters when overlapping.
 
 - **URS-022: NPC spawn panel (developer/tester only)**
   - *Scenario*: Developers or testers need to spawn specific NPCs for debugging.
@@ -144,6 +144,7 @@ _Updated for v2.20.0: Trunk NPC shadow offsets one tile upward for alignment._
 - FR-057: A Trunk NPC may slide in from the left, moves to the right faster than OL, renders 1.1× larger from its center two tiles lower with image smoothing and a widened shadow offset one tile upward without altering collisions, cannot be stood on, and causes no collision response; pass-through persists even after the player lands.
 - FR-058: Trunk movement triggers a slide-like dust effect.
 - FR-059: When overlapping, Trunk sprites render in front of the player and other NPCs.
+- FR-063: Trunk NPCs ignore red lights and continue their walk animation without pausing.
 
 **UI / HUD**
 - FR-040: The HUD includes a gear menu (ℹ, version, ⚙) to toggle the info panel; mobile shows virtual buttons.
@@ -216,6 +217,7 @@ _Updated for v2.20.0: Trunk NPC shadow offsets one tile upward for alignment._
 | FR-060 | DS-47 | T-51 |
 | FR-061 | DS-48 | T-52 |
 | FR-062 | DS-49 | T-53 |
+| FR-063 | DS-51 | T-58 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |

@@ -194,6 +194,15 @@ test('resolveCollisions flags redLightPaused near red light', () => {
   expect(ent.redLightPaused).toBe(false);
 });
 
+test('resolveCollisions ignores red light when ignoreRedLight is set', () => {
+  const world = makeWorld(5,5);
+  setBlock(world,3,2,TRAFFIC_LIGHT);
+  const lights = { '3,2': { state: 'red' } };
+  const ent = { x: TILE * 3 + TILE / 2, y: TILE * 2 + TILE / 2, w: COLL_W, h: 120, vx: 0, vy: 0, ignoreRedLight: true };
+  resolveCollisions(ent, world.level, world.collisions, lights);
+  expect(ent.redLightPaused).toBe(false);
+});
+
 test('bricks remain intact when hit from below and no event is fired', () => {
   const world = makeWorld(3, 3);
   setBlock(world, 1, 0, 2);

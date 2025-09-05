@@ -289,6 +289,11 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/render.test.js`
 - **Description**: verifies trunk shadows are drawn one `TILE` higher than their `offsetY`.
 
+### T-58: Trunk ignores red lights
+- **Design Spec**: DS-51
+- **Test File**: `src/game/physics.test.js`
+- **Description**: verifies `ignoreRedLight` prevents Trunk NPCs from pausing or hiding at red lights.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.
@@ -308,7 +313,7 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **URS-016**: Idling leaves the collision box unchanged while the sprite narrows.
 - **URS-017**: Stomping an NPC produces a brief star effect at the impact point.
 - **URS-018**: The home screen shows a large, stylized title before play begins.
-- **URS-021**: A trunk glides from the left to the right faster than other characters without affecting the player.
+- **URS-021**: A trunk glides from the left to the right faster than other characters without affecting the player and remains visible when passing red lights.
 - **URS-019**: Launching the game displays a brief HPC Games splash before the home screen.
 - **URS-020**: NPCs waiting at red lights animate instead of standing motionless.
 - **URS-022**: Developer mode shows an NPC panel where **NPC1** spawns an OL from the right and **NPC2** spawns a Trunk from the left.

@@ -337,7 +337,7 @@ const NPC_SPAWN_MAX_MS = 8000;
       if (!state.trunkNpcSprite) return;
       sprite = state.trunkNpcSprite;
       sizeScale = 2;
-      opts = { fixedSpeed: 3, passThrough: true, offsetY: TILE * 2, shadowOffsetY: -TILE };
+      opts = { fixedSpeed: 3, passThrough: true, offsetY: TILE * 2, shadowOffsetY: -TILE, ignoreRedLight: true };
     } else {
       return;
     }
@@ -613,7 +613,7 @@ const NPC_SPAWN_MAX_MS = 8000;
         if (type === 'trunk') {
           sprite = state.trunkNpcSprite;
           sizeScale = 2;
-          opts = { fixedSpeed: 3, passThrough: true, offsetY: TILE * 2, shadowOffsetY: -TILE };
+          opts = { fixedSpeed: 3, passThrough: true, offsetY: TILE * 2, shadowOffsetY: -TILE, ignoreRedLight: true };
           facing = 1;
         }
       }

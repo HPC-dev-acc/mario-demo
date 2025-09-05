@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.20.1 - 2025-10-08
+
+### Fixed
+- Trunk NPC no longer disappears near red lights by ignoring pauses (DS-51, T-58).
+
 ## v2.20.0 - 2025-10-07
 
 ### Changed
