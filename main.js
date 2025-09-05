@@ -541,7 +541,7 @@ const NPC_SPAWN_MAX_MS = 8000;
     if (player.onGround && !wasOnGround) {
       for (const npc of state.npcs) {
         npc.bounceCount = 0;
-        if (npc.type !== 'trunk') npc.passThrough = false;
+        npc.passThrough = false;
       }
     }
     player.shadowY = findGroundY(state.collisions, player.x, player.y + player.h / 2);

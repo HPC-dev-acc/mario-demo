@@ -368,25 +368,6 @@ describe('npc spawn', () => {
     expect(state.npcs[0].type).toBe('ol');
   });
 
-  test('Trunk npc moves right and remains pass-through after landing', async () => {
-    const { hooks } = await loadGame();
-    const state = hooks.getState();
-    hooks.setNpcSpawnTimer(0);
-    const origRandom = Math.random;
-    const seq = [0.9, 0.9, 0.5];
-    Math.random = () => seq.shift();
-    hooks.runUpdate(1);
-    Math.random = origRandom;
-    const npc = state.npcs[0];
-    expect(npc.type).toBe('trunk');
-    expect(npc.passThrough).toBe(true);
-    state.player.onGround = false;
-    hooks.runUpdate(16);
-    state.player.onGround = true;
-    hooks.runUpdate(16);
-    expect(npc.passThrough).toBe(true);
-  });
-
   test('npc spawns at ground height on default terrain', async () => {
     const { hooks } = await loadGame();
     const state = hooks.getState();
