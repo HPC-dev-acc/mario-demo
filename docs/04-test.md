@@ -234,10 +234,10 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/main.integration.test.js`
 - **Description**: ensures landing logic does not clear `passThrough` on Trunk NPCs.
 
-### T-47: Trunk NPC scales 1.2× from center
+### T-47: Trunk NPC scales 1.1× from center
 - **Design Spec**: DS-44
 - **Test File**: `src/render.test.js`
-- **Description**: verifies trunk sprites render 1.2× larger from their centers without shifting collision boxes.
+- **Description**: verifies trunk sprites render 1.1× larger from their centers without shifting collision boxes.
 
 ### T-48: Trunk NPC smoothing
 - **Design Spec**: DS-44
