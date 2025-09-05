@@ -10,6 +10,14 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.18.1 - 2025-10-01
+
+### Fixed
+- Developer NPC panel spawns NPCs with correct width to prevent stretching (DS-48, T-52).
+
+### Changed
+- Renamed documentation files to `docs/03-dev.md` and `docs/04-test.md`.
+
 ## v2.18.0 - 2025-09-30
 
 ### Added
@@ -155,7 +163,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 - Renamed version sync script to `scripts/update-version.mjs` and updated references (DS-16, T-16).
-- Restructured documentation: `10-requirement.md`, `20-design.md`, `30-dev.md`, and `40-test.md` replace previous files.
+- Restructured documentation: `10-requirement.md`, `20-design.md`, `03-dev.md`, and `04-test.md` replace previous files.
 - Removed "Recent Changes" section from README.
 - Clarified pedestrian traffic light behavior and NPC pass-through after the third stomp (DS-9–DS-10, T-9–T-10).
 - Converted design specifications list into a table aligned with requirements and tests.

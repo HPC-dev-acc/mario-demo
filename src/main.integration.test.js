@@ -428,6 +428,15 @@ describe('npc spawn', () => {
     expect(npc.h).toBeCloseTo(baseH, 1);
   });
 
+  test('developer npc panel spawns correct width', async () => {
+    const { hooks } = await loadGame();
+    const state = hooks.getState();
+    hooks.spawnNpc('ol');
+    const npc = state.npcs[0];
+    const expectedW = state.player.baseH * (48 / 44) * (6 / 5);
+    expect(npc.w).toBeCloseTo(expectedW, 1);
+  });
+
   test('npc spawn timer respects new minimum interval', async () => {
     const { hooks } = await loadGame();
     hooks.setNpcSpawnTimer(0);

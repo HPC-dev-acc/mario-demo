@@ -1,7 +1,7 @@
 
 # Requirements
 
-_Updated for v2.18.0: Developer mode adds an NPC spawn panel with buttons to create OL and Trunk NPCs._
+_Updated for v2.18.1: Developer NPC panel spawns maintain correct width when creating test NPCs._
 
 ## URS
 - **URS-001: Start menu and language choice**
@@ -104,6 +104,11 @@ _Updated for v2.18.0: Developer mode adds an NPC spawn panel with buttons to cre
   - *User story*: As a developer or tester, I want buttons to spawn OL or Trunk NPCs so I can quickly test behavior.
   - *Success*: Clicking **NPC1** spawns an OL from the right; clicking **NPC2** spawns a Trunk from the left.
 
+- **URS-023: Developer-spawned NPC proportions (developer/tester only)**
+  - *Scenario*: Developers or testers spawn NPCs via the debug panel.
+  - *User story*: As a developer or tester, I want spawned NPCs to appear at normal width so visuals match standard gameplay.
+  - *Success*: NPCs spawned from the panel match the aspect ratio of regular spawns.
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -142,6 +147,7 @@ _Updated for v2.18.0: Developer mode adds an NPC spawn panel with buttons to cre
 - FR-043: The settings menu offers a **developer switch** that reveals the debug panel, log controls, and a level editor for developers and testers when enabled.
 - FR-044: Touch controls use circular buttons pinned to the bottom corners for ergonomic thumb reach.
 - FR-060: Developer mode exposes an **NPC** panel with **NPC1** and **NPC2** buttons to spawn an OL from the right or a Trunk from the left.
+- FR-061: NPCs spawned via the developer panel match standard spawn dimensions and avoid stretched rendering.
 
 **Platform / Release**
 - FR-050: The game can be installed and launched offline with cached resources and versioning.
@@ -201,6 +207,7 @@ _Updated for v2.18.0: Developer mode adds an NPC spawn panel with buttons to cre
 | FR-058 | DS-45 | T-49 |
 | FR-059 | DS-46 | T-50 |
 | FR-060 | DS-47 | T-51 |
+| FR-061 | DS-48 | T-52 |
 
 ### Non-Functional Requirements
 | Requirement | Design Spec | Test |
