@@ -10,6 +10,11 @@ All notable changes to this project are documented here.
 ### Changed
 - No entries.
 
+## v2.17.0 - 2025-09-29
+
+### Added
+- Trunk NPC movement now spawns slide dust and draws above all characters (DS-45, DS-46, T-49, T-50).
+
 ## v2.16.4 - 2025-09-28
 
 ### Fixed

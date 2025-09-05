@@ -64,13 +64,22 @@ export function render(ctx, state, design) {
   ctx.fillStyle = 'rgba(0,0,0,.15)';
   ctx.fillRect(-TILE, -TILE, TILE, LEVEL_H * TILE + 2 * TILE);
   if (npcs) {
+    const trunks = [];
     for (const n of npcs) {
+      if (n.type === 'trunk') { trunks.push(n); continue; }
       drawNpc(ctx, n, n.sprite);
       if (showBoxes) ctx.strokeRect(n.box.x, n.box.y, n.box.w, n.box.h);
     }
+    drawPlayer(ctx, player, playerSprites);
+    if (showBoxes) ctx.strokeRect(player.x - player.w / 2, player.y - player.h / 2, player.w, player.h);
+    for (const n of trunks) {
+      drawNpc(ctx, n, n.sprite);
+      if (showBoxes) ctx.strokeRect(n.box.x, n.box.y, n.box.w, n.box.h);
+    }
+  } else {
+    drawPlayer(ctx, player, playerSprites);
+    if (showBoxes) ctx.strokeRect(player.x - player.w / 2, player.y - player.h / 2, player.w, player.h);
   }
-  drawPlayer(ctx, player, playerSprites);
-  if (showBoxes) ctx.strokeRect(player.x - player.w / 2, player.y - player.h / 2, player.w, player.h);
   ctx.restore();
 }
 

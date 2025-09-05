@@ -244,6 +244,16 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/render.test.js`
 - **Description**: ensures trunk drawing enables image smoothing to preserve detail when scaled.
 
+### T-49: Trunk dust effect
+- **Design Spec**: DS-45
+- **Test File**: `src/main.integration.test.js`
+- **Description**: confirms trunk NPCs trigger slide-like dust while moving.
+
+### T-50: Trunk rendering order
+- **Design Spec**: DS-46
+- **Test File**: `src/render.test.js`
+- **Description**: verifies trunks render after the player and other NPCs so they remain visible.
+
 ## Test Reports
 - Automated test results are available in GitHub Actions logs for each commit.
 - Manual tests are recorded in issue comments or release notes as needed.

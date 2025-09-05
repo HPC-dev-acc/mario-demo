@@ -650,4 +650,16 @@ describe('player and npc collision', () => {
     expect(player.onGround).toBe(true);
     expect(npc.passThrough).toBe(true);
   });
+
+  test('trunk emits slide dust while moving', async () => {
+    const { hooks, ui } = await loadGame();
+    const state = hooks.getState();
+    const player = state.player;
+    player.x = 0; player.y = 0;
+    const npc = createNpc(0, 60, player.w, player.h, null, undefined, undefined, { passThrough: true }, 'trunk');
+    npc.dustTimer = 0;
+    state.npcs.push(npc);
+    hooks.runUpdate(16);
+    expect(ui.triggerSlideEffect).toHaveBeenCalled();
+  });
 });

@@ -483,6 +483,26 @@ test('drawNpc walks through all frames within one second', () => {
   expect(ctx.drawImage).toHaveBeenCalledWith(frames[11], -npc.w / 2, -npc.h / 2, npc.w, npc.h);
 });
 
+test('render draws trunk above player and other npcs', () => {
+  const trunkImg = {}, npcImg = {}, playerImg = {};
+  const state = createGameState();
+  state.camera = { x: 0, y: 0 };
+  state.player = { x: 0, y: 0, w: 10, h: 10, renderW: 10, facing: 1, onGround: true, running: false, redLightPaused: false, stunnedMs: 0, shadowY: 0 };
+  state.playerSprites = { idle: [playerImg] };
+  const otherNpc = { x: 0, y: 0, w: 10, h: 10, state: 'idle', sprite: { idle: [npcImg] }, shadowY: 0 };
+  const trunkNpc = { x: 0, y: 0, w: 10, h: 10, state: 'idle', sprite: { idle: [trunkImg] }, shadowY: 0, type: 'trunk' };
+  state.npcs = [otherNpc, trunkNpc];
+  const ctx = {
+    canvas: { width: 256, height: 240 },
+    clearRect: jest.fn(), save: jest.fn(), translate: jest.fn(), fillRect: jest.fn(), beginPath: jest.fn(),
+    ellipse: jest.fn(), fill: jest.fn(), strokeRect: jest.fn(), restore: jest.fn(), drawImage: jest.fn(), scale: jest.fn(), fillStyle: '', imageSmoothingEnabled: true,
+  };
+  render(ctx, state);
+  const order = ctx.drawImage.mock.calls.map(c => c[0]);
+  expect(order.indexOf(trunkImg)).toBeGreaterThan(order.indexOf(playerImg));
+  expect(order.indexOf(trunkImg)).toBeGreaterThan(order.indexOf(npcImg));
+});
+
 
 test('render uses npc sprite property', () => {
   const state = createGameState();
