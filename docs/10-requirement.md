@@ -131,7 +131,7 @@
 - FR-023: While idle on the ground, the player sprite may narrow visually but the collision box width remains one tile wide.
 
 **NPCs and Traffic**
- - FR-030: Levels spawn various **NPCs** (including OL, Student, and Officeman characters) at random intervals of about **4–8 seconds** from the right; they may stop, run, or exit. OL NPCs walk fastest, Officemen move at a medium pace, Students walk more slowly, and the Student and Officeman walk animations use 11 frames for smooth motion.
+ - FR-030: Levels spawn various **NPCs** (including OL, Student, and Officeman characters) from the right at random intervals; they may stop, run, or exit. Each NPC type moves at a distinct walking speed and uses its own animation sequence.
 - FR-031: **Pedestrian signals** cycle **green 3s → blink 2s → red 4s**; during red, nearby characters stop and display a dialog bubble with a Japanese-style figure.
  - FR-032: Red lights do not block collision pass-through and traffic lights provide no surface to stand on; brushing the side or passing underneath should not change vertical movement.
 
