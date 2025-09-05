@@ -53,10 +53,10 @@ Run `npm run build` (which executes `scripts/update-version.mjs`) to read the ve
 
 ## Documentation
 
-Project documentation is stored in the `docs/` directory:
+Project documentation is stored in the `docs/` directory. Each file is curated for its specific role so requirements, design, development, and tests remain in sync:
 
 - `docs/10-requirement.md` – URS, SRS (FR/NFR), and RTM
 - `docs/20-design.md` – SAD, SDS, ICD, ERD, API, ADR, and UX
 - `docs/03-dev.md` – development guide, coding standards, and CI/CD
 - `docs/04-test.md` – test plan/specs/reports and UAT
-- `docs/CHANGELOG.md`
+- `docs/CHANGELOG.md` – version history

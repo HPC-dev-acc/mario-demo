@@ -8,7 +8,7 @@ All notable changes to this project are documented here.
 - No entries.
 
 ### Changed
-- No entries.
+- Clarified documentation across requirements, design, development, and testing guides.
 
 ## v2.20.3 - 2025-10-10
 

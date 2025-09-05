@@ -1,7 +1,4 @@
-
 # Requirements
-
-_Updated for v2.20.3: Canvas rescales on visual viewport changes to keep dust aligned on iPhone Safari._
 
 ## URS
 - **URS-001: Start menu and language choice**
