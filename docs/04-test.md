@@ -274,10 +274,10 @@ Each design specification point in `docs/20-design.md` is verified by an automat
 - **Test File**: `src/npc.test.js`
 - **Description**: merging undefined NPC option objects before adding flags does not throw.
 
-### T-55: Trunk offset three tiles lower
+### T-55: Trunk offset two tiles lower
 - **Design Spec**: DS-44
 - **Test File**: `src/main.integration.test.js`
-- **Description**: spawning a trunk sets `offsetY` to `TILE * 3` so it renders three tiles lower.
+- **Description**: spawning a trunk sets `offsetY` to `TILE * 2` so it renders two tiles lower.
 
 ### T-56: Trunk shadow width
 - **Design Spec**: DS-44
