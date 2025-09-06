@@ -12,6 +12,11 @@ All notable changes to this project are documented here.
 - Rephrased URS success criteria to focus on player outcomes without rendering details (URS-008, URS-012–URS-023).
 - Refined FR-030 to focus on observable NPC behavior and moved spawn timing, speed, and frame-count details to design specs (DS-10, DS-25, DS-27, DS-30).
 
+## v2.20.4 - 2025-10-11
+
+### Fixed
+- Updated documentation links to requirement and design specs.
+
 ## v2.20.3 - 2025-10-10
 
 ### Fixed
@@ -216,7 +221,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 - Renamed version sync script to `scripts/update-version.mjs` and updated references (DS-16, T-16).
-- Restructured documentation: `10-requirement.md`, `20-design.md`, `03-dev.md`, and `04-test.md` replace previous files.
+- Restructured documentation: `01-requirement.md`, `02-design.md`, `03-dev.md`, and `04-test.md` replace previous files.
 - Removed "Recent Changes" section from README.
 - Clarified pedestrian traffic light behavior and NPC pass-through after the third stomp (DS-9–DS-10, T-9–T-10).
 - Converted design specifications list into a table aligned with requirements and tests.
@@ -224,7 +229,7 @@ All notable changes to this project are documented here.
 - Removed outdated development server references to reflect static build workflow.
 - Clarified build step to focus on version updates, removing asset bundling references (DS-16, T-15).
 - CI documentation now highlights only Jest testing, removing the lint step (DS-24, T-24).
-- Renamed requirement document to `docs/10-requirement.md`, rewrote URS to focus on player needs, and removed ICD section.
+- Renamed requirement document to `docs/01-requirement.md`, rewrote URS to focus on player needs, and removed ICD section.
 - Expanded URS with detailed scenarios and success criteria and linked UAT items to URS IDs.
 - Moved level design mode requirement from URS to SRS and renumbered subsequent URS items.
 - HUD requirement no longer references debug data; debug tools are consolidated under a developer-only requirement and SRS entry (URS-006, URS-011, FR-040, FR-043, DS-4, DS-28, T-4, T-28).
