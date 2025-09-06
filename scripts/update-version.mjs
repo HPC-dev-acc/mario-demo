@@ -6,7 +6,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(path.join(__dirname, '..', 'package.json')));
 
 const envRelease = process.env.RELEASE_VERSION;
-const releaseVersion = (envRelease || pkg.version).replace(/^v/, '');
+const rawRelease = (envRelease || pkg.version).replace(/^v/, '');
+const releaseVersion = rawRelease.split('+')[0];
 const buildNumber = process.env.BUILD_NUMBER || process.env.GITHUB_RUN_NUMBER || '';
 const gitSha = (process.env.GIT_SHA || process.env.GITHUB_SHA || '').slice(0, 7);
 
@@ -20,7 +21,8 @@ function writeIfChanged(filePath, content) {
 const metaParts = [];
 if (buildNumber) metaParts.push(buildNumber);
 if (gitSha) metaParts.push(gitSha);
-const appVersion = `v${releaseVersion}` + (metaParts.length ? `+build.${metaParts.join('.')}` : '');
+const buildMeta = metaParts.length ? `build.${metaParts.join('.')}` : '';
+const appVersion = `v${releaseVersion}`;
 
 const versionJs = [
   `export const RELEASE_VERSION = '${releaseVersion}';`,
@@ -28,6 +30,7 @@ const versionJs = [
   `export const GIT_SHA         = '${gitSha}';`,
   `if (typeof window !== 'undefined') {`,
   `  window.__APP_VERSION__ = '${appVersion}';`,
+  `  window.__APP_BUILD_META__ = '${buildMeta}';`,
   `}`,
   '',
 ].join('\n');

@@ -3,4 +3,5 @@ export const BUILD_NUMBER    = '';
 export const GIT_SHA         = '';
 if (typeof window !== 'undefined') {
   window.__APP_VERSION__ = 'v2.20.4';
+  window.__APP_BUILD_META__ = '';
 }

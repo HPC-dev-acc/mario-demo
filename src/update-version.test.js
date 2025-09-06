@@ -51,6 +51,7 @@ test('build updates files for prerelease versions', () => {
     "export const GIT_SHA         = '';",
     "if (typeof window !== 'undefined') {",
     `  window.__APP_VERSION__ = 'v${prerelease}';`,
+    "  window.__APP_BUILD_META__ = '';",
     "}",
   ]);
 });

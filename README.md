@@ -63,7 +63,7 @@ The test suite uses a jsdom environment with a stubbed Canvas context from [`jes
 
 ## Versioning
 
-Run `npm run build` to regenerate `version.js` and cache-busting query strings. The script prioritizes the `RELEASE_VERSION` environment variable (with or without a leading `v`), falling back to `package.json` when absent. It also records `BUILD_NUMBER`/`GITHUB_RUN_NUMBER` and `GIT_SHA`/`GITHUB_SHA` (first seven characters) so modules can import version details instead of hardcoding strings. `version.js` exports these fields, sets `window.__APP_VERSION__` to `v<RELEASE_VERSION>` with optional `+build.<run>.<sha7>` metadata, and is loaded in `index.html` via a `<script type="module">` tag.
+Run `npm run build` to regenerate `version.js` and cache-busting query strings. The script prioritizes the `RELEASE_VERSION` environment variable (with or without a leading `v`), falling back to `package.json` when absent. It also records `BUILD_NUMBER`/`GITHUB_RUN_NUMBER` and `GIT_SHA`/`GITHUB_SHA` (first seven characters) so modules can import version details instead of hardcoding strings. `version.js` exports these fields, sets `window.__APP_VERSION__` to `v<RELEASE_VERSION>`, and sets `window.__APP_BUILD_META__` to `build.<run>.<sha7>` when metadata is present. The file is loaded in `index.html` via a `<script type="module">` tag.
 
 ## Documentation
 

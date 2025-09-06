@@ -5,6 +5,7 @@ import { initUI } from './ui/index.js';
 test('injects release version into window', () => {
   expect(RELEASE_VERSION).toBe(pkg.version);
   expect(window.__APP_VERSION__).toBe(`v${RELEASE_VERSION}`);
+  expect(window.__APP_BUILD_META__).toBe('');
 });
 
 test('displays injected version', () => {
