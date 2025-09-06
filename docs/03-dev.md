@@ -30,7 +30,7 @@
 ### Build, Test, and Release
 
 - `npm run build` regenerates [`../version.js`](../version.js) and cache-busting query strings. The script reads `RELEASE_VERSION` (stripping an optional `v`), `BUILD_NUMBER`/`GITHUB_RUN_NUMBER`, and `GIT_SHA`/`GITHUB_SHA` before falling back to `package.json`. It exports these values, sets `window.__APP_VERSION__ = v<RELEASE_VERSION>`, and sets `window.__APP_BUILD_META__ = build.<run>.<sha7>` when metadata exists. Run it before serving locally and again when preparing a prerelease or release tag. `index.html` loads `version.js` via a `<script type="module">` so its exports are available to other modules.
-- CI pipelines call `node scripts/update-version.mjs` with `github.ref_name`, `github.run_number`, and `github.sha` to refresh `version.js`, `index.html`, and `manifest.json` before building or testing.
+- CI pipelines derive the release version from `package.json` on pull requests and branch pushes, or from the tag name on tag pushes, then call `node scripts/update-version.mjs` with `github.run_number` and `github.sha` to refresh `version.js`, `index.html`, and `manifest.json` before building or testing.
 - `npm test` runs the Jest suite under jsdom with a stubbed Canvas context from [`jest.setup.js`](../jest.setup.js). Execute it before pushing commits; the CI pipeline runs the same command on each push and pull request.
 - After updating the [changelog](CHANGELOG.md) on `main`, create a version tag (for example, `git tag v2.20.5`) and push it with `git push origin <tag>` to start the release workflow.
 
@@ -43,7 +43,7 @@
 - [`version.js`](../version.js) is the single source of truth for the application version. The build emits `RELEASE_VERSION`, `BUILD_NUMBER`, and the short `GIT_SHA`, and sets `window.__APP_VERSION__ = v<RELEASE_VERSION>` and `window.__APP_BUILD_META__ = build.<run>.<sha7>` when metadata is present. CI populates these environment variables so modules import version info instead of hardcoding strings.
 - Update [CHANGELOG.md](CHANGELOG.md) on every merge to `main`. When the changelog entry is ready, create a tag (`vX.Y.Z`, `vX.Y.Z-rc.N`, etc.) and push it with `git push origin <tag>` so GitHub Actions can run the release jobs.
 - GitHub Actions triggers:
-  - **Push / Pull Request:** checkout, install dependencies, update version info, and run `npm test`.
+  - **Push / Pull Request:** checkout, install dependencies, derive the release version from `package.json`, update version info, and run `npm test`.
   - **Tag Push** (see `.github/workflows/release-and-tests.yml`): update version info, parse the tag to determine release phase, and run:
     - `alpha` – integration tests and artifact upload.
     - `beta` – UAT/regression tests and artifact upload.
