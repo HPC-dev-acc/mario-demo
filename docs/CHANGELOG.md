@@ -24,6 +24,7 @@ All notable changes to this project are documented here.
 - Separated build metadata from the base version, introducing `window.__APP_BUILD_META__` and keeping `window.__APP_VERSION__` free of `+build` suffixes (DS-15, T-15).
 - Clarified step naming in test workflow to highlight version.js and HTML/manifest updates (DS-16, T-16).
 - Condensed version information in README for brevity.
+- Organized root by moving test files into `tests/` and relocating orientation and layout utilities to `src/ui/`.
 
 ### Fixed
 - Corrected release version derivation step in test workflow to use a multi-line bash block, preventing shell syntax errors (DS-16, T-16).

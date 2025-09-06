@@ -4,7 +4,8 @@
  - Refer to `docs/02-design.md` for architecture diagrams, asset preload flow, input queue handling, game loop steps, and physics algorithms when implementing features.
  - Install dependencies with `npm install`.
  - Run locally by opening `index.html` in a browser or rebuilding version info and serving the directory with a static server (for example, `npm run build && npx serve .`). The project builds to static files, so no dedicated development server is required.
-- Source code resides in `src/`; `main.js` and `hud.js` remain root-level entry points, while HUD logic lives in `src/ui/index.js` for modularity.
+- Source code resides in `src/`; `main.js` and `hud.js` remain root-level entry points. UI helpers like `src/ui/orientation-guard.js` and `src/ui/landscape-fit-height.js` load lazily from `src/ui`.
+- Tests live alongside modules in `src/` and under `tests/` for DOM and asset checks.
 - Use `npm run build` to update version information before deployment.
 - Developer mode is hidden by default. Toggle it in the settings gear to access the debug panel, log tools, and level editor controls (developers/testers only).
 - When developer mode is on, an NPC panel appears with **NPC1** and **NPC2** buttons that call into `spawnNpc('ol')` and `spawnNpc('trunk')` for quick NPC generation during testing. These hooks compute NPC width using `player.baseH / 44` so sprites retain their normal aspect ratio.

@@ -1,4 +1,4 @@
-import { enterSlide, exitSlide } from './src/game/slide.js';
+import { enterSlide, exitSlide } from '../src/game/slide.js';
 
 test('red light cancels slide and restores height', () => {
   const player = { h: 40, baseH: 40, sliding: 100 };

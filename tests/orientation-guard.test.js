@@ -7,7 +7,7 @@ test('landscape orientation triggers canvas resize', () => {
   window.cancelAnimationFrame = jest.fn();
   window.__resizeGameCanvas = jest.fn();
 
-  require('./orientation-guard.js');
+  require('../src/ui/orientation-guard.js');
   expect(window.__OrientationGuard__.overlay.classList.contains('active')).toBe(true);
 
   landscape = true;

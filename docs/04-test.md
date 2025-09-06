@@ -2,43 +2,44 @@
 
 ## Test Plan
 Each design specification point in `docs/02-design.md` is verified by an automated or manual test. The document now includes architecture and sequence diagrams alongside SDS details of tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and responsive splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push, with a jsdom environment and a minimal Canvas stub provided by [`jest.setup.js`](../jest.setup.js).
+Unit tests reside alongside modules in `src/` while DOM and asset checks live under `tests/`.
 
 Tag-based releases use `.github/workflows/release-and-tests.yml` to run tiered suites: `alpha` tags trigger integration tests, while `beta`, `rc`, and stable tags run UAT and regression tests before publishing artifacts or releases.
 
 ## Test Specifications
 ### T-1: Orientation guard overlay
 - **Design Spec**: DS-1
-- **Test File**: `orientation-guard.test.js`
+- **Test File**: `tests/orientation-guard.test.js`
 - **Description**: verifies overlay activation and canvas resize on orientation change.
 
 ### T-2: Slide cancellation at red light
 - **Design Spec**: DS-2
-- **Test File**: `redLightSlide.test.js`
+- **Test File**: `tests/redLightSlide.test.js`
 - **Description**: ensures exiting a slide restores player height when a red light cancels the slide.
 
 ### T-3: Landscape fit height
 - **Design Spec**: DS-3
-- **Test File**: `landscape-fit-height.test.js`
+- **Test File**: `tests/landscape-fit-height.test.js`
 - **Description**: fits canvas to viewport in mobile landscape and restores styles otherwise.
 
 ### T-4: HUD visibility
 - **Design Spec**: DS-4
-- **Test File**: `hud.test.js`
+- **Test File**: `tests/hud.test.js`
 - **Description**: confirms `showHUD` displays HUD elements while keeping the debug panel hidden.
 
 ### T-5: Start page defaults
 - **Design Spec**: DS-5
-- **Test File**: `start-page.test.js`
+- **Test File**: `tests/start-page.test.js`
 - **Description**: checks start button visibility, pointer events, and correct page title.
 
 ### T-6: UI styling and responsiveness
 - **Design Spec**: DS-6
-- **Test File**: `style.test.js`
+- **Test File**: `tests/style.test.js`
 - **Description**: validates CSS rules for stage limits, touch controls, clear/fail overlays, and timer animation.
 
 ### T-7: OL NPC walk sprites
 - **Design Spec**: DS-7
-- **Test File**: `ol-walk-sprites.test.js`
+- **Test File**: `tests/ol-walk-sprites.test.js`
 - **Description**: ensures sprite files for walk animation frames 0–11 exist.
 
 ### T-8: Countdown timer
@@ -128,7 +129,7 @@ Tag-based releases use `.github/workflows/release-and-tests.yml` to run tiered s
 
 ### T-25: Student NPC walk sprites
 - **Design Spec**: DS-25
-- **Test File**: `student-walk-sprites.test.js`
+- **Test File**: `tests/student-walk-sprites.test.js`
 - **Description**: ensures sprite files for walk animation frames 0–10 exist.
 
 ### T-26: NPC walk animation frame usage
@@ -153,7 +154,7 @@ Tag-based releases use `.github/workflows/release-and-tests.yml` to run tiered s
 
 ### T-30: Officeman NPC walk sprites
 - **Design Spec**: DS-30
-- **Test File**: `officeman-walk-sprites.test.js`
+- **Test File**: `tests/officeman-walk-sprites.test.js`
 - **Description**: ensures sprite files for walk animation frames 0–10 exist.
 
 ### T-31: Officeman sprite scaling
@@ -178,7 +179,7 @@ Tag-based releases use `.github/workflows/release-and-tests.yml` to run tiered s
 
 ### T-35: Circular touch controls pinned to corners
 - **Design Spec**: DS-35
-- **Test File**: `style.test.js`
+- **Test File**: `tests/style.test.js`
 - **Description**: validates that touch buttons are circular and `#touch-left`/`#touch-right` are anchored to the bottom left and right edges.
 
 ### T-36: NPC collision box width
@@ -198,32 +199,32 @@ Tag-based releases use `.github/workflows/release-and-tests.yml` to run tiered s
 
 ### T-39: Home title styling
 - **Design Spec**: DS-39
-- **Test File**: `start-title-style.test.js`
+- **Test File**: `tests/start-title-style.test.js`
 - **Description**: verifies `#start-page .title` uses `clamp(32px, 12vw, 72px)` with a drop shadow so the font scales to the viewport.
 
 ### T-40: Intro splash screen
 - **Design Spec**: DS-40
-- **Test File**: `splash-screen.test.js`
+- **Test File**: `tests/splash-screen.test.js`
 - **Description**: ensures the HPC GAMES splash overlay exists with black background, fade animation, pointer events disabled, and a logo font size that scales with the viewport.
 
 ### T-41: OL NPC idle sprites
 - **Design Spec**: DS-41
-- **Test File**: `ol-idle-sprites.test.js`
+- **Test File**: `tests/ol-idle-sprites.test.js`
 - **Description**: verifies `idle_000`–`idle_012` images exist for OL NPC idle animation.
 
 ### T-42: Officeman NPC idle sprites
 - **Design Spec**: DS-42
-- **Test File**: `officeman-idle-sprites.test.js`
+- **Test File**: `tests/officeman-idle-sprites.test.js`
 - **Description**: verifies `idle_000`–`idle_018` images exist for Officeman NPC idle animation.
 
 ### T-43: Student NPC idle sprites
 - **Design Spec**: DS-43
-- **Test File**: `student-idle-sprites.test.js`
+- **Test File**: `tests/student-idle-sprites.test.js`
 - **Description**: verifies `idle_000`–`idle_012` images exist for Student NPC idle animation.
 
 ### T-44: Trunk NPC move sprites
 - **Design Spec**: DS-44
-- **Test File**: `trunk-move-sprites.test.js`
+- **Test File**: `tests/trunk-move-sprites.test.js`
 - **Description**: ensures `Move_000`–`Move_012` images exist for Trunk NPC movement.
 
 ### T-45: Trunk NPC pass-through

@@ -169,15 +169,15 @@ sequenceDiagram
 
 ## UX
 - HUD offers a gear menu, info panel, countdown timer, and circular touch controls pinned to the screen corners on mobile. A debug panel appears only when developer mode is enabled for developers or testers. Developer mode also reveals an NPC panel with **NPC1**/**NPC2** buttons wired to a `spawnNpc(type)` hook to insert an OL from the right or a Trunk from the left for testing. These hooks scale width with `player.baseH / 44` so spawned sprites keep their normal proportions.
-- Orientation guard pauses play in portrait mode and resumes on landscape.
+- Orientation guard (`src/ui/orientation-guard.js`) pauses play in portrait mode and resumes on landscape.
 - Fullscreen uses centered letterboxing with black bars and resizes on `fullscreenchange` to preserve the 16:9 aspect ratio; styles target both `#stage:fullscreen` and `#game-root:fullscreen #stage`.
 
 ## Design Specs (DS)
 | ID | Description | Requirements | Tests |
 | --- | --- | --- | --- |
-| DS-1 | Orientation guard overlay prompting landscape orientation. | FR-042 | T-1 |
+| DS-1 | Orientation guard overlay prompting landscape orientation, implemented in `src/ui/orientation-guard.js` and loaded lazily. | FR-042 | T-1 |
 | DS-2 | Slide cancellation at red lights restores player height. | — | T-2 |
-| DS-3 | Mobile landscape fit-height layout. | NFR-003 | T-3 |
+| DS-3 | Mobile landscape fit-height layout handled by `src/ui/landscape-fit-height.js`. | NFR-003 | T-3 |
 | DS-4 | `showHUD` helper reveals HUD without debug panel. | FR-040 | T-4 |
 | DS-5 | Start page defaults with visible start button and correct title. | FR-001, NFR-006 | T-5 |
 | DS-6 | Responsive UI styling, clear/fail overlays, and timer pulse. | FR-011, FR-012, FR-040, FR-041, NFR-006 | T-6 |

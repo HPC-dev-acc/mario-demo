@@ -1,4 +1,4 @@
-import { showHUD } from './hud.js';
+import { showHUD } from '../hud.js';
 
 test('showHUD reveals HUD but not debug panel', () => {
   document.body.innerHTML = `
