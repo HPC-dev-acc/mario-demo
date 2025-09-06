@@ -44,8 +44,9 @@
 - Update [CHANGELOG.md](CHANGELOG.md) on every merge to `main`. When the changelog entry is ready, create a tag (`vX.Y.Z`, `vX.Y.Z-rc.N`, etc.) and push it with `git push origin <tag>` so GitHub Actions can run the release jobs.
 - GitHub Actions triggers:
   - **Push / Pull Request:** checkout, install dependencies, derive the release version from `package.json`, update version info, and run `npm test`.
-  - **Tag Push** (see `.github/workflows/release-and-tests.yml`): update version info, parse the tag to determine release phase, and run:
-    - `alpha` – integration tests and artifact upload.
-    - `beta` – UAT/regression tests and artifact upload.
-    - `rc` – UAT/regression tests, artifact upload, and a prerelease.
-    - stable (no suffix) – UAT/regression tests, artifact upload, release creation, and deployment.
+  - **Tag Push** (see `.github/workflows/release-and-tests.yml`): a meta job parses the tag to derive the phase (`alpha`, `beta`, `rc`, or `stable`) while the build job refreshes version info using the tag, builds the game, zips the output, and uploads artifacts. Subsequent jobs run:
+    - `alpha` – the integration suite before artifact upload.
+    - `beta` – the UAT/regression suite before artifact upload.
+    - `rc` – the UAT/regression suite, artifact upload, and a prerelease.
+    - `stable` – the UAT/regression suite, artifact upload, and a full GitHub Release.
+  - Release jobs run with `concurrency: release-${{ github.ref_name }}` to cancel overlapping builds.

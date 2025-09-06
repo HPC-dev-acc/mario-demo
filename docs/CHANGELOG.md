@@ -13,6 +13,7 @@ All notable changes to this project are documented here.
 - Added [`jest.setup.js`](../jest.setup.js) to stub Canvas APIs in jsdom tests (supports T-1, T-3).
 
 ### Changed
+- Overhauled `release-and-tests.yml` to parse tag phases via a meta job, build once, and run phase-specific tests and releases.
 - Clarified documentation across requirements, design, development, and testing guides.
 - Refined URS entries to center player or developer perspectives and remove implementation hints (URS-006, URS-012, URS-015, URS-016, URS-021, URS-022).
 - Refined FR-030 to focus on observable NPC behavior and moved spawn timing, speed, and frame-count details to design specs (DS-10, DS-25, DS-27, DS-30).
