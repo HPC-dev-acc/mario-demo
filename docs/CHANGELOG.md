@@ -22,6 +22,7 @@ All notable changes to this project are documented here.
 - CI workflows run `node scripts/update-version.mjs` before tests and releases to keep `version.js`, `index.html`, and `manifest.json` in sync (DS-16, T-16).
 - Test workflow derives the release version from `package.json` before updating version info and running tests (DS-16, T-16).
 - Separated build metadata from the base version, introducing `window.__APP_BUILD_META__` and keeping `window.__APP_VERSION__` free of `+build` suffixes (DS-15, T-15).
+- Clarified step naming in test workflow to highlight version.js and HTML/manifest updates (DS-16, T-16).
 
 ### Fixed
 - Corrected release version derivation step in test workflow to use a multi-line bash block, preventing shell syntax errors (DS-16, T-16).

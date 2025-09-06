@@ -24,8 +24,7 @@ jobs:
           PKG_VERSION=$(node -p "require('./package.json').version")
           echo "pkg=${PKG_VERSION}" >> "$GITHUB_OUTPUT"
 
-      # 產生 version.js + 更新 index.html / manifest.json
-      - name: Update version info (SSOT)
+      - name: 更新版本資訊（產生 version.js 並更新 index.html/manifest.json）
         run: node scripts/update-version.mjs
         env:
           RELEASE_VERSION: ${{ steps.ver.outputs.pkg }}
