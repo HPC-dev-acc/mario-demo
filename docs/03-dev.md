@@ -27,10 +27,20 @@
 - Canvas dimensions are recalculated on `fullscreenchange` and `visualViewport.resize` to maintain centered letterboxing and correct CSS scaling, and CSS targets `#game-root:fullscreen #stage` to handle fullscreen requests on the container.
 - Background images are regenerated with the canvas's CSS height during DPR adjustments to avoid upscaling in fullscreen.
 
+### Build, Test, and Release
+
+- `npm run build` regenerates [`../version.js`](../version.js) and cache-busting query strings. Run it before serving locally and again when preparing a prerelease or release tag.
+- `npm test` runs the Jest suite. Execute it before pushing commits; the CI pipeline runs the same command on each push and pull request.
+- After updating the [changelog](CHANGELOG.md) on `main`, create a version tag (for example, `git tag v2.20.5`) and push it with `git push origin <tag>` to start the release workflow.
+
 ## Coding Standard
 - Prefer ES modules and `const`/`let` declarations; avoid global variables except for the exported `__APP_VERSION__`.
 - Follow a 2‑space indentation style and end files with a newline.
 - Name files in `kebab-case` and keep functions pure when practical.
 
 ## CI/CD
-- GitHub Actions run Jest tests on each push and pull request.
+- [`version.js`](../version.js) is the single source of truth for the application version. The pipeline generates it from `package.json`, appending `github.run_number` and `github.sha` during tagged builds so modules import version info instead of hardcoding strings.
+- Update [CHANGELOG.md](CHANGELOG.md) on every merge to `main`. When the changelog entry is ready, create a tag (`vX.Y.Z`, `vX.Y.Z-rc.N`, etc.) and push it with `git push origin <tag>` so GitHub Actions can run the release jobs.
+- GitHub Actions triggers:
+  - **Push / Pull Request:** checkout, install dependencies, and run `npm test`.
+  - **Tag Push:** run `npm run build` to refresh `version.js`, execute `npm test`, package artifacts, and publish release notes. `alpha`/`beta` tags upload artifacts only; `rc` and stable tags also create a GitHub Release.
