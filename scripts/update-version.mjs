@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { execSync } from 'child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(path.join(__dirname, '..', 'package.json')));
@@ -9,7 +10,17 @@ const envRelease = process.env.RELEASE_VERSION;
 const rawRelease = (envRelease || pkg.version).replace(/^v/, '');
 const releaseVersion = rawRelease.split('+')[0];
 const buildNumber = process.env.BUILD_NUMBER || process.env.GITHUB_RUN_NUMBER || '';
-const gitSha = (process.env.GIT_SHA || process.env.GITHUB_SHA || '').slice(0, 7);
+let gitSha = (process.env.GIT_SHA || process.env.GITHUB_SHA || '').slice(0, 7);
+if (!gitSha) {
+  try {
+    gitSha = execSync('git rev-parse --short=7 HEAD', {
+      stdio: ['ignore', 'pipe', 'pipe'],
+    })
+      .toString()
+      .trim();
+  } catch {}
+}
+if (!gitSha) gitSha = 'devsha';
 
 function writeIfChanged(filePath, content) {
   const current = existsSync(filePath) ? readFileSync(filePath, 'utf8') : '';
@@ -18,20 +29,20 @@ function writeIfChanged(filePath, content) {
   }
 }
 
-const metaParts = [];
-if (buildNumber) metaParts.push(buildNumber);
-if (gitSha) metaParts.push(gitSha);
-const buildMeta = metaParts.length ? `build.${metaParts.join('.')}` : '';
 const appVersion = `v${releaseVersion}`;
 
 const versionJs = [
   `export const RELEASE_VERSION = '${releaseVersion}';`,
   `export const BUILD_NUMBER    = '${buildNumber}';`,
   `export const GIT_SHA         = '${gitSha}';`,
+  '',
   `if (typeof window !== 'undefined') {`,
   `  window.__APP_VERSION__ = '${appVersion}';`,
-  `  window.__APP_BUILD_META__ = '${buildMeta}';`,
-  `}`,
+  '  const meta = [];',
+  '  if (BUILD_NUMBER) meta.push(BUILD_NUMBER);',
+  '  if (GIT_SHA) meta.push(GIT_SHA);',
+  "  window.__APP_BUILD_META__ = meta.length ? `build.${meta.join('.')}` : '';",
+  '}',
   '',
 ].join('\n');
 writeIfChanged(path.join(__dirname, '..', 'version.js'), versionJs);

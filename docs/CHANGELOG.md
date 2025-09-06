@@ -25,6 +25,7 @@ All notable changes to this project are documented here.
 
 ### Fixed
 - Corrected release version derivation step in test workflow to use a multi-line bash block, preventing shell syntax errors (DS-16, T-16).
+- `update-version.mjs` now always writes a short commit SHA, falling back to `git rev-parse` or `devsha` so `window.__APP_BUILD_META__` consistently includes tracking data (DS-16, T-16).
 
 ## v2.20.4 - 2025-10-11
 

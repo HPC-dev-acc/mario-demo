@@ -48,10 +48,14 @@ test('build updates files for prerelease versions', () => {
   expect(versionJs).toEqual([
     `export const RELEASE_VERSION = '${prerelease}';`,
     "export const BUILD_NUMBER    = '';",
-    "export const GIT_SHA         = '';",
+    "export const GIT_SHA         = 'devsha';",
+    "",
     "if (typeof window !== 'undefined') {",
     `  window.__APP_VERSION__ = 'v${prerelease}';`,
-    "  window.__APP_BUILD_META__ = '';",
+    "  const meta = [];",
+    "  if (BUILD_NUMBER) meta.push(BUILD_NUMBER);",
+    "  if (GIT_SHA) meta.push(GIT_SHA);",
+    "  window.__APP_BUILD_META__ = meta.length ? `build.${meta.join('.')}` : '';",
     "}",
   ]);
 });
