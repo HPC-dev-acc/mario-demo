@@ -36,7 +36,12 @@ test('build updates files for prerelease versions', () => {
 
   const manifest = JSON.parse(fs.readFileSync(path.join(tmp, 'manifest.json'), 'utf8'));
   expect(manifest.version).toBe(prerelease);
-  const versionJs = fs.readFileSync(path.join(tmp, 'version.js'), 'utf8').trim();
-  expect(versionJs).toBe(`window.__APP_VERSION__ = '${prerelease}';`);
+  const versionJs = fs.readFileSync(path.join(tmp, 'version.js'), 'utf8').trim().split('\n');
+  expect(versionJs).toEqual([
+    `export const RELEASE_VERSION = '${prerelease}';`,
+    "export const BUILD_NUMBER = '';",
+    "export const GIT_SHA = '';",
+    `window.__APP_VERSION__ = 'v${prerelease}';`
+  ]);
 });
 

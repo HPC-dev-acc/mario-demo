@@ -1,9 +1,10 @@
 import pkg from '../package.json' assert { type: 'json' };
-import '../version.js';
+import { RELEASE_VERSION } from '../version.js';
 import { initUI } from './ui/index.js';
 
-test('injects package.json version into window', () => {
-  expect(window.__APP_VERSION__).toBe(pkg.version);
+test('injects release version into window', () => {
+  expect(RELEASE_VERSION).toBe(pkg.version);
+  expect(window.__APP_VERSION__).toBe(`v${RELEASE_VERSION}`);
 });
 
 test('displays injected version', () => {
@@ -15,10 +16,10 @@ test('displays injected version', () => {
   initUI(document.getElementById('game'), {
     resumeAudio: () => {},
     toggleMusic: () => {},
-    version: window.__APP_VERSION__,
+    version: RELEASE_VERSION,
   });
   window.dispatchEvent(new Event('load'));
-  expect(document.getElementById('version-pill').textContent).toBe(`v${pkg.version}`);
-  expect(document.getElementById('start-version').textContent).toBe(`v${pkg.version}`);
+  expect(document.getElementById('version-pill').textContent).toBe(`v${RELEASE_VERSION}`);
+  expect(document.getElementById('start-version').textContent).toBe(`v${RELEASE_VERSION}`);
 });
 

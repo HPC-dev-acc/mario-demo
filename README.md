@@ -63,7 +63,7 @@ The test suite currently reports **42 passed suites (232 tests)** with coverage 
 
 ## Versioning
 
-Run `npm run build` (which executes `scripts/update-version.mjs`) to read the version from `package.json` and generate `version.js` plus versioned HTML query parameters. The build now accepts full Semantic Versioning strings, including prerelease identifiers. `version.js` defines a global `window.__APP_VERSION__` loaded before `main.js`, and this value is used in the UI to display the current version.
+Run `npm run build` to regenerate `version.js` and cache-busting query strings. The script prioritizes the `RELEASE_VERSION` environment variable (with or without a leading `v`), falling back to `package.json` when absent. It also records `BUILD_NUMBER`/`GITHUB_RUN_NUMBER` and `GIT_SHA`/`GITHUB_SHA` (first seven characters) so modules can import version details instead of hardcoding strings. `version.js` exports these fields and sets `window.__APP_VERSION__` to `v<RELEASE_VERSION>` with optional `+build.<run>.<sha7>` metadata.
 
 ## Documentation
 

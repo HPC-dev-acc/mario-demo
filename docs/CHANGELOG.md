@@ -15,6 +15,7 @@ All notable changes to this project are documented here.
 - Clarified documentation across requirements, design, development, and testing guides.
 - Refined URS entries to center player or developer perspectives and remove implementation hints (URS-006, URS-012, URS-015, URS-016, URS-021, URS-022).
 - Refined FR-030 to focus on observable NPC behavior and moved spawn timing, speed, and frame-count details to design specs (DS-10, DS-25, DS-27, DS-30).
+- Refactored `update-version.mjs` to export `RELEASE_VERSION`, `BUILD_NUMBER`, and `GIT_SHA`, support CI env variables, and update HTML/manifest using a single source of truth.
 
 ## v2.20.4 - 2025-10-11
 

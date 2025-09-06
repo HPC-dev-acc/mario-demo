@@ -160,7 +160,7 @@ sequenceDiagram
 | --- | --- | --- | --- |
 | `createGameState()` | — | Object | Initializes and returns the mutable game state. |
 | `showHUD()` | — | void | Reveals HUD elements while keeping the debug panel hidden. |
-| `scripts/update-version.mjs` | — | void | Reads `package.json` and emits `version.js` plus versioned query parameters. |
+| `scripts/update-version.mjs` | — | void | Emits `version.js` from `RELEASE_VERSION`/`BUILD_NUMBER`/`GIT_SHA` env vars (fallback `package.json`) and updates HTML/manifest query parameters. |
 
 ## ADR (Architecture Decision Record)
 - Chosen **vanilla JS** for minimal dependencies; build tools (Babel, Jest) are used only for development.
