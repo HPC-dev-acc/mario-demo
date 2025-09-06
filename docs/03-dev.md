@@ -29,7 +29,7 @@
 
 ### Build, Test, and Release
 
-- `npm run build` regenerates [`../version.js`](../version.js) and cache-busting query strings. The script reads `RELEASE_VERSION` (stripping an optional `v`), `BUILD_NUMBER`/`GITHUB_RUN_NUMBER`, and `GIT_SHA`/`GITHUB_SHA` before falling back to `package.json`. Run it before serving locally and again when preparing a prerelease or release tag.
+- `npm run build` regenerates [`../version.js`](../version.js) and cache-busting query strings. The script reads `RELEASE_VERSION` (stripping an optional `v`), `BUILD_NUMBER`/`GITHUB_RUN_NUMBER`, and `GIT_SHA`/`GITHUB_SHA` before falling back to `package.json`. Run it before serving locally and again when preparing a prerelease or release tag. `index.html` loads `version.js` via a `<script type="module">` so its exports are available to other modules.
 - `npm test` runs the Jest suite. Execute it before pushing commits; the CI pipeline runs the same command on each push and pull request.
 - After updating the [changelog](CHANGELOG.md) on `main`, create a version tag (for example, `git tag v2.20.5`) and push it with `git push origin <tag>` to start the release workflow.
 

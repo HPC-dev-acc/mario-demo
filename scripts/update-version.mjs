@@ -22,10 +22,15 @@ if (buildNumber) metaParts.push(buildNumber);
 if (gitSha) metaParts.push(gitSha);
 const appVersion = `v${releaseVersion}` + (metaParts.length ? `+build.${metaParts.join('.')}` : '');
 
-const versionJs = `export const RELEASE_VERSION = '${releaseVersion}';\n` +
-                   `export const BUILD_NUMBER = '${buildNumber}';\n` +
-                   `export const GIT_SHA = '${gitSha}';\n` +
-                   `window.__APP_VERSION__ = '${appVersion}';\n`;
+const versionJs = [
+  `export const RELEASE_VERSION = '${releaseVersion}';`,
+  `export const BUILD_NUMBER    = '${buildNumber}';`,
+  `export const GIT_SHA         = '${gitSha}';`,
+  `if (typeof window !== 'undefined') {`,
+  `  window.__APP_VERSION__ = '${appVersion}';`,
+  `}`,
+  '',
+].join('\n');
 writeIfChanged(path.join(__dirname, '..', 'version.js'), versionJs);
 
 const htmlPath = path.join(__dirname, '..', 'index.html');
@@ -33,7 +38,12 @@ let html = readFileSync(htmlPath, 'utf8');
 const verRe = '[A-Za-z0-9.+-]+';
 const updated = html
   .replace(new RegExp(`(style\\.css\\?v=)${verRe}`), `$1${releaseVersion}`)
-  .replace(new RegExp(`(version.js\\?v=)${verRe}`), `$1${releaseVersion}`)
+  .replace(
+    new RegExp(
+      `<script\\s+(?:type="module"\\s+)?src="version.js\\?v=${verRe}"><\\/script>`
+    ),
+    `<script type="module" src="version.js?v=${releaseVersion}"></script>`
+  )
   .replace(new RegExp(`(main.js\\?v=)${verRe}`), `$1${releaseVersion}`)
   .replace(new RegExp(`(manifest.json\\?v=)${verRe}`), `$1${releaseVersion}`)
   .replace(new RegExp(`(id="start-version"[^>]*>v)${verRe}`), `$1${releaseVersion}`)

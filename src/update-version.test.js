@@ -30,8 +30,16 @@ test('build updates files for prerelease versions', () => {
   expect(doc.querySelector('#start-version').textContent).toBe(`v${prerelease}`);
   expect(doc.querySelector('#version-pill').textContent).toBe(`v${prerelease}`);
   expect(doc.querySelector('link[rel="stylesheet"]').getAttribute('href')).toBe(`style.css?v=${prerelease}`);
-  expect(doc.querySelector('script[src^="version.js"]').getAttribute('src')).toBe(`version.js?v=${prerelease}`);
-  expect(doc.querySelector('script[type="module"]').getAttribute('src')).toBe(`main.js?v=${prerelease}`);
+  expect(
+    doc
+      .querySelector('script[type="module"][src^="version.js"]')
+      .getAttribute('src')
+  ).toBe(`version.js?v=${prerelease}`);
+  expect(
+    doc
+      .querySelector('script[type="module"][src^="main.js"]')
+      .getAttribute('src')
+  ).toBe(`main.js?v=${prerelease}`);
   expect(doc.querySelector('link[rel="manifest"]').getAttribute('href')).toBe(`manifest.json?v=${prerelease}`);
 
   const manifest = JSON.parse(fs.readFileSync(path.join(tmp, 'manifest.json'), 'utf8'));
@@ -39,9 +47,11 @@ test('build updates files for prerelease versions', () => {
   const versionJs = fs.readFileSync(path.join(tmp, 'version.js'), 'utf8').trim().split('\n');
   expect(versionJs).toEqual([
     `export const RELEASE_VERSION = '${prerelease}';`,
-    "export const BUILD_NUMBER = '';",
-    "export const GIT_SHA = '';",
-    `window.__APP_VERSION__ = 'v${prerelease}';`
+    "export const BUILD_NUMBER    = '';",
+    "export const GIT_SHA         = '';",
+    "if (typeof window !== 'undefined') {",
+    `  window.__APP_VERSION__ = 'v${prerelease}';`,
+    "}",
   ]);
 });
 
