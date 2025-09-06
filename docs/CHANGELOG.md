@@ -6,6 +6,7 @@ All notable changes to this project are documented here.
 
 ### Added
 - Documented installation and run steps in README and development guide.
+- Added Test Reports and UAT sections mapping URS to test specs in `docs/04-test.md`.
 
 ### Changed
 - Clarified documentation across requirements, design, development, and testing guides.

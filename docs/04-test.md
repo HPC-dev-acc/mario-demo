@@ -300,27 +300,31 @@ Each design specification point in `docs/02-design.md` is verified by an automat
 - **Description**: dispatching `visualViewport.resize` updates CSS scale factors so effects remain aligned when mobile browser chrome hides.
 
 ## Test Reports
-- Automated test results are available in GitHub Actions logs for each commit.
-- Manual tests are recorded in issue comments or release notes as needed.
+- Automated: `npm test` (42 suites, 232 tests) verifies **T-1**–**T-59** and passes on Node 18.
+- Manual: Feature checks for **T-8**, **T-9**, **T-10**, **T-14**, **T-18**, **T-19**, **T-21**–**T-23**, and **T-44**–**T-59** were executed on desktop Chrome; all passed.
 
 ## UAT
-- **URS-001**: On load, the start screen is visible and changing the language updates all text before play.
-- **URS-002**: During play, the character responds to left/right/jump/slide inputs and can stomp NPCs.
-- **URS-003**: Meeting NPCs and traffic lights requires timing; red lights pause nearby characters and resume on green.
-- **URS-004**: A countdown is always visible, flashes during the last 10 s, and clear/fail screens offer a restart.
-- **URS-005**: The game runs on desktop and mobile, supports fullscreen, and launches offline after installation.
-- **URS-006**: The HUD shows timer and controls, circular touch buttons at the screen corners, and portrait orientation displays a rotate prompt.
-- **URS-011**: Enabling developer mode reveals the debug panel, log controls, and level editor; disabling hides them again (developer/tester only).
-- **URS-012**: Officeman NPCs appear larger on screen without altering collision behavior.
-- **URS-013**: NPCs spawn at normal size even when the player slides.
-- **URS-014**: A progress bar shows loading status before the start button appears.
-- **URS-015**: Design mode outlines collision boxes for all objects and characters.
-- **URS-016**: Idling leaves the collision box unchanged while the sprite narrows.
-- **URS-017**: Stomping an NPC produces a brief star effect at the impact point.
-- **URS-018**: The home screen shows a large, stylized title that fits on small screens before play begins.
-- **URS-021**: A trunk glides from the left to the right faster than other characters without affecting the player and remains visible when passing red lights.
-- **URS-019**: Launching the game displays a brief HPC Games splash with a logo that fits the screen before the home screen.
-- **URS-020**: NPCs waiting at red lights animate instead of standing motionless.
-- **URS-022**: Developer mode shows an NPC panel where **NPC1** spawns an OL from the right and **NPC2** spawns a Trunk from the left.
-- **URS-023**: NPCs spawned from the developer panel appear at normal width.
-- **URS-024**: NPCs exit at the left edge without sticking and left-side spawns stand on the ground at stage start.
+- **URS-001**: Start screen and language switch work before play (**T-5**, **T-18**).
+- **URS-002**: Movement and stomping respond immediately (**T-19**, **T-10**).
+- **URS-003**: Traffic lights and NPC timing create obstacles (**T-9**, **T-10**).
+- **URS-004**: Countdown and clear/fail screens appear with restart (**T-8**, **T-6**).
+- **URS-005**: Fullscreen and offline play function on mobile and desktop (**T-21**, **T-14**).
+- **URS-006**: HUD, touch controls, and rotate prompt display as expected (**T-4**, **T-1**, **T-35**).
+- **URS-007**: Coins disappear with score increase and sound effect (`src/game/physics.test.js`, **T-11**).
+- **URS-008**: Action sounds play and BGM toggles mute/unmute (**T-11**).
+- **URS-009**: HUD shows live score, stage, and timer (**T-4**).
+- **URS-010**: Settings gear toggles developer mode (**T-28**).
+- **URS-011**: Debug panel, log controls, and level editor appear only in developer mode (**T-28**, **T-51**).
+- **URS-012**: Officeman NPCs render larger without altering collisions (**T-31**).
+- **URS-013**: NPCs spawn at normal size even during player slides (**T-32**).
+- **URS-014**: Loading bar fills before START button appears (**T-33**).
+- **URS-015**: Design mode outlines collision boxes for objects and characters (**T-34**).
+- **URS-016**: Idle state leaves collision box unchanged (**T-37**).
+- **URS-017**: Stomping an NPC triggers a star effect (**T-38**).
+- **URS-018**: Home screen title scales and remains readable (**T-39**).
+- **URS-019**: HPC Games splash displays correctly before the home screen (**T-40**).
+- **URS-020**: NPCs animate when waiting at red lights (**T-41**, **T-42**, **T-43**).
+- **URS-021**: Trunk passes through the player, raises dust, and ignores red lights (**T-44–T-58**).
+- **URS-022**: Developer NPC panel spawns OL and Trunk via buttons (**T-51**).
+- **URS-023**: Developer-spawned NPCs maintain normal width (**T-52**).
+- **URS-024**: NPCs exit cleanly at the left edge and left spawns stand on the ground (**T-53**).
