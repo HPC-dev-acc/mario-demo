@@ -300,10 +300,12 @@ Each design specification point in `docs/02-design.md` is verified by an automat
 - **Description**: dispatching `visualViewport.resize` updates CSS scale factors so effects remain aligned when mobile browser chrome hides.
 
 ## Test Reports
-- Automated: `npm test` (42 suites, 232 tests) verifies **T-1**–**T-59** and passes on Node 18.
+- Automated: `npm test` (42 suites, 232 tests) verifies **T-1**–**T-59** (see [RTM](./01-requirement.md#rtm)) and passes on Node 18.
+- Coverage: `npm test -- --coverage` reports **84 % statements**, **76 % branches**, **84 % functions**, **88 % lines**.
 - Manual: Feature checks for **T-8**, **T-9**, **T-10**, **T-14**, **T-18**, **T-19**, **T-21**–**T-23**, and **T-44**–**T-59** were executed on desktop Chrome; all passed.
 
 ## UAT
+URS definitions are in [docs/01-requirement.md#urs](./01-requirement.md#urs); test IDs correspond to the [RTM](./01-requirement.md#rtm).
 - **URS-001**: Start screen and language switch work before play (**T-5**, **T-18**).
 - **URS-002**: Movement and stomping respond immediately (**T-19**, **T-10**).
 - **URS-003**: Traffic lights and NPC timing create obstacles (**T-9**, **T-10**).
