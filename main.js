@@ -46,7 +46,7 @@ let orientationGuardLoaded = false;
 function loadOrientationGuard() {
   if (!orientationGuardLoaded) {
     orientationGuardLoaded = true;
-    import('./orientation-guard.js');
+    import('./src/ui/orientation-guard.js');
   }
 }
 

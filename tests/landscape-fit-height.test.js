@@ -18,7 +18,7 @@ describe('landscape-fit-height', () => {
     global.cancelAnimationFrame = () => {};
     Object.defineProperty(document, 'readyState', { value: 'complete', configurable: true });
 
-    await import('./landscape-fit-height.js');
+    await import('../src/ui/landscape-fit-height.js');
 
     const canvas = document.querySelector('canvas');
     expect(canvas.style.height).toBe('300px');
@@ -38,7 +38,7 @@ describe('landscape-fit-height', () => {
     global.cancelAnimationFrame = () => {};
     Object.defineProperty(document, 'readyState', { value: 'complete', configurable: true });
 
-    await import('./landscape-fit-height.js');
+    await import('../src/ui/landscape-fit-height.js');
 
     const canvas = document.querySelector('canvas');
     expect(canvas.style.width).toBe('200px');
@@ -60,7 +60,7 @@ describe('landscape-fit-height', () => {
     global.cancelAnimationFrame = () => {};
     Object.defineProperty(document, 'readyState', { value: 'complete', configurable: true });
 
-    await import('./landscape-fit-height.js');
+    await import('../src/ui/landscape-fit-height.js');
 
     const layer = document.getElementById('ui-layer');
     const hud = document.getElementById('hud-top-center');
