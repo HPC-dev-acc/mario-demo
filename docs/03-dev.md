@@ -43,4 +43,8 @@
 - Update [CHANGELOG.md](CHANGELOG.md) on every merge to `main`. When the changelog entry is ready, create a tag (`vX.Y.Z`, `vX.Y.Z-rc.N`, etc.) and push it with `git push origin <tag>` so GitHub Actions can run the release jobs.
 - GitHub Actions triggers:
   - **Push / Pull Request:** checkout, install dependencies, and run `npm test`.
-  - **Tag Push:** run `npm run build` to refresh `version.js`, execute `npm test`, package artifacts, and publish release notes. `alpha`/`beta` tags upload artifacts only; `rc` and stable tags also create a GitHub Release.
+  - **Tag Push** (see `.github/workflows/release-and-tests.yml`): parse the tag to determine release phase and run:
+    - `alpha` – integration tests and artifact upload.
+    - `beta` – UAT/regression tests and artifact upload.
+    - `rc` – UAT/regression tests, artifact upload, and a prerelease.
+    - stable (no suffix) – UAT/regression tests, artifact upload, release creation, and deployment.

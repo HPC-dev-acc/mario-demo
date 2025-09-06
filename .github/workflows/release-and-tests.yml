@@ -1,0 +1,55 @@
+name: Release and Tests
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install
+      - name: Build version
+        run: npm run build
+      - name: Run integration tests
+        if: contains(github.ref_name, '-alpha.')
+        run: npm test
+      - name: Run UAT and regression tests
+        if: contains(github.ref_name, '-beta.') || contains(github.ref_name, '-rc.') || !contains(github.ref_name, '-')
+        run: npm test
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: game
+          path: |
+            index.html
+            main.js
+            hud.js
+            sw.js
+            style.css
+            assets
+            src
+            version.js
+            manifest.json
+      - name: Create GitHub prerelease
+        if: contains(github.ref_name, '-rc.')
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
+          prerelease: true
+      - name: Create GitHub release
+        if: !contains(github.ref_name, '-')
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
+      - name: Deploy
+        if: !contains(github.ref_name, '-')
+        run: echo "Deploying version ${{ github.ref_name }}..."

@@ -9,6 +9,7 @@ All notable changes to this project are documented here.
 - Added Test Reports and UAT sections mapping URS to test specs in `docs/04-test.md`.
 - Added architecture flowchart, module interaction sequence, and ERD/API tables to `docs/02-design.md` with references across docs.
 - Expanded `docs/03-dev.md` with build/test/release commands and detailed CI/CD workflow.
+- Introduced `release-and-tests.yml` for tag-driven builds with tiered testing and release behavior.
 
 ### Changed
 - Clarified documentation across requirements, design, development, and testing guides.
