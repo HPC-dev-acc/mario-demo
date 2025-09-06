@@ -70,7 +70,7 @@ Run `npm run build` (which executes `scripts/update-version.mjs`) to read the ve
 Project documentation is stored in the `docs/` directory. Each file is curated for its specific role so requirements, design, development, and tests remain in sync:
 
 - `docs/01-requirement.md` – URS, SRS (FR/NFR), and RTM
-- `docs/02-design.md` – SAD, SDS, ICD, ERD, API, ADR, and UX
+- `docs/02-design.md` – SAD (with architecture diagram), SDS, ICD (module sequence & data tables), ERD, API, ADR, and UX
 - `docs/03-dev.md` – development guide, coding standards, and CI/CD
 - `docs/04-test.md` – test plan/specs/reports and UAT
 - `docs/CHANGELOG.md` – version history

@@ -7,6 +7,20 @@
 - Game state is held in a central object created by `createGameState()` and shared across modules.
 - Data flow: user input mutates state → physics resolves collisions → camera follows the player → renderer draws the visible slice.
 
+```mermaid
+flowchart LR
+    Input --> State
+    State --> Physics
+    Physics --> Renderer
+    Renderer --> Display
+    State --> Camera
+    Camera --> Renderer
+    State --> AI
+    AI --> State
+    UI --> State
+    State --> Audio
+```
+
 ## SDS (Software Design Specification)
 ### Game Loop and State
 - `main.js` preloads textures and audio via `Promise.all`, constructs the initial game state using `createGameState()`, and registers input/HUD listeners. Once assets resolve it starts the loop with `requestAnimationFrame(tick)`.
@@ -104,16 +118,49 @@
 - **Service Worker**: `navigator.serviceWorker.register('sw.js')`; messages of type `update` prompt a reload.
 - **Error Handling**: modules throw on missing assets; the main loop catches errors, logs to console, and pauses the game.
 
+### Game State Structure
+| Field | Type | Description |
+| --- | --- | --- |
+| `level` | Object | Stage layout and geometry. |
+| `coins` | Array | Remaining coin coordinates. |
+| `lights` | Array | Pedestrian signal objects. |
+| `player` | Object | Player entity state. |
+| `camera` | Object | Viewport position. |
+| `npcs` | Array | Active NPC entities. |
+| `GOAL_X` | Number | X coordinate of level goal. |
+| `LEVEL_W`/`LEVEL_H` | Number | Level dimensions in tiles. |
+
+### Module Interaction
+```mermaid
+sequenceDiagram
+    participant Input
+    participant Game
+    participant Physics
+    participant Renderer
+    Input->>Game: actions
+    Game->>Physics: update(state)
+    Physics-->>Game: resolved positions
+    Game->>Renderer: draw(state)
+    Renderer-->>Game: next frame via rAF
+```
+
 ## ERD (Entity Relationship Overview)
-- **Entity** – player and NPC share common fields: `id`, `type`, `pos`, `vel`, `state`, and `hitbox`.
-- **TrafficLight** – controls pedestrian signals and exposes `phase` and `area`.
-- **LevelObject** – defines world geometry with optional collision masks.
-- Relationships: entities interact with level objects through AABB collisions; traffic lights influence nearby entities.
+| Entity | Fields |
+| --- | --- |
+| **Entity** | `id`, `type`, `pos{x,y}`, `vel{x,y}`, `state`, `hitbox{w,h}` |
+| **TrafficLight** | `id`, `phase`, `area` |
+| **LevelObject** | `id`, `type`, `x`, `y`, `transparent?`, `collision[]` |
+
+**Relationships**
+- Entities interact with level objects through AABB collisions.
+- Traffic lights broadcast their `phase` to nearby entities.
 
 ## API
-- Global `createGameState()` returns the mutable game state used by the loop and tests.
-- `showHUD()` reveals HUD elements while keeping the debug panel hidden.
-- `scripts/update-version.mjs` reads `package.json` and emits `version.js` plus versioned query parameters.
+| Name | Parameters | Returns | Description |
+| --- | --- | --- | --- |
+| `createGameState()` | — | Object | Initializes and returns the mutable game state. |
+| `showHUD()` | — | void | Reveals HUD elements while keeping the debug panel hidden. |
+| `scripts/update-version.mjs` | — | void | Reads `package.json` and emits `version.js` plus versioned query parameters. |
 
 ## ADR (Architecture Decision Record)
 - Chosen **vanilla JS** for minimal dependencies; build tools (Babel, Jest) are used only for development.
