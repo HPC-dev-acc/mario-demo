@@ -8,8 +8,8 @@ const pkg = JSON.parse(readFileSync(path.join(__dirname, '..', 'package.json')))
 const envRelease = process.env.RELEASE_VERSION;
 const rawRelease = (envRelease || pkg.version).replace(/^v/, '');
 const releaseVersion = rawRelease.split('+')[0];
-const buildNumber = process.env.BUILD_NUMBER || process.env.GITHUB_RUN_NUMBER || '';
-const gitSha = (process.env.GIT_SHA || process.env.GITHUB_SHA || '').slice(0, 7) || 'devsha';
+const buildNumber = process.env.BUILD_NUMBER || '';
+const gitSha = (process.env.GIT_SHA || 'devsha').slice(0, 7);
 
 function writeIfChanged(filePath, content) {
   const current = existsSync(filePath) ? readFileSync(filePath, 'utf8') : '';

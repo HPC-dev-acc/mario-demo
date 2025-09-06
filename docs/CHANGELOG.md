@@ -27,6 +27,7 @@ All notable changes to this project are documented here.
 ### Fixed
 - Corrected release version derivation step in test workflow to use a multi-line bash block, preventing shell syntax errors (DS-16, T-16).
 - Refactored `update-version.mjs` to generate `version.js` (exports only) and `version.global.js` (browser globals), resolving commit SHAs solely from environment variables and defaulting to `devsha` when absent (DS-16, T-16).
+- Limited `update-version.mjs` to `BUILD_NUMBER` and `GIT_SHA` env vars, avoiding unintended GitHub defaults during local tests (DS-16, T-16).
 
 ## v2.20.4 - 2025-10-11
 
