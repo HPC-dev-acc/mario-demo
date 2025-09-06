@@ -10,7 +10,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 - Clarified documentation across requirements, design, development, and testing guides.
-- Rephrased URS success criteria to focus on player outcomes without rendering details (URS-008, URS-012–URS-023).
+- Refined URS entries to center player or developer perspectives and remove implementation hints (URS-006, URS-012, URS-015, URS-016, URS-021, URS-022).
 - Refined FR-030 to focus on observable NPC behavior and moved spawn timing, speed, and frame-count details to design specs (DS-10, DS-25, DS-27, DS-30).
 
 ## v2.20.4 - 2025-10-11

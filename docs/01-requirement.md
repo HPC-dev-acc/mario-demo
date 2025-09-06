@@ -24,7 +24,7 @@
 - **URS-006: Informative HUD and guidance**
   - *Scenario*: Players need status information and orientation hints.
   - *User story*: I want a HUD that shows essential info and warns me when the device is rotated so I stay oriented.
-  - *Success*: The HUD displays the timer and circular touch controls at the screen corners, and portrait orientation shows a rotate prompt.
+  - *Success*: The HUD shows the timer and easy-to-reach controls, and rotating to portrait displays a prompt to turn the device back.
 - **URS-007: Coin collection feedback**
   - *Scenario*: Players move through the stage encountering coins.
   - *User story*: I want coins to disappear, increase my score, and play a sound when collected so I know I grabbed them.
@@ -48,9 +48,9 @@
   - *Success*: In developer mode, the debug panel, log controls, and level editor are visible; in player mode they remain hidden.
 
 - **URS-012: Officeman visibility**
-  - *Scenario*: Officeman NPC sprites are smaller than other characters.
-  - *User story*: As a player, I want Officeman NPCs to appear at a comparable size so they are easy to see while gameplay physics stay consistent.
-  - *Success*: Officeman NPCs appear clearly while gameplay behaves the same.
+  - *Scenario*: Officeman NPCs can be easy to miss.
+  - *User story*: As a player, I want Officemen to be as noticeable as other characters so I can react to them.
+  - *Success*: Officeman characters stand out without changing how the game plays.
 
 - **URS-013: Consistent NPC size during slides**
   - *Scenario*: The player is sliding while NPCs spawn.
@@ -64,12 +64,12 @@
 - **URS-015: Collision box visibility in design mode**
   - *Scenario*: Developers or testers adjust level layouts.
   - *User story*: As a developer or tester, I want collision boxes for all objects and characters visible so I can place elements accurately.
-  - *Success*: Enabling design mode draws green outlines around every object, the player, and NPCs.
+  - *Success*: Enabling design mode outlines every object, the player, and NPCs for precise placement.
 
 - **URS-016: Stable collision during idle**
   - *Scenario*: The player character pauses without input.
-  - *User story*: As a player, I want the character's collision box to stay the same when idle so positioning remains reliable.
-  - *Success*: When the player stops moving, the character may look slightly narrower but still interacts with the world the same way.
+  - *User story*: As a player, I want my character to stay steady when idle so I can judge positions accurately.
+  - *Success*: Stopping movement leaves the character visually stable and interactions unchanged.
 
 - **URS-017: Stomp visual feedback**
   - *Scenario*: The player jumps onto an NPC.
@@ -93,13 +93,13 @@
 
 - **URS-021: Passing Trunk obstacle**
   - *Scenario*: A log slides across the stage faster than other characters.
-  - *User story*: As a player, I want occasional trunks to move from the left without knocking me back so I react to unexpected scenery.
-  - *Success*: A trunk slides from left to right faster than other characters, keeps moving through red lights, kicks up dust as it passes, and the player can run through it without being pushed or using it as a platform.
+  - *User story*: As a player, I want occasional trunks to rush past without knocking me back so I can enjoy the scenery and stay on course.
+  - *Success*: Trunks glide from left to right quickly, adding variety while never blocking or pushing the player.
 
 - **URS-022: NPC spawn panel (developer/tester only)**
   - *Scenario*: Developers or testers need to spawn specific NPCs for debugging.
   - *User story*: As a developer or tester, I want buttons to spawn OL or Trunk NPCs so I can quickly test behavior.
-  - *Success*: Clicking **NPC1** spawns an OL from the right; clicking **NPC2** spawns a Trunk from the left.
+  - *Success*: The panel provides controls to spawn OL and Trunk NPCs on demand.
 
 - **URS-023: Developer-spawned NPC proportions (developer/tester only)**
   - *Scenario*: Developers or testers spawn NPCs via the debug panel.
