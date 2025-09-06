@@ -18,15 +18,15 @@ All notable changes to this project are documented here.
 - Refined URS entries to center player or developer perspectives and remove implementation hints (URS-006, URS-012, URS-015, URS-016, URS-021, URS-022).
 - Refined FR-030 to focus on observable NPC behavior and moved spawn timing, speed, and frame-count details to design specs (DS-10, DS-25, DS-27, DS-30).
 - Refactored `update-version.mjs` to export `RELEASE_VERSION`, `BUILD_NUMBER`, and `GIT_SHA`, support CI env variables, and update HTML/manifest using a single source of truth.
-- Ensured `update-version.mjs` writes `window.__APP_VERSION__` once, replaces `version.js` as a module script, and consolidates HTML replacements (DS-16, T-16).
-- CI workflows run `node scripts/update-version.mjs` before tests and releases to keep `version.js`, `index.html`, and `manifest.json` in sync (DS-16, T-16).
+- Ensured `update-version.mjs` injects globals through `version.global.js` and consolidates HTML replacements (DS-16, T-16).
+- CI workflows run `node scripts/update-version.mjs` before tests and releases to keep `version.js`, `version.global.js`, `index.html`, and `manifest.json` in sync (DS-16, T-16).
 - Test workflow derives the release version from `package.json` before updating version info and running tests (DS-16, T-16).
 - Separated build metadata from the base version, introducing `window.__APP_BUILD_META__` and keeping `window.__APP_VERSION__` free of `+build` suffixes (DS-15, T-15).
 - Clarified step naming in test workflow to highlight version.js and HTML/manifest updates (DS-16, T-16).
 
 ### Fixed
 - Corrected release version derivation step in test workflow to use a multi-line bash block, preventing shell syntax errors (DS-16, T-16).
-- `update-version.mjs` now always writes a short commit SHA, falling back to `git rev-parse` or `devsha` so `window.__APP_BUILD_META__` consistently includes tracking data (DS-16, T-16).
+- Refactored `update-version.mjs` to generate `version.js` (exports only) and `version.global.js` (browser globals), resolving commit SHAs solely from environment variables and defaulting to `devsha` when absent (DS-16, T-16).
 
 ## v2.20.4 - 2025-10-11
 

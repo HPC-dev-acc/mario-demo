@@ -19,9 +19,9 @@ test('index.html uses release version in query params and badges', () => {
   expect(doc.querySelector('link[rel="stylesheet"]').getAttribute('href')).toBe(`style.css?v=${RELEASE_VERSION}`);
   expect(
     doc
-      .querySelector('script[type="module"][src^="version.js"]')
+      .querySelector('script[type="module"][src^="version.global.js"]')
       .getAttribute('src')
-  ).toBe(`version.js?v=${RELEASE_VERSION}`);
+  ).toBe(`version.global.js?v=${RELEASE_VERSION}`);
   expect(
     doc
       .querySelector('script[type="module"][src^="main.js"]')

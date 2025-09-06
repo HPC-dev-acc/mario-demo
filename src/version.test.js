@@ -1,5 +1,6 @@
 import pkg from '../package.json' assert { type: 'json' };
 import { RELEASE_VERSION, BUILD_NUMBER, GIT_SHA } from '../version.js';
+import '../version.global.js';
 import { initUI } from './ui/index.js';
 
 test('injects release version into window', () => {

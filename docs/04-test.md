@@ -79,12 +79,12 @@ Tag-based releases use `.github/workflows/release-and-tests.yml` to run tiered s
 ### T-15: Versioning build
 - **Design Spec**: DS-15
 - **Test**: Manual (`npm run build`)
-- **Description**: running the build generates `version.js` and updates HTML query parameters.
+- **Description**: running the build generates `version.js`/`version.global.js` and updates HTML query parameters.
 
 ### T-16: Semantic version handling
 - **Design Spec**: DS-16
 - **Test File**: `update-version.test.js`
-- **Description**: prerelease versions update HTML parameters, `version.js`, and `manifest.json`.
+- **Description**: prerelease versions update HTML parameters, `version.js`/`version.global.js`, and `manifest.json`.
 
 ### T-17: High-resolution background
 - **Design Spec**: DS-17
