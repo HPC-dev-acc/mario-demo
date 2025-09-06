@@ -2,7 +2,8 @@
 
 ## Dev Guide
  - Refer to the expanded SDS in `docs/02-design.md` for asset preload flow, input queue handling, game loop steps, and physics algorithms when implementing features.
-- Install dependencies with `npm install`. The project builds to static files, so no development server is required.
+ - Install dependencies with `npm install`.
+ - Run locally by opening `index.html` in a browser or rebuilding version info and serving the directory with a static server (for example, `npm run build && npx serve .`). The project builds to static files, so no dedicated development server is required.
 - Source code resides in `src/`; `main.js` and `hud.js` remain root-level entry points, while HUD logic lives in `src/ui/index.js` for modularity.
 - Use `npm run build` to update version information before deployment.
 - Developer mode is hidden by default. Toggle it in the settings gear to access the debug panel, log tools, and level editor controls (developers/testers only).
