@@ -19,7 +19,10 @@ jobs:
       # 讀 package.json 的 version 當作釋出版本（PR/branch 情境沒有 tag）
       - name: Derive release version from package.json
         id: ver
-        run: echo "pkg=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+        shell: bash
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "pkg=${PKG_VERSION}" >> "$GITHUB_OUTPUT"
 
       # 產生 version.js + 更新 index.html / manifest.json
       - name: Update version info (SSOT)
