@@ -59,8 +59,7 @@ Run the test suite after installing dependencies:
 ```sh
 npm test
 ```
-
-The tests verify collision handling, coin collection logic, and traffic light state transitions. Continuous integration runs the same command on each push and pull request.
+The test suite currently reports **42 passed suites (232 tests)**. Continuous integration runs the same command on each push. Detailed reports and UAT results are documented in `docs/04-test.md`.
 
 ## Versioning
 
