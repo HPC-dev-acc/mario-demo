@@ -111,6 +111,8 @@
   - *User story*: As a player, I want NPCs to leave the stage without getting stuck or falling so the world feels coherent.
   - *Success*: NPCs exiting left disappear cleanly and those entering from the left stand on the ground.
 
+User acceptance verification for each URS is summarized in [docs/04-test.md#uat](./04-test.md#uat).
+
 ## SRS
 ### Functional Requirements (FR)
 **Navigation / Launch**
@@ -177,6 +179,8 @@
   - NFR-009 (Reliability): Automatic NPC spawning must handle missing option objects without throwing errors.
 
 ## RTM
+
+Test case mappings and coverage reports are detailed in [docs/04-test.md#test-reports](./04-test.md#test-reports).
 
 ### Functional Requirements
 | Requirement | Design Spec | Test |

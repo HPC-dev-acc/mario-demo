@@ -59,7 +59,7 @@ Run the test suite after installing dependencies:
 ```sh
 npm test
 ```
-The test suite currently reports **42 passed suites (232 tests)**. Continuous integration runs the same command on each push. Detailed reports and UAT results are documented in `docs/04-test.md`.
+The test suite currently reports **42 passed suites (232 tests)** with coverage **84 % statements, 76 % branches, 84 % functions, 88 % lines**. Continuous integration runs the same command on each push. Detailed reports and UAT results are documented in `docs/04-test.md`.
 
 ## Versioning
 
