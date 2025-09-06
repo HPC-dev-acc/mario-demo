@@ -5,7 +5,7 @@ All notable changes to this project are documented here.
 ## Unreleased
 
 ### Added
-- No entries.
+- Documented installation and run steps in README and development guide.
 
 ### Changed
 - Clarified documentation across requirements, design, development, and testing guides.
