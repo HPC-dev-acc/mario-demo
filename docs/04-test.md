@@ -1,7 +1,7 @@
 # Test Plan
 
 ## Test Plan
-Each design specification point in `docs/02-design.md` is verified by an automated or manual test. The document now includes architecture and sequence diagrams alongside SDS details of tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and responsive splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push.
+Each design specification point in `docs/02-design.md` is verified by an automated or manual test. The document now includes architecture and sequence diagrams alongside SDS details of tick order, asset preload sequence, input queuing, physics formulas, NPC state machines, and responsive splash/title styling so tests can assert against precise behavior. Jest is used for unit tests and GitHub Actions runs them on every push, with a jsdom environment and a minimal Canvas stub provided by [`jest.setup.js`](../jest.setup.js).
 
 Tag-based releases use `.github/workflows/release-and-tests.yml` to run tiered suites: `alpha` tags trigger integration tests, while `beta`, `rc`, and stable tags run UAT and regression tests before publishing artifacts or releases.
 

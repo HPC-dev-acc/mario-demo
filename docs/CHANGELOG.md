@@ -10,6 +10,7 @@ All notable changes to this project are documented here.
 - Added architecture flowchart, module interaction sequence, and ERD/API tables to `docs/02-design.md` with references across docs.
 - Expanded `docs/03-dev.md` with build/test/release commands and detailed CI/CD workflow.
 - Introduced `release-and-tests.yml` for tag-driven builds with tiered testing and release behavior.
+- Added [`jest.setup.js`](../jest.setup.js) to stub Canvas APIs in jsdom tests (supports T-1, T-3).
 
 ### Changed
 - Clarified documentation across requirements, design, development, and testing guides.
