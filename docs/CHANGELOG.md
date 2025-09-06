@@ -20,7 +20,7 @@ All notable changes to this project are documented here.
 - Refactored `update-version.mjs` to export `RELEASE_VERSION`, `BUILD_NUMBER`, and `GIT_SHA`, support CI env variables, and update HTML/manifest using a single source of truth.
 - Ensured `update-version.mjs` injects globals through `version.global.js` and consolidates HTML replacements (DS-16, T-16).
 - CI workflows run `node scripts/update-version.mjs` before tests and releases to keep `version.js`, `version.global.js`, `index.html`, and `manifest.json` in sync (DS-16, T-16).
-- Test workflow derives the release version from `package.json` before updating version info and running tests (DS-16, T-16).
+- Test workflow derives the release version from `package.json` and updates version info without build metadata before running tests (DS-16, T-16).
 - Separated build metadata from the base version, introducing `window.__APP_BUILD_META__` and keeping `window.__APP_VERSION__` free of `+build` suffixes (DS-15, T-15).
 - Clarified step naming in test workflow to highlight version.js and HTML/manifest updates (DS-16, T-16).
 
