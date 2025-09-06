@@ -15,8 +15,12 @@ jobs:
           node-version: 18
       - name: Install dependencies
         run: npm install
-      - name: Build version
-        run: npm run build
+      - name: 更新版本資訊（產生 version.js 並更新 index.html/manifest.json）
+        run: node scripts/update-version.mjs
+        env:
+          RELEASE_VERSION: ${{ github.ref_name }}
+          BUILD_NUMBER:    ${{ github.run_number }}
+          GIT_SHA:         ${{ github.sha }}
       - name: Run integration tests
         if: contains(github.ref_name, '-alpha.')
         run: npm test

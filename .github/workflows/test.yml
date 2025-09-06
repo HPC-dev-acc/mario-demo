@@ -13,4 +13,10 @@ jobs:
         with:
           node-version: 18
       - run: npm install
+      - name: 更新版本資訊（產生 version.js 並更新 index.html/manifest.json）
+        run: node scripts/update-version.mjs
+        env:
+          RELEASE_VERSION: ${{ github.ref_name }}
+          BUILD_NUMBER:    ${{ github.run_number }}
+          GIT_SHA:         ${{ github.sha }}
       - run: npm test

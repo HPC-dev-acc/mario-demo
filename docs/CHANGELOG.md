@@ -18,6 +18,7 @@ All notable changes to this project are documented here.
 - Refined FR-030 to focus on observable NPC behavior and moved spawn timing, speed, and frame-count details to design specs (DS-10, DS-25, DS-27, DS-30).
 - Refactored `update-version.mjs` to export `RELEASE_VERSION`, `BUILD_NUMBER`, and `GIT_SHA`, support CI env variables, and update HTML/manifest using a single source of truth.
 - Ensured `update-version.mjs` writes `window.__APP_VERSION__` once, replaces `version.js` as a module script, and consolidates HTML replacements (DS-16, T-16).
+- CI workflows run `node scripts/update-version.mjs` before tests and releases to keep `version.js`, `index.html`, and `manifest.json` in sync (DS-16, T-16).
 
 ## v2.20.4 - 2025-10-11
 
